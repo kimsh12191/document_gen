@@ -23,7 +23,10 @@
     355.0,
     295.4,
     380.5
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "최초거래일자"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     406.0
    ],
    "unit": ")백만원",
-   "section": "납품 금액"
+   "section": "납품 금액",
+   "kind": "text",
+   "std": false,
+   "key": "연간"
   },
   {
    "t": "text",
@@ -49,7 +55,10 @@
     431.5
    ],
    "unit": ")백만원",
-   "section": "납품 금액"
+   "section": "납품 금액",
+   "kind": "text",
+   "std": false,
+   "key": "계약서"
   },
   {
    "t": "text",
@@ -60,7 +69,10 @@
     431.5,
     295.4,
     457.0
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "평균결제기간"
   },
   {
    "t": "text",
@@ -72,7 +84,10 @@
     391.2,
     431.5
    ],
-   "section": "납품 금액"
+   "section": "납품 금액",
+   "kind": "text",
+   "std": false,
+   "key": "백만원"
   },
   {
    "t": "text",
@@ -84,7 +99,10 @@
     391.2,
     457.0
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "전자결제방식"
   },
   {
    "t": "text",
@@ -96,7 +114,10 @@
     547.2,
     457.0
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "전자방식외상매출채권전자어음구매전용카드"
   },
   {
    "t": "text",
@@ -108,7 +129,9 @@
     540.5,
     751.4
    ],
-   "unit": ")"
+   "unit": ")",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "date",
@@ -133,7 +156,8 @@
      334.3,
      541.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -150,7 +174,9 @@
     628.4,
     383.7,
     640.6
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -167,7 +193,9 @@
     654.3,
     383.7,
     666.4
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -179,7 +207,10 @@
     170.7,
     405.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "납품"
   }
  ]
 }

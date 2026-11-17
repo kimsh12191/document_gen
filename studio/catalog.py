@@ -1,7 +1,7 @@
 """① 서식의 서버 쪽: 서식 목록과 서식 정보 (목록 화면·상세 화면), 검수·배정·문제 표시. API 는 studio/app.py, 화면은 static/js/forms.js.
 
 - 서식: docgen 레지스트리 (`docgen.registry.load_all`)
-- 서식별 키 목록: guide/fields/fields.json (`docgen/scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
+- 서식별 키 목록: docgen/forms/_common/fields_catalog.json (`docgen/scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
 - 검수·배정·메모·문제 표시: docgen/catalog.json (없으면 모두 미검수·미배정)
 
 docgen/catalog.json
@@ -22,11 +22,11 @@ import time
 from functools import lru_cache
 from pathlib import Path
 
-from docgen.registry import GROUPS, SCENARIOS, load_all
+from docgen.registry import GROUPS, load_all
 
 from .config import ROOT
 
-FIELDS_JSON = ROOT / "guide" / "fields" / "fields.json"
+FIELDS_JSON = ROOT / "docgen" / "forms" / "_common" / "fields_catalog.json"
 CATALOG_JSON = ROOT / "docgen" / "catalog.json"
 MARK_TYPES = {"checkbox", "checkbox_multi", "seal", "signature"}
 AUDIT_JSON = ROOT / "docgen" / "manual" / "form_value_audit.json"
@@ -66,19 +66,33 @@ def value_audit(doc_id: str) -> dict | None:
     return {**row, "stale": row.get("source_hash") != source_hash(doc_id)}
 
 
+@lru_cache(maxsize=512)
+def _live_keys(doc_id: str, source: str) -> tuple:
+    """seed 0 으로 그려 본 칸 (source = 서식 파일 해시: 서식을 고치면 다시 그림)."""
+    from docgen.entities import make_profile
+    from docgen.render import render
+    from docgen.schema import build_fields
+
+    _, raw, _ = render(load_all()[doc_id], make_profile(0), 0)
+    return tuple({**f, "example": f.get("value")} for f in build_fields(raw))
+
+
 def _keys(doc_id: str) -> list[dict]:
-    keys = list(_fields().get(doc_id, {}).get("keys", []))
+    """서식의 정답 키. 미리 모은 키 목록(docgen/forms/_common/fields_catalog.json, 저장소 서식으로 만든 것)이 기본이고,
+    그 목록에 없는 서식(나중에 더한 서식·저장소 밖 서식)과 사람이 칸을 고친 html 서식은 그려 보고 센다."""
+    known = _fields().get(doc_id)
+    keys = list((known or {}).get("keys", []))
     from docgen import regions
 
-    if load_all()[doc_id].template != "_real_form.html.j2" and regions.exists(doc_id):
-        from docgen.entities import make_profile
-        from docgen.render import render
-        from docgen.schema import build_fields
+    edited_html = load_all()[doc_id].template != "_real_form.html.j2" and regions.exists(doc_id)
+    if known is None or edited_html:
+        from docgen.preview import source_hash
 
-        _, raw, _ = render(load_all()[doc_id], make_profile(0), 0)
-        live = {f["key"]: {**f, "example": f.get("value")} for f in build_fields(raw)}
-        live = {**{f["key"]: f for f in keys}, **live}
-        keys = list(live.values())
+        try:
+            live = {f["key"]: dict(f) for f in _live_keys(doc_id, source_hash(doc_id))}
+        except Exception:  # noqa: BLE001  그리지 못하는 서식은 목록의 키를 그대로 (서식 화면이 오류를 보여 줌)
+            return keys
+        keys = list({**{f["key"]: f for f in keys}, **live}.values())
     return keys
 
 
@@ -166,22 +180,30 @@ def review_state(doc_id: str, entry: dict) -> str:
     return "stale" if rv.get("hash") and rv["hash"] != form_hash(doc_id) else "done"
 
 
-@lru_cache(maxsize=1)
-def _scenarios_of() -> dict[str, list[dict]]:
-    out: dict[str, list[dict]] = {}
-    for sid, (name, docs) in SCENARIOS.items():
-        for d in docs:
-            out.setdefault(d, []).append({"id": sid, "name": name})
+def _tables(doc_id: str, text: list[dict]) -> list[str]:
+    """표(반복 묶음) 이름. 표 과제와 같은 규칙 (docgen.bench.tasks.Doc._scan_tables): 겹친 목록·도장·서명 칸, questions.json 에서 ask false 인 묶음은 뺌."""
+    from docgen import formquestions as FQ
+    from docgen.bench.tasks import table_cell
+
+    cfg = (FQ.read(doc_id) or {}).get("table") or {}
+    out = []
+    for k in text:
+        if k["key"].startswith(("seal.", "sign.")):
+            continue
+        tc = table_cell(k["key"].replace("[]", ".0"))
+        if tc and tc[1] >= 0 and tc[0] not in out and (cfg.get(tc[0]) or {}).get("ask") is not False:
+            out.append(tc[0])
     return out
 
 
-def _key_stats(keys: list[dict]) -> dict:
+def _key_stats(doc_id: str, keys: list[dict]) -> dict:
     text = [k for k in keys if k.get("type") not in MARK_TYPES]
     return {
         "n_keys": len(keys),
         "n_marks": len(keys) - len(text),
         "n_korean_keys": sum(1 for k in keys if not _ASCII_KEY.match(k["key"].replace("[]", ""))),
         "n_empty": sum(1 for k in text if not k.get("example")),
+        "tables": _tables(doc_id, text),
     }
 
 
@@ -217,21 +239,92 @@ def _summary(spec, entry: dict, audit: bool = False) -> dict:
         "kind": kind, "origin": origin, "category": spec.category, "page": spec.page,
         "official_source": official_source, "script": script,
         **({"value_audit": value_audit(spec.id)} if audit else {}),
-        "scenarios": [s["id"] for s in _scenarios_of().get(spec.id, [])],
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
         "open_issues": sum(1 for x in issues if x.get("status") == "open"),
         "edited": _edited(spec.id),
-        **_key_stats(keys),
+        **_key_stats(spec.id, keys),
     }
+
+
+def clear_caches() -> None:
+    """이 모듈의 캐시를 비운다 (키 목록 docgen/forms/_common/fields_catalog.json, 값 점검)."""
+    _fields.cache_clear()
+    _audit_at.cache_clear()
+    _live_keys.cache_clear()
 
 
 def refresh() -> dict:
     """서식 폴더를 다시 훑고 (docgen.registry.refresh) 서식 목록에 딸린 저장값을 비운다."""
     from docgen.registry import refresh as rescan
 
+    clear_caches()
     res = rescan()
-    _scenarios_of.cache_clear()
+    from docgen import formcard
+
+    res["stale_cards"] = sorted(i for i in load_all() if formcard.stale(i))   # 서식 카드 FORM.md 가 없거나 오래됨
     return res
+
+
+def card(doc_id: str) -> dict:
+    """서식 카드 FORM.md (docgen/formcard.py): 내용, 오래됐는지."""
+    from docgen import formcard
+
+    if doc_id not in load_all():
+        raise KeyError(doc_id)
+    p = formcard.path(doc_id)
+    return {"path": _rel(p), "markdown": p.read_text(encoding="utf-8") if p.exists() else None, "stale": formcard.stale(doc_id)}
+
+
+def overview(doc_id: str) -> dict:
+    """개요 탭: 이 서식이 만드는 과제마다 무엇을 묻는지 + 질문 검사. 카드(docgen/formcard.py)와 같은 함수로 센다
+    (고객 16명으로 그려 본 칸, formquestions.resolved). 표 칸은 kie 가 아니라 표 과제가 묻는다 (table_cell)."""
+    from docgen import formcard, fieldinfo, formqa
+    from docgen import formquestions as FQ
+    from docgen.bench.tasks import table_cell
+
+    if doc_id not in load_all():
+        raise KeyError(doc_id)
+    docs = FQ.seen_fields(doc_id)
+    view = FQ.resolved(doc_id, docs)
+    tcfg = (FQ.read(doc_id) or {}).get("table") or {}
+    kie, nested, tables = [], [], {}
+    for it in view["kie"]["items"]:
+        tc = table_cell(it["key"].replace("*", "0"))
+        if tc and tc[1] < 0:
+            nested.append(it)
+        elif tc and (tcfg.get(tc[0]) or {}).get("ask") is not False:
+            t = tables.setdefault(tc[0], {"group": tc[0], "title": (tcfg.get(tc[0]) or {}).get("title"), "columns": [], "seen": 0})
+            t["columns"].append({**it, "column": tc[2]})
+            t["seen"] = max(t["seen"], it["seen"])
+        else:
+            kie.append(it)
+    check = FQ.check(doc_id, docs=docs)
+    return {
+        "docs": len(docs),
+        "classify": view["classify"],
+        "kie": kie, "nested": nested, "tables": list(tables.values()),
+        "marks": view["marks"]["items"],
+        "ocr_exclude": view["ocr_page"]["exclude"],
+        "ocr_off": sorted(k for k, it in fieldinfo.questions(doc_id).items() if it.get("ocr") is False),
+        "form_qa": formqa.check(doc_id, docs)["rows"],
+        "changed": {t: view[t]["changed"] for t in ("kie", "marks", "classify", "ocr_page", "ocr_field")},
+        "problems": check["problems"], "notes": check["notes"],
+        "card_stale": formcard.stale(doc_id), "card_exists": formcard.path(doc_id).exists(),
+    }
+
+
+def make_card(doc_id: str) -> dict:
+    """카드를 다시 만든다 (그림을 그려 위치를 잰다 — 명령줄과 같은 python -m docgen.formdir card <ID>)."""
+    import subprocess
+    import sys
+
+    if doc_id not in load_all():
+        raise KeyError(doc_id)
+    r = subprocess.run([sys.executable, "-m", "docgen.formdir", "card", doc_id], cwd=Path(__file__).resolve().parents[1],
+                       capture_output=True, text=True, timeout=600)
+    if r.returncode:
+        raise ValueError(f"카드를 만들지 못했습니다: {(r.stderr or r.stdout).strip().splitlines()[-1:]}")
+    return card(doc_id)
 
 
 def list_forms() -> list[dict]:
@@ -247,8 +340,6 @@ def _rel(p: Path) -> str:
 
 
 def form_detail(doc_id: str) -> dict:
-    from docgen.roles import index as role_index
-
     reg = load_all()
     if doc_id not in reg:
         raise KeyError(doc_id)
@@ -273,7 +364,8 @@ def form_detail(doc_id: str) -> dict:
     from docgen import formfields, regions
 
     op = formfields.path(doc_id)
-    files.append({"role": "칸 목록 (영역 편집기·html 편집기가 고침)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
+    if not any(f["path"].startswith(_rel(op)) for f in files):   # formdir.describe 에 이미 있으면 한 번만
+        files.append({"role": "칸 목록 (사람이 고치는 곳)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
     for f in [regions.path(doc_id), *regions.legacy(doc_id).values()]:
         if f.exists():
             files.append({"role": "예전 수정 파일",
@@ -282,15 +374,15 @@ def form_detail(doc_id: str) -> dict:
     return {
         **_summary(spec, entry, audit=True),
         "description": spec.description,
-        "document_role": role_index().get(doc_id),
         "sample_mark": spec.sample_mark,
-        "scenario_names": _scenarios_of().get(doc_id, []),
         "note": entry.get("note", ""),
         "issues": entry.get("issues", []),
         "review_state": review_state(doc_id, entry),
         "keys": _keys(doc_id),
         "files": files,
         "script": _script_source(doc_id) if spec.template.startswith("@form/") else None,
+        "questions": _questions_source(doc_id),
+        "qa": _qa_source(doc_id),
     }
 
 
@@ -302,5 +394,17 @@ def _script_source(doc_id: str) -> dict | None:
     return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p else None
 
 
-def groups() -> list[dict]:
-    return [{"id": g, "name": n} for g, n in GROUPS.items()]
+def _questions_source(doc_id: str) -> dict | None:
+    """이 서식의 질문·답 파일(questions.json) 내용 (질문·답 › 실제 문항에서 보고, 고치는 것은 파일로)."""
+    from docgen import formquestions
+
+    p = formquestions.path(doc_id)
+    return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p.exists() else None
+
+
+def _qa_source(doc_id: str) -> dict | None:
+    """이 서식만의 질문 qa.py 내용 (질문·답 › 실제 문항에서 보고, 고치는 것은 파일로)."""
+    from docgen import formqa
+
+    p = formqa.path(doc_id)
+    return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p.exists() else None

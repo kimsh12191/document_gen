@@ -6,9 +6,9 @@
 from __future__ import annotations
 
 import importlib
-import json
 import pkgutil
 import random
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
@@ -34,86 +34,6 @@ GROUPS = {
 #   - 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필·표기를 바꾸고 (banks.bank_view)
 #   - 템플릿에 서식 문맥 bk 를 넘긴다 (banks.form_context)
 BANK_FORM_GROUPS = {"bank_form"}
-
-# 업무(시나리오)별 제출 서류 묶음 — 같은 고객 프로필로 생성된다.
-# docgen/scenarios.json 이 있으면 그 내용으로 바꾼다 (studio ③ 시나리오·묶음에서 고침). 아래는 파일이 없을 때의 기본값.
-SCENARIOS_JSON = Path(__file__).resolve().parent / "scenarios.json"
-SCENARIOS = {
-    "account_opening": ("개인 계좌개설", ["resident_id_card", "employment_certificate", "account_opening_application",
-                                     "financial_transaction_purpose", "customer_due_diligence", "privacy_consent", "fatca_crs"]),
-    "personal_credit_loan": ("개인 신용대출", ["resident_id_card", "employment_certificate", "income_certificate",
-                                          "withholding_receipt", "health_insurance_qualification", "pay_stub",
-                                          "loan_application", "credit_agreement", "privacy_consent"]),
-    "mortgage": ("주택담보대출", ["resident_id_card", "resident_registration_copy", "family_relation_certificate",
-                             "seal_certificate", "income_certificate", "real_estate_registry", "building_register",
-                             "sales_contract", "loan_application", "credit_agreement", "collateral_agreement", "privacy_consent"]),
-    "jeonse_loan": ("전세자금대출", ["resident_id_card", "resident_registration_copy", "lease_contract", "real_estate_registry",
-                               "employment_certificate", "income_certificate", "loan_application", "privacy_consent"]),
-    "sole_proprietor_loan": ("개인사업자 대출", ["resident_id_card", "business_registration_certificate", "business_registration_proof",
-                                           "vat_tax_base_certificate", "income_certificate", "tax_payment_certificate",
-                                           "local_tax_payment_certificate", "loan_application", "credit_agreement", "privacy_consent"]),
-    "corporate_credit": ("법인 여신", ["corporate_registry", "articles_of_incorporation", "shareholder_registry",
-                                   "financial_statements", "corporate_seal_certificate", "board_minutes",
-                                   "business_registration_certificate_corp", "tax_payment_certificate_corp",
-                                   "corporate_customer_due_diligence", "loan_application_corp", "credit_agreement_corp",
-                                   "power_of_attorney"]),
-    "fx_remittance": ("해외송금", ["resident_id_card", "overseas_remittance_application", "commercial_invoice",
-                               "trade_contract", "bill_of_lading"]),
-    "study_abroad_remittance": ("유학생 송금", ["passport", "admission_letter", "tuition_invoice",
-                                           "family_relation_certificate", "overseas_remittance_application"]),
-    "irp_opening": ("개인형IRP 개설", ["resident_id_card", "employment_certificate",
-                                   "hf171", "hf173",
-                                   "hf168", "privacy_consent"]),
-    "retirement_payout": ("퇴직급여 수령", ["resident_id_card", "employment_certificate",
-                                       "hf176", "hf171",
-                                       "hf028"]),
-    "efinance_signup": ("전자금융 가입", ["resident_id_card", "account_opening_application",
-                                     "hf337", "hf335",
-                                     "privacy_consent"]),
-    "inheritance": ("상속예금 지급", ["resident_id_card", "family_relation_certificate",
-                                 "basic_certificate", "seal_certificate",
-                                 "hf001", "hf011"]),
-}
-
-# 시나리오별로 프로필에 주입하는 값 (Profile.extra). 서류 생성 함수가 참고한다.
-SCENARIO_EXTRA = {
-    "personal_credit_loan": {"loan_kind": "credit"},
-    "mortgage": {"loan_kind": "mortgage"},
-    "jeonse_loan": {"loan_kind": "jeonse"},
-}
-SCENARIO_PROCESSING = {}   # 시나리오별 구비 검사·대조·심사 선택과 추출·비교 작업
-SCENARIO_SAMPLING = {}     # 제출 자리별 후보 서식·가중치. docs의 ID는 기준 자리로 유지한다.
-
-
-def load_scenarios() -> None:
-    """docgen/scenarios.json → SCENARIOS·SCENARIO_EXTRA (같은 dict 객체를 고쳐, 이미 import 한 곳에도 반영)."""
-    if not SCENARIOS_JSON.exists():
-        return
-    data = json.loads(SCENARIOS_JSON.read_text(encoding="utf-8"))
-    SCENARIOS.clear()
-    SCENARIO_EXTRA.clear()
-    SCENARIO_PROCESSING.clear()
-    SCENARIO_SAMPLING.clear()
-    for s in data["scenarios"]:
-        SCENARIOS[s["id"]] = (s["name"], list(s["docs"]))
-        if s.get("extra"):
-            SCENARIO_EXTRA[s["id"]] = dict(s["extra"])
-        if "processing" in s:
-            SCENARIO_PROCESSING[s["id"]] = s["processing"]
-        if s.get("sampling"):
-            SCENARIO_SAMPLING[s["id"]] = s["sampling"]
-
-
-def save_scenarios(items: list[dict]) -> None:
-    """[{id, name, docs, extra?}] 를 docgen/scenarios.json 에 쓰고 바로 읽는다. 순서가 seed 를 정하므로 순서를 지킨다."""
-    old = json.loads(SCENARIOS_JSON.read_text(encoding="utf-8")) if SCENARIOS_JSON.exists() else {}
-    out = {"about": old.get("about", "업무 시나리오 (docgen/registry.py)"), "scenarios": items}
-    SCENARIOS_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    load_scenarios()
-
-
-load_scenarios()
-
 
 @dataclass
 class DocSpec:
@@ -144,6 +64,31 @@ def doc(id: str, name: str, group: str, category: str = "external", page: str = 
         return fn
 
     return deco
+
+
+FORMS_DIR = Path(__file__).resolve().parent / "forms"
+
+
+def register_folder_forms(module: str, ids) -> None:
+    """코드 서식의 값 만드는 함수(서식 폴더 docgen/forms/<ID>/generate.py 의 @doc)를 등록한다.
+    그룹 모듈(docgen/docs/<그룹>.py) 끝에서 부른다 — 예전에 그 모듈 안에 @doc 이 있던 차례 그대로 (서식 목록·데이터셋 순서)."""
+    import importlib.util
+
+    for doc_id in ids:
+        if doc_id in REGISTRY:   # 같은 프로세스에서 두 번 불려도 (모듈 다시 읽기) 한 번만
+            continue
+        path = FORMS_DIR / doc_id / "generate.py"
+        name = f"docgen.forms_code.{doc_id}"
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[name] = mod
+        try:
+            spec.loader.exec_module(mod)
+        except Exception:
+            sys.modules.pop(name, None)
+            raise
+        if doc_id not in REGISTRY:
+            raise ValueError(f"{path}: @doc(\"{doc_id}\", …) 로 등록하지 않았습니다 ({module} 의 FORMS)")
 
 
 _EXTRA_DONE = False
@@ -177,6 +122,7 @@ def refresh() -> dict:
     - 폴더가 없어진 html·이미지 서식은 목록에서 뺀다 (검수 기록 catalog.json 은 그대로 — 폴더를 되돌리면 되살아난다).
     - 코드 서식(docs/*.py)과 하나은행 원본(hf###)은 건드리지 않는다. 레이아웃 파일은 다시 읽게 한다.
     템플릿·칸 목록의 내용은 원래 그릴 때마다 읽으므로 여기서 할 일이 없다.
+    모든 서식 폴더의 questions.json(질문·답)·qa.py(서식 전용 질문) 형식도 검사해 problems 에 넣는다.
     → {"added", "updated", "removed": [ID…], "problems": [{"id", "reason"}],
        "with_script": 새로·바뀐 것 중 생성 스크립트(generate.py)가 있는 서식 — 사람이 읽고 넣었는지 확인용}"""
     from . import formdir, htmlform
@@ -229,6 +175,12 @@ def refresh() -> dict:
             continue
         put(doc_id, lambda d=d: RF.image_spec(d))
     RF.load_layout.cache_clear()
+    from . import formqa, formquestions
+
+    for doc_id in reg:   # 서식의 질문·답 파일 형식 (서식은 그대로 쓰이고, 문항을 만들 때 오류가 난다)
+        d = formdir.folder(doc_id) or formdir.copy_dir(doc_id)
+        for why in [*formquestions.check_dir(d), *formqa.check_dir(d)] if d else ():
+            out["problems"].append({"id": doc_id, "reason": why})
     out["with_script"] = [i for i in out["added"] + out["updated"] if i in html_dirs and (html_dirs[i] / htmlform.SCRIPT).exists()]
     for k in out:
         out[k].sort(key=lambda x: x["id"] if isinstance(x, dict) else x)

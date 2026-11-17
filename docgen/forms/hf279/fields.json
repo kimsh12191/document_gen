@@ -30,7 +30,10 @@
     200.2,
     369.4
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -42,7 +45,10 @@
     200.2,
     397.8
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -54,7 +60,10 @@
     200.2,
     426.1
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -66,7 +75,10 @@
     200.2,
     454.5
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -78,7 +90,10 @@
     313.6,
     369.4
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -90,7 +105,10 @@
     313.6,
     397.8
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -102,7 +120,10 @@
     313.6,
     426.1
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -114,7 +135,10 @@
     313.6,
     454.5
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -126,7 +150,10 @@
     545.9,
     369.4
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -138,7 +165,10 @@
     545.9,
     397.8
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -150,7 +180,10 @@
     545.9,
     426.1
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -162,7 +195,10 @@
     545.9,
     454.5
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo",
+   "key": "OurRefNo_목록.{i}.사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -173,7 +209,10 @@
     156.7,
     473.9,
     177.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "수신"
   },
   {
    "t": "text",
@@ -184,7 +223,10 @@
     177.3,
     473.9,
     197.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "참조"
   },
   {
    "t": "text",
@@ -195,7 +237,10 @@
     198.0,
     473.9,
     218.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "발신"
   },
   {
    "t": "text",
@@ -207,7 +252,10 @@
     200.2,
     485.3
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -219,7 +267,10 @@
     200.2,
     513.7
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -231,7 +282,10 @@
     200.2,
     542.0
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -243,7 +297,10 @@
     200.2,
     570.4
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.OurRefNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -255,7 +312,10 @@
     313.6,
     485.3
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -267,7 +327,10 @@
     313.6,
     513.7
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -279,7 +342,10 @@
     313.6,
     542.0
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -291,7 +357,10 @@
     313.6,
     570.4
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -303,7 +372,10 @@
     546.2,
     485.3
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Discrepancies",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -315,7 +387,10 @@
     546.2,
     513.7
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Discrepancies",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -327,7 +402,10 @@
     546.2,
     542.0
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Discrepancies",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -339,7 +417,10 @@
     546.2,
     570.4
    ],
-   "row": true
+   "row": true,
+   "group": "OurRefNo2",
+   "key": "OurRefNo2_목록.{i}.Discrepancies",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -350,7 +431,10 @@
     154.6,
     473.9,
     175.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "To"
   },
   {
    "t": "text",
@@ -361,7 +445,10 @@
     175.2,
     473.9,
     195.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Attn"
   },
   {
    "t": "text",
@@ -372,7 +459,10 @@
     195.9,
     473.9,
     216.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "From"
   },
   {
    "t": "text",
@@ -383,7 +473,9 @@
     216.5,
     473.9,
     237.1
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   }
  ]
 }

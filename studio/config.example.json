@@ -6,13 +6,10 @@
   "ocr": {
     "callable": "studio.internal_ocr_adapter:ocr_from_file",
     "revision": "<OCR 버전 — OCR 준비 설정의 ocr_revision 과 같게>",
-    "cache_dir": "studio_cache/ocr",
+    "cache_dir": "studio_cache",
     "base_url": "http://<사내 OCR 서버>:30107"
   },
   "workspace_dir": "studio_workspace",
-  "import_dir": null,
-  "real_data_dir": null,
   "private_forms_dir": null,
-  "providers": {},
   "path_map": {}
 }

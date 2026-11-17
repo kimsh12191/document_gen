@@ -79,7 +79,8 @@
     125.2,
     325.8,
     139.3
-   ]
+   ],
+   "key": "check.ApplicationType"
   },
   {
    "t": "text",
@@ -91,7 +92,10 @@
     325.8,
     162.0
    ],
-   "section": "Principal Contractor"
+   "section": "Principal Contractor",
+   "kind": "number",
+   "std": false,
+   "key": "CorporateRegistrationNo"
   },
   {
    "t": "text",
@@ -103,7 +107,9 @@
     325.8,
     176.2
    ],
-   "section": "Principal Contractor"
+   "section": "Principal Contractor",
+   "kind": "text",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -115,7 +121,9 @@
     548.1,
     190.4
    ],
-   "section": "Principal Contractor"
+   "section": "Principal Contractor",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -127,7 +135,10 @@
     325.8,
     213.0
    ],
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "number",
+   "std": false,
+   "key": "CorporateRegistrationNo"
   },
   {
    "t": "text",
@@ -140,7 +151,10 @@
     227.2
    ],
    "hint": "(Only for a foreign client)",
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "text",
+   "std": false,
+   "key": "Bank/Branch"
   },
   {
    "t": "text",
@@ -152,7 +166,9 @@
     325.8,
     241.4
    ],
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "text",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -164,7 +180,9 @@
     548.1,
     255.6
    ],
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -176,7 +194,10 @@
     325.8,
     269.7
    ],
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "phone",
+   "std": false,
+   "key": "PhoneNo"
   },
   {
    "t": "text",
@@ -189,7 +210,9 @@
     283.9
    ],
    "hint": "(Required to receive a notice of transaction details)",
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "text",
+   "key": "customer.email"
   },
   {
    "t": "check",
@@ -234,7 +257,8 @@
     125.2,
     548.1,
     139.3
-   ]
+   ],
+   "key": "check.LocationofAffiliate"
   },
   {
    "t": "text",
@@ -246,7 +270,10 @@
     548.1,
     162.0
    ],
-   "section": "Principal Contractor"
+   "section": "Principal Contractor",
+   "kind": "biz_no",
+   "std": false,
+   "key": "BusinessRegistrationNo"
   },
   {
    "t": "text",
@@ -258,7 +285,10 @@
     548.1,
     176.2
    ],
-   "section": "Principal Contractor"
+   "section": "Principal Contractor",
+   "kind": "text",
+   "std": false,
+   "key": "Representative"
   },
   {
    "t": "text",
@@ -270,7 +300,10 @@
     548.1,
     213.0
    ],
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "biz_no",
+   "std": false,
+   "key": "BusinessRegistrationNo"
   },
   {
    "t": "text",
@@ -283,7 +316,10 @@
     227.2
    ],
    "hint": "(Only for a foreign client)",
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "number",
+   "std": false,
+   "key": "GlobalClientNo"
   },
   {
    "t": "text",
@@ -295,7 +331,10 @@
     548.1,
     241.4
    ],
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "text",
+   "std": false,
+   "key": "Representative"
   },
   {
    "t": "text",
@@ -307,7 +346,10 @@
     548.1,
     269.7
    ],
-   "section": "Affiliate"
+   "section": "Affiliate",
+   "kind": "text",
+   "std": false,
+   "key": "Fax"
   },
   {
    "t": "check",
@@ -496,7 +538,8 @@
     317.6,
     548.1,
     417.7
-   ]
+   ],
+   "key": "check.\u0007Entire"
   },
   {
    "t": "check",
@@ -541,7 +584,8 @@
     537.2,
     548.1,
     793.6
-   ]
+   ],
+   "key": "check.ID"
   },
   {
    "t": "check",
@@ -586,7 +630,8 @@
     537.2,
     548.1,
     793.6
-   ]
+   ],
+   "key": "check.ID"
   },
   {
    "t": "text",
@@ -598,7 +643,9 @@
     150.7,
     494.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.ExecutorID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -610,7 +657,9 @@
     150.7,
     508.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.ExecutorID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -622,7 +671,9 @@
     196.1,
     494.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -634,7 +685,9 @@
     196.1,
     508.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -646,7 +699,9 @@
     289.6,
     494.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -658,7 +713,9 @@
     289.6,
     508.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -670,7 +727,9 @@
     347.8,
     494.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.RegisteredSeal/Sign",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -682,7 +741,9 @@
     347.8,
     508.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.RegisteredSeal/Sign",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -694,7 +755,9 @@
     394.7,
     494.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -706,7 +769,9 @@
     394.7,
     508.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -718,7 +783,9 @@
     488.4,
     494.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -730,7 +797,9 @@
     488.4,
     508.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -742,7 +811,9 @@
     548.1,
     494.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.RegisteredSeal/Sign",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -754,7 +825,9 @@
     548.1,
     508.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.RegisteredSeal/Sign",
+   "kind": "text"
   },
   {
    "t": "check",
@@ -809,7 +882,8 @@
      ],
      "line": 13
     }
-   ]
+   ],
+   "key": "check.CorporateBan"
   },
   {
    "t": "check",
@@ -838,7 +912,8 @@
     453.6,
     548.3,
     499.6
-   ]
+   ],
+   "key": "check.PrincipalContractor"
   },
   {
    "t": "check",
@@ -883,7 +958,8 @@
     499.6,
     548.3,
     611.3
-   ]
+   ],
+   "key": "check.Affiliate"
   },
   {
    "t": "text",
@@ -895,7 +971,9 @@
     326.2,
     747.6
    ],
-   "section": "Proxy"
+   "section": "Proxy",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -907,7 +985,9 @@
     548.3,
     763.2
    ],
-   "section": "Proxy"
+   "section": "Proxy",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -919,7 +999,10 @@
     326.2,
     778.8
    ],
-   "section": "Proxy"
+   "section": "Proxy",
+   "kind": "text",
+   "std": false,
+   "key": "Relationship"
   },
   {
    "t": "text",
@@ -930,7 +1013,9 @@
     778.8,
     326.2,
     794.4
-   ]
+   ],
+   "kind": "text",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -942,7 +1027,9 @@
     548.3,
     747.6
    ],
-   "section": "Proxy"
+   "section": "Proxy",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -954,7 +1041,10 @@
     548.3,
     778.8
    ],
-   "section": "Proxy"
+   "section": "Proxy",
+   "kind": "text",
+   "std": false,
+   "key": "Delegator"
   },
   {
    "t": "text",
@@ -966,7 +1056,10 @@
     548.3,
     794.4
    ],
-   "hint": "(Registered corporated seal)"
+   "hint": "(Registered corporated seal)",
+   "kind": "text",
+   "std": false,
+   "key": "Representative"
   }
  ]
 }

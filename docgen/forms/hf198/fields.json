@@ -55,7 +55,9 @@
     184.2,
     275.0,
     210.5
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "check",
@@ -84,7 +86,8 @@
     336.6,
     548.9,
     350.1
-   ]
+   ],
+   "key": "check.보기1"
   },
   {
    "t": "check",
@@ -113,7 +116,8 @@
     364.3,
     548.9,
     378.4
-   ]
+   ],
+   "key": "check.보기1"
   },
   {
    "t": "text",
@@ -127,7 +131,10 @@
    ],
    "group": "투자일 (신규일) . . .",
    "row": true,
-   "section": "투자일 (신규일) . . ."
+   "section": "투자일 (신규일) . . .",
+   "kind": "account",
+   "std": false,
+   "key": "금융기관펀드계좌번호"
   },
   {
    "t": "text",
@@ -141,7 +148,10 @@
    ],
    "group": "투자일 (신규일) . . .",
    "row": true,
-   "section": "투자일 (신규일) . . ."
+   "section": "투자일 (신규일) . . .",
+   "kind": "text",
+   "std": false,
+   "key": "투자대상"
   },
   {
    "t": "text",
@@ -155,7 +165,10 @@
    ],
    "group": "투자일 (신규일) . . .",
    "row": true,
-   "section": "투자일 (신규일) . . ."
+   "section": "투자일 (신규일) . . .",
+   "kind": "amount",
+   "std": false,
+   "key": "투자금액"
   },
   {
    "t": "text",
@@ -166,7 +179,9 @@
     210.7,
     479.6,
     228.8
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "date",
@@ -191,7 +206,8 @@
      542.7,
      397.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -208,7 +224,9 @@
     400.3,
     552.5,
     412.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -225,7 +243,9 @@
     417.3,
     552.5,
     429.4
-   ]
+   ],
+   "who": "agent",
+   "what": "name"
   },
   {
    "t": "text",
@@ -237,7 +257,9 @@
     552.3,
     205.0
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "key": "customer.birth"
   }
  ]
 }

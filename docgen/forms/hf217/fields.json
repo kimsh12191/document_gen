@@ -29,7 +29,10 @@
     426.1,
     360.9,
     486.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "변경사항"
   },
   {
    "t": "text",
@@ -40,7 +43,10 @@
     486.9,
     360.9,
     582.9
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "변경사유"
   },
   {
    "t": "text",
@@ -52,7 +58,9 @@
     547.2,
     486.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -64,7 +72,9 @@
     547.2,
     582.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -75,7 +85,10 @@
     659.3,
     547.2,
     687.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "check",
@@ -114,7 +127,8 @@
      ],
      "line": 36
     }
-   ]
+   ],
+   "key": "check.현지법인내용변경"
   },
   {
    "t": "sign",
@@ -131,7 +145,9 @@
     211.8,
     373.5,
     223.9
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -142,7 +158,10 @@
     307.8,
     473.2,
     325.9
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "변경대상현지법인명"
   },
   {
    "t": "sign",
@@ -159,7 +178,9 @@
     732.3,
     553.5,
     744.5
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -171,7 +192,9 @@
     552.3,
     245.8
    ],
-   "free": true
+   "free": true,
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -183,7 +206,10 @@
     367.7,
     266.4
    ],
-   "free": true
+   "free": true,
+   "kind": "address",
+   "std": false,
+   "key": "소재지또는주소"
   },
   {
    "t": "text",
@@ -195,7 +221,10 @@
     552.3,
     266.4
    ],
-   "free": true
+   "free": true,
+   "kind": "phone",
+   "std": false,
+   "key": "전화"
   },
   {
    "t": "text",
@@ -207,7 +236,10 @@
     269.8,
     341.5
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "대상신고번호"
   },
   {
    "t": "text",
@@ -219,7 +251,9 @@
     413.4,
     341.5
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -231,7 +265,10 @@
     552.3,
     341.5
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   }
  ]
 }

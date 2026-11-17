@@ -24,7 +24,10 @@
     145.0,
     584.9
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "총대출한도"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     247.1,
     584.9
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "기사용한도"
   },
   {
    "t": "text",
@@ -48,7 +54,10 @@
     349.3,
     584.9
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "분할실행신청액"
   },
   {
    "t": "text",
@@ -60,7 +69,10 @@
     451.6,
     584.9
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "미사용한도"
   },
   {
    "t": "text",
@@ -72,7 +84,10 @@
     545.4,
     584.9
    ],
-   "row": true
+   "row": true,
+   "kind": "note",
+   "std": false,
+   "key": "비고"
   },
   {
    "t": "text",
@@ -83,7 +98,10 @@
     169.8,
     176.3,
     189.2
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "text",
@@ -94,7 +112,10 @@
     404.2,
     475.8,
     423.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "◦분할실행신청액"
   },
   {
    "t": "sign",
@@ -111,7 +132,9 @@
     721.1,
     553.5,
     734.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

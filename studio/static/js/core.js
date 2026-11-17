@@ -1,5 +1,5 @@
 // docgen studio 화면 공통: 도우미, 라우터, 그림 위 박스(겹쳐 보기·누르기). 빌드 없는 순수 JS (외부 CDN 없음).
-// 메뉴마다 js/<메뉴>.js 가 addRoute 로 화면을 등록하고, main.js 가 마지막에 시작한다. 설계: studio/DESIGN.md
+// 메뉴마다 js/<메뉴>.js 가 addRoute 로 화면을 등록하고, main.js 가 마지막에 시작한다. 설계: archive/studio/DESIGN.md
 "use strict";
 
 const $ = (sel, el = document) => el.querySelector(sel);
@@ -38,13 +38,13 @@ const state = {
   info: null,
   forms: null,
   layers: store.get("layers", { value: true, label: false, check: true, seal: true, sign: true }),
-  filter: store.get("filter", { q: "", group: "", kind: "", review: "", korean: false, scenario: false }),
+  filter: store.get("filter", { q: "", group: "", kind: "", review: "", korean: false }),
   sort: { key: "id", dir: 1 },
   opts: store.get("opts", { seed: 0, heavy: "default", special: "default", condition: "clean" }),
 };
 
 const LAYERS = [
-  ["value", "값", "--l-value"], ["label", "항목명", "--l-label"], ["check", "체크박스", "--l-check"],
+  ["value", "값", "--l-value"], ["label", "키 설명", "--l-label"], ["check", "체크박스", "--l-check"],
   ["seal", "도장", "--l-seal"], ["sign", "서명", "--l-sign"],
 ];
 const MODE_NAME = { default: "기본 확률", on: "항상", off: "끔" };
@@ -64,9 +64,16 @@ function toast(msg, bad = false) {
 // ---------------------------------------------------------------------------
 const routes = [];
 const addRoute = (rx, fn, menu) => routes.push([rx, fn, menu]);
-const leaveGuards = [];   // 저장 안 한 편집이 있으면 화면을 떠나기 전에 묻는다
+// 메뉴마다 "이 화면 도움말" 이 여는 설명서 자리 (guide/studio/studio.md 의 절)
+const HELP = { forms: "studio.md#서식-화면-탭-한눈에", "new-forms": "new-forms.md", datasets: "studio.md#5-데이터셋-만들고-확인하기",
+  marks: "studio.md#6-모든-서식에-공통인-표시-바꾸기", "ocr-examples": "studio.md#메뉴", guide: "studio.md" };
 
-window.addEventListener("keydown", e => state.keyHandler && state.keyHandler(e));
+// 화면 단축키: 고르기 창(dialog)이 열려 있거나 입력 칸에서 누른 키는 화면에 넘기지 않는다 (Backspace 로 뒤의 칸이 빠지지 않게)
+window.addEventListener("keydown", e => {
+  if (!state.keyHandler || document.querySelector("dialog[open]")) return;
+  if (e.target.closest && e.target.closest("input, select, textarea, [contenteditable], dialog")) return;
+  state.keyHandler(e);
+});
 
 async function route() {
   state.keyHandler = null;   // 화면마다 자기 단축키를 다시 건다
@@ -76,6 +83,7 @@ async function route() {
     const m = h.match(rx);
     if (m) {
       $$("#nav a").forEach(a => a.classList.toggle("on", a.dataset.menu === menu));
+      if ($("#nav-help")) $("#nav-help").href = "#/guide/" + (HELP[menu] || "studio.md");
       try { await fn(...m.slice(1)); } catch (e) { main().innerHTML = `<p class="err">${esc(e.message)}</p>`; console.error(e); }
       return;
     }
@@ -116,7 +124,8 @@ function readOptions(withSeed, prefix = "o") {
 function layerBar() {
   return `<div class="layers">${LAYERS.map(([k, n, c]) =>
     `<label><input type="checkbox" data-layer="${k}" ${state.layers[k] ? "checked" : ""}>
-     <span class="sw" style="background:var(${c})"></span>${n}</label>`).join("")}</div>`;
+     <span class="sw" style="background:var(${c})"></span>${n}</label>`).join("")}
+    <label title="그림의 칸마다 정답 키(태그 이름)를 글자로 겹쳐 보입니다"><input type="checkbox" data-layer="keyname" ${state.layers.keyname ? "checked" : ""}> 키 이름</label></div>`;
 }
 
 function bindLayers(redraw) {
@@ -164,6 +173,14 @@ function stageHTML(label, page, sel, extra = []) {
         width="${Math.max(1, x1 - x0)}" height="${Math.max(1, y1 - y0)}"></rect>`);
     }
   });
+  if (state.layers.keyname) {   // 칸마다 키 이름 (박스 왼쪽 위)
+    const fs = Math.max(8, pg.width * 0.0105);
+    label.fields.forEach((f, i) => {
+      if ((f.page || 0) !== page) return;
+      const b = boxesOf(f).find(x => x.layer !== "label" && state.layers[x.layer]);
+      if (b) rects.push(`<text class="keyname ${i === sel ? "sel" : ""}" x="${b.bbox[0]}" y="${Math.max(fs, b.bbox[1] - fs * 0.25)}" font-size="${fs}">${esc(f.key)}</text>`);
+    });
+  }
   for (const x of extra) {
     const [x0, y0, x1, y1] = x.bbox;
     rects.push(`<rect class="${x.cls || ""}" x="${x0}" y="${y0}" width="${Math.max(1, x1 - x0)}" height="${Math.max(1, y1 - y0)}"><title>${esc(x.title || "")}</title></rect>`);
@@ -240,16 +257,8 @@ function scrollRowIntoView(box, row) {
   if (rr.top < sr.top || rr.bottom > sr.bottom) box.scrollTop += rr.top - sr.top - sr.height / 3;
 }
 
-// view_<메뉴> 가 없는 메뉴: 무엇이 들어올지 보여 준다 (misc.js 의 PLANS. 지금은 모든 메뉴에 화면이 있어 쓰이지 않는다)
-function viewPlan(title, stage, items) {
-  main().innerHTML = `<div class="plan"><h1>${title}</h1><div class="sub">${stage}에서 구현합니다. 설계: <span class="mono">studio/DESIGN.md</span></div>
-    <div class="panel"><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div></div>`;
-}
-
 // 간단한 표 (rows: 객체 목록, cols: [[키, 제목, 셀 함수?, 숫자?]])
 function table(rows, cols, rowAttr = () => "") {
   return `<table><thead><tr>${cols.map(c => `<th class="${c[3] ? "num" : ""}">${c[1]}</th>`).join("")}</tr></thead><tbody>${rows.map((r, i) =>
     `<tr ${rowAttr(r, i)}>${cols.map(c => `<td class="${c[3] ? "num" : ""}">${c[2] ? c[2](r, i) : esc(r[c[0]] ?? "")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }
-
-const pct = v => v === null || v === undefined ? "-" : (v * 100).toFixed(1);

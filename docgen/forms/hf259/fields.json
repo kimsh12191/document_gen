@@ -24,7 +24,10 @@
     296.6,
     369.8
    ],
-   "row": true
+   "row": true,
+   "kind": "note",
+   "std": false,
+   "key": "변경전"
   },
   {
    "t": "text",
@@ -35,7 +38,9 @@
     123.2,
     288.1,
     151.5
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -46,7 +51,9 @@
     151.5,
     548.2,
     188.4
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -57,7 +64,9 @@
     188.4,
     548.2,
     225.2
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -68,7 +77,10 @@
     369.8,
     548.2,
     406.7
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "변경사유"
   },
   {
    "t": "text",
@@ -80,7 +92,10 @@
     548.2,
     369.8
    ],
-   "row": true
+   "row": true,
+   "kind": "note",
+   "std": false,
+   "key": "변경후"
   },
   {
    "t": "check",
@@ -125,7 +140,8 @@
     425.1,
     548.2,
     498.8
-   ]
+   ],
+   "key": "check.동의함"
   },
   {
    "t": "date",
@@ -150,7 +166,8 @@
      526.6,
      144.2
     ]
-   }
+   },
+   "key": "company.established"
   },
   {
    "t": "text",
@@ -161,7 +178,10 @@
     448.8,
     487.4,
     468.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "근거법령"
   },
   {
    "t": "date",
@@ -186,7 +206,8 @@
      525.2,
      566.0
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

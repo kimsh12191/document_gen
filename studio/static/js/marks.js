@@ -1,4 +1,4 @@
-// ② 표시 요소: 확률 설정(docgen/marks.json)과 모양 풀(docgen/assets/marks/). 생성기 규칙은 docgen/marks.py
+// ② 표시 요소: 확률 설정(docgen/forms/_common/marks.json)과 모양 풀(docgen/assets/marks/). 생성기 규칙은 docgen/marks.py
 // 서버: studio/app.py (/api/marks…), studio/marks_admin.py
 "use strict";
 
@@ -23,15 +23,23 @@ async function viewMarks() {
     <h1>표시 요소</h1>
     <div class="sub">손글씨·체크·도장·서명이 <b>어느 칸에 얼마나</b> 나올지(확률)와 <b>어떻게 생겼는지</b>(풀)를 정합니다.
       기본값은 지금 생성기와 같아서, 바꾸지 않으면 생성 결과도 그대로입니다. 바꾸면 그다음 렌더링부터 모든 서식에 반영됩니다.</div>
-    <h2>확률 <span class="muted" style="font-weight:400;font-size:13px">(서식마다 다르게 하려면 영역 편집기의 수정 파일 marks 항목)</span></h2>
+    <h2>확률 <span class="muted" style="font-weight:400;font-size:13px">(모든 서식 공통. 서식 하나만 다르게 하려면 그 서식 fields.json 의 marks)</span></h2>
     <div class="panel"><table class="mk-set"><thead><tr><th>항목</th><th>값</th><th class="muted">기본</th><th>뜻</th></tr></thead><tbody>
       ${MARK_SETTINGS.map(([k, kk, n, desc]) => `<tr><td class="nw">${n}</td>
         <td><input type="number" step="0.01" min="0" max="1" data-k="${k}" data-kk="${kk || ""}" value="${get(m.settings, k, kk)}"></td>
         <td class="muted num">${get(m.defaults, k, kk)}</td><td class="muted">${desc}</td></tr>`).join("")}
     </tbody></table>
     <div class="bar"><button class="primary" id="mk-save">확률 저장</button><button id="mk-reset">기본값으로</button></div></div>
+    <h2>자유 위치 도장·번호 <span class="muted" style="font-weight:400;font-size:13px">(모든 서식 — 원본·그린·html. 서식마다는 영역 편집기의 자유 위치 도구)</span></h2>
+    <div class="sub">접수인·일부인·원본대조필 같은 도장, 문서번호·접수번호를 서류마다 쪽의 아무 데나 찍습니다. 줄마다 종류·나올 확률·영역·도장 글자를 정답에 넣을지.
+      값 칸은 피하고 인쇄 글자 위에는 겹쳐 찍습니다.</div>
+    <div class="panel"><table class="mk-fl"><thead><tr><th>종류</th><th>나올 확률</th><th>영역</th><th>도장 글자를 정답에</th><th>색</th><th></th></tr></thead>
+      <tbody>${(m.settings.floats || []).map((el, i) => floatRow(m, el, i)).join("")}</tbody></table>
+      <div class="bar"><button id="mk-fl-add">줄 더하기</button><button class="primary" id="mk-fl-save">자유 위치 저장</button></div></div>
     <h2>풀</h2>
     <div class="sub">항목마다 가중치(뽑힐 비율)와 켜기를 정합니다. 체크·서명은 투명 배경 PNG(또는 SVG)를 올립니다.
+      도장은 종이에 찍은 사진(JPG·PNG)을 올리면 배경을 지우고 인주만 남겨 잘라 줍니다 (여러 장 한꺼번에 가능).
+      사진 도장은 새겨진 글자 그대로라 서류의 이름과 다를 수 있습니다.
       <b>실서류에서 잘라 온 서명·도장은 여기 올리지 마세요</b> (저장소에 들어갑니다).</div>
     <div id="mk-pools"></div>
     <h2>미리보기</h2>
@@ -50,6 +58,30 @@ async function viewMarks() {
   $("#mk-reset").onclick = async () => {
     if (!confirm("확률을 모두 기본값으로 되돌릴까요?")) return;
     try { await api("/api/marks/settings", m.defaults, "PUT"); viewMarks(); } catch (e) { toast(e.message, true); }
+  };
+  $("#mk-fl-add").onclick = () => {
+    const tb = $(".mk-fl tbody");
+    tb.insertAdjacentHTML("beforeend", floatRow(m, { preset: "received", p: 0.1, area: "any" }, tb.children.length));
+  };
+  $(".mk-fl").onclick = e => { if (e.target.dataset.del !== undefined) e.target.closest("tr").remove(); };
+  $(".mk-fl").onchange = e => {   // 종류를 바꾸면 그 종류의 기본값(도장 글자를 정답에)으로 줄을 다시 그린다
+    if (e.target.dataset.f !== "preset") return;
+    const tr = e.target.closest("tr"), v = n => tr.querySelector(`[data-f="${n}"]`);
+    const el = { preset: e.target.value, p: +v("p").value, area: v("area").value, color: v("color").value || undefined };
+    tr.outerHTML = floatRow(m, el, [...tr.parentNode.children].indexOf(tr));
+  };
+  $("#mk-fl-save").onclick = async () => {
+    const floats = $$(".mk-fl tbody tr").map(tr => {
+      const v = n => tr.querySelector(`[data-f="${n}"]`);
+      const el = { preset: v("preset").value, p: +v("p").value, area: v("area").value };
+      const pr = m.floats.presets.find(x => x.id === el.preset);
+      if (pr.type === "stamp") el.answer = v("answer").checked;
+      if (v("color").value) el.color = v("color").value;
+      return el;
+    });
+    const out = JSON.parse(JSON.stringify(m.settings));
+    out.floats = floats;
+    try { await api("/api/marks/settings", out, "PUT"); toast("저장했습니다. 다음 렌더링부터 모든 원본·그린 서식에 들어갑니다"); viewMarks(); } catch (e) { toast(e.message, true); }
   };
   drawPools(m);
   $("#mk-preview").onclick = async () => {
@@ -90,7 +122,7 @@ function drawPools(m) {
     <div class="panel pool" data-pool="${name}">
       <div class="bar"><b>${esc(m.names[name])}</b> <span class="muted">${items.filter(x => x.enabled !== false && x.weight > 0).length}/${items.length} 켜짐</span>
         <span class="sep"></span>
-        ${m.image_pools.includes(name) ? `<input type="file" accept=".png,.svg" data-up="${name}"> <button data-upgo="${name}">올리기</button>` : ""}
+        ${m.image_pools.includes(name) ? `<input type="file" multiple accept="${name === "seal" ? ".png,.jpg,.jpeg,.webp,.svg" : ".png,.svg"}" data-up="${name}"> <button data-upgo="${name}">올리기</button>` : ""}
         ${name === "seal" ? `<select data-shape>${m.seal_shapes.map(s => `<option>${s}</option>`).join("")}</select>
           <label>테두리 <input type="number" data-border value="2" min="1" max="6" style="width:50px"></label>
           <label><input type="checkbox" data-double> 겹선</label>
@@ -122,10 +154,15 @@ function drawPools(m) {
         await api(`/api/marks/pools/${name}`, items, "PUT");
         toast("저장했습니다"); viewMarks();
       } else if (e.target.dataset.upgo) {
-        const f = $(`[data-up="${name}"]`, box).files[0];
-        if (!f) { toast("파일을 고르세요", true); return; }
-        await apiUpload(`/api/marks/pools/${name}/upload`, f, { label: f.name });
-        toast("올렸습니다"); viewMarks();
+        const files = [...$(`[data-up="${name}"]`, box).files];
+        if (!files.length) { toast("파일을 고르세요", true); return; }
+        const bad = [];
+        for (const f of files) {
+          try { await apiUpload(`/api/marks/pools/${name}/upload`, f, { label: f.name }); } catch (err) { bad.push(`${f.name}: ${err.message}`); }
+        }
+        if (bad.length) toast(`${files.length - bad.length}개 올림, ${bad.length}개 실패 — ${bad.join(" / ")}`, true);
+        else toast(`${files.length}개 올렸습니다`);
+        viewMarks();
       } else if (e.target.dataset.del) {
         if (!confirm("이 항목을 지울까요?")) return;
         await api(`/api/marks/pools/${name}/${encodeURIComponent(e.target.dataset.del)}`, undefined, "DELETE");
@@ -143,4 +180,16 @@ function drawPools(m) {
       }
     } catch (err) { toast(err.message, true); }
   };
+}
+
+// 모든 서식의 자유 위치 한 줄 (docgen/floats.py, marks.json floats)
+function floatRow(m, el, i) {
+  const F = m.floats, pr = F.presets.find(x => x.id === el.preset) || F.presets[0];
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(label)}</option>`;
+  return `<tr><td><select data-f="preset">${F.presets.filter(x => x.id !== "stamp" && x.id !== "text").map(x => opt(x.id, el.preset, x.name)).join("")}</select></td>
+    <td><input type="number" data-f="p" min="0" max="1" step="0.05" value="${el.p ?? 0.1}" style="width:5em"></td>
+    <td><select data-f="area">${F.areas.map(a => opt(a.id, el.area || "any", a.name)).join("")}</select></td>
+    <td>${pr.type === "stamp" ? `<input type="checkbox" data-f="answer" ${(el.answer ?? pr.answer) ? "checked" : ""}>` : `<span class="muted">늘 (번호)</span><input type="checkbox" data-f="answer" hidden>`}</td>
+    <td><select data-f="color">${opt("", el.color || "", "기본")}${opt("red", el.color, "빨강")}${opt("blue", el.color, "파랑")}</select></td>
+    <td><button data-del>빼기</button></td></tr>`;
 }

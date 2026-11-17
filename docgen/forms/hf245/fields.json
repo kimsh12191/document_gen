@@ -55,7 +55,9 @@
     114.5,
     545.5,
     138.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -67,7 +69,9 @@
     545.5,
     163.6
    ],
-   "hint": "(Phone number : )"
+   "hint": "(Phone number : )",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -78,7 +82,9 @@
     165.6,
     407.7,
     189.1
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -89,7 +95,9 @@
     191.1,
     545.5,
     214.6
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -103,7 +111,10 @@
    ],
    "group": "Type of Loan",
    "row": true,
-   "section": "Type of Loan"
+   "section": "Type of Loan",
+   "kind": "text",
+   "std": false,
+   "key": "Cash"
   },
   {
    "t": "text",
@@ -114,7 +125,10 @@
     334.6,
     269.0,
     357.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "PurposeofLoan"
   },
   {
    "t": "text",
@@ -126,7 +140,10 @@
     339.5,
     292.1
    ],
-   "section": "Details of Loan Loan conditions"
+   "section": "Details of Loan Loan conditions",
+   "kind": "text",
+   "std": false,
+   "key": "RateofInterest"
   },
   {
    "t": "text",
@@ -140,7 +157,10 @@
    ],
    "group": "Type of Loan",
    "row": true,
-   "section": "Type of Loan"
+   "section": "Type of Loan",
+   "kind": "text",
+   "std": false,
+   "key": "Capitalinkind"
   },
   {
    "t": "text",
@@ -151,7 +171,9 @@
     165.6,
     545.5,
     189.1
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -163,7 +185,10 @@
     548.5,
     269.4
    ],
-   "section": "Details of Loan Loan conditions"
+   "section": "Details of Loan Loan conditions",
+   "kind": "text",
+   "std": false,
+   "key": "AverageLoanPeriod"
   },
   {
    "t": "text",
@@ -175,7 +200,10 @@
     548.5,
     292.1
    ],
-   "section": "Details of Loan Loan conditions"
+   "section": "Details of Loan Loan conditions",
+   "kind": "text",
+   "std": false,
+   "key": "Other"
   },
   {
    "t": "text",
@@ -189,7 +217,10 @@
    ],
    "group": "Type of Loan",
    "row": true,
-   "section": "Type of Loan"
+   "section": "Type of Loan",
+   "kind": "text",
+   "std": false,
+   "key": "Other"
   },
   {
    "t": "text",
@@ -200,7 +231,10 @@
     334.6,
     548.5,
     357.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "LocationofInvestment"
   },
   {
    "t": "text",
@@ -211,7 +245,10 @@
     377.5,
     339.5,
     414.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "ChangeinInformation"
   },
   {
    "t": "text",
@@ -223,7 +260,11 @@
     548.5,
     414.3
    ],
-   "row": true
+   "row": true,
+   "group": "InformationAfterChange",
+   "kind": "text",
+   "std": false,
+   "key": "InformationAfterChange"
   },
   {
    "t": "text",
@@ -234,7 +275,10 @@
     533.0,
     472.2,
     549.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "NotificationNo"
   },
   {
    "t": "text",
@@ -246,7 +290,10 @@
     155.4,
     108.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "ReceiptNumber"
   },
   {
    "t": "text",
@@ -258,7 +305,10 @@
     271.6,
     108.5
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DateofReceipt"
   },
   {
    "t": "text",
@@ -269,7 +319,9 @@
     114.5,
     545.1,
     138.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -281,7 +333,9 @@
     545.1,
     163.6
    ],
-   "hint": "(Phone number : )"
+   "hint": "(Phone number : )",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -292,7 +346,9 @@
     165.6,
     407.7,
     189.1
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -303,7 +359,9 @@
     191.1,
     545.1,
     214.6
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -317,7 +375,10 @@
    ],
    "group": "Type of Loan",
    "row": true,
-   "section": "Type of Loan"
+   "section": "Type of Loan",
+   "kind": "text",
+   "std": false,
+   "key": "Cash"
   },
   {
    "t": "text",
@@ -328,7 +389,10 @@
     334.6,
     269.0,
     357.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "PurposeofLoan"
   },
   {
    "t": "text",
@@ -340,7 +404,10 @@
     339.5,
     292.1
    ],
-   "section": "Details of Loan Loan conditions"
+   "section": "Details of Loan Loan conditions",
+   "kind": "text",
+   "std": false,
+   "key": "RateofInterest"
   },
   {
    "t": "text",
@@ -354,7 +421,10 @@
    ],
    "group": "Type of Loan",
    "row": true,
-   "section": "Type of Loan"
+   "section": "Type of Loan",
+   "kind": "text",
+   "std": false,
+   "key": "Capitalinkind"
   },
   {
    "t": "text",
@@ -365,7 +435,9 @@
     165.6,
     545.1,
     189.1
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -377,7 +449,10 @@
     548.1,
     269.4
    ],
-   "section": "Details of Loan Loan conditions"
+   "section": "Details of Loan Loan conditions",
+   "kind": "text",
+   "std": false,
+   "key": "AverageLoanPeriod"
   },
   {
    "t": "text",
@@ -389,7 +464,10 @@
     548.1,
     292.1
    ],
-   "section": "Details of Loan Loan conditions"
+   "section": "Details of Loan Loan conditions",
+   "kind": "text",
+   "std": false,
+   "key": "Other"
   },
   {
    "t": "text",
@@ -403,7 +481,10 @@
    ],
    "group": "Type of Loan",
    "row": true,
-   "section": "Type of Loan"
+   "section": "Type of Loan",
+   "kind": "text",
+   "std": false,
+   "key": "Other"
   },
   {
    "t": "text",
@@ -414,7 +495,10 @@
     334.6,
     548.1,
     357.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "LocationofInvestment"
   },
   {
    "t": "text",
@@ -425,7 +509,10 @@
     377.5,
     339.5,
     414.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "ChangeinInformation"
   },
   {
    "t": "text",
@@ -437,7 +524,11 @@
     548.1,
     414.3
    ],
-   "row": true
+   "row": true,
+   "group": "InformationAfterChange2",
+   "kind": "text",
+   "std": false,
+   "key": "InformationAfterChange"
   },
   {
    "t": "text",
@@ -448,7 +539,10 @@
     533.0,
     472.2,
     549.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "NotificationNo"
   },
   {
    "t": "text",
@@ -460,7 +554,10 @@
     155.4,
     108.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "ReceiptNumber"
   },
   {
    "t": "text",
@@ -472,7 +569,10 @@
     271.6,
     108.5
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DateofReceipt"
   }
  ]
 }

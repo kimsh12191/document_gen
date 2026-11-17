@@ -20,7 +20,7 @@ from .banks import bank_view, brand_accent, form_bank, form_context
 from .entities import Profile
 from .registry import BANK_FORM_GROUPS, DocSpec
 
-TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"   # docgen/templates
+TEMPLATE_DIR = Path(__file__).resolve().parent / "forms" / "_common" / "templates"   # 바탕 틀·그룹 부품 (모든 서식 공통)
 
 _MISSING = object()
 
@@ -39,6 +39,11 @@ def lookup(data: Any, path: str) -> Any:
             cur = getattr(cur, part)
     return cur
 
+
+# 서류마다 비어 있기도 한 칸의 항목명 (공백 없앤 글자). 평가 세트·학습 데이터의 서류 한 건 과제에서 일정 비율로 비운다
+# (profile.extra["blank_optional"] = 비율, docgen/bench/build.py) — 물어도 없으면 null 을 배우게. 미리보기·카드에는 없음
+OPTIONAL_LABEL = re.compile(r"^(용도|비고|메모|참고|참고사항|특기사항|기타|기타사항|발급번호|문서번호|문서확인번호|팩스|팩스번호|fax|"
+                            r"이메일|e-?mail|전자우편|홈페이지|자택전화|자택전화번호|직장전화|직장전화번호|영문성명|영문명)$", re.I)
 
 # 도장·서명 자리의 기본 항목명 (템플릿에서 label 을 주지 않았을 때)
 MARK_LABELS = {
@@ -67,6 +72,7 @@ class FieldRecorder:
         self.rng = rng or random.Random(0)
         self._auto = 0
         self.corr_name: str | None = None  # 정정 도장에 찍을 이름
+        self.blank_rate, self._blank = 0.0, {}   # 비어 있기도 한 칸 비우기 (OPTIONAL_LABEL, render 가 정함)
 
     def set_corr_name(self, name: str | None) -> str:
         """템플릿용: 정정 도장 글자(보통 작성자 이름)를 정한다. {{ f.set_corr_name(val("applicant.name")) }}"""
@@ -87,6 +93,8 @@ class FieldRecorder:
         text = None if v is None or (isinstance(v, str) and not v.strip()) else str(v)
         if label:
             label = re.sub(r"[\s\u3000]+", "", str(label))
+        if text and self.blank_rate and self._blank_this(path, label, text):
+            text = None
         rec = self.fields.get(path)
         if rec is None:
             rec = self.fields[path] = {"key": path, "label": label, "value": text}
@@ -105,6 +113,14 @@ class FieldRecorder:
                 return Markup(f'<span class="corr"><s class="corr-old">{escape(wrong)}</s> {span}'
                               f'<span class="seal sm corr-seal">{escape(who[:3])}</span></span>')
         return span
+
+    def _blank_this(self, path: str, label: str | None, text: str) -> bool:
+        """이 칸을 비울지 (칸마다 한 번 정하고 같은 칸이 또 나오면 같게). 자유 기재 글이 들어간 칸(freetext 과제)은 비우지 않는다."""
+        if path not in self._blank:
+            lab = label or (self.fields.get(path) or {}).get("label")
+            ok = bool(lab and OPTIONAL_LABEL.match(lab)) and text not in (self.data.get("_freetext") or {})
+            self._blank[path] = ok and self.blank_rng.random() < self.blank_rate
+        return self._blank[path]
 
     def has(self, path: str) -> bool:
         try:
@@ -290,6 +306,15 @@ def seal_style(tpl: dict) -> str:
     return ";".join(out)
 
 
+def seal_img(rng: random.Random) -> dict | None:
+    """html 템플릿 서식의 개인 도장: 도장 풀에 올린 사진이 켜져 있으면 코드 도장과 사진 중 하나를 고른다 → {url, id}.
+    도장 틀은 overlay 서식만 쓰므로 여기서는 뺀다. 사진이 없으면 고를 것이 하나라 난수를 쓰지 않는다 (예전 결과 그대로)."""
+    from . import marks as M
+
+    it = M.pick(rng, [x for x in M.pools()["seal"] if x.get("builtin") or x.get("file")])
+    return {"url": M.image_url(it), "id": it["id"]} if it and it.get("file") else None
+
+
 def scribble(name: str, rng: random.Random) -> Markup:
     """손 서명 흉내: 이름 길이에 맞춘 이어진 곡선 (SVG). 글자로 읽히지 않는 서명 모양.
     서명 풀(docgen/marks.py)에 이미지가 켜져 있으면 풀에서 하나를 고른다 (기본 풀이면 난수를 쓰지 않는다)."""
@@ -345,7 +370,7 @@ def env() -> Environment:
                                                 FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
         _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
-                           seal_style=seal_style,
+                           seal_style=seal_style, seal_img=seal_img,
                            BR=Markup("<br>"))
     return _env
 
@@ -372,6 +397,8 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
             accent = brand_accent(profile.bank, random.Random(f"accent:{seed}:{spec.id}"))
             style["accent"] = accent or style["accent"]
     rec = FieldRecorder(data, random.Random(f"marks:{seed}:{spec.id}"))
+    rec.blank_rate = float(profile.extra.get("blank_optional") or 0)   # 평가·학습 데이터에서만 (docgen/bench/build.py)
+    rec.blank_rng = random.Random(f"blank:{seed}:{spec.id}")
     from .template_variants import choose
     variant = choose(spec,seed,profile.extra)
     data["_template_variant"] = {k:variant[k] for k in ("id","name")}
@@ -387,6 +414,13 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
     )
     if regions and regions["regions"]:
         html = html_regions.attach(html, regions, rec, profile, seed)
+    if spec.template != "_real_form.html.j2":   # 모든 서식의 자유 위치 도장·번호 (overlay 는 realform 이 그린다)
+        from . import floats as FL
+        from . import marks as M
+
+        block = FL.html_block(spec.id, profile, seed, rec, M.settings())
+        if block:
+            html = html.replace("</body>", block + "</body>", 1) if "</body>" in html else html + block
     for item in data.get("items", []):
         if item.get("unit") and item.get("key") in rec.fields:
             rec.fields[item["key"]]["unit"] = item["unit"]

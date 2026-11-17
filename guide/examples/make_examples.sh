@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# guide/tasks.md 와 발표 부록의 예시 데이터를 처음부터 다시 만듭니다.
+# guide/reference/tasks.md 의 예시 데이터를 처음부터 다시 만듭니다.
 #   bash guide/examples/make_examples.sh <작업 폴더>          # 데이터만 (1~5단계)
-#   bash guide/examples/make_examples.sh <작업 폴더> --docs   # + tasks.md, 이미지, 부록 슬라이드, index.html 갱신
+#   bash guide/examples/make_examples.sh <작업 폴더> --docs   # + tasks.md, 이미지 갱신
 # 저장소 맨 위에서, docgen 의존성이 깔린 환경에서 실행합니다. 약 10분, 디스크 약 0.5GB.
 set -euo pipefail
 W=$(realpath -m "${1:?작업 폴더를 주세요}")
@@ -22,6 +22,7 @@ from docgen.bench.ocr_data import scan, write_jsonl
 w = sys.argv[1]
 write_jsonl(f"{w}/ocr_manifest.jsonl", scan(f"{w}/gen/images", "train", r"(?P<document_id>[^/]+_\d+)(_p\d+)?\.png$", False, f"{w}/ocr_json"))
 cfg = json.load(open("docgen/bench/ocr_config.example.json", encoding="utf-8"))
+cfg.pop("images", None)   # 예시는 이미지 폴더가 아니라 위 manifest(문서 ID·OCR JSON 포함)로
 # 예시용으로 바꾼 값: 경로, OCR 버전 이름, 문서 9건이라 벤치마크·검증 비율을 키우고 SFT 수를 줄임
 cfg.update(manifest=f"{w}/ocr_manifest.jsonl", output_dir=f"{w}/ocr_prepared", cache_dir=f"{w}/ocr_cache",
            ocr_revision="example-labels-v1", benchmark_fraction=0.3, sft_max_examples=200, val_fraction=0.15)
@@ -29,14 +30,11 @@ json.dump(cfg, open(f"{w}/ocr_config.json", "w", encoding="utf-8"), ensure_ascii
 EOF
 python -m docgen.bench.ocr_prepare "$W/ocr_config.json"
 
-# 4) 문서·업무 과제: 평가 세트 (실제 학습 데이터와 같은 build 코드, 업무마다 고객 6묶음)
-python -m docgen.bench build --out "$W/bench" --types loan_application --bundles 6 --workers 6
+# 4) 서류 한 건 과제: 평가 세트 (실제 데이터셋과 같은 build 코드). hf206·hf430 은 기타 칸 글(freetext)이 나오는 원본 서식
+python -m docgen.bench build --out "$W/bench" --types loan_application,hf206,hf430 --per-doc 3 --workers 6
 
 # 5) 끝. 아래는 --docs 일 때만
 [ "${2:-}" = "--docs" ] || { echo "데이터: $W  (문서 갱신은 --docs)"; exit 0; }
 
-# 6) 과제별 예시 고르기 → guide/tasks.md, guide/examples/img/, 슬라이드용 examples.json
+# 6) 과제별 예시 고르기 → guide/reference/tasks.md, guide/examples/img/ (examples.json 은 옛 발표 자료 archive/guide/slides/ 의 재료)
 python guide/examples/make_catalog.py --bench "$W/bench" --ocr "$W/ocr_prepared" --ocr-json "$W/ocr_json" --dump "$W/examples.json"
-# 7) 부록 슬라이드. 새 이미지는 웹 슬라이드에 올리고 guide/slides/asset_map.json 에 추가해야 합니다 (guide/slides/README.md)
-python guide/slides/make_appendix.py --examples "$W/examples.json" --assets guide/slides/asset_map.json --deck guide/slides/project
-python guide/slides/build_html.py

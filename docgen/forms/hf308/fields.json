@@ -29,7 +29,10 @@
     162.7,
     297.3,
     182.6
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는성명"
   },
   {
    "t": "text",
@@ -40,7 +43,9 @@
     182.6,
     552.6,
     202.4
-   ]
+   ],
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "check",
@@ -117,7 +122,8 @@
     202.4,
     552.6,
     222.2
-   ]
+   ],
+   "key": "check.투자자규모"
   },
   {
    "t": "text",
@@ -129,7 +135,10 @@
     246.3,
     242.1
    ],
-   "unit": "백만원"
+   "unit": "백만원",
+   "kind": "amount",
+   "std": false,
+   "key": "총자산"
   },
   {
    "t": "text",
@@ -140,7 +149,9 @@
     242.1,
     297.3,
     261.9
-   ]
+   ],
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -151,7 +162,10 @@
     162.7,
     552.6,
     182.6
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "설립년월일"
   },
   {
    "t": "text",
@@ -163,7 +177,10 @@
     448.4,
     242.1
    ],
-   "unit": ")"
+   "unit": ")",
+   "kind": "text",
+   "std": false,
+   "key": "자기자본"
   },
   {
    "t": "text",
@@ -174,7 +191,10 @@
     242.1,
     552.6,
     261.9
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "담당자및연락처"
   },
   {
    "t": "text",
@@ -185,7 +205,9 @@
     292.3,
     297.3,
     312.1
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "check",
@@ -246,7 +268,8 @@
     312.1,
     297.3,
     349.0
-   ]
+   ],
+   "key": "check.법인형태"
   },
   {
    "t": "text",
@@ -257,7 +280,10 @@
     349.0,
     297.3,
     368.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "총자본금"
   },
   {
    "t": "check",
@@ -334,7 +360,8 @@
     368.8,
     552.6,
     405.7
-   ]
+   ],
+   "key": "check.투자형태주"
   },
   {
    "t": "text",
@@ -345,7 +372,9 @@
     292.3,
     552.6,
     312.1
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -356,7 +385,9 @@
     312.1,
     552.6,
     349.0
-   ]
+   ],
+   "kind": "date",
+   "key": "company.established"
   },
   {
    "t": "text",
@@ -368,7 +399,10 @@
     342.6,
     527.9
    ],
-   "section": "출 자 형 태"
+   "section": "출 자 형 태",
+   "kind": "skip",
+   "std": false,
+   "key": "현금"
   },
   {
    "t": "text",
@@ -380,7 +414,10 @@
     342.6,
     547.8
    ],
-   "section": "출 자 형 태"
+   "section": "출 자 형 태",
+   "kind": "text",
+   "std": false,
+   "key": "주식"
   },
   {
    "t": "text",
@@ -392,7 +429,10 @@
     342.6,
     567.6
    ],
-   "section": "출 자 형 태"
+   "section": "출 자 형 태",
+   "kind": "text",
+   "std": false,
+   "key": "기술투자"
   },
   {
    "t": "text",
@@ -403,7 +443,10 @@
     587.5,
     342.6,
     607.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "자기자금"
   },
   {
    "t": "text",
@@ -415,7 +458,10 @@
     552.6,
     527.9
    ],
-   "section": "출 자 형 태"
+   "section": "출 자 형 태",
+   "kind": "text",
+   "std": false,
+   "key": "현물"
   },
   {
    "t": "text",
@@ -427,7 +473,10 @@
     552.6,
     547.8
    ],
-   "section": "출 자 형 태"
+   "section": "출 자 형 태",
+   "kind": "text",
+   "std": false,
+   "key": "이익잉여금"
   },
   {
    "t": "text",
@@ -439,7 +488,10 @@
     552.6,
     567.6
    ],
-   "section": "출 자 형 태"
+   "section": "출 자 형 태",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -450,7 +502,10 @@
     587.5,
     552.6,
     607.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "차입금"
   },
   {
    "t": "text",
@@ -464,7 +519,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.출자자명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -478,7 +535,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.출자자명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -489,7 +548,10 @@
     710.1,
     183.9,
     729.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "현지측"
   },
   {
    "t": "text",
@@ -500,7 +562,10 @@
     729.9,
     183.9,
     749.7
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "제3국"
   },
   {
    "t": "text",
@@ -514,7 +579,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -528,7 +595,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -540,7 +609,10 @@
     245.4,
     710.1
    ],
-   "section": "한국측"
+   "section": "한국측",
+   "kind": "text",
+   "std": false,
+   "key": "소계"
   },
   {
    "t": "text",
@@ -552,7 +624,9 @@
     245.4,
     729.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -564,7 +638,9 @@
     245.4,
     749.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -575,7 +651,10 @@
     749.7,
     245.4,
     769.6
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "합계"
   },
   {
    "t": "text",
@@ -589,7 +668,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -603,7 +684,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -617,7 +700,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -629,7 +714,9 @@
     306.9,
     729.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -641,7 +728,9 @@
     306.9,
     749.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -655,7 +744,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -669,7 +760,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -683,7 +776,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -695,7 +790,9 @@
     368.4,
     729.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -707,7 +804,9 @@
     368.4,
     749.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -719,7 +818,9 @@
     368.4,
     769.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -733,7 +834,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -747,7 +850,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -761,7 +866,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -773,7 +880,9 @@
     429.9,
     729.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -785,7 +894,9 @@
     429.9,
     749.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -799,7 +910,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -813,7 +926,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -827,7 +942,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -839,7 +956,9 @@
     491.4,
     729.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -851,7 +970,9 @@
     491.4,
     749.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -863,7 +984,9 @@
     491.4,
     769.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -877,7 +1000,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -891,7 +1016,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -905,7 +1032,9 @@
    ],
    "group": "한국측",
    "row": true,
-   "section": "한국측"
+   "section": "한국측",
+   "key": "한국측_목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -917,7 +1046,9 @@
     552.6,
     729.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -929,7 +1060,9 @@
     552.6,
     749.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -941,7 +1074,10 @@
     221.9,
     342.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "법인형태"
   },
   {
    "t": "text",
@@ -952,7 +1088,10 @@
     112.9,
     249.1,
     132.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "대부액"
   },
   {
    "t": "text",
@@ -963,7 +1102,10 @@
     132.8,
     249.1,
     152.6
-   ]
+   ],
+   "kind": "percent",
+   "std": false,
+   "key": "이율"
   },
   {
    "t": "text",
@@ -974,7 +1116,10 @@
     152.6,
     339.8,
     184.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "자기자금"
   },
   {
    "t": "text",
@@ -985,7 +1130,10 @@
     112.9,
     552.5,
     132.8
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "자금용도"
   },
   {
    "t": "text",
@@ -997,7 +1145,10 @@
     438.7,
     152.6
    ],
-   "unit": "년"
+   "unit": "년",
+   "kind": "count",
+   "std": false,
+   "key": "기간"
   },
   {
    "t": "text",
@@ -1008,7 +1159,10 @@
     152.6,
     552.5,
     184.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "차입금"
   },
   {
    "t": "text",
@@ -1019,7 +1173,10 @@
     444.0,
     297.3,
     614.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "토지건물기계설비운영자금"
   },
   {
    "t": "text",
@@ -1030,7 +1187,10 @@
     444.0,
     552.5,
     614.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "차입금자기자본"
   }
  ]
 }

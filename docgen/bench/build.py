@@ -1,24 +1,21 @@
 """평가 세트 (또는 같은 과제의 학습 데이터) 만들기.
 
-  python -m docgen.bench build --out bench_out [--types all] [--per-doc 1] [--bundles 4]
-  python -m docgen.bench build --split train --out bank_train --per-doc 0 --bundles 100 --workers 8
+  python -m docgen.bench build --out bench_out [--types all] [--per-doc 1]
+  python -m docgen.bench build --split train --out bank_train --per-doc 20 --workers 8
   python -m docgen.bench build --recipe docgen/recipes/<이름>.json --out <폴더>     (studio 레시피, 아래 RECIPE_KEYS)
 
 출력:
   bench_out/
     meta.json                 만든 설정, 과제별 문항 수, 서류명 목록
-    images/                   서류 이미지 (단일 서류 과제)
-    images/bundles/           업무 묶음 서류 이미지
+    images/                   서류 이미지
     crops/                    ocr_field 용 값 칸 이미지
     tasks/<과제>.jsonl         문항: {"id", "task", "images", "prompt", "answer", "eval"?, "meta"}
     swift/<과제>.jsonl, all.jsonl   (--split train 만) ms-swift 학습 레코드: 같은 문항을 질문·정답 대화로
-    bundles.jsonl             업무 묶음마다 한 줄: 시나리오, 고객 seed, 서류(이미지·값 위치), 변조 내역, 나온 문항 ID
     dataset.json              (--recipe 로 만들 때) 레시피, 생성기 커밋, 평가 세트 버전, 서식 파일 해시
 
 같은 설정이면 언제 만들어도 같은 세트가 나온다 (seed 고정). 평가 세트(test)와 학습 데이터(train)는 서로,
 그리고 `python -m docgen generate` 의 seed(0부터)와도 겹치지 않는 seed 범위를 쓴다 (아래 SPLITS).
-만든 폴더는 studio 데이터셋(과제 폴더)으로 학습(train/)·평가에 쓴다. 평가 세트와 학습 데이터를 한 번에 만드는 것은 docgen/scripts/make_bank_data.sh,
-studio 는 레시피로 이 명령(--recipe)을 돌려 데이터셋으로 등록한다.
+만든 폴더는 studio 데이터셋(과제 폴더)으로 학습(train/)·평가에 쓴다. studio 는 레시피로 이 명령(--recipe)을 돌려 데이터셋으로 등록한다.
 """
 from __future__ import annotations
 
@@ -29,20 +26,16 @@ import sys
 import time
 from pathlib import Path
 
-from .. import dictionary as DIC
-from ..entities import make_profile
-from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIO_SAMPLING, SCENARIOS, load_all
+from ..entities import doc_seed, make_profile
+from ..registry import GROUPS, load_all
 from ..render import render
 from ..schema import build_fields
-from . import perturb
-from . import processing as PROCESS
-from .metrics import norm_text, normalize_box
-from .cases import CASES, OTHER_OK, Ctx
-from .prompts import (P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW,
-                      freetext_prompt, kie_line)
-from .rules import Bundle, questions, r_doc_valid, valid_candidates
+from . import absent, perturb
+from .. import formquestions as FQ
+from . import tasks as TASKS
+from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
 
-VERSION = "3.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "5.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
@@ -50,27 +43,38 @@ VERSION = "3.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순�
 #                       값 채우기 변경(빈 칸 무작위 비우기 끔, 금액 단위)도 이 판부터. 2.0 과 kie·marks·분류 점수는 바로 비교하지 않는다
 #                  3.1: 원본·가져온 서식의 기타·비고·사유·용도 칸 일부(40%)에 자유 기재 글 + freetext(기타 칸 정리) 과제
 #                       (docgen/freetext.py). 그 칸이 있는 서식의 이미지·kie 정답이 3.0 과 다르다
+#                  4.0: 표(반복 묶음)를 kie 에서 빼고 표 과제 넷(table 표 추출·table_read 표 그대로 옮기기·table_find 표 찾기·
+#                       table_qa 표 질의, guide/reference/benchmark.md "표의 정의"). 빈 답 배우기: kie·table 에 없는 키·열 섞기,
+#                       비어 있기도 한 칸 비우기(blank), 값 칸 가림(mask) — NULLS. 서류 한 건 과제의 그림·kie 정답이 3.1 과 다르고
+#                       kie 점수는 표 칸이 빠져 3.1 과 바로 비교하지 않는다. 업무 묶음 과제는 그대로
+#                  4.1: 원본 서식(hf·img)과 그것을 옮긴 공식 대조 html 서식: 한 묶음(목록)으로 섞이던 표 77종을 표마다 나눔
+#                       (키 <묶음>_목록.<행>.<열>), 표가 인쇄된 줄을 넘치면 별지(계속) 쪽에 이어 적음 (realform MORE_ROWS).
+#                       그 서식들의 표 문항·쪽 수가 4.0 과 다르다
+#                  4.2: 여러 쪽 서류의 서류 한 건 과제를 두 경우로 나눔 — 한 쪽만(view "page": 그 쪽 이미지 하나, 정답도 그 쪽만,
+#                       레시피 page_view 비율, 기본 0.5)과 모든 쪽(view "all"). table·table_read 는 넣은 이미지에 보이는 행을
+#                       늘 전부 묻는다 ("N쪽에 있는 행만"·"앞에서부터 30행까지만" 으로 자르던 것 없앰). 한 쪽 서류도 30행 넘는
+#                       표의 문항이 4.1 과 다르다
+#                  5.0: 키는 서식의 키 그대로 (공통 키·키 사전 없앰 — 3.0 에서 공통 키로 바꾸던 칸이 서식의 키로 돌아감).
+#                       질문 항목 줄의 괄호는 키 설명이 아니라 표의 행·같은 설명 칸 순번만 ("누구의 무엇" 설명 없앰)
+#                  5.1: 서식마다 다른 가짜 고객 (5.0 까지는 같은 순번 k 의 모든 서식이 같은 고객 — entities.doc_seed).
+#                       키 동의어 통일(tel→phone, dob→birth 등 6개) 없앰 — 정답 키가 서식 키 그대로. 가린 표 칸(mask)은
+#                       table_read 정답에서도 null. 모든 문항의 값이 5.0 과 다르다
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
-SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
-SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
-# split → (단일 서류 seed 시작, 묶음 seed 시작, 시나리오 간 간격). 묶음 i 의 고객 seed = 시작 + 시나리오 번호 × 간격 + i,
-# 다른 고객(타인 서류)은 그 seed + 500,000. 학습용은 묶음 수가 많아도 시나리오끼리 겹치지 않게 간격을 넓힌다.
-SPLITS = {"test": (SEED_SINGLE, SEED_BUNDLE, 1000), "train": (10_000_000, 20_000_000, 1_000_000)}
-OTHER_OFFSET = 500_000
+SEED_SINGLE = 1_000_000   # 평가 세트 서류의 고객 seed 시작
+# split → (seed 시작,). 서식마다 k 번째 건의 seed = 시작 + start + k, 고객은 그 seed 와 서식 ID 로 (entities.doc_seed)
+SPLITS = {"test": (SEED_SINGLE,), "train": (10_000_000,)}
 
 # 촬영 조건 비율: 절반은 깨끗한 원본, 나머지는 스캔·촬영·팩스 증강 (docgen/augment.py)
 CONDITIONS = (("clean", 0.5), ("scan", 0.2), ("photo", 0.15), ("fax", 0.15))
-MARK_TYPES = ("checkbox", "checkbox_multi", "seal", "signature")
-# 업무 묶음 구성 규칙 (레시피의 bundle 로 바꾼다). 기본값 = 예전 상수
-BUNDLE_RULES = {
-    "missing": [0.3, 0.5, 0.2],   # 빠진 서류 0 / 1 / 2건 비율
-    "other_customer": 0.3,        # 필수 서류 하나를 다른 고객 것으로 바꿀 확률
-    "extra_doc": 0.35,            # 업무와 상관없는 서류를 끼울 확률
-    "tamper": 0.5,                # 대조 사례마다 변조 문항일 확률 (format 사례는 늘 정상)
-}
+# 빈 답 배우기: blank 비어 있기도 한 칸(용도·비고·발급번호 …, docgen/render.py
+# OPTIONAL_LABEL)을 칸마다 이 비율로 비움 / mask 서류를 이 비율로 골라 값 칸 1~3개를 검은 상자로 가리고 정답 null.
+# 없는 키·열 섞기는 과제 파일의 ABSENT_RATE (kie.py·table.py). 레시피의 "nulls": {"blank": …, "mask": …} 로 바꾼다 (0 이면 끔)
+NULLS = {"blank": 0.3, "mask": 0.1}
+MASK_FIELDS = (1, 3)
+MASK_KINDS = ("name", "rrn", "phone", "account_no", "address", "reg_no")   # 비식별 처리로 흔히 가리는 값 (먼저 고름)
 # 레시피(JSON)에서 읽는 항목. 나머지 명령줄 인자와 같은 이름은 그 인자를 덮어쓴다.
-RECIPE_KEYS = ("split", "types", "per_doc", "scenarios", "bundles", "fields_per_doc", "max_keys", "scale", "start",
-               "conditions", "bundle", "cases", "custom_bundles", "exclude", "reviewed_only")
+RECIPE_KEYS = ("split", "types", "per_doc", "fields_per_doc", "max_keys", "scale", "start",
+               "conditions", "exclude", "reviewed_only", "nulls", "page_view")
 
 
 
@@ -101,37 +105,64 @@ def pick_condition(key: str, conditions=None) -> str:
     return conds[0][0]
 
 
-def field_kind(f: dict) -> str:
-    """cross_check·ocr_field 분석용 값 종류."""
-    lab, t = f.get("label") or "", f.get("type")
-    if t in ("rrn", "biz_no", "corp_reg_no", "phone", "account_no", "date", "amount", "amount_korean"):
-        return {"amount_korean": "amount", "biz_no": "reg_no", "corp_reg_no": "reg_no"}.get(t, t)
-    if perturb.NAME_LABEL.search(lab):
-        return "name"
-    if "주소" in lab or "소재지" in lab:
-        return "address"
-    if "계좌" in lab:
-        return "account_no"
-    if t in ("number",):
-        return "number"
-    return "text"
+def single_profile(seed: int, nulls: dict | None, doc_id: str):
+    """서류 한 건 과제의 고객 (서식마다 다른 고객: entities.doc_seed). 빈 칸 비우기 비율(nulls["blank"])을
+    profile.extra 로 렌더링에 넘긴다 (docgen/render.py)."""
+    p = make_profile(doc_seed(seed, doc_id))
+    if nulls and nulls.get("blank"):
+        p.extra["blank_optional"] = nulls["blank"]
+    return p
+
+
+def mask_fields(fields: list[dict], paths: list[Path], key: str, data: dict | None, anchors: list[dict] | None = None) -> list[str]:
+    """값 칸 1~3개를 검은 상자로 가리고(그림) 정답을 null 로 (칸 dict 를 바꿈). 가린 키 목록.
+    비식별 처리에서 흔히 가리는 값(이름·주민번호·연락처·계좌·주소·등록번호)을 먼저, 자유 기재 글 칸은 빼고.
+    같은 칸이 여러 곳에 찍혔으면(anchors, 렌더러가 잰 칸마다의 자리) 모두 가린다 — 한 곳이라도 보이면 정답 null 이 틀리므로."""
+    from PIL import Image, ImageDraw
+
+    rng = random.Random(f"bench:mask:{key}")
+    written = (data or {}).get("_freetext") or {}
+    cand = [f for f in fields if f.get("value") is not None and f.get("bbox") and f["type"] not in MARK_TYPES
+            and not f.get("group") and f["value"] not in written and f.get("page", 0) < len(paths)]
+    if not cand:
+        return []
+    pref = [f for f in cand if field_kind(f) in MASK_KINDS] or cand
+    pick = rng.sample(pref, min(len(pref), rng.randint(*MASK_FIELDS)))
+    by_page: dict[int, list] = {}
+    for f in pick:
+        spots = [a for a in anchors or [] if a.get("target") == "field" and a.get("key") == f["key"] and a.get("bbox")]
+        for a in spots or [f]:
+            by_page.setdefault(a.get("page", 0), []).append(a["bbox"])
+    for pg, boxes in by_page.items():
+        if pg >= len(paths):
+            continue
+        img = Image.open(paths[pg]).convert("RGB")
+        d = ImageDraw.Draw(img)
+        for x0, y0, x1, y1 in boxes:
+            d.rectangle([x0 - 3, y0 - 3, x1 + 3, y1 + 3], fill=(0, 0, 0))
+        img.save(paths[pg])
+    for f in pick:
+        f["value"], f["masked"] = None, True
+        f.pop("norm", None)
+    return [f["key"] for f in pick]
 
 
 class Builder:
     exclude: frozenset = frozenset()
-
+    nulls: dict | None = None   # 빈 답 배우기 (NULLS). bench build 만 켠다 — 카드·studio 미리보기는 None
+    page_view: float = 0.0      # 여러 쪽 서류에서 한 쪽만 묻는 비율 (tasks.PAGE_VIEW). bench build 만 켠다 — 카드·미리보기는 모든 쪽
     def __init__(self, out: Path, scale: float, rules: dict | None = None):
         from ..image import ImageRenderer
 
         self.out = out
-        self.rules = {**BUNDLE_RULES, **((rules or {}).get("bundle") or {})}
-        self.cases = (rules or {}).get("cases") or {}          # {사례ID: {"enabled": bool, "tamper": 확률}}
         self.conditions = tuple((rules or {}).get("conditions") or CONDITIONS)
-        self.exclude = frozenset((rules or {}).get("exclude") or ())   # 레시피의 빼는 서식: 업무 묶음에서도 뺀다
+        self.exclude = frozenset((rules or {}).get("exclude") or ())   # 레시피의 빼는 서식
+        self.nulls = (rules or {}).get("nulls")
+        self.page_view = (rules or {}).get("page_view", 0.0)
         self.reg = load_all()
         self.renderer = ImageRenderer(scale=scale).__enter__()
         self.buf: list[dict] = []
-        for d in ("images/bundles", "crops", "tasks"):
+        for d in ("crops", "tasks"):
             (out / d).mkdir(parents=True, exist_ok=True)
 
     def close(self):
@@ -140,32 +171,35 @@ class Builder:
     def emit(self, rec: dict):
         from .tracking import enrich
 
-        self.buf.append(enrich(rec) if rec["task"] not in ("_bundle", "_skipped") else rec)
+        self.buf.append(enrich(rec))
 
     def take(self) -> list[dict]:
         out, self.buf = self.buf, []
         return out
 
     # ------------------------------------------------------------------
-    def render_doc(self, doc_id: str, profile, seed: int, stem: str, cond: str, aug_key: str | None = None,
-                   html: str | None = None, raw: list | None = None, data: dict | None = None) -> dict:
-        """서류 한 건을 렌더링해 이미지(조건에 따라 증강)와 라벨 필드를 만든다."""
+    def render_doc(self, doc_id: str, profile, seed: int, stem: str, cond: str, single: bool = False) -> dict:
+        """서류 한 건을 렌더링해 이미지(조건에 따라 증강)와 라벨 필드를 만든다.
+        single=True (서류 한 건 과제): 표 구조(tables, table_read 과제)도 읽고, 가림 증강(mask)을 할 수 있다."""
         from PIL import Image
 
         from ..augment import augment
         from ..cli import _aug_fields
 
         spec = self.reg[doc_id]
-        if html is None:
-            html, raw, data = render(spec, profile, seed)
+        html, raw, data = render(spec, profile, seed)
         png = self.out / f"{stem}.png"
         png.parent.mkdir(parents=True, exist_ok=True)
-        info = self.renderer.render(html, png)
+        info = self.renderer.render(html, png, tables=single)
         fields = build_fields(raw, info)
+        tables = info.get("tables") or []
+        masked = []
+        if single and self.nulls and random.Random(f"bench:maskdoc:{stem}").random() < self.nulls.get("mask", 0):
+            masked = mask_fields(fields, [Path(p) for p in info["images"]], stem, data, info.get("anchors"))
         paths = [Path(p) for p in info["images"]]
         sizes = [(pg["width"], pg["height"]) for pg in info["pages"]]
         if cond != "clean":
-            arng = random.Random(f"bench:aug:{aug_key or stem}")
+            arng = random.Random(f"bench:aug:{stem}")
             new_paths, new_sizes, tfs = [], [], []
             for p in paths:
                 img, _, tf = augment(Image.open(p), arng, cond, with_transform=True)
@@ -176,415 +210,39 @@ class Builder:
                 new_sizes.append(img.size)
                 tfs.append(tf)
             paths, sizes, fields = new_paths, new_sizes, _aug_fields(fields, tfs)
+            tables = _aug_tables(tables, tfs)
         hand = spec.group in ("hana", "imported") and bool((data or {}).get("style", {}).get("hand"))
         return {"doc_id": doc_id, "name": spec.name, "group": spec.group, "seed": seed, "condition": cond, "stem": stem,
                 "template_variant": (data or {}).get("_template_variant", {"id":"default","name":"기본 레이아웃"}),
-                "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields,
+                "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields, "tables": tables,
                 "raw": raw, "raw_keys": [r["key"] for r in raw], "visible": perturb.visible_keys(html),
-                "html": html, "data": data, "writing": "hand" if hand else "print",
-                "bank": next((f["value"] for f in fields if f["key"] in ("bank", "bank.name")), None)}
-
-    def field_writing(self, r: dict, key: str) -> str:
-        if r["group"] == "hana" and key.startswith("handwritten"):
-            return "hand"
-        return r["writing"]
+                "html": html, "data": data, "writing": "hand" if hand else "print", "masked": masked}
 
     # ------------------------------------------------------------------
     # 단일 서류 과제
     # ------------------------------------------------------------------
     def single(self, r: dict, stem: str, fields_per_doc: int, max_keys: int):
-        meta = {"doc_type": r["doc_id"], "doc_name": r["name"], "group": r["group"], "condition": r["condition"],
-                "writing": r["writing"], "n_pages": len(r["images"])}
-        base = {"images": r["images"], "meta": meta}
-        rng = random.Random(f"bench:single:{stem}")
-        sid = Path(stem).name
-        fields = DIC.apply(r["doc_id"], r["fields"])   # 공통 키로 정한 칸은 공통 키로 (3.0)
-        raw_key = dict(zip(range(len(r["raw_keys"])), r["raw_keys"]))
+        """서류 한 건의 과제 문항: 과제 파일(docgen/bench/tasks/<과제>.py)을 차례로 부른다. 질문·정답 만드는 법은 그 파일에."""
+        for rec in TASKS.make_single(r, stem, self.out, fields_per_doc, max_keys, self.page_view):
+            self.emit(rec)
 
-        name, aliases = DIC.doc_name(r["doc_id"], r["name"])   # 정답 = 문서명, 서식 이름·다른 이름도 맞음
-        self.emit({"id": f"classify/{sid}", "task": "classify", "prompt": P_CLASSIFY, "answer": name,
-                   **({"eval": {"aliases": aliases}} if aliases else {}), **base})
-
-        visible = []
-        for i, f in enumerate(fields):
-            if (f.get("value") is None or f["type"] in MARK_TYPES or f.get("group")
-                    or raw_key.get(i) not in r["visible"]):
-                continue
-            visible.append(f)
-        lines: list[str] = []
-        for f in visible:
-            for ln in str(f["value"]).split("\n"):
-                if norm_text(ln) and ln.strip() not in lines:
-                    lines.append(ln.strip())
-        if lines:
-            self.emit({"id": f"ocr_page/{sid}", "task": "ocr_page", "prompt": P_OCR_PAGE, "answer": lines, **base})
-
-        # ocr_field: 값 칸 잘라내기
-        from PIL import Image
-
-        boxed = [f for f in visible if f.get("bbox") and f.get("page", 0) < len(r["images"])]
-        for j, f in enumerate(sorted(rng.sample(boxed, min(len(boxed), fields_per_doc)), key=boxed.index)):
-            img = Image.open(self.out / r["images"][f.get("page", 0)])
-            x0, y0, x1, y1 = f["bbox"]
-            pad = (y1 - y0) * 0.25 + 4
-            box = (max(0, int(x0 - pad)), max(0, int(y0 - pad)), min(img.width, int(x1 + pad)), min(img.height, int(y1 + pad)))
-            if box[2] - box[0] < 4 or box[3] - box[1] < 4:
-                continue
-            crop_path = f"crops/{sid}_{j}.png"
-            img.crop(box).convert("RGB").save(self.out / crop_path)
-            self.emit({"id": f"ocr_field/{sid}/{f['key']}", "task": "ocr_field", "images": [crop_path],
-                       "prompt": P_OCR_FIELD, "answer": str(f["value"]).replace("\n", " "),
-                       "meta": {**meta, "n_pages": 1, "key": f["key"], "label": f.get("label"), "kind": field_kind(f),
-                                "writing": self.field_writing(r, f["key"]), "corrected": bool(f.get("corrected_from")),
-                                "length": len(norm_text(f["value"]))}})
-
-        sizes = r["sizes"]
-
-        def where(f, box):   # 정답 위치: 그 쪽 이미지 기준 0~1000, 쪽은 1부터
-            pg = f.get("page", 0)
-            if not box or pg >= len(sizes):
-                return {}
-            return {"bbox_2d": normalize_box(box, *sizes[pg]), "page": pg + 1}
-
-        # kie: 항목 목록을 주고 값과 위치 추출
-        kf = [f for f in fields if f["type"] not in MARK_TYPES and not f.get("group")
-              and not f["key"].startswith(("seal.", "sign."))]
-        all_kf = kf   # 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
-        if len(kf) > max_keys:
-            kf = sorted(rng.sample(kf, max_keys), key=kf.index)
-        if kf:
-            items = "\n".join(kie_line(r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf) for f in kf)
-            self.emit({"id": f"kie/{sid}", "task": "kie", "prompt": P_KIE.format(items=items),
-                       "answer": [{"key": f["key"], "value": f["value"], **(where(f, f.get("bbox")) if f["value"] is not None else {})}
-                                  for f in kf],
-                       "eval": {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)}
-                                           for f in kf}}, **base})
-
-        # freetext: 기타·비고·사유 칸에 쓴 자유 기재 글 → DB 칸 (docgen/freetext.py 가 글과 정답을 같이 만든다)
-        written = (r.get("data") or {}).get("_freetext") or {}
-        for f in fields:
-            ft = written.get(f["value"]) if isinstance(f.get("value"), str) else None
-            if ft:
-                self.emit({"id": f"freetext/{sid}/{f['key']}", "task": "freetext",
-                           "prompt": freetext_prompt((f.get("label") or f["key"]).strip(), ft["basis"]),
-                           "answer": ft["answer"], **base,
-                           "meta": {**meta, "key": f["key"], "label": f.get("label"), "level": ft["level"]}})
-
-        # marks: 체크박스·도장·서명
-        mf = [f for f in fields if f["type"] in MARK_TYPES and not f["key"].startswith("seal.untagged")
-              and (f["type"] in ("seal", "signature") or f.get("options"))]
-        all_mf = mf
-        if len(mf) > max_keys:
-            mf = sorted(rng.sample(mf, max_keys), key=mf.index)
-        if mf:
-            lines, ans, types = [], [], {}
-            for f in mf:
-                line = lambda extra: kie_line(r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), extra, all_mf)
-                if f["type"] in ("checkbox", "checkbox_multi"):
-                    kind = "체크박스" if f["type"] == "checkbox" else "복수 선택"
-                    lines.append(line(f"{kind}, 보기: {' / '.join(o['text'] for o in f['options'])}"))
-                    on = [o for o in f["options"] if o["checked"]]
-                    ans += [{"key": f["key"], "value": o["text"], **where(f, o.get("box_bbox"))} for o in on] or \
-                        [{"key": f["key"], "value": None}]
-                else:
-                    lines.append(line("도장" if f["type"] == "seal" else "서명"))
-                    ans.append({"key": f["key"], "value": bool(f["present"]), **(where(f, f.get("bbox")) if f["present"] else {})})
-                types[f["key"]] = f["type"]
-            self.emit({"id": f"marks/{sid}", "task": "marks", "prompt": P_MARKS.format(items="\n".join(lines)),
-                       "answer": ans, "eval": {"types": types}, **base})
-
-    # ------------------------------------------------------------------
-    # 업무 묶음 과제
-    # ------------------------------------------------------------------
-    @staticmethod
-    def bundle_profile(scenario: str, seed: int):
-        p = make_profile(seed)
-        p.extra.update(scenario=scenario, **SCENARIO_EXTRA.get(scenario, {}))
-        p.extra["form_bank"] = "하나은행"  # 옛 은행 서식(과거 날짜)이 섞이지 않게
-        return p
-
-    def bundle(self, scenario: str, seed: int, plan: dict | None = None):
-        """업무 묶음 하나. plan(직접 만든 묶음): {"name", "missing": [서류ID], "other": [서류ID], "extra": [서류ID],
-        "cases": [사례ID], "tamper": {사례ID: bool}} — 정해 준 것은 난수 대신 그대로 쓴다."""
-        task_name, ids = SCENARIOS[scenario]
-        from ..roles import ExcludedForm, resolve, resolve_processing
-        bid = f"{scenario}_{seed}" if not plan or not plan.get("name") else f"{scenario}_{seed}_{plan['name']}"
-        try:
-            selections=resolve(ids,SCENARIO_SAMPLING.get(scenario),seed,scenario,self.exclude)
-            if plan and set(plan.get("extra") or ()) & self.exclude:
-                raise ExcludedForm(f"{bid}: 불필요 서류로 정한 서식이 빼는 서식입니다")
-        except ExcludedForm as e:   # 빼는 서식 없이는 만들 수 없는 묶음: 건너뛰고 기록한다
-            self.emit({"task": "_skipped", "bundle_id": bid, "scenario": scenario, "why": str(e)})
-            return
-        processing=resolve_processing(PROCESS.validate(SCENARIO_PROCESSING.get(scenario),ids),selections)
-        ids=[r["id"] for r in selections]
-        if plan:
-            mapping={r["slot"]:r["id"] for r in selections}
-            plan={**plan,**{key:[mapping.get(d,d) for d in plan[key]] for key in ("missing","other") if key in plan}}
-        p = self.bundle_profile(scenario, seed)
-        docs = []
-        for doc_id in ids:
-            stem = f"images/bundles/{bid}/{doc_id}"
-            docs.append(self.render_doc(doc_id, p, seed, stem, pick_condition(f"{bid}:{doc_id}", self.conditions)))
-        for d,selection in zip(docs,selections):d.update(role=selection["role"],slot=selection["slot"])
-        meta = {"scenario": scenario, "task_name": task_name, "bundle": bid, "customer": p.person.name}
-        first = len(self.buf)
-        self.record = {"task": "_bundle", "bundle_id": bid, "scenario": scenario, "task_name": task_name,
-                       "customer_seed": seed, "customer": p.person.name, "plan": plan or None,
-                       "docs": [self._doc_record(d) for d in docs], "variants": [], "doc_check": None,
-                       "processing": processing}
-        self.record["selections"]=selections
-
-        if processing["doc_check"]:
-            self.doc_check(docs, p, seed, bid, meta, plan)
-        if processing["cross_check"]:
-            self.cross_checks(docs, p, seed, bid, meta, plan=plan)
-
-        # review
-        B = Bundle(scenario, {d["doc_id"]: {"name": d["name"], "fields": d["fields"]} for d in docs})
-        by_id = {d["doc_id"]: d for d in docs}
-        results = PROCESS.execute(processing, by_id)
-        self.record["processing_results"] = [{k: v for k, v in row.items() if k != "item"} for row in results]
-        for row in results:
-            item = row.get("item")
-            if not item:
-                continue
-            imgs = [im for did in item["docs"] for im in by_id[did]["images"]]
-            task = item["task"]
-            self.emit({"id": f"{task}/{bid}/operation_{row['id']}", "task": task, "images": imgs,
-                       "prompt": item.get("prompt") or P_REVIEW.format(task=task_name, pages=len(imgs), question=item["question"]),
-                       "answer": item["answer"], "eval": item["eval"],
-                       "meta": {**meta, "operation": row["id"], "rule": f"operation:{row['id']}", "skill": "필드 추출" if task == "kie" else "필드 비교"}})
-        qs = questions(B, random.Random(f"bench:review:{bid}")) if processing["review"] else []
-        qs = [q for q in qs if PROCESS.selected(processing, "rule_ids", q["rule"])]
-        if processing["review"] and PROCESS.selected(processing, "rule_ids", "doc_valid") and (dv := self.doc_valid(docs, B, p, seed, bid)) is not None:
-            q, aged = dv
-            by_id = {**by_id, q["docs"][0]: aged}
-            qs.append(q)
-        for q in qs:
-            imgs = [im for did in dict.fromkeys(q["docs"]) for im in by_id[did]["images"]]
-            self.emit({"id": f"review/{bid}/{q['rule']}", "task": "review", "images": imgs,
-                       "prompt": P_REVIEW.format(task=task_name, pages=len(imgs), question=q["question"]),
-                       "answer": q["answer"], "eval": {"answer_type": q["answer_type"], "tol": q["tol"], **q.get("info", {})},
-                       "meta": {**meta, "rule": q["rule"], "skill": q["skill"]}})
-        self.record["items"] = [x["id"] for x in self.buf[first:]]
-        self.emit(self.record)
-
-    @staticmethod
-    def _doc_record(d: dict, why: str = "") -> dict:
-        """bundles.jsonl 의 서류 한 건: 이미지와 값 위치 (묶음 상세·고객 일관성 검사에 쓴다)."""
-        return {"doc_id": d["doc_id"], "name": d["name"], "images": d["images"], "condition": d["condition"],
-                **{k:d[k] for k in ("role","slot","template_variant") if k in d},
-                "seed": d["seed"], **({"why": why} if why else {}),
-                "fields": [{k: f[k] for k in ("key", "label", "type", "value", "norm", "page", "bbox") if k in f}
-                           for f in d["fields"] if not f.get("group")]}
-
-    def doc_valid(self, docs: list[dict], B: Bundle, profile, seed: int, bid: str):
-        """유효기간 문항: 서류 하나를 골라 신청일 기준 경과일이 0~88일(유효) 또는 93~400일(만료)이 되게
-        발급일을 옮긴 사본을 렌더링한다. 반환 (문항, 사본 서류) 또는 None."""
-        rng = random.Random(f"bench:valid:{bid}")
-        app = B.app_date()
-        cands = valid_candidates(B)
-        if not app or not cands:
-            return None
-        did = rng.choice(cands)
-        d = next(x for x in docs if x["doc_id"] == did)
-        fi = next(i for i, f in enumerate(d["fields"]) if f["key"] == "issue_date")
-        f = d["fields"][fi]
-        if d["raw_keys"][fi] not in d["visible"]:
-            return None
-        old_days = (app[2] - B.date(did, "issue_date")).days
-        target = rng.randint(93, 400) if rng.random() < 0.5 else rng.randint(0, 88)
-        new = perturb.shift_date(f["value"], f["norm"], old_days - target)
-        html = new and perturb.apply(d["html"], d["raw_keys"][fi], f["value"], new)
-        if not html:
-            return None
-        raw = [dict(x) for x in d["raw"]]
-        raw[fi]["value"] = new
-        aged = self.render_doc(did, profile, seed, f"images/bundles/{bid}/{did}_aged", d["condition"],
-                               aug_key=f"images/bundles/{bid}/{did}", html=html, raw=raw, data=d["data"])
-        B2 = Bundle(B.scenario, {**B.docs, did: {"name": d["name"], "fields": aged["fields"]}})
-        q = r_doc_valid(B2, rng, doc=did)
-        if not q:
-            return None
-        q["rule"] = "doc_valid"
-        return q, aged
-
-    def edited(self, d: dict, edits: dict[str, str], stem: str, all_same: bool) -> dict | None:
-        """서류 d 의 값 몇 개를 바꿔 다시 렌더링한다 (같은 촬영 조건·증강). all_same 이면 같은 서류 안에서
-        같은 값이 찍힌 다른 칸도 함께 바꾼다."""
-        html, raw = d["html"], [dict(x) for x in d["raw"]]
-        keys = {f["key"]: i for i, f in enumerate(d["fields"])}
-        done: set[int] = set()
-        for key, new in edits.items():
-            if key not in keys or not new:
-                return None
-            old = d["fields"][keys[key]]["value"]
-            idxs = [keys[key]]
-            if all_same:
-                idxs += [i for i, f in enumerate(d["fields"]) if i != keys[key] and f.get("value") == old
-                         and f["type"] not in MARK_TYPES and i < len(d["raw_keys"]) and d["raw_keys"][i] in d["visible"]]
-            for i in idxs:
-                if i in done:
-                    continue
-                done.add(i)
-                html = perturb.apply(html, d["raw_keys"][i], old, new)
-                if html is None:
-                    return None
-                raw[i]["value"] = new
-        return self.render_doc(d["doc_id"], None, d["seed"], stem, d["condition"], aug_key=d["stem"],
-                               html=html, raw=raw, data=d["data"])
-
-    def other_customer(self, scenario: str, seed: int):
-        return self.bundle_profile(scenario, seed + OTHER_OFFSET)
-
-    def doc_check(self, docs: list[dict], p, seed: int, bid: str, meta: dict, plan: dict | None = None):
-        """빠진 서류 0~2건, 업무와 상관없는 서류 끼워 넣기, 필수 서류 하나를 다른 고객 것으로 바꾸기."""
-        rng = random.Random(f"bench:doc_check:{bid}")
-        R = self.rules
-        if plan and plan.get("missing") is not None:
-            missing = [d for d in docs if d["doc_id"] in set(plan["missing"])]
-            n_missing = len(missing)
-        else:
-            n_missing = rng.choices([0, 1, 2], R["missing"])[0]
-            n_missing = min(n_missing, len(docs))
-            missing = rng.sample(docs, n_missing)
-        present = [d for d in docs if d not in missing]
-        not_customer, not_required = [], []
-        from ..roles import index as role_index
-        roles=role_index();other_roles={roles[d]["id"] for d in OTHER_OK if d in roles}
-        swap = [d for d in present if roles[d["doc_id"]]["id"] in other_roles]
-        forced_other = plan.get("other") if plan and plan.get("other") is not None else None
-        if forced_other is not None:
-            swap_docs = [d for d in present if d["doc_id"] in set(forced_other)]
-        else:
-            swap_docs = [rng.choice(swap)] if swap and rng.random() < R["other_customer"] else []
-        for d in swap_docs:
-            other = self.other_customer(meta["scenario"], seed)
-            o = self.render_doc(d["doc_id"], other, other.seed, f"{d['stem']}_other", d["condition"])
-            present[present.index(d)] = o
-            not_customer.append(o)
-        forced_extra = plan.get("extra") if plan and plan.get("extra") is not None else None
-        if forced_extra is not None:
-            extra_ids = [x for x in forced_extra if x in self.reg]
-        elif rng.random() < R["extra_doc"]:
-            ids = {d["doc_id"] for d in docs}
-            required_roles={roles[x]["id"] for x in ids}
-            pool = sorted(x for _, (_, lst) in SCENARIOS.items() for x in lst
-                          if roles[x]["id"] not in required_roles and x not in self.exclude)
-            extra_ids = [rng.choice(pool)] if pool else []
-        else:
-            extra_ids = []
-        for xid in extra_ids:
-            if roles[xid]["id"] in {roles[d["doc_id"]]["id"] for d in docs}:
-                raise ValueError("불필요 서류로 같은 제출 역할의 대응 서식을 넣을 수 없습니다")
-            stem = f"images/bundles/{bid}/{xid}_extra"
-            x = self.render_doc(xid, p, seed, stem, pick_condition(f"{bid}:{xid}", self.conditions))
-            present.append(x)
-            not_required.append(x)
-        rng.shuffle(present)
-        required = "\n".join(f"{i + 1}. {d['name']}" for i, d in enumerate(docs))
-        answer = {"missing": [d["name"] for d in docs if d in missing or d["doc_id"] in {o["doc_id"] for o in not_customer}],
-                  "not_required": [d["name"] for d in not_required], "not_customer": [d["name"] for d in not_customer]}
-        if getattr(self, "record", None) is not None:
-            self.record["doc_check"] = {"present": [d["doc_id"] for d in present], "missing": [d["doc_id"] for d in missing],
-                                        "not_customer": [d["doc_id"] for d in not_customer],
-                                        "not_required": [d["doc_id"] for d in not_required]}
-            self.record["docs"] += [self._doc_record(d, "other_customer") for d in not_customer]
-            self.record["docs"] += [self._doc_record(d, "extra") for d in not_required]
-        self.emit({"id": f"doc_check/{bid}", "task": "doc_check", "images": [d["images"][0] for d in present],
-                   "prompt": P_DOC_CHECK.format(customer=meta["customer"], task=meta["task_name"], required=required),
-                   "answer": answer,
-                   "eval": {"required": [d["name"] for d in docs], "names": [d["name"] for d in docs + not_required]},
-                   "meta": {**meta, "n_missing": n_missing, "not_customer": bool(not_customer),
-                            "not_required": bool(not_required), "n_docs": len(present)}})
-
-    def cross_checks(self, docs: list[dict], p, seed: int, bid: str, meta: dict, max_pages: int = 10,
-                     plan: dict | None = None):
-        """불일치 사례(cases.py)마다 문항 하나: 절반은 변조, 절반은 정상. 사례에 예/아니오 질문이 있으면 review 문항도."""
-        by_id = {d["doc_id"]: d for d in docs}
-        ctx = Ctx(by_id, p.person.name)
-        other = None
-        only = set(plan["cases"]) if plan and plan.get("cases") else None
-        forced = (plan or {}).get("tamper") or {}
-        from ..roles import resolve, resolve_processing
-        sid=meta["scenario"]
-        # 시험용 규칙 호출에서는 정식 시나리오가 없을 수도 있다.
-        slots=SCENARIOS[sid][1] if sid in SCENARIOS else list(by_id)
-        selections=resolve(slots,SCENARIO_SAMPLING.get(sid),seed,sid)
-        processing=resolve_processing(PROCESS.validate(SCENARIO_PROCESSING.get(sid),slots),selections)
-        for case in CASES:
-            conf = self.cases.get(case.id, {})
-            if conf.get("enabled") is False or (only is not None and case.id not in only) or not PROCESS.selected(processing, "case_ids", case.id):
-                continue
-            rng = random.Random(f"bench:case:{bid}:{case.id}")
-            if case.category == "format":   # 표기만 다른 사례는 늘 정상 (난수도 뽑지 않는다: 예전과 같은 순서)
-                tamper = False
-            else:
-                x = rng.random()
-                tamper = bool(forced[case.id]) if case.id in forced else x < conf.get("tamper", self.rules["tamper"])
-            plan = case.fn(ctx, tamper, rng)
-            if not plan or sum(len(by_id[x]["images"]) for x in plan["docs"]) > max_pages:
-                continue
-            shown = {}
-            for did in plan["docs"]:
-                d = by_id[did]
-                stem = f"{d['stem']}_{case.id}"
-                if plan["swap"] == did:
-                    other = other or self.other_customer(meta["scenario"], seed)
-                    shown[did] = self.render_doc(did, other, other.seed, stem, d["condition"])
-                elif did in plan["edits"]:
-                    shown[did] = self.edited(d, plan["edits"][did], stem, all_same=case.category in ("amount", "logic"))
-                else:
-                    shown[did] = d
-            if any(v is None for v in shown.values()):
-                continue
-            issues = []
-            if plan["issue"]:
-                it = plan["issue"]
-                new_f = next((f for f in shown[it["doc"]]["fields"] if f["key"] == it["key"]), None)
-                old_f = next((f for f in by_id[it["doc"]]["fields"] if f["key"] == it["key"]), None)
-                if not new_f or not old_f or norm_text(new_f["value"]) == norm_text(old_f["value"]):
-                    continue
-                issues.append({"document": by_id[it["doc"]]["name"], "field": old_f.get("label"),
-                               "value": new_f["value"], "expected": old_f["value"],
-                               "alt_documents": [by_id[a]["name"] for a in it.get("alt", [])]})
-            order = list(plan["docs"])
-            rng.shuffle(order)
-            imgs = [im for x in order for im in shown[x]["images"]]
-            m = {**meta, "case": case.id, "category": case.category, "perturbed": bool(issues), "n_docs": len(order)}
-            if getattr(self, "record", None) is not None:
-                changed = []
-                for did in plan["docs"]:
-                    if shown[did] is not by_id[did]:
-                        old = {f["key"]: f for f in by_id[did]["fields"]}
-                        diff = [{"key": f["key"], "label": f.get("label"), "old": old.get(f["key"], {}).get("value"),
-                                 "new": f.get("value"), "page": f.get("page"), "bbox": f.get("bbox")}
-                                for f in shown[did]["fields"] if old.get(f["key"]) and old[f["key"]].get("value") != f.get("value")]
-                        changed.append({"doc_id": did, "images": shown[did]["images"],
-                                        "kind": "swap" if plan["swap"] == did else "edit", "changes": diff[:20]})
-                self.record["variants"].append({"case": case.id, "category": case.category, "item": f"cross_check/{bid}/{case.id}",
-                                                "perturbed": bool(issues), "docs": order, "changed": changed})
-            self.emit({"id": f"cross_check/{bid}/{case.id}", "task": "cross_check", "images": imgs,
-                       "prompt": P_CROSS.format(customer=meta["customer"], task=meta["task_name"], n=len(order),
-                                                pages=len(imgs)),
-                       "answer": {"consistent": not issues, "issues": issues},
-                       "eval": {"documents": [shown[x]["name"] for x in order]}, "meta": m})
-            if plan.get("question") and processing["review"]:
-                self.emit({"id": f"review/{bid}/case_{case.id}", "task": "review", "images": imgs,
-                           "prompt": P_REVIEW.format(task=meta["task_name"], pages=len(imgs),
-                                                     question=plan["question"] + " ('예' 또는 '아니오'로만 답하세요)"),
-                           "answer": "예" if plan["yes"] else "아니오", "eval": {"answer_type": "yesno", "tol": 0},
-                           "meta": {**m, "rule": f"case:{case.id}", "skill": "서류 대조"}})
+def _aug_tables(tables: list[dict], tfs: list) -> list[dict]:
+    """증강 변환을 표 구조(표·칸 상자)에 적용한 사본 (docgen/cli._aug_fields 와 같게)."""
+    out = []
+    for t in tables:
+        tf = tfs[t["page"]] if t["page"] < len(tfs) else None
+        if not tf:
+            out.append(t)
+            continue
+        out.append({**t, "bbox": tf.bbox(t["bbox"]), "rows": [{**r, "cells": [{**c, "bbox": c["bbox"] and tf.bbox(c["bbox"])}
+                                                                              for c in r["cells"]]} for r in t["rows"]]})
+    return out
 
 
 def swift_record(rec: dict) -> dict:
     """문항 하나 → ms-swift 학습 레코드 (질문 = 평가 프롬프트, 답 = 정답을 모델 출력 형식으로)."""
     from .runner import oracle_output
 
-    if rec["task"] == "cross_check":  # alt_documents 는 채점용 (짝 서류도 정답으로 인정)
-        rec = {**rec, "answer": {**rec["answer"], "issues": [
-            {k: v for k, v in it.items() if k != "alt_documents"} for it in rec["answer"]["issues"]]}}
     return {"id": rec["id"], "task": rec["task"], "images": rec["images"],
             "messages": [{"role": "user", "content": "<image>" * len(rec["images"]) + rec["prompt"]},
                          {"role": "assistant", "content": oracle_output(rec)}]}
@@ -602,21 +260,17 @@ def _init_worker(out: str, scale: float, rules: dict | None = None):
 
 
 def _job(job: tuple) -> list[dict]:
-    """작업 하나(서류 한 건 또는 고객 묶음 하나)를 만들고 그 문항들을 돌려준다."""
-    if job[0] == "single":
-        _, doc_id, seed, fields_per_doc, max_keys = job
-        stem = f"images/{doc_id}_{seed}"
-        r = _BD.render_doc(doc_id, make_profile(seed), seed, stem, pick_condition(f"{doc_id}:{seed}", _BD.conditions))
-        _BD.single(r, stem, fields_per_doc, max_keys)
-    else:
-        _, sc, seed, *rest = job
-        _BD.bundle(sc, seed, rest[0] if rest else None)
-        _BD.record = None
+    """작업 하나(서류 한 건)를 만들고 그 문항들을 돌려준다."""
+    _, doc_id, seed, fields_per_doc, max_keys = job
+    stem = f"images/{doc_id}_{seed}"
+    r = _BD.render_doc(doc_id, single_profile(seed, _BD.nulls, doc_id), seed, stem, pick_condition(f"{doc_id}:{seed}", _BD.conditions),
+                       single=True)
+    _BD.single(r, stem, fields_per_doc, max_keys)
     return _BD.take()
 
 
 def load_recipe(path: str | Path, args) -> dict:
-    """레시피 JSON 을 읽어 args 를 덮어쓰고, 묶음 규칙(rules)과 직접 만든 묶음 등을 돌려준다."""
+    """레시피 JSON 을 읽어 args 를 덮어쓰고, 만들기 규칙(rules: 촬영 조건·빼는 서식·빈 답·한 쪽 보기)을 돌려준다."""
     recipe = json.loads(Path(path).read_text(encoding="utf-8"))
     unknown = set(recipe) - set(RECIPE_KEYS) - {"name", "about", "track", "kind"}
     if unknown:
@@ -624,26 +278,27 @@ def load_recipe(path: str | Path, args) -> dict:
     for k in ("split", "per_doc", "fields_per_doc", "max_keys", "scale", "start"):
         if k in recipe:
             setattr(args, k, recipe[k])
-    for k in ("types", "scenarios"):
-        if k in recipe:
-            v = recipe[k]
-            setattr(args, k, v if isinstance(v, str) else ",".join(v))
-    b = recipe.get("bundles")
-    if isinstance(b, dict):
-        args.bundles = int(b.get("default", 4))
-        args.bundles_per = {k: int(v) for k, v in b.items() if k != "default"}
-    elif b is not None:
-        args.bundles = int(b)
+    if "types" in recipe:
+        v = recipe["types"]
+        args.types = v if isinstance(v, str) else ",".join(v)
     conds = recipe.get("conditions")
     if isinstance(conds, dict):
         conds = list(conds.items())
-    rules = {"bundle": recipe.get("bundle") or {}, "cases": recipe.get("cases") or {},
-             "conditions": [tuple(c) for c in conds] if conds else None}
+    rules = {"conditions": [tuple(c) for c in conds] if conds else None}
     if rules["conditions"] and abs(sum(p for _, p in rules["conditions"]) - 1) > 1e-6:
         sys.exit("레시피 conditions 비율의 합은 1 이어야 합니다")
     rules["exclude"] = sorted(recipe.get("exclude") or [])
-    return {"recipe": recipe, "rules": rules, "custom": recipe.get("custom_bundles") or [],
-            "exclude": set(recipe.get("exclude") or []), "reviewed_only": bool(recipe.get("reviewed_only"))}
+    nulls = recipe.get("nulls") or {}
+    if not isinstance(nulls, dict) or set(nulls) - set(NULLS) or not all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in nulls.values()):
+        sys.exit(f'레시피 nulls 는 {{"blank": 0~1, "mask": 0~1}} 꼴이어야 합니다 (기본 {NULLS})')
+    rules["nulls"] = nulls
+    if "page_view" in recipe:
+        pv = recipe["page_view"]
+        if not isinstance(pv, (int, float)) or isinstance(pv, bool) or not 0 <= pv <= 1:
+            sys.exit(f"레시피 page_view 는 0~1 이어야 합니다 (여러 쪽 서류에서 한 쪽만 묻는 비율, 기본 {TASKS.PAGE_VIEW})")
+        rules["page_view"] = pv
+    return {"recipe": recipe, "rules": rules, "exclude": set(recipe.get("exclude") or []),
+            "reviewed_only": bool(recipe.get("reviewed_only"))}
 
 
 def reviewed_forms() -> set[str]:
@@ -659,7 +314,10 @@ def build(args) -> None:
     if out.exists() and any(out.iterdir()) and not args.force:
         sys.exit(f"{out} 가 비어 있지 않습니다. 다시 만들려면 --force")
     rc = load_recipe(args.recipe, args) if getattr(args, "recipe", None) else None
-    rules = rc["rules"] if rc else None
+    rules = dict(rc["rules"]) if rc else {}
+    rules["nulls"] = {**NULLS, **(rules.get("nulls") or {}),
+                      **{k: v for k, v in (("blank", getattr(args, "blank", None)), ("mask", getattr(args, "mask", None))) if v is not None}}
+    rules.setdefault("page_view", TASKS.PAGE_VIEW)
     reg = load_all()
     if args.types == "all":
         ids = list(reg)
@@ -667,7 +325,7 @@ def build(args) -> None:
         ids = []
         for t in args.types.split(","):
             t = t.strip()
-            if t:   # 빈 목록 = 단일 서류 과제 없이 묶음만
+            if t:
                 ids += [s.id for s in reg.values() if s.group == t] if t in GROUPS else [t]
     named = {t.strip() for t in args.types.split(",")}
     ok = reviewed_forms()   # 가져온 서식(실서류 견본 배경)은 검수한 것만 "all"·그룹으로 들어온다. ID 를 직접 적으면 시험용으로 허용
@@ -677,21 +335,17 @@ def build(args) -> None:
     if rc and rc["reviewed_only"]:
         ok = reviewed_forms()
         ids = [i for i in ids if i in ok]
-    scenarios = list(SCENARIOS) if args.scenarios == "all" else [s.strip() for s in args.scenarios.split(",") if s.strip()]
-    bad = [i for i in ids if i not in reg] + [s for s in scenarios if s not in SCENARIOS]
+    bad = [i for i in ids if i not in reg]
     if bad:
-        sys.exit(f"알 수 없는 서류/시나리오: {bad}")
+        sys.exit(f"알 수 없는 서류: {bad}")
     split = getattr(args, "split", "test")
     held_out = sorted(test_only_forms() & set(ids)) if split == "train" else []
-    if held_out:   # 평가 전용 서식은 학습 데이터의 단일 서류 과제에 넣지 않는다 (업무 묶음의 서류는 시나리오가 정함)
+    if held_out:   # 평가 전용 서식은 학습 데이터에 넣지 않는다
         ids = [i for i in ids if i not in held_out]
         print(f"평가 전용 서식 {len(held_out)}종은 학습 데이터에서 뺍니다: {', '.join(held_out[:10])}", file=sys.stderr)
     start = getattr(args, "start", 0)
     workers = max(1, getattr(args, "workers", 1))
-    seed_single, seed_bundle, stride = SPLITS[split]
-    per_sc = getattr(args, "bundles_per", None) or {}
-    if start + max([args.bundles, *per_sc.values()]) > min(stride, OTHER_OFFSET):
-        sys.exit(f"--start + --bundles 는 {min(stride, OTHER_OFFSET)} 이하여야 합니다 (seed 범위)")
+    seed_single = SPLITS[split][0]
     out.mkdir(parents=True, exist_ok=True)
     for d in ("tasks", "swift"):
         for t in (out / d).glob("*.jsonl") if (out / d).exists() else []:
@@ -699,17 +353,6 @@ def build(args) -> None:
 
     jobs = [("single", doc_id, seed_single + start + k, args.fields_per_doc, args.max_keys)
             for k in range(args.per_doc) for doc_id in ids]
-    jobs += [("bundle", sc, seed_bundle + list(SCENARIOS).index(sc) * stride + start + b)
-             for sc in scenarios for b in range(per_sc.get(sc, args.bundles))]
-    for k, cb in enumerate(rc["custom"] if rc else []):   # 직접 만든 묶음: 정해 준 대로 (studio/DESIGN.md 9.5)
-        sc = cb["scenario"]
-        if sc not in SCENARIOS:
-            sys.exit(f"직접 만든 묶음 {k + 1}: 알 수 없는 시나리오 {sc}")
-        seed = int(cb.get("seed", seed_bundle + list(SCENARIOS).index(sc) * stride + start))
-        # name 을 "" 로 주면 묶음 ID 가 보통 묶음과 같다 → 같은 seed 로 "다시 만들기" (서식을 고친 뒤 전후 비교)
-        plan = {"name": cb.get("name", f"custom{k + 1}"), **{x: cb[x] for x in ("missing", "other", "extra", "cases", "tamper")
-                                                             if x in cb}}
-        jobs.append(("bundle", sc, seed, plan))
     n_single = len(ids) * args.per_doc
 
     t0 = time.time()
@@ -718,7 +361,6 @@ def build(args) -> None:
 
     tracking = Composition()
     files: dict[tuple[str, str], object] = {}
-    skipped: list[dict] = []
 
     def write(d: str, t: str, rec: dict):
         if (d, t) not in files:
@@ -736,16 +378,8 @@ def build(args) -> None:
         _BD = Builder(out, args.scale, rules)
         results = map(_job, jobs)
     try:
-        bundles_file = open(out / "bundles.jsonl", "w", encoding="utf-8")
-        files["_", "bundles"] = bundles_file
         for i, recs in enumerate(results):
             for rec in recs:
-                if rec["task"] == "_skipped":   # 빼는 서식이 들어가야 하는 묶음
-                    skipped.append({k: v for k, v in rec.items() if k != "task"})
-                    continue
-                if rec["task"] == "_bundle":   # 묶음 기록은 문항이 아니다
-                    bundles_file.write(json.dumps({k: v for k, v in rec.items() if k != "task"}, ensure_ascii=False) + "\n")
-                    continue
                 write("tasks", rec["task"], rec)
                 tracking.add(rec)
                 if split == "train":
@@ -753,10 +387,7 @@ def build(args) -> None:
                     write("swift", rec["task"], sr)
                     write("swift", "all", sr)
                 counts[rec["task"]] = counts.get(rec["task"], 0) + 1
-            if i < n_single:
-                print(f"\r서류 {i + 1}/{n_single}", end="", file=sys.stderr)
-            else:
-                print(f"\r업무 묶음 {i - n_single + 1}/{len(jobs) - n_single}", end="", file=sys.stderr)
+            print(f"\r서류 {i + 1}/{n_single}", end="", file=sys.stderr)
         print(file=sys.stderr)
         if pool:
             pool.close()
@@ -770,41 +401,31 @@ def build(args) -> None:
         for fh in files.values():
             fh.close()
     meta = {"version": VERSION, "split": split, "generator_commit": _git_rev(), "created": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "settings": {"types": args.types, "n_doc_types": len(ids), "per_doc": args.per_doc, "scenarios": scenarios,
-                         "bundles": args.bundles, "start": start, "fields_per_doc": args.fields_per_doc,
+            "settings": {"types": args.types, "n_doc_types": len(ids), "per_doc": args.per_doc, "start": start, "fields_per_doc": args.fields_per_doc,
                          "max_keys": args.max_keys, "scale": args.scale, "seed_single": seed_single,
-                         "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out},
+                         "conditions": dict(CONDITIONS), "held_out_test_only": held_out,
+                         "nulls": rules["nulls"], "page_view": rules["page_view"]},
             "counts": dict(sorted(counts.items())), "composition": tracking.result(),
             "doc_names": {i: reg[i].name for i in ids}}
     if rc and rc["exclude"]:
         meta["settings"]["exclude"] = sorted(rc["exclude"])
-        meta["skipped_bundles"] = {sc: sum(1 for s in skipped if s["scenario"] == sc) for sc in dict.fromkeys(s["scenario"] for s in skipped)}
-    if skipped:
-        with open(out / "skipped_bundles.jsonl", "w", encoding="utf-8") as fh:
-            fh.writelines(json.dumps(s, ensure_ascii=False) + "\n" for s in skipped)
-    meta["scenario_sampling"]={sc:SCENARIO_SAMPLING[sc] for sc in scenarios if sc in SCENARIO_SAMPLING}
-    meta["scenario_processing"] = {sc: PROCESS.validate(SCENARIO_PROCESSING.get(sc), SCENARIOS[sc][1]) for sc in scenarios}
     if rc:
         meta["recipe"] = rc["recipe"].get("name") or Path(args.recipe).stem
-        meta["settings"]["bundles_per"] = per_sc
-        meta["settings"]["rules"] = {"bundle": {**BUNDLE_RULES, **rules["bundle"]}, "cases": rules["cases"],
-                                     "custom_bundles": len(rc["custom"])}
         if rules["conditions"]:
             meta["settings"]["conditions"] = dict(rules["conditions"])
     (out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
     if rc:   # 버전 정보 (studio 데이터셋 등록부·설명서가 읽는다)
         from ..preview import source_hash
 
-        used = sorted((set(ids) | {d for sc in scenarios for d in SCENARIOS[sc][1]} | {d for sc in scenarios for c in SCENARIO_SAMPLING.get(sc,{}).values() for d in c.get("forms",[])}) - rc["exclude"])
+        used = sorted(set(ids) - rc["exclude"])
         info = {"recipe": rc["recipe"], "recipe_path": str(args.recipe), "generator_commit": meta["generator_commit"],
                 "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
                 "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg},
-                "scenario_processing": meta["scenario_processing"], "composition": tracking.result()}
+                "question_hashes": FQ.hashes([i for i in used if i in reg]),   # 서식별 질문·답 파일 (그림은 안 바꾼다)
+                "absent_catalog_hash": absent.catalog_hash(),   # 없는 키·열 후보 (docgen/forms/_common/fields_catalog.json)
+                "composition": tracking.result()}
         (out / "dataset.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     what = "학습 데이터" if split == "train" else "평가 세트"
     print(f"{what} → {out} ({time.time() - t0:.0f}초)" + (f", ms-swift 학습 파일: {out / 'swift'}" if split == "train" else ""))
     for t, c in meta["counts"].items():
         print(f"  {t:12s} {c}")
-    if skipped:
-        print(f"빼는 서식 때문에 건너뛴 업무 묶음 {len(skipped)}개 (skipped_bundles.jsonl): "
-              + ", ".join(f"{sc} {n}" for sc, n in meta["skipped_bundles"].items()))

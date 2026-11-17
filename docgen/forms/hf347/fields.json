@@ -41,7 +41,9 @@
     109.7,
     547.3,
     127.8
-   ]
+   ],
+   "kind": "company",
+   "key": "employer.name"
   },
   {
    "t": "text",
@@ -52,7 +54,9 @@
     144.7,
     547.3,
     162.8
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "sign",
@@ -69,7 +73,9 @@
     182.7,
     404.8,
     194.8
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -80,7 +86,9 @@
     255.4,
     547.3,
     273.6
-   ]
+   ],
+   "kind": "company",
+   "key": "employer.name"
   },
   {
    "t": "text",
@@ -91,7 +99,9 @@
     290.4,
     547.3,
     308.6
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "sign",
@@ -108,7 +118,9 @@
     328.4,
     404.8,
     340.6
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -119,7 +131,9 @@
     436.2,
     547.3,
     454.4
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "sign",
@@ -136,7 +150,9 @@
     474.2,
     404.8,
     486.4
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   }
  ]
 }

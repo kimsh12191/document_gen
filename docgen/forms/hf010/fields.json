@@ -24,7 +24,10 @@
     518.4,
     77.4
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "책임자"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     558.2,
     77.4
    ],
-   "row": true
+   "row": true,
+   "kind": "skip",
+   "std": false,
+   "key": "영업점장"
   },
   {
    "t": "date",
@@ -61,7 +67,8 @@
      378.1,
      377.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "check",
@@ -106,7 +113,8 @@
     236.4,
     359.1,
     259.0
-   ]
+   ],
+   "key": "check.주식납입금수납"
   },
   {
    "t": "check",
@@ -135,7 +143,8 @@
     259.0,
     359.1,
     292.0
-   ]
+   ],
+   "key": "check.사채납입금수납"
   },
   {
    "t": "text",
@@ -147,7 +156,10 @@
     338.4,
     314.6
    ],
-   "unit": "주"
+   "unit": "주",
+   "kind": "count",
+   "std": false,
+   "key": "주식수"
   },
   {
    "t": "text",
@@ -159,7 +171,10 @@
     338.4,
     337.3
    ],
-   "unit": "원"
+   "unit": "원",
+   "kind": "amount",
+   "std": false,
+   "key": "발행가액"
   },
   {
    "t": "text",
@@ -172,7 +187,10 @@
     428.0
    ],
    "unit": "주",
-   "section": "주수현황"
+   "section": "주수현황",
+   "kind": "count",
+   "std": false,
+   "key": "발행주식총수"
   },
   {
    "t": "text",
@@ -185,7 +203,10 @@
     450.7
    ],
    "unit": "주",
-   "section": "주수현황"
+   "section": "주수현황",
+   "kind": "count",
+   "std": false,
+   "key": "주주배정"
   },
   {
    "t": "check",
@@ -214,7 +235,8 @@
     236.4,
     558.2,
     259.0
-   ]
+   ],
+   "key": "check.증명서종류"
   },
   {
    "t": "check",
@@ -259,7 +281,8 @@
     259.0,
     558.2,
     292.0
-   ]
+   ],
+   "key": "check.증명서종류"
   },
   {
    "t": "text",
@@ -271,7 +294,10 @@
     540.4,
     314.6
    ],
-   "unit": "원"
+   "unit": "원",
+   "kind": "amount",
+   "std": false,
+   "key": "금액"
   },
   {
    "t": "text",
@@ -283,7 +309,10 @@
     540.4,
     337.3
    ],
-   "unit": "원"
+   "unit": "원",
+   "kind": "amount",
+   "std": false,
+   "key": "액면가액"
   },
   {
    "t": "text",
@@ -296,7 +325,10 @@
     428.0
    ],
    "unit": "주",
-   "section": "주수현황"
+   "section": "주수현황",
+   "kind": "count",
+   "std": false,
+   "key": "기발행주식총수"
   },
   {
    "t": "text",
@@ -309,7 +341,10 @@
     450.7
    ],
    "unit": "주",
-   "section": "주수현황"
+   "section": "주수현황",
+   "kind": "count",
+   "std": false,
+   "key": "공모"
   },
   {
    "t": "sign",
@@ -327,7 +362,9 @@
     748.0,
     342.5,
     760.1
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -339,7 +376,10 @@
     558.2,
     794.6
    ],
-   "section": "위탁자"
+   "section": "위탁자",
+   "kind": "address",
+   "std": false,
+   "key": "위탁회사주소"
   },
   {
    "t": "text",
@@ -351,7 +391,9 @@
     558.2,
     772.0
    ],
-   "section": "위탁자"
+   "section": "위탁자",
+   "kind": "company",
+   "key": "employer.name"
   },
   {
    "t": "text",
@@ -362,7 +404,10 @@
     172.0,
     246.3,
     192.6
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "date",
@@ -387,7 +432,8 @@
      354.3,
      699.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -399,7 +445,10 @@
     559.0,
     545.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "또는주주총회결의록사본"
   }
  ]
 }

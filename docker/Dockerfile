@@ -4,7 +4,7 @@
 #   빌드(인터넷 되는 PC):  sh docker/build.sh 1.2   → 이미지 파일 + 코드 파일
 #   띄우기(서버):          sh docker/studio.sh      → studio 컨테이너 (인자 studio). 인자 없이 띄우면 SSH 서버
 #   자세히:                docker/README.md
-ARG PW_VERSION=1.63.0
+ARG PW_VERSION=1.64.1
 
 # Chromium 은 Microsoft 공식 Playwright 이미지에서 가져온다 (Playwright 다운로드 서버가 막힌 망에서도 빌드되게).
 # headless 렌더링에 쓰는 chromium_headless_shell 만 남긴다 (ffmpeg 는 동영상 녹화용이라 뺌).

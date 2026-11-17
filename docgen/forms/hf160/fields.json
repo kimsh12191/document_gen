@@ -64,7 +64,10 @@
     193.5,
     198.5,
     261.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "가입대상"
   },
   {
    "t": "date",
@@ -89,7 +92,8 @@
      334.5,
      702.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -101,7 +105,9 @@
     381.0,
     729.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -113,7 +119,9 @@
     560.9,
     729.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -124,7 +132,10 @@
     193.5,
     198.5,
     261.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "가입대상"
   },
   {
    "t": "date",
@@ -149,7 +160,8 @@
      334.5,
      702.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -161,7 +173,9 @@
     381.0,
     729.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -173,7 +187,9 @@
     560.9,
     729.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   }
  ]
 }

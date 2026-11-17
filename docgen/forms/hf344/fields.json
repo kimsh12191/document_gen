@@ -41,7 +41,10 @@
     637.3,
     153.2,
     659.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Affiliate"
   },
   {
    "t": "text",
@@ -52,7 +55,10 @@
     722.3,
     153.2,
     744.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Bank"
   },
   {
    "t": "text",
@@ -63,7 +69,9 @@
     523.2,
     547.3,
     541.4
-   ]
+   ],
+   "kind": "text",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -74,7 +82,9 @@
     543.2,
     547.3,
     561.4
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -85,7 +95,10 @@
     563.2,
     547.3,
     581.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "CEO"
   },
   {
    "t": "text",
@@ -96,7 +109,9 @@
     583.2,
     547.3,
     601.4
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -107,7 +122,9 @@
     608.3,
     547.3,
     626.4
-   ]
+   ],
+   "kind": "text",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -118,7 +135,9 @@
     628.3,
     547.3,
     646.4
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -129,7 +148,10 @@
     648.3,
     547.3,
     666.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "CEO"
   },
   {
    "t": "text",
@@ -140,7 +162,9 @@
     668.3,
     547.3,
     686.4
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -151,7 +175,9 @@
     713.3,
     547.3,
     731.4
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -162,7 +188,10 @@
     733.3,
     547.3,
     751.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "GeneralManager"
   },
   {
    "t": "text",
@@ -173,7 +202,9 @@
     753.3,
     547.3,
     771.4
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   }
  ]
 }

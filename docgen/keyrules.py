@@ -1,4 +1,4 @@
-"""표준 키 사전 중 사람이 정하는 부분 — docgen/key_rules.json (studio/DESIGN.md 15.7). studio 키 사전 화면이 고친다.
+"""표준 키 사전 중 사람이 정하는 부분 — docgen/forms/_common/key_rules.json (archive/studio/DESIGN.md 15.7). 화면은 없고 파일로 고친다 (label_rules·kind_rules 는 더 쓰지 않음).
 
   synonyms     마지막 키 이름 통일 (dob → birth …). schema.canonical_key 가 쓴다
   label_rules  [정규식, 표준 키] — overlay 항목명(norm 한 것) → 표준 키. 위에서부터 처음 맞는 것 (realform.key_of)
@@ -18,7 +18,7 @@ import re
 from datetime import date
 from pathlib import Path
 
-PATH = Path(__file__).with_name("key_rules.json")
+PATH = Path(__file__).resolve().parent / "forms" / "_common" / "key_rules.json"
 
 # realform.Values.by_kind 가 코드로 만드는 값 종류 (화면 설명용). 바꾸려면 코드를 고친다.
 CODE_KINDS = {

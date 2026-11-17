@@ -1,4 +1,4 @@
-"""OCR 문항의 쪽 그림 만들기 (studio/DESIGN.md 17절, 옛 1부 bank_ocr/augment.py 그대로): 크기 맞추기와 촬영·스캔 흉내 변형,
+"""OCR 문항의 쪽 그림 만들기 (archive/studio/DESIGN.md 17절, 옛 1부 bank_ocr/augment.py 그대로): 크기 맞추기와 촬영·스캔 흉내 변형,
 박스가 모든 기하 변환을 따라간다."""
 import io
 import math

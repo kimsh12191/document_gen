@@ -24,7 +24,9 @@
     114.7,
     233.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     114.7,
     261.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     114.7,
     290.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     114.7,
     319.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     114.7,
     347.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -84,7 +94,9 @@
     114.7,
     376.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -96,7 +108,9 @@
     114.7,
     405.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -108,7 +122,9 @@
     114.7,
     433.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -120,7 +136,9 @@
     186.8,
     233.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -132,7 +150,9 @@
     186.8,
     261.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -144,7 +164,9 @@
     186.8,
     290.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -156,7 +178,9 @@
     186.8,
     319.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -168,7 +192,9 @@
     186.8,
     347.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -180,7 +206,9 @@
     186.8,
     376.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -192,7 +220,9 @@
     186.8,
     405.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -204,7 +234,9 @@
     186.8,
     433.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.소속부서및직급",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -216,7 +248,9 @@
     258.8,
     233.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -228,7 +262,9 @@
     258.8,
     261.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -240,7 +276,9 @@
     258.8,
     290.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -252,7 +290,9 @@
     258.8,
     319.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -264,7 +304,9 @@
     258.8,
     347.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -276,7 +318,9 @@
     258.8,
     376.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -288,7 +332,9 @@
     258.8,
     405.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -300,7 +346,9 @@
     258.8,
     433.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -312,7 +360,9 @@
     330.9,
     233.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -324,7 +374,9 @@
     330.9,
     261.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -336,7 +388,9 @@
     330.9,
     290.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -348,7 +402,9 @@
     330.9,
     319.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -360,7 +416,9 @@
     330.9,
     347.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -372,7 +430,9 @@
     330.9,
     376.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -384,7 +444,9 @@
     330.9,
     405.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -396,7 +458,9 @@
     330.9,
     433.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -408,7 +472,9 @@
     402.9,
     233.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -420,7 +486,9 @@
     402.9,
     261.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -432,7 +500,9 @@
     402.9,
     290.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -444,7 +514,9 @@
     402.9,
     319.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -456,7 +528,9 @@
     402.9,
     347.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -468,7 +542,9 @@
     402.9,
     376.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -480,7 +556,9 @@
     402.9,
     405.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -492,7 +570,9 @@
     402.9,
     433.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.권한의제한",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -504,7 +584,9 @@
     475.0,
     233.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -516,7 +598,9 @@
     475.0,
     261.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -528,7 +612,9 @@
     475.0,
     290.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -540,7 +626,9 @@
     475.0,
     319.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -552,7 +640,9 @@
     475.0,
     347.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -564,7 +654,9 @@
     475.0,
     376.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -576,7 +668,9 @@
     475.0,
     405.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -588,7 +682,9 @@
     475.0,
     433.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전화번호&팩스번호",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -600,7 +696,9 @@
     545.6,
     233.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -612,7 +710,9 @@
     545.6,
     261.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -624,7 +724,9 @@
     545.6,
     290.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -636,7 +738,9 @@
     545.6,
     319.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -648,7 +752,9 @@
     545.6,
     347.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -660,7 +766,9 @@
     545.6,
     376.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -672,7 +780,9 @@
     545.6,
     405.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -684,7 +794,9 @@
     545.6,
     433.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "date",
@@ -709,7 +821,8 @@
      325.0,
      579.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -720,7 +833,9 @@
     635.8,
     547.3,
     651.8
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -731,7 +846,9 @@
     657.8,
     547.3,
     673.8
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -742,7 +859,9 @@
     679.8,
     547.3,
     695.8
-   ]
+   ],
+   "kind": "number",
+   "key": "company.corp_no"
   }
  ]
 }

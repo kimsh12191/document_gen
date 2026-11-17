@@ -29,7 +29,10 @@
     169.8,
     198.4,
     190.4
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "check",
@@ -52,7 +55,8 @@
      ],
      "line": 59
     }
-   ]
+   ],
+   "key": "check.CREDITNO"
   },
   {
    "t": "check",
@@ -75,7 +79,8 @@
      ],
      "line": 73
     }
-   ]
+   ],
+   "key": "check.ADVICENO"
   },
   {
    "t": "check",
@@ -98,7 +103,8 @@
      ],
      "line": 87
     }
-   ]
+   ],
+   "key": "check.ISSUINGBANK"
   },
   {
    "t": "check",
@@ -121,7 +127,8 @@
      ],
      "line": 101
     }
-   ]
+   ],
+   "key": "check.ISSUINGDATE"
   },
   {
    "t": "check",
@@ -144,7 +151,8 @@
      ],
      "line": 115
     }
-   ]
+   ],
+   "key": "check.AMOUNT"
   },
   {
    "t": "sign",
@@ -161,7 +169,9 @@
     662.8,
     537.2,
     676.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "check",
@@ -184,7 +194,8 @@
      ],
      "line": 59
     }
-   ]
+   ],
+   "key": "check.CREDITNO"
   },
   {
    "t": "check",
@@ -207,7 +218,8 @@
      ],
      "line": 73
     }
-   ]
+   ],
+   "key": "check.ADVICENO"
   },
   {
    "t": "check",
@@ -230,7 +242,8 @@
      ],
      "line": 87
     }
-   ]
+   ],
+   "key": "check.ISSUINGBANK"
   },
   {
    "t": "check",
@@ -253,7 +266,8 @@
      ],
      "line": 101
     }
-   ]
+   ],
+   "key": "check.ISSUINGDATE"
   },
   {
    "t": "check",
@@ -276,7 +290,8 @@
      ],
      "line": 115
     }
-   ]
+   ],
+   "key": "check.AMOUNT"
   }
  ]
 }

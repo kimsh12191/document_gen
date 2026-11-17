@@ -41,7 +41,8 @@
     339.1,
     178.9,
     364.6
-   ]
+   ],
+   "key": "check.신청내역"
   },
   {
    "t": "check",
@@ -70,7 +71,8 @@
     364.6,
     178.9,
     415.6
-   ]
+   ],
+   "key": "check.신청내역"
   },
   {
    "t": "sign",
@@ -88,7 +90,9 @@
     174.2,
     284.1,
     187.6
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -100,7 +104,10 @@
     553.1,
     262.5
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "note",
+   "std": false,
+   "key": "영업내용"
   },
   {
    "t": "text",
@@ -112,7 +119,10 @@
     553.1,
     288.1
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "사무소명"
   },
   {
    "t": "text",
@@ -124,7 +134,9 @@
     553.1,
     313.6
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -136,7 +148,9 @@
     553.1,
     339.1
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -150,7 +164,10 @@
    ],
    "group": "신 청 내 역",
    "row": true,
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -162,7 +179,10 @@
     553.1,
     390.1
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -174,7 +194,10 @@
     553.1,
     415.6
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -186,7 +209,9 @@
     553.1,
     194.5
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "number",
+   "key": "customer.rrn"
   },
   {
    "t": "text",
@@ -197,7 +222,10 @@
     567.8,
     553.1,
     593.3
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -208,7 +236,10 @@
     593.3,
     553.1,
     618.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -222,7 +253,10 @@
    ],
    "group": "북한사무소 경비지급신고서",
    "row": true,
-   "section": "북한사무소 경비지급신고서"
+   "section": "북한사무소 경비지급신고서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -247,7 +281,8 @@
      523.1,
      508.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -272,7 +307,8 @@
      523.7,
      660.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -289,7 +325,9 @@
     674.2,
     542.4,
     687.6
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -301,7 +339,9 @@
     289.3,
     193.5
    ],
-   "free": true
+   "free": true,
+   "kind": "person",
+   "key": "customer.name"
   }
  ]
 }

@@ -23,7 +23,9 @@
     103.7,
     331.8,
     123.5
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -34,7 +36,9 @@
     123.5,
     548.9,
     143.3
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -46,7 +50,9 @@
     331.8,
     163.2
    ],
-   "section": "기 업 담당자"
+   "section": "기 업 담당자",
+   "kind": "text",
+   "key": "employer.department"
   },
   {
    "t": "text",
@@ -58,7 +64,10 @@
     331.8,
     183.0
    ],
-   "section": "기 업 담당자"
+   "section": "기 업 담당자",
+   "kind": "text",
+   "std": false,
+   "key": "TEL"
   },
   {
    "t": "text",
@@ -69,7 +78,9 @@
     103.7,
     548.9,
     123.5
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -81,7 +92,9 @@
     548.9,
     163.2
    ],
-   "section": "기 업 담당자"
+   "section": "기 업 담당자",
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -93,7 +106,10 @@
     548.9,
     183.0
    ],
-   "section": "기 업 담당자"
+   "section": "기 업 담당자",
+   "kind": "phone",
+   "std": false,
+   "key": "FAX"
   },
   {
    "t": "text",
@@ -105,7 +121,10 @@
     331.8,
     250.2
    ],
-   "row": true
+   "row": true,
+   "group": "서비스신청계좌",
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -117,7 +136,10 @@
     548.9,
     250.2
    ],
-   "row": true
+   "row": true,
+   "group": "서비스신청계좌",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -129,7 +151,11 @@
     247.6,
     347.4
    ],
-   "row": true
+   "row": true,
+   "group": "원청기업정보",
+   "kind": "biz_no",
+   "std": false,
+   "key": "원청기업사업자번호"
   },
   {
    "t": "text",
@@ -141,7 +167,11 @@
     422.4,
     347.4
    ],
-   "row": true
+   "row": true,
+   "group": "원청기업정보",
+   "kind": "company",
+   "std": false,
+   "key": "원청기업명"
   },
   {
    "t": "date",
@@ -166,7 +196,8 @@
      494.4,
      740.0
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -183,7 +214,9 @@
     752.1,
     552.6,
     763.1
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   },
   {
    "t": "text",
@@ -195,7 +228,10 @@
     153.2,
     758.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "청구서류"
   },
   {
    "t": "text",
@@ -207,7 +243,10 @@
     346.6,
     786.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "사업자등록증대표자실명확인증표"
   },
   {
    "t": "text",
@@ -219,7 +258,10 @@
     344.6,
     792.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "개인사업자"
   }
  ]
 }

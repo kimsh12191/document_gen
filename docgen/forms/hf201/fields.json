@@ -25,7 +25,10 @@
     65.3
    ],
    "hint": "(Identity verification)",
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "Staff"
   },
   {
    "t": "text",
@@ -37,7 +40,10 @@
     551.5,
     65.3
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "Manager"
   },
   {
    "t": "text",
@@ -48,7 +54,10 @@
     112.8,
     472.5,
     131.8
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "PhoneNo"
   },
   {
    "t": "text",
@@ -59,7 +68,10 @@
     184.8,
     472.5,
     203.8
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "PhoneNo"
   },
   {
    "t": "text",
@@ -71,7 +83,10 @@
     433.1,
     708.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "of"
   },
   {
    "t": "text",
@@ -83,7 +98,10 @@
     549.9,
     708.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Bank"
   }
  ]
 }

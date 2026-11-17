@@ -1,5 +1,4 @@
-"""채점 함수 견본: 실서류 swift 추출 데이터 (data.benchmark·data.train 의 "format": "swift-fields"). scorer 를 적지 않은 swift 세트는 이것으로 채점
-(학습 데이터면 깨진 줄 거르기와 GRPO 보상도).
+"""채점 함수 견본: 실서류 swift 추출 데이터 (data.benchmark 의 "format": "swift-fields"). scorer 를 적지 않은 swift 세트는 이것으로 채점
 
 swift 세트는 정답(assistant) 글이 그대로 item["answer"] 로 오고, 질문은 item["eval"]["prompt"] 에 있다.
 이 견본이 읽는 꼴:
@@ -12,7 +11,7 @@ swift 세트는 정답(assistant) 글이 그대로 item["answer"] 로 오고, �
   필드마다 대소문자·공백·문장부호를 빼고 같으면 맞음 (NO:ILHLR… = NO.ILHLR…). 빈 값("" 또는 null)은 빈 답이어야 맞음.
   f1 (주 지표) = 정밀도(쓴 값 중 맞은 것)·재현율(정답 값 중 맞힌 것)의 조화평균, field_acc 맞은 필드 비율,
   doc_exact 문항 전체 일치, field_exact 글자 하나까지 같은 필드 비율.
-다른 기준이 필요하면 이 파일을 복사해 고치고 그 세트에 "scorer": "<복사한 파일>:score" (guide/eval.md 2절).
+다른 기준이 필요하면 이 파일을 복사해 고치고 그 세트에 "scorer": "<복사한 파일>:score" (guide/train/sweep.md 2절).
 """
 import json
 import re

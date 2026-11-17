@@ -1,15 +1,8 @@
-"""학습 실행 하나 — OCR·문서 이해·업무 처리 과제를 한 번에 (studio/DESIGN.md 17절, 옛 ocr/ 1부·bank/ 2부를 합침).
+"""학습·평가 (SFT 까지): python -m train … — 지도는 train/README.md.
 
-  python -m train --config train/configs/<이름>.json [--smoke | --dry-run | --from sft | --only report]
-
-데이터는 studio 데이터셋(과제 폴더 docgen-tasks: meta.json + tasks/<과제>.jsonl)을 그대로 쓴다. 단계:
-  prepare     데이터셋 섞기 (mix.py): 학습 SFT·GRPO 후보·평가 문항, 이미지 토큰 예산
-  eval_base   출발 모델 평가 (GPU마다 vLLM 서버 하나)
-  sft         SFT (launch.py → ms-swift)
-  eval_sft    SFT 모델 평가, GRPO 후보 답 (골라 뽑기용)
-  select      GRPO 문항 고르기 (mine · random · all)
-  grpo        GRPO, 보상 = docgen.bench.evaluate.reward (reward_plugin.py)
-  eval_grpo   GRPO 모델 평가
-  report      reports/benchmark.{csv,md,html}
-채점·보상은 모두 docgen.bench.evaluate (studio 평가와 같은 함수).
+  python -m train --config <학습 설정>      학습 실행 하나 (pipeline.py): 데이터 준비 → 출발 모델 평가 → SFT → SFT 평가 → 보고서
+  python -m train sweep --config <묶음>     평가 세트를 고정하고 학습 설정을 바꾼 모델 여러 개 (sweep.py)
+  python -m train eval --config <평가 설정>  학습 없이 모델 경로들을 평가 (evaluate.py)
+  python -m train report <결과 폴더>         저장된 답으로 보고서 다시 (report.py)
+채점은 모두 docgen.bench.evaluate (studio 와 같은 함수). 평가 세트·줄인 그림·모델 답은 cache_dir 에 두고 실험끼리 같이 쓴다.
 """

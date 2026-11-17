@@ -24,7 +24,9 @@
     95.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보고업체명1)",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     95.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보고업체명1)",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     95.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보고업체명1)",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     95.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보고업체명1)",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     163.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.사업자번호/법인번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -84,7 +94,9 @@
     163.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.사업자번호/법인번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -96,7 +108,9 @@
     163.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.사업자번호/법인번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -108,7 +122,9 @@
     163.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.사업자번호/법인번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -119,7 +135,10 @@
     291.7,
     163.3,
     313.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "계"
   },
   {
    "t": "text",
@@ -131,7 +150,9 @@
     232.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차주2",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -143,7 +164,9 @@
     232.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차주2",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -155,7 +178,9 @@
     232.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차주2",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -167,7 +192,9 @@
     232.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차주2",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -179,7 +206,9 @@
     232.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차주2",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -191,7 +220,9 @@
     310.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대주3)대주지역",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -203,7 +234,9 @@
     310.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대주3)대주지역",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -215,7 +248,9 @@
     310.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대주3)대주지역",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -227,7 +262,9 @@
     310.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대주3)대주지역",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -239,7 +276,9 @@
     310.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대주3)대주지역",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -251,7 +290,9 @@
     388.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입구분4)외화증권5",
+   "kind": "fx_amount"
   },
   {
    "t": "text",
@@ -263,7 +304,9 @@
     388.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입구분4)외화증권5",
+   "kind": "fx_amount"
   },
   {
    "t": "text",
@@ -275,7 +318,9 @@
     388.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입구분4)외화증권5",
+   "kind": "fx_amount"
   },
   {
    "t": "text",
@@ -287,7 +332,9 @@
     388.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입구분4)외화증권5",
+   "kind": "fx_amount"
   },
   {
    "t": "text",
@@ -299,7 +346,9 @@
     388.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입구분4)외화증권5",
+   "kind": "fx_amount"
   },
   {
    "t": "text",
@@ -311,7 +360,9 @@
     444.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입잔액6",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -323,7 +374,9 @@
     444.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입잔액6",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -335,7 +388,9 @@
     444.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입잔액6",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -347,7 +402,9 @@
     444.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입잔액6",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -359,7 +416,9 @@
     444.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입잔액6",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -371,7 +430,9 @@
     501.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금리7)",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -383,7 +444,9 @@
     501.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금리7)",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -395,7 +458,9 @@
     501.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금리7)",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -407,7 +472,9 @@
     501.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금리7)",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -419,7 +486,9 @@
     501.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금리7)",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -431,7 +500,9 @@
     558.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입일8",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -443,7 +514,9 @@
     558.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입일8",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -455,7 +528,9 @@
     558.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입일8",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -467,7 +542,9 @@
     558.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입일8",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -479,7 +556,9 @@
     558.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.차입일8",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -491,7 +570,9 @@
     615.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일8",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -503,7 +584,9 @@
     615.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일8",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -515,7 +598,9 @@
     615.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일8",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -527,7 +612,9 @@
     615.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일8",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -539,7 +626,9 @@
     615.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일8",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -551,7 +640,9 @@
     671.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증9",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -563,7 +654,9 @@
     671.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증9",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -575,7 +668,9 @@
     671.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증9",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -587,7 +682,9 @@
     671.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증9",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -599,7 +696,9 @@
     671.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증9",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -611,7 +710,9 @@
     728.3,
     223.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도10",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -623,7 +724,9 @@
     728.3,
     245.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도10",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -635,7 +738,9 @@
     728.3,
     268.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도10",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -647,7 +752,9 @@
     728.3,
     291.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도10",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -659,7 +766,9 @@
     728.3,
     313.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도10",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -670,7 +779,10 @@
     107.4,
     793.9,
     125.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "제출자"
   }
  ]
 }

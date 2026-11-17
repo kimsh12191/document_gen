@@ -139,7 +139,8 @@
     158.1,
     550.2,
     180.8
-   ]
+   ],
+   "key": "check.신청구분"
   },
   {
    "t": "sign",
@@ -156,7 +157,9 @@
     252.3,
     289.0,
     264.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -167,7 +170,9 @@
     315.8,
     294.8,
     338.5
-   ]
+   ],
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -178,7 +183,9 @@
     202.4,
     550.2,
     315.8
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -189,7 +196,10 @@
     315.8,
     548.2,
     338.5
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "사업장전화번호"
   },
   {
    "t": "text",
@@ -200,7 +210,10 @@
     360.1,
     294.8,
     382.8
-   ]
+   ],
+   "kind": "loan_subject",
+   "std": false,
+   "key": "대출과목"
   },
   {
    "t": "text",
@@ -213,7 +226,10 @@
     405.5
    ],
    "unit": "(\\",
-   "hint": "한글로 신청금액 기재 숫자로 신청금액 기재"
+   "hint": "한글로 신청금액 기재 숫자로 신청금액 기재",
+   "kind": "amount",
+   "std": false,
+   "key": "신청금액"
   },
   {
    "t": "check",
@@ -274,7 +290,8 @@
     405.5,
     550.2,
     453.6
-   ]
+   ],
+   "key": "check.대출기간만료일"
   },
   {
    "t": "text",
@@ -286,7 +303,10 @@
     270.4,
     476.3
    ],
-   "unit": "개월"
+   "unit": "개월",
+   "kind": "count",
+   "std": false,
+   "key": "거치기간"
   },
   {
    "t": "check",
@@ -363,7 +383,8 @@
     476.3,
     550.2,
     499.0
-   ]
+   ],
+   "key": "check.상환방법"
   },
   {
    "t": "check",
@@ -456,7 +477,8 @@
     499.0,
     550.2,
     533.0
-   ]
+   ],
+   "key": "check.자금용도"
   },
   {
    "t": "check",
@@ -501,7 +523,8 @@
     360.1,
     550.2,
     382.8
-   ]
+   ],
+   "key": "check.거래구분"
   },
   {
    "t": "check",
@@ -546,7 +569,8 @@
     453.6,
     550.2,
     476.3
-   ]
+   ],
+   "key": "check.금리적용방식"
   },
   {
    "t": "text",
@@ -560,7 +584,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금융기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -574,7 +600,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금융기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -588,7 +616,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금융기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -602,7 +632,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금융기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -616,7 +648,9 @@
    ],
    "group": "담보",
    "row": true,
-   "section": "담보"
+   "section": "담보",
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -630,7 +664,9 @@
    ],
    "group": "보증인",
    "row": true,
-   "section": "보증인"
+   "section": "보증인",
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -644,7 +680,10 @@
    ],
    "group": "담보",
    "row": true,
-   "section": "담보"
+   "section": "담보",
+   "kind": "product",
+   "std": false,
+   "key": "종류"
   },
   {
    "t": "text",
@@ -658,7 +697,9 @@
    ],
    "group": "보증인",
    "row": true,
-   "section": "보증인"
+   "section": "보증인",
+   "kind": "text",
+   "key": "employer.name"
   },
   {
    "t": "text",
@@ -672,7 +713,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -686,7 +729,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -700,7 +745,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -714,7 +761,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -728,7 +777,10 @@
    ],
    "group": "담보",
    "row": true,
-   "section": "담보"
+   "section": "담보",
+   "kind": "count",
+   "std": false,
+   "key": "수량"
   },
   {
    "t": "text",
@@ -742,7 +794,10 @@
    ],
    "group": "보증인",
    "row": true,
-   "section": "보증인"
+   "section": "보증인",
+   "kind": "text",
+   "std": false,
+   "key": "차주와의관계"
   },
   {
    "t": "text",
@@ -756,7 +811,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.담보",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -770,7 +827,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.담보",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -784,7 +843,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.담보",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -798,7 +859,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.담보",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -812,7 +875,10 @@
    ],
    "group": "담보",
    "row": true,
-   "section": "담보"
+   "section": "담보",
+   "kind": "amount",
+   "std": false,
+   "key": "추정가액"
   },
   {
    "t": "text",
@@ -826,7 +892,10 @@
    ],
    "group": "보증인",
    "row": true,
-   "section": "보증인"
+   "section": "보증인",
+   "kind": "text",
+   "std": false,
+   "key": "실재산"
   },
   {
    "t": "text",
@@ -840,7 +909,10 @@
    ],
    "group": "담보",
    "row": true,
-   "section": "담보"
+   "section": "담보",
+   "kind": "text",
+   "std": false,
+   "key": "담보제공자"
   },
   {
    "t": "text",
@@ -854,7 +926,10 @@
    ],
    "group": "보증인",
    "row": true,
-   "section": "보증인"
+   "section": "보증인",
+   "kind": "text",
+   "std": false,
+   "key": "나이"
   },
   {
    "t": "text",
@@ -868,7 +943,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.자금용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -882,7 +959,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.자금용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -896,7 +975,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.자금용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -910,7 +991,9 @@
    ],
    "group": "부채현황",
    "row": true,
-   "section": "부채현황"
+   "section": "부채현황",
+   "key": "부채현황_목록.{i}.자금용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -924,7 +1007,10 @@
    ],
    "group": "담보",
    "row": true,
-   "section": "담보"
+   "section": "담보",
+   "kind": "text",
+   "std": false,
+   "key": "신청인과의관계"
   },
   {
    "t": "text",
@@ -938,7 +1024,10 @@
    ],
    "group": "보증인",
    "row": true,
-   "section": "보증인"
+   "section": "보증인",
+   "kind": "text",
+   "std": false,
+   "key": "보증종류"
   },
   {
    "t": "date",
@@ -964,7 +1053,8 @@
      543.2,
      89.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "check",
@@ -1025,7 +1115,8 @@
     140.5,
     346.0,
     163.2
-   ]
+   ],
+   "key": "check.신규처리시안내"
   },
   {
    "t": "text",
@@ -1036,7 +1127,9 @@
     117.9,
     548.4,
     140.5
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -1047,7 +1140,9 @@
     140.5,
     548.4,
     163.2
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "check",
@@ -1124,7 +1219,8 @@
     215.4,
     346.0,
     278.1
-   ]
+   ],
+   "key": "check.동의함("
   },
   {
    "t": "text",
@@ -1135,7 +1231,9 @@
     192.7,
     548.4,
     215.4
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -1146,7 +1244,9 @@
     215.4,
     548.4,
     278.1
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "check",
@@ -1191,7 +1291,8 @@
     375.7,
     167.2,
     503.0
-   ]
+   ],
+   "key": "check.확인서"
   },
   {
    "t": "check",
@@ -1236,7 +1337,8 @@
     503.0,
     167.2,
     658.9
-   ]
+   ],
+   "key": "check.확인서"
   },
   {
    "t": "text",
@@ -1248,7 +1350,10 @@
     367.1,
     791.8
    ],
-   "section": "자동이체 신청서"
+   "section": "자동이체 신청서",
+   "kind": "account",
+   "std": false,
+   "key": "대출금입금계좌"
   },
   {
    "t": "text",
@@ -1260,7 +1365,10 @@
     548.4,
     791.8
    ],
-   "section": "자동이체 신청서"
+   "section": "자동이체 신청서",
+   "kind": "amount",
+   "std": false,
+   "key": "원금및이자자동이체결제계좌"
   },
   {
    "t": "text",
@@ -1271,7 +1379,10 @@
     543.9,
     547.3,
     562.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "●설정순위"
   },
   {
    "t": "text",
@@ -1282,7 +1393,10 @@
     557.4,
     547.3,
     575.8
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "부동산담보대출●접수번호"
   }
  ]
 }

@@ -115,7 +115,8 @@
     173.0,
     550.4,
     190.4
-   ]
+   ],
+   "key": "check.거래구분"
   },
   {
    "t": "check",
@@ -176,7 +177,8 @@
     190.4,
     550.4,
     207.7
-   ]
+   ],
+   "key": "check.회원구분"
   },
   {
    "t": "text",
@@ -188,7 +190,9 @@
     368.1,
     225.0
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -200,7 +204,9 @@
     368.1,
     259.6
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "check",
@@ -277,7 +283,8 @@
     259.6,
     550.4,
     276.9
-   ]
+   ],
+   "key": "check.규모"
   },
   {
    "t": "text",
@@ -289,7 +296,10 @@
     368.1,
     328.5
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "text",
+   "std": false,
+   "key": "담당부서"
   },
   {
    "t": "text",
@@ -301,7 +311,9 @@
     368.1,
     345.8
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "phone",
+   "key": "employer.phone"
   },
   {
    "t": "text",
@@ -313,7 +325,10 @@
     368.1,
     363.3
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "phone",
+   "std": false,
+   "key": "FAX"
   },
   {
    "t": "text",
@@ -325,7 +340,9 @@
     550.4,
     225.0
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -337,7 +354,9 @@
     550.4,
     259.6
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -349,7 +368,10 @@
     550.4,
     311.2
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "phone",
+   "std": false,
+   "key": "대표전화"
   },
   {
    "t": "text",
@@ -361,7 +383,9 @@
     550.4,
     345.8
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -373,7 +397,9 @@
     550.4,
     363.3
    ],
-   "section": "이용자"
+   "section": "이용자",
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -384,7 +410,10 @@
     411.0,
     354.2,
     428.5
-   ]
+   ],
+   "kind": "account",
+   "std": false,
+   "key": "발행지정계좌"
   },
   {
    "t": "text",
@@ -395,7 +424,10 @@
     428.5,
     354.2,
     445.9
-   ]
+   ],
+   "kind": "account",
+   "std": false,
+   "key": "수취지정계좌"
   },
   {
    "t": "text",
@@ -406,7 +438,8 @@
     411.0,
     550.4,
     428.5
-   ]
+   ],
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -417,7 +450,8 @@
     428.5,
     550.4,
     445.9
-   ]
+   ],
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -428,7 +462,10 @@
     593.9,
     304.1,
     626.3
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -439,7 +476,10 @@
     575.5,
     550.4,
     592.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "변경항목"
   },
   {
    "t": "text",
@@ -450,7 +490,10 @@
     593.9,
     547.4,
     626.3
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -461,7 +504,10 @@
     126.2,
     194.3,
     143.3
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "date",
@@ -486,7 +532,8 @@
      323.5,
      680.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -503,7 +550,9 @@
     692.2,
     405.8,
     703.2
-   ]
+   ],
+   "who": "agent",
+   "what": "name"
   },
   {
    "t": "text",
@@ -514,7 +563,10 @@
     713.3,
     473.5,
     730.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "•징구서류"
   },
   {
    "t": "text",
@@ -526,7 +578,10 @@
     549.6,
     532.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "자택-"
   },
   {
    "t": "text",
@@ -538,7 +593,10 @@
     549.6,
     544.0
    ],
-   "free": true
+   "free": true,
+   "kind": "phone",
+   "std": false,
+   "key": "휴대폰-"
   }
  ]
 }

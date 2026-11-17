@@ -24,7 +24,10 @@
     152.3,
     701.1
    ],
-   "row": true
+   "row": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■■GeneralPersonalInformation"
   },
   {
    "t": "check",
@@ -69,7 +72,8 @@
     563.5,
     548.2,
     600.3
-   ]
+   ],
+   "key": "check.identityverificationinformation?"
   },
   {
    "t": "check",
@@ -114,7 +118,8 @@
     664.2,
     548.2,
     701.1
-   ]
+   ],
+   "key": "check.personalcreditinformation?"
   },
   {
    "t": "text",
@@ -128,7 +133,8 @@
     514,
     764
    ],
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -142,7 +148,8 @@
     203,
     764
    ],
-   "added": true
+   "added": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -156,7 +163,8 @@
     253,
     764
    ],
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -170,7 +178,8 @@
     305,
     764
    ],
-   "added": true
+   "added": true,
+   "kind": "text"
   },
   {
    "t": "sign",

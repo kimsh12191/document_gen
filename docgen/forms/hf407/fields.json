@@ -77,7 +77,10 @@
     431.8,
     547.3,
     449.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "followingbusinesses)"
   },
   {
    "t": "text",
@@ -89,7 +92,10 @@
     546.0,
     474.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "bankruptcy"
   },
   {
    "t": "text",
@@ -101,7 +107,10 @@
     546.0,
     573.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "RevenueCode"
   },
   {
    "t": "text",
@@ -112,7 +121,10 @@
     382.6,
     170.5,
     400.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "USbank"
   },
   {
    "t": "text",
@@ -124,7 +136,10 @@
     546.0,
     173.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "FATCANon-Reporting"
   },
   {
    "t": "text",
@@ -136,7 +151,10 @@
     546.0,
     476.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "requirements"
   },
   {
    "t": "text",
@@ -148,7 +166,10 @@
     546.0,
     498.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Investment"
   },
   {
    "t": "text",
@@ -160,7 +181,10 @@
     546.0,
     524.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "BActiveNFFEs"
   },
   {
    "t": "text",
@@ -172,7 +196,10 @@
     546.0,
     639.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Participation"
   },
   {
    "t": "text",
@@ -184,7 +211,10 @@
     546.0,
     650.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Retirement"
   },
   {
    "t": "text",
@@ -196,7 +226,10 @@
     548.0,
     653.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Fund"
   },
   {
    "t": "text",
@@ -208,7 +241,10 @@
     194.2,
     289.1
    ],
-   "section": "e·f Non- Reporting FI"
+   "section": "e·f Non- Reporting FI",
+   "kind": "text",
+   "std": false,
+   "key": "Non-ReportingFI"
   },
   {
    "t": "text",
@@ -220,7 +256,10 @@
     546.0,
     591.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Investment"
   },
   {
    "t": "text",
@@ -232,7 +271,10 @@
     546.0,
     677.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Office"
   },
   {
    "t": "text",
@@ -244,7 +286,10 @@
     546.0,
     688.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Retirement"
   },
   {
    "t": "text",
@@ -256,7 +301,10 @@
     548.0,
     691.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Fund"
   },
   {
    "t": "text",
@@ -268,7 +316,10 @@
     348.9,
     92.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "CRSNon-Reporting"
   },
   {
    "t": "text",
@@ -280,7 +331,10 @@
     546.0,
     264.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Services"
   },
   {
    "t": "text",
@@ -292,7 +346,10 @@
     548.0,
     267.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Commission"
   },
   {
    "t": "text",
@@ -304,7 +361,10 @@
     546.0,
     445.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Vehicle"
   },
   {
    "t": "text",
@@ -316,7 +376,10 @@
     546.0,
     364.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Office"
   },
   {
    "t": "text",
@@ -328,7 +391,10 @@
     546.0,
     375.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Retirement"
   },
   {
    "t": "text",
@@ -340,7 +406,10 @@
     548.0,
     378.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Fund"
   }
  ]
 }

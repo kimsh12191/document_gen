@@ -1,5 +1,8 @@
 """개인사업자·법인사업자 등록 및 재무 관련 서류 (국세청 발급).
 
+이 파일에는 그룹 서식들이 같이 쓰는 도우미만 있다. 서식마다 값 만드는 함수(@doc)는 서식 폴더
+docgen/forms/<ID>/generate.py 에 있고, 끝의 FORMS 차례로 등록한다.
+
 개인사업체(p.business)의 연도별 매출·손익·재무상태는 _pl()/_bs() 로 계산한다.
 이 값은 p.seed 에서 파생한 난수로 만들기 때문에 서류(표준재무제표증명, 부가가치세 과세표준증명,
 종합소득세 신고서 등)가 달라도 같은 고객이면 같은 숫자가 나온다.
@@ -7,8 +10,8 @@
 import os
 
 from ..entities import COMPANY_PREFIX, World
-from ..registry import doc
 from ._common import *  # noqa: F401,F403
+from ..registry import register_folder_forms
 
 # ---------------------------------------------------------------------------
 # 업종 정보: 종목 → (매출원가율 범위, 간이과세 업종별 부가가치율, 업종코드, 복식부기의무 기준 매출액)
@@ -136,28 +139,6 @@ def _pl(p: Profile, y: int) -> dict:
     noe = int(rev * r.uniform(0.002, 0.018))
     return {"revenue": rev, "cogs": cogs, "gross": gross, "sga": sga, **parts, "op": op,
             "non_op_income": noi, "non_op_expense": noe, "net": op + noi - noe}
-
-
-def _bs(p: Profile, y: int) -> dict:
-    """y년말 표준재무상태표 (정수 금액)."""
-    r = _prng(p, "bs", y)
-    rev = max(_revenue(p, y), 10_000_000)
-    assets = int(rev * r.uniform(0.35, 1.1)) // 1000 * 1000 + r.randint(0, 999)
-    cur = int(assets * r.uniform(0.35, 0.65))
-    cogs_ratio = _pl(p, y)["cogs"] / rev
-    inventory = int(cur * r.uniform(0.1, 0.45) * min(1.0, cogs_ratio * 1.4))
-    quick = cur - inventory
-    noncur = assets - cur
-    invest = int(noncur * r.uniform(0.0, 0.12))
-    intangible = int(noncur * r.uniform(0.0, 0.05))
-    other_nc = int(noncur * r.uniform(0.15, 0.4))  # 임차보증금 등
-    tangible = noncur - invest - intangible - other_nc
-    liab = int(assets * r.uniform(0.3, 0.8))
-    cur_liab = int(liab * r.uniform(0.3, 0.7))
-    return {"current": cur, "quick": quick, "inventory": inventory, "noncurrent": noncur,
-            "investment": invest, "tangible": tangible, "intangible": intangible, "other_noncurrent": other_nc,
-            "assets": assets, "current_liab": cur_liab, "noncurrent_liab": liab - cur_liab, "liabilities": liab,
-            "capital": assets - liab, "equity": assets - liab, "liab_equity": assets}
 
 
 def _tax_office(addr: Address) -> str:
@@ -298,11 +279,6 @@ def _biz_kind_label(p: Profile) -> str:
     return "간이과세자" if _vat_simple(p) else "일반과세자"
 
 
-def _purpose(rng: random.Random, p: Profile) -> tuple[str, str]:
-    return (rng.choice(["금융기관 제출", "대출 신청", "금융기관 제출용", "은행 제출"]),
-            rng.choice([p.bank, f"{p.bank} {p.bank_branch}", "금융기관"]))
-
-
 def _reissue(rng: random.Random, events: list, est: date, issue: date) -> tuple[str, date, str]:
     """사업자등록증 발급사유·발급일. events: [(날짜, '정정(…)')]. 정정 사유가 있으면 대개 마지막 정정 때 받은 증,
     아니면 그 뒤 재발급. 정정이 없으면 신규/재발급. 반환: (발급사유, 발급일, 정정 사유 또는 '')."""
@@ -321,156 +297,6 @@ def _reissue(rng: random.Random, events: list, est: date, issue: date) -> tuple[
 
 
 # ---------------------------------------------------------------------------
-# 사업자등록증 (개인)
-# ---------------------------------------------------------------------------
-@doc("business_registration_certificate", "사업자등록증", "business")
-def business_registration_certificate(p: Profile, rng: random.Random) -> dict:
-    """세무서가 발급하는 개인사업자 사업자등록증.
-
-    정정 교부(사업장 이전·업종 추가·과세유형 전환·상호 변경)와 공동사업자는 _biz_facts() 의 프로필 고정 사실을 따른다.
-    """
-    b, fx = p.business, _biz_facts(p)
-    events = []
-    if fx["moved"]:
-        events.append((fx["moved"]["date"], "정정(사업장 소재지 변경)"))
-    if fx["added"]:
-        events.append((fx["added"]["date"], "정정(업종 추가)"))
-    if fx["switch"]:
-        events.append((fx["switch"], "정정(과세유형 전환)"))
-    if fx["renamed"]:
-        events.append((fx["renamed"]["date"], "정정(상호 변경)"))
-    reason, issued, _ = _reissue(rng, events, b.established, p.issue_date)
-    fd = _cert_date(rng)
-    out = {
-        "kind": _biz_kind_label(p),
-        "biz_no": b.biz_no,
-        "trade_name": b.name,
-        "name": p.person.name,
-        "birth": fd(p.person.birth),
-        "opened": fd(b.established),
-        "address": b.address.road_full,
-        "biz_type": b.biz_type,
-        "biz_item": b.biz_item,
-        "issue_reason": reason,
-        "co_owner": fx["joint"]["name"] if fx["joint"] else None,
-        "unit_taxation": "부",
-        "issue_date": fd(issued),
-        "issuer": _tax_office(b.address),
-    }
-    if fx["added"] and fx["added"]["date"] <= issued:
-        out["sub_kinds"] = [{"biz_type": fx["added"]["biz_type"], "biz_item": fx["added"]["biz_item"]}]
-    if rng.random() < 0.4:
-        out["einvoice_email"] = rng.choice([p.person.email, b.email])
-    return out
-
-
-# ---------------------------------------------------------------------------
-# 사업자등록증 (법인)
-# ---------------------------------------------------------------------------
-def _corp_facts(p: Profile) -> dict | None:
-    """법인 등기 이력(corporate.py _facts: 본점 이전·상호 변경·공동대표). 가져올 수 없으면 None."""
-    try:
-        from .corporate import _facts
-        return _facts(p)
-    except Exception:  # noqa: BLE001 - 다른 그룹 모듈 변경에 영향받지 않게
-        return None
-
-
-@doc("business_registration_certificate_corp", "사업자등록증(법인사업자)", "business")
-def business_registration_certificate_corp(p: Profile, rng: random.Random) -> dict:
-    """세무서가 발급하는 법인사업자 사업자등록증.
-
-    본점 이전·상호 변경·공동대표 취임은 법인등기부(corporate._facts)와 같은 날짜를 쓰고, 등기 뒤 1~4주 안에 정정 교부.
-    """
-    c = p.corporation
-    cf = _corp_facts(p) or {}
-    pad = lambda d: d + timedelta(days=rng.randint(7, 25)) if d else None  # noqa: E731
-    events = []
-    offices = cf.get("offices") or []
-    if len(offices) > 1 and offices[-1][1]:
-        events.append((pad(offices[-1][1]), "정정(본점 이전)"))
-    names = cf.get("names") or []
-    if len(names) > 1 and names[-1][1]:
-        events.append((pad(names[-1][1]), "정정(상호 변경)"))
-    co = cf.get("co_ceo")
-    if co and co.get("start") and co["start"] > c.established:
-        events.append((pad(co["start"]), "정정(대표자 변경)"))
-    added = None
-    ra = _prng(p, "corp-added")
-    if special(ra, "corp_biz_added", 0.12):
-        lo = c.established + timedelta(days=300)
-        if lo < p.issue_date - timedelta(days=30):
-            t, i, code = ra.choice([s for s in _SECONDARY if s[1] != c.biz_item])
-            added = {"date": rand_date(ra, lo, p.issue_date - timedelta(days=30)), "biz_type": t, "biz_item": i}
-            events.append((added["date"], "정정(업종 추가)"))
-    reason, issued, _ = _reissue(rng, events, c.established, p.issue_date)
-    fd = _cert_date(rng)
-    out = {
-        "biz_no": c.biz_no,
-        "corp_name": c.name,
-        "ceo": p.person.name,
-        "opened": fd(c.established),
-        "corp_reg_no": c.corp_no,
-        "address": c.address.road_full,
-        "head_office": c.address.road_full,
-        "biz_type": c.biz_type,
-        "biz_item": c.biz_item,
-        "issue_reason": reason,
-        "unit_taxation": "부",
-        "issue_date": fd(issued),
-        "issuer": _tax_office(c.address),
-    }
-    if co and co.get("person") is not None and (not co.get("start") or co["start"] <= issued):
-        out["co_ceo"] = co["person"].name
-    if added and added["date"] <= issued:
-        out["sub_kinds"] = [{"biz_type": added["biz_type"], "biz_item": added["biz_item"]}]
-    if rng.random() < 0.5:
-        out["einvoice_email"] = c.email
-    return out
-
-
-# ---------------------------------------------------------------------------
-# 사업자등록증명 (홈택스)
-# ---------------------------------------------------------------------------
-@doc("business_registration_proof", "사업자등록증명", "business")
-def business_registration_proof(p: Profile, rng: random.Random) -> dict:
-    """홈택스에서 발급한 개인사업자 사업자등록증명. 부업종·공동사업자는 _biz_facts() 를 따른다."""
-    b, fx = p.business, _biz_facts(p)
-    _, _, code, _ = _industry(b)
-    kinds = [{"biz_type": b.biz_type, "biz_item": b.biz_item, "code": code, "main": "주업종"}]
-    if fx["added"]:
-        a = fx["added"]
-        kinds.append({"biz_type": a["biz_type"], "biz_item": a["biz_item"], "code": a["code"], "main": "부업종"})
-    purpose, submit_to = _purpose(rng, p)
-    fmt = rng.choice(["kor", "dash"])
-    registered = b.established + timedelta(days=rng.randint(-10, 15))
-    out = {
-        "issue_no": _hometax_no(rng),
-        "trade_name": b.name,
-        "biz_no": b.biz_no,
-        "name": p.person.name,
-        "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.8 else p.person.rrn,
-        "address": b.address.road_full,
-        "opened": D(b.established, fmt),
-        "registered": D(registered, fmt),
-        "kind": _biz_kind_label(p),
-        "kinds": kinds,
-        "joint": "해당" if fx["joint"] else "해당없음",
-        "purpose": purpose,
-        "submit_to": submit_to,
-        "issue_date": D(p.issue_date, "kor"),
-        "issuer": _tax_office(b.address),
-    }
-    if fx["joint"]:
-        j = fx["joint"]
-        out["co_owners"] = [
-            {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn), "share": f"{j['own_share']}%", "role": "대표공동사업자"},
-            {"name": j["name"], "rrn": K.mask_rrn(j["rrn"]), "share": f"{j['share']}%", "role": "공동사업자"},
-        ]
-    return out
-
-
-# ---------------------------------------------------------------------------
 # 표준재무제표증명 (개인)
 # ---------------------------------------------------------------------------
 def _split(r: random.Random, total: int, names: list[str], keep: float = 0.7, must: tuple = ()) -> list[dict]:
@@ -483,103 +309,10 @@ def _split(r: random.Random, total: int, names: list[str], keep: float = 0.7, mu
     return [{"account": n, "amount": a} for n, a in zip(chosen, amts) if a]
 
 
-def _fs_detail(p: Profile, y: int, pl: dict, bs: dict) -> tuple[dict, dict]:
-    """표준재무상태표·표준손익계산서 세부 계정 (heavy). 합계는 요약 계정과 같다.
-    감가상각누계액은 자산 바로 아래에 음수로 둔다."""
-    r = _prng(p, "fsdetail", y)
-    sec = {}
-    sec["quick"] = _split(r, bs["quick"], ["현금및현금성자산", "단기금융상품", "매출채권", "미수금", "선급금", "선급비용", "부가세대급금"],
-                          must=("현금및현금성자산", "매출채권"))
-    # 매출채권 아래 대손충당금
-    for i, a in enumerate(sec["quick"]):
-        if a["account"] == "매출채권" and a["amount"] > 1_000_000 and r.random() < 0.6:
-            allow = int(a["amount"] * r.uniform(0.01, 0.03)) // 10 * 10
-            a["amount"] += allow
-            sec["quick"].insert(i + 1, {"account": "대손충당금", "amount": -allow})
-            break
-    item = p.business.biz_item
-    inv_names = ["제품", "원재료", "재공품"] if item in ("제과",) else ["상품", "저장품"]
-    sec["inventory"] = _split(r, bs["inventory"], inv_names, must=(inv_names[0],))
-    sec["investment"] = _split(r, bs["investment"], ["장기금융상품", "장기대여금", "보험예치금"], must=("장기금융상품",))
-    tang = []
-    for a in _split(r, bs["tangible"], ["차량운반구", "비품", "시설장치", "기계장치", "건물"], keep=0.6, must=("비품", "시설장치")):
-        acc = int(a["amount"] * r.uniform(0.25, 1.2)) // 10 * 10
-        tang += [{"account": a["account"], "amount": a["amount"] + acc}, {"account": "감가상각누계액", "amount": -acc}]
-    sec["tangible"] = tang
-    sec["intangible"] = _split(r, bs["intangible"], ["영업권", "소프트웨어", "상표권"], keep=0.5)
-    sec["other_noncurrent"] = _split(r, bs["other_noncurrent"], ["임차보증금", "기타보증금"], must=("임차보증금",))
-    sec["current_liab"] = _split(r, bs["current_liab"], ["매입채무", "미지급금", "예수금", "부가세예수금", "미지급비용", "선수금", "단기차입금"],
-                                 must=("매입채무", "미지급금", "예수금"))
-    sec["noncurrent_liab"] = _split(r, bs["noncurrent_liab"], ["장기차입금", "퇴직급여충당부채", "장기미지급금"], keep=0.5, must=("장기차입금",))
-    bs_acc = {k: v for k, v in sec.items() if v}
-
-    pls = {}
-    rev_names = {"한식": ["음식매출", "배달매출"], "커피전문점": ["음료매출", "상품매출"], "제과": ["제품매출", "상품매출"],
-                 "미용": ["용역매출", "상품매출"], "학원": ["수강료수입", "교재매출"], "세무대리": ["용역매출", "기장수수료수입"],
-                 "인테리어": ["공사수입", "상품매출"]}.get(item, ["상품매출", "기타매출"])
-    pls["revenue"] = _split(r, pl["revenue"], rev_names, keep=0.6, must=(rev_names[0],))
-    begin = _bs(p, y - 1)["inventory"] if y - 1 >= p.business.established.year else 0
-    end = bs["inventory"]
-    begin = min(begin, pl["cogs"] + end)
-    pls["cogs"] = [{"account": "기초재고액", "amount": begin},
-                   {"account": "당기매입액", "amount": pl["cogs"] - begin + end},
-                   {"account": "기말재고액", "amount": end}]
-    pls["sga"] = _split(r, pl["other_sga"], ["퇴직급여", "여비교통비", "기업업무추진비" if y >= 2024 else "접대비", "통신비", "수도광열비",
-                                             "세금과공과", "수선비", "보험료", "차량유지비", "운반비", "교육훈련비", "도서인쇄비",
-                                             "소모품비", "지급수수료", "광고선전비", "대손상각비", "잡비"],
-                        keep=0.65, must=("통신비", "세금과공과", "지급수수료", "소모품비"))
-    pls["non_op_income"] = _split(r, pl["non_op_income"], ["이자수익", "잡이익"], must=("이자수익",))
-    pls["non_op_expense"] = _split(r, pl["non_op_expense"], ["이자비용", "잡손실"], must=("이자비용",))
-    w = lambda n: _signed(n)  # noqa: E731
-    fmt = lambda d: {k: [{"account": a["account"], "amount": w(a["amount"])} for a in v] for k, v in d.items() if v}  # noqa: E731
-    return fmt(bs_acc), fmt(pls)
-
-
 def _signed(n: int) -> str:
     return won(n, "") if n >= 0 else "-" + won(-n, "")
 
 
-@doc("standard_financial_statement_proof", "표준재무제표증명", "business")
-def standard_financial_statement_proof(p: Profile, rng: random.Random) -> dict:
-    """홈택스 발급 표준재무제표증명(개인): 표준재무상태표 + 표준손익계산서.
-
-    heavy: 세부 계정과목까지 표시 (재무상태표 30~40줄, 손익계산서 25~35줄, 2~3쪽).
-    신고구분·신고일은 종합소득세 신고(_itr_filing)와 같다 (기한후신고·수정신고면 그 날짜).
-    """
-    b = p.business
-    y = _filed_year(p)
-    if y < b.established.year:
-        y = b.established.year
-    pl, bs = _pl(p, y), _bs(p, y)
-    start = max(date(y, 1, 1), b.established)
-    w = lambda n: won(n, "")  # noqa: E731
-    fmt = rng.choice(["dash", "dot"])
-    filing = _itr_filing(p, y)
-    kind, filed = filing["kind"], filing["filed"]
-    if kind == "경정청구":  # 경정청구는 재무제표를 다시 내지 않는다
-        kind, filed = "정기신고", filing["original"]
-    out = {
-        "issue_no": _hometax_no(rng),
-        "taxpayer_type": "개인",
-        "taxpayer": {
-            "trade_name": b.name,
-            "biz_no": b.biz_no,
-            "name": p.person.name,
-            "rrn": K.mask_rrn(p.person.rrn),
-            "biz_type": b.biz_type,
-            "biz_item": b.biz_item,
-            "address": b.address.road_full,
-        },
-        "period": f"{D(start, fmt)} ~ {D(date(y, 12, 31), fmt)}",
-        "attachments": "표준재무상태표, 표준손익계산서",
-        "filing_kind": kind,
-        "filed_date": D(filed, fmt),
-        "balance_sheet": {k: w(v) for k, v in bs.items()},
-        "income_statement": {k: w(v) for k, v in pl.items()},
-        "issue_date": D(p.issue_date, "kor"),
-        "issuer": _tax_office(b.address),
-    }
-    if heavy(rng, 0.3):
-        out["bs_accounts"], out["pl_accounts"] = _fs_detail(p, y, pl, bs)
-        del out["income_statement"]["other_sga"]  # 세부 계정으로 나눠 표시
-    return out
+# 이 그룹의 코드 서식. 값 만드는 함수는 서식 폴더 docgen/forms/<ID>/generate.py 에 있다 (여기는 같이 쓰는 도우미).
+FORMS = ('business_registration_certificate', 'business_registration_certificate_corp', 'business_registration_proof', 'standard_financial_statement_proof',)
+register_folder_forms(__name__, FORMS)   # 예전 @doc 차례 그대로 등록 (서식 목록·데이터셋 순서)

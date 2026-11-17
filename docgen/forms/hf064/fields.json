@@ -24,7 +24,9 @@
     547.4,
     593.4
    ],
-   "section": "본인 (위임인)"
+   "section": "본인 (위임인)",
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     547.4,
     621.7
    ],
-   "section": "본인 (위임인)"
+   "section": "본인 (위임인)",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     547.4,
     650.1
    ],
-   "section": "본인 (위임인)"
+   "section": "본인 (위임인)",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "date",
@@ -73,7 +79,8 @@
      543.2,
      698.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -90,7 +97,9 @@
     716.2,
     552.7,
     728.3
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

@@ -1,4 +1,4 @@
-"""키 사전 데이터 (docgen/key_rules.json, docgen/keyrules.py): 규칙이 overlay 생성에 쓰이고, 화면에서 더한 키·값 종류가 값을 만든다."""
+"""공통 값 규칙 (docgen/forms/_common/key_rules.json, docgen/keyrules.py): 키에 정한 값 출처·공통 값 종류가 값을 만든다."""
 import json
 import random
 import shutil
@@ -22,11 +22,10 @@ def rules(tmp_path, monkeypatch):
     KR._cache = None
 
 
-def test_rules_drive_overlay_keys_and_kinds():
-    assert RF.key_of("성명") == "customer.name" and RF.key_of("예금주") == "customer.name"
-    assert RF.kind_of("통화", None, None) == "currency" and RF.kind_of("만기일", None, None) == "date"
-    assert RF.KEY_RULES == [tuple(x) for x in KR.load()["label_rules"]]
-    assert canonical_key("customer.dob") == "customer.birth"
+def test_keys_stay_as_form_keys():
+    """키는 서식의 키 그대로 (동의어로 바꾸지 않음, 5.1 부터)."""
+    assert KR.load()["synonyms"] == {}
+    assert canonical_key("customer.dob") == "customer.dob" and canonical_key("company.tel") == "company.tel"
 
 
 def test_data_kinds_make_values():
@@ -56,19 +55,8 @@ def test_validate_rejects_bad_rules(rules):
         KR.save(bad)
 
 
-def test_enabling_labels_maps_overlay_field(rules):
-    assert RF.key_of("SWIFT Code") is None                           # 기본: 항목명 제안은 꺼져 있다 (생성 결과가 그대로)
-    d = json.loads(json.dumps(KR.load()))
-    d["keys"]["foreign.swift"]["labels"] = ["SWIFT Code"]
-    KR.save(d)
-    assert RF.key_of("SWIFT Code") == "foreign.swift" and RF.key_of("swiftcode") == "foreign.swift"
+def test_keys_with_source_make_values():
+    """key_rules.json 의 keys 에 값 출처를 정한 키는 그 값으로 (overlay 칸의 키가 그 키일 때)."""
     p = make_profile(5)
     assert RF.Values(p, random.Random(0), "기본").std("foreign.swift") == p.foreign.swift
     assert KR.alias_index()["bic"] == "foreign.swift"
-
-
-def test_affected_forms_counts_overlay_labels():
-    from studio.api_keys import affected_forms
-
-    assert affected_forms(["SWIFTCode"])                             # 그 항목명이 있는 overlay 서식이 있다
-    assert affected_forms(["   "]) == []

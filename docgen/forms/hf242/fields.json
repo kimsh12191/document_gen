@@ -88,7 +88,8 @@
     166.0,
     203.9,
     202.8
-   ]
+   ],
+   "key": "check.전문사본요청합니다"
   },
   {
    "t": "text",
@@ -99,7 +100,10 @@
     167.0,
     544.5,
     201.8
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "FAXorE-MAIL"
   },
   {
    "t": "text",
@@ -110,7 +114,10 @@
     291.6,
     472.2,
     312.2
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "ExpiryDate"
   },
   {
    "t": "text",
@@ -121,7 +128,10 @@
     329.6,
     472.2,
     350.2
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -132,7 +142,10 @@
     405.6,
     483.0,
     426.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Beneficiary"
   },
   {
    "t": "text",
@@ -143,7 +156,10 @@
     462.6,
     486.6,
     483.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Beneficiary"
   },
   {
    "t": "text",
@@ -154,7 +170,10 @@
     519.6,
     490.2,
     540.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Beneficiary"
   },
   {
    "t": "text",
@@ -165,7 +184,10 @@
     576.6,
     472.2,
     597.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "AdvisingBank"
   },
   {
    "t": "text",
@@ -176,7 +198,10 @@
     614.6,
     472.2,
     635.1
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "UndertakingAmount"
   },
   {
    "t": "text",
@@ -187,7 +212,10 @@
     422.6,
     472.2,
     443.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "UndertakingtermsandConditions"
   },
   {
    "t": "date",
@@ -212,7 +240,8 @@
      536.0,
      540.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -229,7 +258,9 @@
     562.7,
     545.6,
     577.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

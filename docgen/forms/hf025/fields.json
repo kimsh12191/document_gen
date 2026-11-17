@@ -73,7 +73,10 @@
     164.7,
     201.5,
     187.3
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "금고번호"
   },
   {
    "t": "text",
@@ -85,7 +88,10 @@
     339.3,
     187.3
    ],
-   "unit": "원"
+   "unit": "원",
+   "kind": "amount",
+   "std": false,
+   "key": "보증금"
   },
   {
    "t": "text",
@@ -97,7 +103,10 @@
     551.0,
     187.3
    ],
-   "hint": "※ 대여금고 사용알림 - 하나원큐앱 본인 신청"
+   "hint": "※ 대여금고 사용알림 - 하나원큐앱 본인 신청",
+   "kind": "skip",
+   "std": false,
+   "key": "원"
   },
   {
    "t": "sign",
@@ -115,7 +124,9 @@
     396.8,
     282.3,
     408.9
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -127,7 +138,9 @@
     210.0,
     437.6
    ],
-   "section": "이 용 대 리 인"
+   "section": "이 용 대 리 인",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -140,7 +153,9 @@
     460.3
    ],
    "hint": "선택항목",
-   "section": "이 용 대 리 인"
+   "section": "이 용 대 리 인",
+   "kind": "phone",
+   "key": "agent.phone"
   },
   {
    "t": "text",
@@ -153,7 +168,9 @@
     483.0
    ],
    "hint": "선택항목",
-   "section": "이 용 대 리 인"
+   "section": "이 용 대 리 인",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -165,7 +182,9 @@
     297.8,
     437.6
    ],
-   "section": "이 용 대 리 인"
+   "section": "이 용 대 리 인",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "sign",
@@ -183,7 +202,9 @@
     396.8,
     537.4,
     408.9
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -195,7 +216,9 @@
     465.1,
     437.6
    ],
-   "section": "이 용 대 리 인 이 용 대 리 인"
+   "section": "이 용 대 리 인 이 용 대 리 인",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -208,7 +231,9 @@
     460.3
    ],
    "hint": "선택항목",
-   "section": "이 용 대 리 인 이 용 대 리 인"
+   "section": "이 용 대 리 인 이 용 대 리 인",
+   "kind": "phone",
+   "key": "agent.phone"
   },
   {
    "t": "text",
@@ -221,7 +246,9 @@
     483.0
    ],
    "hint": "선택항목",
-   "section": "이 용 대 리 인 이 용 대 리 인"
+   "section": "이 용 대 리 인 이 용 대 리 인",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -233,7 +260,9 @@
     551.0,
     437.6
    ],
-   "section": "이 용 대 리 인 이 용 대 리 인"
+   "section": "이 용 대 리 인 이 용 대 리 인",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -245,7 +274,9 @@
     312.6,
     528.0
    ],
-   "section": "임 차 인"
+   "section": "임 차 인",
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -258,7 +289,9 @@
     550.7
    ],
    "hint": "선택항목",
-   "section": "임 차 인"
+   "section": "임 차 인",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -271,7 +304,9 @@
     573.3
    ],
    "hint": "선택항목",
-   "section": "임 차 인"
+   "section": "임 차 인",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "sign",
@@ -289,7 +324,9 @@
     688.4,
     529.4,
     700.6
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -301,7 +338,9 @@
     551.0,
     528.0
    ],
-   "section": "임 차 인"
+   "section": "임 차 인",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -314,7 +353,9 @@
     550.7
    ],
    "hint": "선택항목",
-   "section": "임 차 인"
+   "section": "임 차 인",
+   "kind": "text",
+   "key": "customer.email"
   },
   {
    "t": "date",
@@ -339,7 +380,8 @@
      328.5,
      380.5
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

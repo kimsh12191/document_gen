@@ -30,7 +30,9 @@
     165.8,
     486.2,
     179.1
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -42,7 +44,9 @@
     553.1,
     230.0
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -54,7 +58,10 @@
     553.1,
     337.7
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "부동산의종류"
   },
   {
    "t": "text",
@@ -66,7 +73,9 @@
     553.1,
     360.4
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -78,7 +87,10 @@
     553.1,
     383.0
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "면적"
   },
   {
    "t": "text",
@@ -90,7 +102,10 @@
     553.1,
     428.4
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "취득기간"
   },
   {
    "t": "text",
@@ -102,7 +117,10 @@
     553.1,
     451.1
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "reason",
+   "std": false,
+   "key": "취득사유"
   },
   {
    "t": "text",
@@ -113,7 +131,10 @@
     584.7,
     553.1,
     607.4
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -124,7 +145,10 @@
     607.4,
     553.1,
     630.1
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   },
   {
    "t": "text",
@@ -135,7 +159,10 @@
     630.1,
     553.1,
     652.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -149,7 +176,10 @@
    ],
    "group": "부동산취득신고[수리]서",
    "row": true,
-   "section": "부동산취득신고[수리]서"
+   "section": "부동산취득신고[수리]서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -174,7 +204,8 @@
      496.6,
      516.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -185,7 +216,10 @@
     635.1,
     341.0,
     654.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "신고수리조건"
   },
   {
    "t": "date",
@@ -210,7 +244,8 @@
      496.6,
      683.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -222,7 +257,8 @@
     696.1,
     526.0,
     709.5
-   ]
+   ],
+   "who": "bank"
   },
   {
    "t": "text",
@@ -234,7 +270,10 @@
     341.4,
     206.3
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "소"
   },
   {
    "t": "text",
@@ -246,7 +285,10 @@
     341.4,
     404.7
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "취득가액"
   },
   {
    "t": "text",
@@ -258,7 +300,10 @@
     333.5,
     628.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "위의신고를다음과같이신고수리함"
   }
  ]
 }

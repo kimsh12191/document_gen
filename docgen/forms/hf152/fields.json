@@ -59,7 +59,9 @@
     128.4,
     472.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.약정일자",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -71,7 +73,9 @@
     128.4,
     494.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.약정일자",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -83,7 +87,9 @@
     128.4,
     517.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.약정일자",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -95,7 +101,9 @@
     294.2,
     472.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.거래약정서류명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -107,7 +115,9 @@
     294.2,
     494.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.거래약정서류명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -119,7 +129,9 @@
     294.2,
     517.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.거래약정서류명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -131,7 +143,9 @@
     365.1,
     472.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채무한도액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -143,7 +157,9 @@
     365.1,
     494.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채무한도액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -155,7 +171,9 @@
     365.1,
     517.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채무한도액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -167,7 +185,9 @@
     436.1,
     472.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증종류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -179,7 +199,9 @@
     436.1,
     494.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증종류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -191,7 +213,9 @@
     436.1,
     517.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.보증종류",
+   "kind": "text"
   },
   {
    "t": "date",
@@ -217,7 +241,8 @@
      528.0,
      140.0
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -229,7 +254,10 @@
     552.0,
     426.1
    ],
-   "free": true
+   "free": true,
+   "kind": "note",
+   "std": false,
+   "key": "○구연대보증인의보증채무내용"
   }
  ]
 }

@@ -1,8 +1,6 @@
 """평가 세트 2.0 좌표 시험: 옮겨 온 좌표 함수가 OCR 과제(docgen/bench/ocr_*)와 같은 값을 내는지, kie·marks 의 값·위치·값+위치 점수."""
 import json
 import random
-import sys
-from pathlib import Path
 
 import pytest
 

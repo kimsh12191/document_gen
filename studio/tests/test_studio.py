@@ -10,7 +10,6 @@ from docgen import realform as RF
 from docgen.tests.sandbox import forms_sandbox
 from docgen import sources as SRC
 from docgen.entities import make_profile
-from docgen.registry import load_all
 
 
 @pytest.fixture()

@@ -24,7 +24,8 @@
     215.3,
     125.1
    ],
-   "row": true
+   "row": true,
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -36,7 +37,10 @@
     396.8,
     125.1
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -48,7 +52,10 @@
     396.8,
     209.5
    ],
-   "section": "상 호"
+   "section": "상 호",
+   "kind": "text",
+   "std": false,
+   "key": "한글"
   },
   {
    "t": "text",
@@ -60,7 +67,10 @@
     396.8,
     277.5
    ],
-   "section": "상 호"
+   "section": "상 호",
+   "kind": "text",
+   "std": false,
+   "key": "영문"
   },
   {
    "t": "date",
@@ -85,7 +95,8 @@
      374.5,
      502.8
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

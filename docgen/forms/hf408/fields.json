@@ -62,7 +62,8 @@
    "section": "영문성명* (대문자)",
    "key": "customer.surname_en",
    "source": "profile.person.surname_en",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -77,7 +78,8 @@
    "section": "영문성명* (대문자)",
    "key": "customer.given_name_en",
    "source": "profile.person.given_en",
-   "edited": true
+   "edited": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -89,7 +91,9 @@
     549.5,
     193.6
    ],
-   "section": "영문성명* (대문자)"
+   "section": "영문성명* (대문자)",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -101,7 +105,9 @@
     549.5,
     216.3
    ],
-   "section": "영문성명* (대문자)"
+   "section": "영문성명* (대문자)",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "check",
@@ -162,7 +168,8 @@
     279.9,
     306.8,
     335.2
-   ]
+   ],
+   "key": "check.FATCA"
   },
   {
    "t": "check",
@@ -191,7 +198,8 @@
     335.2,
     306.8,
     363.6
-   ]
+   ],
+   "key": "check.CRS"
   },
   {
    "t": "check",
@@ -220,7 +228,8 @@
     363.6,
     306.8,
     400.4
-   ]
+   ],
+   "key": "check.해당없음"
   },
   {
    "t": "text",
@@ -277,7 +286,8 @@
    ],
    "key": "customer.overseas_address",
    "source": "profile.foreign.address",
-   "edited": true
+   "edited": true,
+   "kind": "address"
   },
   {
    "t": "text",
@@ -353,7 +363,8 @@
     455.1,
     549.5,
     480.6
-   ]
+   ],
+   "key": "check.미발급국가"
   },
   {
    "t": "check",
@@ -414,7 +425,8 @@
     506.1,
     549.5,
     531.6
-   ]
+   ],
+   "key": "check.미발급국가"
   },
   {
    "t": "text",
@@ -454,7 +466,8 @@
      226.3,
      763.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -471,7 +484,9 @@
     750.2,
     460.8,
     762.3
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -488,7 +503,9 @@
     769.2,
     460.2,
     781.3
-   ]
+   ],
+   "who": "agent",
+   "what": "name"
   },
   {
    "t": "text",
@@ -501,7 +518,8 @@
     763.1
    ],
    "key": "date",
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -514,7 +532,8 @@
     763.1
    ],
    "key": "customer.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -527,7 +546,8 @@
     780.0
    ],
    "key": "agent.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -540,7 +560,8 @@
     780.0
    ],
    "key": "agent.relation",
-   "added": true
+   "added": true,
+   "kind": "text"
   }
  ],
  "updated": {

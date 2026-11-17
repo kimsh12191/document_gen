@@ -29,7 +29,9 @@
     287.9,
     208.7,
     316.2
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -40,7 +42,9 @@
     287.9,
     373.1,
     316.2
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -52,7 +56,9 @@
     547.7,
     316.2
    ],
-   "hint": "선택"
+   "hint": "선택",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -64,7 +70,10 @@
     284.4,
     702.4
    ],
-   "hint": "자필기재 (인/서명)"
+   "hint": "자필기재 (인/서명)",
+   "kind": "text",
+   "std": false,
+   "key": "주된상속인"
   },
   {
    "t": "text",
@@ -76,7 +85,10 @@
     377.0,
     702.4
    ],
-   "row": true
+   "row": true,
+   "group": "생년월일",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -89,7 +101,10 @@
     702.4
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "생년월일",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -100,7 +115,9 @@
     702.4,
     547.7,
     730.0
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "check",
@@ -145,7 +162,8 @@
     141.7,
     234.3,
     178.5
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -190,7 +208,8 @@
     178.5,
     234.3,
     215.4
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -235,7 +254,8 @@
     215.4,
     234.3,
     252.2
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -280,7 +300,8 @@
     252.2,
     234.3,
     289.1
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -325,7 +346,8 @@
     289.1,
     234.3,
     325.9
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -370,7 +392,8 @@
     325.9,
     234.3,
     362.8
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -415,7 +438,8 @@
     362.8,
     234.3,
     399.6
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -460,7 +484,8 @@
     399.6,
     234.3,
     436.5
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "check",
@@ -505,7 +530,8 @@
     436.5,
     234.3,
     473.3
-   ]
+   ],
+   "key": "check.상속인"
   },
   {
    "t": "text",
@@ -518,7 +544,10 @@
     178.5
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -531,7 +560,10 @@
     215.4
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -544,7 +576,10 @@
     252.2
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -557,7 +592,10 @@
     289.1
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -570,7 +608,10 @@
     325.9
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -583,7 +624,10 @@
     362.8
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -596,7 +640,10 @@
     399.6
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -609,7 +656,10 @@
     436.5
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -622,7 +672,10 @@
     473.3
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -634,7 +687,10 @@
     463.1,
     178.5
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -646,7 +702,10 @@
     463.1,
     215.4
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -658,7 +717,10 @@
     463.1,
     252.2
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -670,7 +732,10 @@
     463.1,
     289.1
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -682,7 +747,10 @@
     463.1,
     325.9
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -694,7 +762,10 @@
     463.1,
     362.8
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -706,7 +777,10 @@
     463.1,
     399.6
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -718,7 +792,10 @@
     463.1,
     436.5
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -730,7 +807,10 @@
     463.1,
     473.3
    ],
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -743,7 +823,10 @@
     178.5
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -756,7 +839,10 @@
     215.4
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -769,7 +855,10 @@
     252.2
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -782,7 +871,10 @@
     289.1
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -795,7 +887,10 @@
     325.9
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -808,7 +903,10 @@
     362.8
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -821,7 +919,10 @@
     399.6
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -834,7 +935,10 @@
     436.5
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -847,7 +951,10 @@
     473.3
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명",
+   "key": "성명_목록.{i}.연락처",
+   "kind": "phone"
   }
  ]
 }

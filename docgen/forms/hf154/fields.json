@@ -315,7 +315,8 @@
     299.1,
     315.8,
     333.1
-   ]
+   ],
+   "key": "check.과목"
   },
   {
    "t": "text",
@@ -589,7 +590,8 @@
    ],
    "section": "수 계 출 약 신 용 서 장 내 또 용 는",
    "key": "trade.incoterms",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -712,7 +714,8 @@
     248.1,
     549.6,
     299.1
-   ]
+   ],
+   "key": "check.자금용도"
   },
   {
    "t": "text",
@@ -997,7 +1000,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.당행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1011,7 +1016,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.당행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1023,7 +1030,10 @@
     224.4,
     355.8
    ],
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "kind": "skip",
+   "std": false,
+   "key": "계"
   },
   {
    "t": "text",
@@ -1097,7 +1107,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.당행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1111,7 +1123,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.당행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1155,7 +1169,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.당행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1169,7 +1185,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.당행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1183,7 +1201,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.당행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1242,7 +1262,10 @@
    ],
    "group": "지 급 보 증",
    "row": true,
-   "section": "지 급 보 증"
+   "section": "지 급 보 증",
+   "kind": "skip",
+   "std": false,
+   "key": "당행"
   },
   {
    "t": "text",
@@ -1256,7 +1279,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1270,7 +1295,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1284,7 +1311,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1298,7 +1327,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1312,7 +1343,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1326,7 +1359,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1340,7 +1375,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1354,7 +1391,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1368,7 +1407,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1382,7 +1423,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1396,7 +1439,9 @@
    ],
    "group": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
    "row": true,
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "key": "무역금융∧신청건포함∨명세_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1410,7 +1455,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1424,7 +1471,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1438,7 +1487,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1452,7 +1503,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1466,7 +1519,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1480,7 +1535,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1494,7 +1551,9 @@
    ],
    "group": "운 전 자 금",
    "row": true,
-   "section": "운 전 자 금"
+   "section": "운 전 자 금",
+   "key": "운전자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1508,7 +1567,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1522,7 +1583,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1536,7 +1599,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1550,7 +1615,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1564,7 +1631,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1578,7 +1647,9 @@
    ],
    "group": "시 설 자 금",
    "row": true,
-   "section": "시 설 자 금"
+   "section": "시 설 자 금",
+   "key": "시설자금_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1592,7 +1663,9 @@
    ],
    "group": "지 급 보 증",
    "row": true,
-   "section": "지 급 보 증"
+   "section": "지 급 보 증",
+   "key": "지급보증_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1606,7 +1679,9 @@
    ],
    "group": "지 급 보 증",
    "row": true,
-   "section": "지 급 보 증"
+   "section": "지 급 보 증",
+   "key": "지급보증_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1620,7 +1695,9 @@
    ],
    "group": "지 급 보 증",
    "row": true,
-   "section": "지 급 보 증"
+   "section": "지 급 보 증",
+   "key": "지급보증_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1634,7 +1711,9 @@
    ],
    "group": "지 급 보 증",
    "row": true,
-   "section": "지 급 보 증"
+   "section": "지 급 보 증",
+   "key": "지급보증_목록.{i}.타행",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1646,7 +1725,10 @@
     295.2,
     759.7
    ],
-   "row": true
+   "row": true,
+   "kind": "skip",
+   "std": false,
+   "key": "타행"
   },
   {
    "t": "text",
@@ -1660,7 +1742,8 @@
    ],
    "key": "property.location",
    "source": "rule:free_text",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -1716,7 +1799,10 @@
     431.3,
     355.8
    ],
-   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세"
+   "section": "무 역 금 융 ∧ 신 청 건 포 함 ∨ 명 세",
+   "kind": "skip",
+   "std": false,
+   "key": "계"
   },
   {
    "t": "text",
@@ -1842,7 +1928,8 @@
     136.9
    ],
    "key": "date",
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -1855,7 +1942,8 @@
     202.5
    ],
    "key": "company.address",
-   "added": true
+   "added": true,
+   "kind": "address"
   },
   {
    "t": "text",
@@ -1868,7 +1956,8 @@
     223.1
    ],
    "key": "company.name",
-   "added": true
+   "added": true,
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1882,7 +1971,8 @@
    ],
    "key": "company.phone",
    "source": "profile.corporation.phone",
-   "added": true
+   "added": true,
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -1895,7 +1985,8 @@
     241.9
    ],
    "key": "company.ceo",
-   "added": true
+   "added": true,
+   "kind": "text"
   },
   {
    "t": "text",

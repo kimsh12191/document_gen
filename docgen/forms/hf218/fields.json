@@ -35,7 +35,9 @@
     283.8,
     371.3,
     299.1
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -52,7 +54,9 @@
     312.8,
     370.3,
     328.1
-   ]
+   ],
+   "who": "family",
+   "what": "name"
   },
   {
    "t": "check",
@@ -75,7 +79,8 @@
      ],
      "line": 62
     }
-   ]
+   ],
+   "key": "check.지정거래외국환은행의장으"
   },
   {
    "t": "check",
@@ -98,7 +103,8 @@
      ],
      "line": 139
     }
-   ]
+   ],
+   "key": "check.사후보고서의제출등추가적"
   },
   {
    "t": "text",
@@ -110,7 +116,10 @@
     532.2,
     436.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "부동산취득자금송금후3개월이내"
   },
   {
    "t": "text",
@@ -122,7 +131,10 @@
     532.2,
     464.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "부동산처분후3개월이내"
   },
   {
    "t": "text",
@@ -134,7 +146,10 @@
     213.2,
     503.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "수시보고서"
   },
   {
    "t": "text",
@@ -146,7 +161,10 @@
     532.2,
     503.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "매2년마다보유사실입증서류"
   }
  ]
 }

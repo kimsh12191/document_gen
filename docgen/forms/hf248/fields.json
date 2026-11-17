@@ -55,7 +55,10 @@
     96.0,
     164.5,
     112.7
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "ReceiptNumber"
   },
   {
    "t": "text",
@@ -66,7 +69,10 @@
     96.0,
     289.5,
     112.7
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "DateofReceipt"
   },
   {
    "t": "text",
@@ -77,7 +83,9 @@
     140.5,
     545.9,
     161.2
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -89,7 +97,9 @@
     545.9,
     189.5
    ],
-   "hint": "(Phone Number : )"
+   "hint": "(Phone Number : )",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -101,7 +111,9 @@
     545.9,
     217.8
    ],
-   "hint": "(Phone Number : )"
+   "hint": "(Phone Number : )",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -112,7 +124,9 @@
     219.8,
     545.9,
     240.5
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -124,7 +138,10 @@
     535.7,
     275.4
    ],
-   "unit": "%"
+   "unit": "%",
+   "kind": "percent",
+   "std": false,
+   "key": "AcquisitionPriceWon"
   },
   {
    "t": "text",
@@ -135,7 +152,10 @@
     483.0,
     472.5,
     501.1
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "NotificationNo"
   },
   {
    "t": "text",
@@ -147,7 +167,10 @@
     414.5,
     110.7
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DateofCompletion"
   },
   {
    "t": "text",
@@ -159,7 +182,10 @@
     192.6,
     342.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Changein"
   },
   {
    "t": "text",
@@ -171,7 +197,10 @@
     192.6,
     356.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Information"
   },
   {
    "t": "text",
@@ -183,7 +212,10 @@
     493.7,
     684.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "changed"
   },
   {
    "t": "text",
@@ -194,7 +226,10 @@
     96.0,
     164.5,
     112.7
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "ReceiptNumber"
   },
   {
    "t": "text",
@@ -205,7 +240,10 @@
     96.0,
     289.5,
     112.7
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "DateofReceipt"
   },
   {
    "t": "text",
@@ -216,7 +254,9 @@
     140.5,
     545.5,
     161.2
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -228,7 +268,9 @@
     545.5,
     189.5
    ],
-   "hint": "(Phone Number : )"
+   "hint": "(Phone Number : )",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -240,7 +282,9 @@
     545.5,
     217.8
    ],
-   "hint": "(Phone Number : )"
+   "hint": "(Phone Number : )",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -251,7 +295,9 @@
     219.8,
     545.5,
     240.5
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -263,7 +309,10 @@
     535.7,
     275.4
    ],
-   "unit": "%"
+   "unit": "%",
+   "kind": "percent",
+   "std": false,
+   "key": "AcquisitionPriceWon"
   },
   {
    "t": "text",
@@ -274,7 +323,10 @@
     483.0,
     472.5,
     501.1
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "NotificationNo"
   },
   {
    "t": "text",
@@ -286,7 +338,10 @@
     414.5,
     110.7
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DateofCompletion"
   },
   {
    "t": "text",
@@ -298,7 +353,10 @@
     192.6,
     342.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Changein"
   },
   {
    "t": "text",
@@ -310,7 +368,10 @@
     192.6,
     356.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Information"
   },
   {
    "t": "text",
@@ -322,7 +383,10 @@
     493.7,
     684.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "changed"
   }
  ]
 }

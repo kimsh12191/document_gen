@@ -1,29 +1,22 @@
-"""데이터셋 섞기 (옛 bank_task/prepare.py + 1부 OCR SFT 묶기 + OCR replay 를 하나로): 과제 폴더(docgen-tasks) 여러 개
-→ 학습이 읽는 폴더. OCR·문서 이해·업무 과제가 같은 규칙으로 섞인다.
+"""학습 데이터 섞기와 평가 세트 준비 (python -m train 의 prepare 단계).
 
-  <output_dir>/
-    DONE.json              이미지 예산, 수, 원본 데이터셋 (마지막에 쓴다)
-    train_sft.jsonl        SFT 표본 {"messages", "images"} (같은 그림의 질문은 한 대화로 묶음)
-    val_sft.jsonl
-    train_grpo.jsonl       GRPO 후보 {"id", "split": "train", "task", "bench_item", "n_images", "messages", "images"}
-    benchmark_tasks.jsonl  평가 질문 (train.predict 가 읽음, 그림은 PNG)
-    benchmark_items.jsonl  평가 정답 (채점용, 그림 없음)
-    image_items.jsonl      (OCR 평가가 있으면) 그림별 사내 OCR — predict --with-ocr 용
-    images/                토큰 예산을 넘거나 PNG 가 아닌 그림의 줄인 사본
+평가 세트 (prepare_sets): data.benchmark 의 세트마다 <cache_dir>/sets/<id>-<지문>/
+  tasks.jsonl   평가 질문 {id, task, messages, images(PNG), source_images}  (train/predict.py 가 읽음)
+  items.jsonl   정답 {id, task, answer, eval, meta}  (채점용)
+  images/       예산에 맞춰 줄인 그림
+  DONE.json     세트 칸, 문항 수, 그림 예산, 원본 (마지막에 쓴다)
+  지문 = 세트 칸(경로·format·gt·scorer·이름) + 원본 파일의 크기·시각 + 채점 함수 파일 + 평가 그림 예산.
+  같으면 다른 실행·실험도 이 폴더를 그대로 쓰고 (모델 답 캐시도 이 폴더 기준), 원본이 바뀌면 새 폴더를 만든다.
 
-설정 (파이프라인 설정의 data 칸)
-  train       학습 데이터셋 [경로 또는 {"path", "count": 이 데이터셋에서 쓸 SFT 문항 수(무작위)}]. 문항 meta.split 이 train 인
-              것(폴더 meta.split 이 train 이면 표시 없는 문항도)이 학습, val 은 검증.
-              swift .jsonl 은 {"path": "….jsonl", "format": "swift-fields", "scorer"?: "<파일.py>:<함수>"} — 줄 전부 학습,
-              채점 함수(없으면 train/scorers/swift_default.py)가 정답을 못 읽는 줄은 빼고, GRPO 보상도 그 함수로
-  benchmark   평가 데이터셋 [경로 …] — 문항 meta.split 이 train·val 이 아닌 것
-  task_mix    {과제: 비율} — 적힌 과제는 sft_max_examples 안에서 그 비율, 적히지 않은 과제는 있는 만큼 다 (예: OCR 은 count 로만 줄임).
-              없으면 있는 비율대로 sft_max_examples 까지
-  grpo_holdout 학습 문항 중 이 비율의 고객(업무 묶음)·문서는 SFT 에 넣지 않고 GRPO 후보로
-평가 세트와 같은 고객·문서가 학습에 있으면 멈춘다. 이미지 예산: 그림 하나는 image_max_size 의 토큰까지, 문항 하나는 모든 그림 합쳐
-max_image_tokens_per_sample 까지 (여러 서류는 고르게 줄임). 평가도 같은 규칙이라 학습·평가가 같은 픽셀을 본다.
-평가 그림만 다르게: benchmark_image_max_size · benchmark_max_image_tokens_per_sample (실험 묶음이 모델마다 학습 그림 예산을
-바꿔도 평가 그림은 base 값으로 고정할 때).
+학습 (mix): data.train → <data.output_dir>/train_sft.jsonl · val_sft.jsonl · DONE.json. 줄인 그림은 <cache_dir>/images/ (실험끼리 같이 씀).
+  train      [경로 | {"path", "count"?, "format"?}]
+             과제 폴더(studio 데이터셋, meta.json + tasks/): 문항 meta.split 이 train 이면 학습, val 이면 검증
+             (폴더 meta.split 이 train 이면 표시 없는 문항도 학습). count: 이 데이터셋에서 쓸 문항 수 (무작위)
+             ms-swift .jsonl ("format": "swift"): 줄 {"messages", "images"} 를 그대로 학습 (과제 이름 swift:<파일 이름>)
+  task_mix   {과제: 비율} — 적힌 과제는 sft_max_examples 안에서 그 비율, 0 이면 뺌, 적히지 않은 과제는 있는 만큼 다.
+             없으면 있는 비율대로 sft_max_examples 까지
+평가 세트와 같은 문서·그림이 학습에 있으면 멈춘다. 그림 예산: 그림 하나는 image_max_size 의 토큰까지, 문항 하나는 모든 그림 합쳐
+max_image_tokens_per_sample 까지 (여러 서류는 고르게 줄임). 평가 세트도 같은 규칙 (실험 묶음은 base 값으로 고정).
 """
 import hashlib
 import json
@@ -39,24 +32,22 @@ from docgen.bench.evaluate import reward
 from docgen.bench.ocr_data import read_json, read_jsonl, write_json, write_jsonl
 from docgen.bench.runner import oracle_output
 
-from .settings import image_tokens, image_tokens_for
+from .settings import image_tokens_for, locked, log
 
 DEFAULTS = {
     "image_max_size": [2300, 1600],
     "max_image_tokens_per_sample": 12000,
-    "benchmark_image_max_size": None,               # 평가 그림만 따로 (None 이면 위 두 값). 실험 묶음이 base 값으로 고정한다
-    "benchmark_max_image_tokens_per_sample": None,
     "sft_max_length": 16384,
     "sft_max_examples": 20000,
     "task_mix": None,
     "val_count": 200,
-    "grpo_holdout": 0.2,
     "pack_turns": 8,
     "workers": min(16, os.cpu_count() or 1),
     "seed": 42,
 }
 BENCH_ITEM_KEYS = ("id", "task", "answer", "eval", "meta")
 CHARS_PER_TOKEN = 0.67  # conservative for Korean text: assume 1.5 tokens per character
+SET_VERSION = 2         # 평가 세트 폴더 꼴이 바뀌면 올린다 (지문에 들어감)
 
 
 def load_folder(path: Path, fmt: str = "tasks", split: str = "test") -> tuple[dict, list[dict]]:
@@ -122,16 +113,12 @@ def split_of(item: dict, folder_split: str) -> str:
 
 
 def group_key(item: dict) -> str:
-    """같은 고객·문서의 문항끼리 같은 값: OCR 은 문서 ID, 업무 과제는 묶음 ('cross_check/<묶음>/<사례>' → '<묶음>')."""
+    """같은 문서의 문항끼리 같은 값: meta.document_id 가 있으면 그것, 없으면 문항 ID 의 서류 부분 ('kie/<서류>' → '<서류>')."""
     doc = (item.get("meta") or {}).get("document_id")
     if doc:
         return f"doc:{doc}"
     parts = item["id"].split("/")
     return parts[1] if len(parts) > 1 else item["id"].split(":")[0]
-
-
-def bucket(key: str, seed: int) -> float:
-    return int(hashlib.sha1(f"{seed}:{key}".encode()).hexdigest()[:8], 16) / 0x100000000
 
 
 def _write(job):
@@ -166,13 +153,13 @@ def sample_caps(n_images: int, per_image: int, per_sample: int) -> int:
 
 
 class Fitter:
-    """Image path under a token cap: the original if it already fits, else a resized copy
+    """Image path under a token cap: the original if it already fits, else a resized copy in `folder`
     (PNG for inference, which sends PNG; JPEG quality 95 for training). Paths are planned first and
-    the copies written together in parallel by run()."""
+    the copies written together in parallel by run(). Existing copies are reused."""
 
-    def __init__(self, out: Path, factor: int):
-        self.out, self.factor, self.cache, self.jobs, self.size = out, factor, {}, {}, {}
-        (out / "images").mkdir(parents=True, exist_ok=True)
+    def __init__(self, folder: Path, factor: int):
+        self.folder, self.factor, self.cache, self.jobs, self.size = Path(folder), factor, {}, {}, {}
+        self.folder.mkdir(parents=True, exist_ok=True)
 
     def tokens(self, w, h):
         return math.ceil(w / self.factor) * math.ceil(h / self.factor)
@@ -188,7 +175,9 @@ class Fitter:
             path, size = str(src), (w, h)
         else:
             size = fit_size(w, h, cap, self.factor)
-            dst = self.out / "images" / (hashlib.sha1(f"{src}|{cap}".encode()).hexdigest()[:20] + (".png" if png else ".jpg"))
+            st = src.stat()   # 원본이 바뀌면 새 이름 (실험끼리 같이 쓰는 폴더)
+            name = hashlib.sha1(f"{src.resolve()}|{st.st_size}|{st.st_mtime_ns}|{cap}|{self.factor}".encode()).hexdigest()[:20]
+            dst = self.folder / (name + (".png" if png else ".jpg"))
             path = str(dst)
             if not dst.exists():
                 self.jobs[path] = (src, dst, size)
@@ -280,123 +269,168 @@ def sft_record(it: dict) -> dict:
     return swift_record(it)
 
 
-def mix(data_cfg: dict, model_dir: str | None) -> dict:
-    cfg = {**DEFAULTS, **data_cfg}
+
+
+# -- 평가 세트 ---------------------------------------------------------------------------------
+def _files(p):
+    p = Path(p)
+    files = [p] if p.is_file() else [p / "meta.json", *sorted((p / "tasks").glob("*.jsonl"))]
+    return [[str(f.resolve()), f.stat().st_size, f.stat().st_mtime_ns] for f in files if f.is_file()]
+
+
+def set_name(b: dict, size, budget, factor) -> str:
+    scorer_file = (b.get("scorer") or "").partition(":")[0]
+    sig = {"v": SET_VERSION, "set": {k: b.get(k) for k in ("id", "name", "group", "paths", "format", "gt", "scorer")},
+           "files": [_files(p) for p in b["paths"]], "scorer": _files(scorer_file) if scorer_file else None,
+           "image": [list(size), budget, factor]}
+    return f"{b['id']}-{hashlib.sha256(json.dumps(sig, sort_keys=True).encode()).hexdigest()[:12]}"
+
+
+def prepare_sets(benchmark: list[dict], cache_dir, size, budget, factor, workers=DEFAULTS["workers"]) -> dict:
+    """정리한 평가 세트 목록(benchmarks.normalize) → {세트 id: 준비한 폴더}. 이미 있으면 그대로."""
+    return {b["id"]: prepare_set(b, Path(cache_dir), size, budget, factor, workers) for b in benchmark}
+
+
+def prepare_set(b: dict, cache_dir: Path, size, budget, factor, workers) -> Path:
+    out = cache_dir / "sets" / set_name(b, size, budget, factor)
+    if (out / "DONE.json").is_file():
+        return out
+    with locked(out, f"평가 세트 {b['id']}"):
+        if (out / "DONE.json").is_file():
+            return out
+        log(f"평가 세트 {b['id']} 준비 → {out}")
+        started = time.time()
+        items, sources, references = [], {}, set()
+        for path in b["paths"]:
+            meta, rows = load_folder(Path(path), b.get("format", "tasks"))
+            if b.get("gt"):
+                meta = {**meta, "gt": b["gt"]}
+            test = [it for it in rows if split_of(it, meta.get("split", "test")) == "test"]
+            if not test:
+                raise ValueError(f"benchmark {b['id']}: {path} 에 평가 문항이 없습니다 (학습 전용 데이터셋)")
+            ref = meta.get("reference_type") or (meta.get("studio") or {}).get("gt") or meta.get("gt")
+            ref = {"exact": "synthetic_exact", "reviewed": "human_reviewed", "pseudo": "ocr_pseudo_unreviewed"}.get(ref, ref)
+            if ref:
+                references.add(ref)
+            test = [{**it, "meta": {**it["meta"], "benchmark_id": b["id"], "benchmark_name": b["name"],
+                                    "benchmark_group": b["group"], "benchmark_path": path}} for it in test]
+            if b.get("scorer"):   # 이 세트만 다른 채점 함수
+                test = [{**it, "eval": {**(it.get("eval") or {}), "scorer": b["scorer"]}} for it in test]
+            if any((it.get("eval") or {}).get("raw") for it in test):   # swift: 채점 함수가 정답을 못 읽는 줄은 건너뜀
+                test, skipped = unreadable(test)
+                if skipped:
+                    log(f"WARNING: {Path(path).name}: 채점 함수({b['scorer']})가 정답을 읽지 못한 {len(skipped)}줄을 건너뜁니다 "
+                        f"(예: {skipped[0]['id']} {skipped[0]['why']})")
+                    meta = {**meta, "skipped": [*meta.get("skipped", []), *skipped]}
+                if not test:
+                    raise ValueError(f"benchmark {b['id']}: {path} 에서 채점 함수가 읽은 정답이 없습니다 (예: {skipped[0]['why']})")
+            items += test
+            sources[path] = {k: v for k, v in meta.items() if k != "doc_names"}
+        if len(references) > 1:
+            raise ValueError(f"benchmark {b['id']}: 정답 출처가 다릅니다. id 를 나누세요: {sorted(references)}")
+        if len({it["id"] for it in items}) != len(items):
+            raise ValueError(f"benchmark {b['id']}: 경로끼리 문항 ID 가 겹칩니다")
+        # 정답을 답으로 넣으면 만점이어야 한다 (데이터와 채점 코드가 맞는지)
+        bad = [it["id"] for it in random.Random(0).sample(items, min(200, len(items))) if not perfect(it)]
+        if bad:
+            raise ValueError(f"benchmark {b['id']}: 정답을 답으로 넣어도 만점이 아닙니다 (예: {bad[:3]}). 데이터를 만든 docgen 코드인지, "
+                             "채점 함수를 붙인 세트면 그 함수가 정답에 만점을 주는지 보세요")
+        per_image = image_tokens_for(size, factor)
+        fit = Fitter(out / "images", factor)
+        rows = []
+        for it in items:
+            cap = sample_caps(len(it["images"]), per_image, budget)
+            imgs = [fit(p, cap, png=True) for p in it["images"]]
+            row = {"id": it["id"], "task": it["task"], "images": imgs, "source_images": it["images"],
+                   "messages": [{"role": "user", "content": "<image>" * len(imgs) + it["prompt"]}]}
+            rows.append(row)
+        fit.run(workers)
+        write_jsonl(out / "tasks.jsonl", rows)
+        write_jsonl(out / "items.jsonl", [{k: it[k] for k in BENCH_ITEM_KEYS if k in it} for it in items])
+        by_task = {}
+        for it in items:
+            by_task[it["task"]] = by_task.get(it["task"], 0) + 1
+        write_json(out / "DONE.json", {**{k: v for k, v in b.items()}, "n": len(items), "by_task": dict(sorted(by_task.items())),
+                                       "reference": sorted(references), "image_max_size": list(size),
+                                       "max_image_tokens_per_sample": budget, "pixels_per_token_side": factor,
+                                       "sources": sources, "seconds": round(time.time() - started)})
+        return out
+
+
+def task_rows(set_dir, ids=None):
+    """준비한 평가 세트의 (질문 줄, 정답 문항). ids 를 주면 그 문항만."""
+    set_dir = Path(set_dir)
+    rows = [r for r in read_jsonl(set_dir / "tasks.jsonl") if ids is None or r["id"] in ids]
+    keep = {r["id"] for r in rows}
+    return rows, [it for it in read_jsonl(set_dir / "items.jsonl") if it["id"] in keep]
+
+
+# -- 학습 --------------------------------------------------------------------------------------
+def mix(data_cfg: dict, factor: int, set_dirs, image_dir) -> dict:
+    """학습 데이터 섞기 → data_cfg["output_dir"]. set_dirs: 준비한 평가 세트 폴더 (겹침 검사)."""
+    from .benchmarks import train_entries
+    from .swift_import import load_swift_train
+
+    cfg = {**DEFAULTS, **{k: v for k, v in data_cfg.items() if v is not None}}
     out = Path(cfg["output_dir"])
     if (out / "DONE.json").exists():
-        raise ValueError(f"{out} already prepared; use a new output_dir")
+        raise ValueError(f"{out} 은 이미 섞었습니다; 새 output_dir 를 쓰세요")
     out.mkdir(parents=True, exist_ok=True)
     started = time.time()
     seed = cfg["seed"]
-    try:
-        per_image, factor = image_tokens(model_dir, cfg["image_max_size"])
-    except (OSError, ValueError, TypeError) as exc:
-        factor = 32
-        per_image = image_tokens_for(cfg["image_max_size"], factor)
-        print(f"WARNING: {exc}; assuming 32x32 pixels per visual token")
+    per_image = image_tokens_for(cfg["image_max_size"], factor)
     budget = cfg["max_image_tokens_per_sample"]
-    bench_size = cfg["benchmark_image_max_size"] or cfg["image_max_size"]
-    bench_budget = cfg["benchmark_max_image_tokens_per_sample"] or budget
-    bench_per_image = image_tokens_for(bench_size, factor)
-    fit = Fitter(out, factor)
+    fit = Fitter(Path(image_dir), factor)
 
     def cap(n):
         return sample_caps(n, per_image, budget)
 
-    def bench_cap(n):
-        return sample_caps(n, bench_per_image, bench_budget)
+    bench_keys, bench_images = set(), set()
+    for d in set_dirs:
+        rows, items = task_rows(d)
+        bench_keys |= {group_key(it) for it in items}
+        bench_images |= {str(Path(p).resolve()) for r in rows for p in r["source_images"]}
 
-    # -- 평가 -------------------------------------------------------------------------------
-    from .benchmarks import normalize, paths as benchmark_paths
-
-    benchmarks = normalize(cfg["benchmark"])
-    named = any(not b["legacy"] for b in benchmarks)
-    bench_items, bench_sources = [], {}
-    for b in benchmarks:
-        references = set()
-        for path in b["paths"]:
-            meta, items = load_folder(Path(path), b.get("format", "tasks"))
-            if b.get("gt"):
-                meta = {**meta, "gt": b["gt"]}
-            test = [it for it in items if split_of(it, meta.get("split", "test")) == "test"]
-            if not test:
-                raise ValueError(f"benchmark {path}: 평가 문항이 없습니다 (학습 전용 데이터셋)")
-            reference = meta.get("reference_type") or (meta.get("studio") or {}).get("gt") or meta.get("gt")
-            reference = {"exact":"synthetic_exact", "reviewed":"human_reviewed", "pseudo":"ocr_pseudo_unreviewed"}.get(reference, reference)
-            if reference:
-                references.add(reference)
-            if named:
-                test = [{**it, "meta": {**it["meta"], "benchmark_id": b["id"], "benchmark_name": b["name"],
-                                        "benchmark_group": b["group"], "benchmark_path": path}} for it in test]
-            if b.get("scorer"):   # 이 평가 세트만 다른 채점 함수 (학습·GRPO 보상은 그대로)
-                test = [{**it, "eval": {**(it.get("eval") or {}), "scorer": b["scorer"]}} for it in test]
-            elif any((it.get("eval") or {}).get("raw") for it in test):   # 정답 글 그대로인 문항은 채점 함수가 있어야
-                raise ValueError(f"benchmark {b['id']}: {path} 는 채점 함수(scorer)가 필요합니다")
-            if any((it.get("eval") or {}).get("raw") for it in test):   # swift: 채점 함수가 정답을 못 읽는 줄은 건너뜀
-                test, skipped = unreadable(test)
-                if skipped:
-                    print(f"WARNING: {Path(path).name}: 채점 함수({b['scorer']})가 정답을 읽지 못한 {len(skipped)}줄을 건너뜁니다 "
-                          f"(예: {skipped[0]['id']} {skipped[0]['why']})", flush=True)
-                    meta = {**meta, "skipped": [*meta.get("skipped", []), *skipped]}
-                if not test:
-                    raise ValueError(f"benchmark {b['id']}: {path} 에서 채점 함수가 읽은 정답이 없습니다 (예: {skipped[0]['why']})")
-            bench_items += test
-            bench_sources[path] = {k: v for k, v in meta.items() if k not in ("doc_names",)}
-        if len(references) > 1:
-            raise ValueError(f"benchmark {b['id']}: 정답 출처가 다릅니다. 별도 id로 나누세요: {sorted(references)}")
-    if len({it["id"] for it in bench_items}) != len(bench_items):
-        raise ValueError("평가 데이터셋끼리 문항 ID 가 겹칩니다")
-    bench_keys = {group_key(it) for it in bench_items}
-    bench_images = {str(Path(p).resolve()) for it in bench_items for p in it["images"]}
-
-    # -- 학습: SFT 풀·검증·GRPO 후보 ------------------------------------------------------------
-    from .benchmarks import train_entries
-
-    pools, val_rows, grpo, overlap, train_sources = {}, [], [], 0, {}
+    pools, val_rows, sources, overlaps = {}, [], {}, []
     for e in train_entries(cfg["train"]):
-        fmt = e.get("format", "tasks")
-        meta, items = load_folder(Path(e["path"]), fmt, split="train")
-        if fmt == "swift-fields":   # 정답 글 그대로: 그 학습 데이터의 채점 함수가 읽고 만점을 주는 줄만 (GRPO 보상도 이 함수)
-            items = [{**it, "eval": {**it["eval"], "scorer": e["scorer"]}} for it in items]
-            items, skipped = unreadable(items)
-            if skipped:
-                print(f"WARNING: {Path(e['path']).name}: 채점 함수({e['scorer']})가 정답을 읽지 못한 {len(skipped)}줄을 학습에서 뺍니다 "
-                      f"(예: {skipped[0]['id']} {skipped[0]['why']})", flush=True)
-                meta = {**meta, "skipped": [*meta.get("skipped", []), *skipped]}
-            if not items:
-                raise ValueError(f"train {e['path']}: 채점 함수가 읽은 정답이 없습니다 (예: {skipped[0]['why']})")
-        rows, n_val, before = [], 0, overlap
-        for it in items:
-            s = split_of(it, meta.get("split", "test"))
-            if s == "test":
-                continue
-            key = group_key(it)
-            if key in bench_keys or (fmt == "swift-fields" and bench_images & {str(Path(p).resolve()) for p in it["images"]}):
-                overlap += 1   # swift 는 파일 이름이 문서 ID 에 들어가므로 같은 그림인지도 본다
-                continue
-            if s == "val":
-                val_rows.append(it)
-                n_val += 1
-            elif bucket(key, seed) < cfg["grpo_holdout"]:
-                grpo.append(it)   # 이 고객·문서의 문항은 GRPO 후보로 (SFT 에 넣지 않음)
-            else:
-                rows.append(it)
-        if not rows and not n_val and overlap == before:
-            raise ValueError(f"train {e['path']}: 학습 문항이 없습니다 (평가 전용 데이터셋)")
+        path = Path(e["path"])
+        if e.get("format") == "swift":
+            meta, items = load_swift_train(path)
+            rows, n_val = [], 0
+            for it in items:
+                if bench_images & {str(Path(p).resolve()) for p in it["images"]}:
+                    overlaps.append(f"{path.name} {it['id']}")
+                else:
+                    rows.append(it)
+        else:
+            meta, items = load_folder(path, "tasks", split="train")
+            rows, n_val = [], 0
+            for it in items:
+                s = split_of(it, meta.get("split", "test"))
+                if s == "test":
+                    continue
+                if group_key(it) in bench_keys or bench_images & {str(Path(p).resolve()) for p in it["images"]}:
+                    overlaps.append(f"{path.name} {it['id']}")
+                elif s == "val":
+                    val_rows.append(it)
+                    n_val += 1
+                else:
+                    rows.append(it)
+            if not rows and not n_val:
+                raise ValueError(f"train {path}: 학습 문항이 없습니다 (평가 전용 데이터셋이면 data.benchmark 에)")
         if e.get("count") is not None:
             rows.sort(key=lambda it: it["id"])
             random.Random(f"{seed}:{e['path']}").shuffle(rows)
             rows = rows[:int(e["count"])]
         for it in rows:
             pools.setdefault(it["task"], []).append(it)
-        train_sources[e["path"]] = {"rows": len(rows), "val": n_val, "count": e.get("count"),
-                                    **({"format": fmt, "scorer": e["scorer"]} if fmt != "tasks" else {}),
-                                    "meta": {k: v for k, v in meta.items() if k not in ("doc_names",)}}
-    if overlap:
-        raise ValueError(f"{overlap} training rows share a customer or document with the benchmark; "
-                         "build training data separately (docgen.bench build --split train, OCR 준비의 문서 나누기)")
+        sources[e["path"]] = {"rows": len(rows), "val": n_val, "count": e.get("count"), "format": e.get("format", "tasks"),
+                              "meta": {k: v for k, v in meta.items() if k != "doc_names"}}
+    if overlaps:
+        raise ValueError(f"학습 문항 {len(overlaps)}개가 평가 세트와 같은 문서·그림입니다 (예: {overlaps[:3]}). "
+                         "학습 데이터를 따로 만드세요 (docgen.bench build --split train, OCR 준비의 문서 나누기)")
     if not pools:
-        raise ValueError("No SFT rows: check data.train")
+        raise ValueError("SFT 문항이 없습니다: data.train 을 확인하세요")
 
     rng = random.Random(seed)
     for task in sorted(pools):
@@ -415,85 +449,36 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
     chosen = [r for t, n in take.items() for r in pools[t][:n]]
 
     def to_sample(it):
-        rec = sft_record(it)
-        return {"messages": rec["messages"], "images": [fit(p, cap(len(it["images"])), png=False) for p in it["images"]]}
+        messages = it["messages"] if it.get("swift") else sft_record(it)["messages"]
+        return {"messages": messages, "images": [fit(p, cap(len(it["images"])), png=False) for p in it["images"]],
+                "pack": not it.get("swift")}
 
     def room_chars(images):
         return int((cfg["sft_max_length"] - sum(fit.image_tokens(p) for p in images) - 256) * CHARS_PER_TOKEN)
 
-    samples, too_long = [], 0
+    packable, single, too_long = [], [], 0
     for it in chosen:
         s = to_sample(it)
         if sum(len(m["content"]) for m in s["messages"]) > room_chars(s["images"]):
-            too_long += 1  # would pass sft_max_length: dropped rather than truncated
+            too_long += 1   # sft_max_length 를 넘음: 자르지 않고 뺀다
         else:
-            samples.append(s)
-    sft = pack(samples, cfg["pack_turns"], room_chars) if cfg["pack_turns"] > 1 else samples
+            (packable if s.pop("pack") else single).append(s)
+    sft = (pack(packable, cfg["pack_turns"], room_chars) if cfg["pack_turns"] > 1 else packable) + single
     random.Random(seed).shuffle(sft)
-    write_jsonl(out / "train_sft.jsonl", sft)
-    write_jsonl(out / "val_sft.jsonl", [to_sample(it) for it in val])
-
-    def question(it, png, caps=cap):
-        imgs = [fit(p, caps(len(it["images"])), png=png) for p in it["images"]]
-        return imgs, [{"role": "user", "content": "<image>" * len(imgs) + it["prompt"]}]
-
-    # -- GRPO 후보 (PNG: SFT 모델이 평가와 같은 답 내기 코드로 답해 골라 뽑는다) ------------------------
-    grpo_rows = []
-    for it in grpo:
-        imgs, messages = question(it, png=True)
-        grpo_rows.append({"id": it["id"], "split": "train", "task": it["task"],
-                          "bench_item": json.dumps({k: it[k] for k in BENCH_ITEM_KEYS if k in it}, ensure_ascii=False),
-                          "n_images": len(imgs), "messages": messages, "images": imgs})
-    grpo_rows.sort(key=lambda r: r["id"])
-    write_jsonl(out / "train_grpo.jsonl", grpo_rows)
-
-    # -- 평가 -------------------------------------------------------------------------------
-    bench_rows, image_items = [], {}
-    for it in bench_items:
-        imgs, messages = question(it, png=True, caps=bench_cap)
-        row = {"id": it["id"], "split": "benchmark", "task": it["task"], "messages": messages, "images": imgs,
-               "source_images": it["images"]}
-        ctx = (it.get("meta") or {}).get("context_image")
-        if ctx:
-            row["context_image"] = ctx
-        bench_rows.append(row)
+    vals = [to_sample(it) for it in val]
+    for s in vals:
+        s.pop("pack")
     resized = fit.run(cfg["workers"])
-    write_jsonl(out / "benchmark_tasks.jsonl", bench_rows)
-    write_jsonl(out / "benchmark_items.jsonl", [{k: it[k] for k in BENCH_ITEM_KEYS if k in it} for it in bench_items])
-    for src in {Path(p) for p in benchmark_paths(cfg["benchmark"])}:   # OCR 준비 폴더의 그림별 사내 OCR (--with-ocr)
-        if (src / "image_items.jsonl").is_file():
-            image_items.update({r["image"]: r for r in read_jsonl(src / "image_items.jsonl")})
-    if image_items:
-        write_jsonl(out / "image_items.jsonl", list(image_items.values()))
-
-    # 정답을 답으로 넣으면 만점이어야 한다 (데이터와 채점 코드가 맞는지)
-    sample = random.Random(0).sample(bench_items, min(200, len(bench_items)))
-    bad = [it["id"] for it in sample if not perfect(it)]
-    if bad:
-        raise ValueError(f"Reference answers do not score 1.0 with this docgen code (e.g. {bad[:3]}); "
-                         "use the docgen code the data was built with (채점 함수를 붙인 세트면 그 함수가 정답에 만점을 주는지)")
-
-    def count(rows, key="task"):
-        c = {}
-        for r in rows:
-            c[r[key]] = c.get(r[key], 0) + 1
-        return dict(sorted(c.items()))
-
+    write_jsonl(out / "train_sft.jsonl", sft)
+    write_jsonl(out / "val_sft.jsonl", vals)
     done = {
         "image_max_size": cfg["image_max_size"], "pixels_per_token_side": factor,
-        "max_image_tokens_per_image": per_image, "max_image_tokens_per_sample": budget,
-        "benchmark_image_max_size": bench_size, "max_image_tokens_per_image_benchmark": bench_per_image,
-        "benchmark_max_image_tokens_per_sample": bench_budget,
-        "sft_max_length": cfg["sft_max_length"],
+        "max_image_tokens_per_image": per_image, "max_image_tokens_per_sample": budget, "sft_max_length": cfg["sft_max_length"],
         "counts": {"sft_rows_by_task": {t: n for t, n in take.items() if n}, "sft_available_by_task": avail,
-                   "sft_samples": len(sft), "sft_packed_from": len(samples), "sft_dropped_too_long": too_long,
-                   "val": len(val), "grpo_by_task": count(grpo_rows), "benchmark_by_task": count(bench_rows),
-                   "resized_images": resized},
+                   "sft_samples": len(sft), "sft_dropped_too_long": too_long, "val": len(vals), "resized_images": resized},
         "excluded_tasks": sorted(t for t in avail if not take.get(t)),
-        "sources": {"train": train_sources, "benchmark": bench_sources},
-        "benchmarks": [{k: v for k, v in b.items() if k != "legacy"} for b in benchmarks] if named else [],
-        "settings": {k: cfg[k] for k in DEFAULTS},
-        "seconds": round(time.time() - started),
+        "sources": sources, "benchmark_sets": [Path(d).name for d in set_dirs],
+        "settings": {k: cfg[k] for k in DEFAULTS}, "seconds": round(time.time() - started),
     }
     write_json(out / "DONE.json", done)
     return {"output": str(out), **done["counts"]}

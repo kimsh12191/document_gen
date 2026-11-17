@@ -114,7 +114,8 @@
     123.6,
     325.9,
     143.5
-   ]
+   ],
+   "key": "check.신청구분"
   },
   {
    "t": "text",
@@ -126,7 +127,9 @@
     325.9,
     163.3
    ],
-   "section": "주계약사"
+   "section": "주계약사",
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -138,7 +141,9 @@
     325.9,
     183.1
    ],
-   "section": "주계약사"
+   "section": "주계약사",
+   "kind": "company",
+   "key": "employer.name"
   },
   {
    "t": "text",
@@ -150,7 +155,9 @@
     547.8,
     203.0
    ],
-   "section": "주계약사"
+   "section": "주계약사",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -162,7 +169,9 @@
     325.9,
     222.8
    ],
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -175,7 +184,10 @@
     242.7
    ],
    "hint": "(국외고객인 경우에만 작성)",
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "bank",
+   "std": false,
+   "key": "거래은행/영업점"
   },
   {
    "t": "text",
@@ -187,7 +199,9 @@
     325.9,
     262.5
    ],
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "company",
+   "key": "employer.name"
   },
   {
    "t": "text",
@@ -199,7 +213,9 @@
     547.8,
     282.4
    ],
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -211,7 +227,9 @@
     325.9,
     302.2
    ],
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -224,7 +242,9 @@
     322.0
    ],
    "hint": "(관계사 서비스 이용내역 통지용으로 필수투입)",
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "text",
+   "key": "customer.email"
   },
   {
    "t": "check",
@@ -269,7 +289,8 @@
     123.6,
     547.8,
     143.5
-   ]
+   ],
+   "key": "check.서비스종류"
   },
   {
    "t": "text",
@@ -281,7 +302,9 @@
     547.8,
     163.3
    ],
-   "section": "주계약사"
+   "section": "주계약사",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -293,7 +316,9 @@
     547.8,
     183.1
    ],
-   "section": "주계약사"
+   "section": "주계약사",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -305,7 +330,9 @@
     547.8,
     222.8
    ],
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -318,7 +345,10 @@
     242.7
    ],
    "hint": "(국외고객인 경우에만 작성)",
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "number",
+   "std": false,
+   "key": "글로벌고객번호"
   },
   {
    "t": "text",
@@ -330,7 +360,9 @@
     547.8,
     262.5
    ],
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -342,7 +374,10 @@
     547.8,
     302.2
    ],
-   "section": "관계사"
+   "section": "관계사",
+   "kind": "text",
+   "std": false,
+   "key": "Fax"
   },
   {
    "t": "check",
@@ -531,7 +566,8 @@
     354.2,
     547.8,
     451.8
-   ]
+   ],
+   "key": "check.조회서비스"
   },
   {
    "t": "check",
@@ -576,7 +612,8 @@
     558.1,
     547.8,
     797.2
-   ]
+   ],
+   "key": "check.아이디"
   },
   {
    "t": "check",
@@ -621,7 +658,8 @@
     558.1,
     547.8,
     797.2
-   ]
+   ],
+   "key": "check.아이디"
   },
   {
    "t": "text",
@@ -633,7 +671,9 @@
     150.7,
     521.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실행자ID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -645,7 +685,9 @@
     150.7,
     541.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실행자ID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -657,7 +699,9 @@
     187.5,
     521.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -669,7 +713,9 @@
     187.5,
     541.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -681,7 +727,9 @@
     292.5,
     521.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -693,7 +741,9 @@
     292.5,
     541.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -705,7 +755,9 @@
     347.8,
     521.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -717,7 +769,9 @@
     347.8,
     541.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -729,7 +783,9 @@
     383.3,
     521.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -741,7 +797,9 @@
     383.3,
     541.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -753,7 +811,9 @@
     488.0,
     521.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -765,7 +825,9 @@
     488.0,
     541.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -777,7 +839,9 @@
     547.8,
     521.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -789,7 +853,9 @@
     547.8,
     541.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "check",
@@ -844,7 +910,8 @@
      ],
      "line": 14
     }
-   ]
+   ],
+   "key": "check.기업뱅킹"
   },
   {
    "t": "check",
@@ -873,7 +940,8 @@
     458.1,
     548.0,
     503.3
-   ]
+   ],
+   "key": "check.주계약사"
   },
   {
    "t": "check",
@@ -918,7 +986,8 @@
     503.3,
     548.0,
     620.5
-   ]
+   ],
+   "key": "check.관계사"
   },
   {
    "t": "text",
@@ -930,7 +999,9 @@
     326.1,
     752.7
    ],
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -942,7 +1013,9 @@
     326.1,
     772.6
    ],
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -953,7 +1026,9 @@
     772.6,
     326.1,
     792.4
-   ]
+   ],
+   "kind": "company",
+   "key": "employer.name"
   },
   {
    "t": "text",
@@ -965,7 +1040,9 @@
     548.0,
     752.7
    ],
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -977,7 +1054,9 @@
     548.0,
     772.6
    ],
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -989,7 +1068,9 @@
     548.0,
     792.4
    ],
-   "hint": "(법인인감)"
+   "hint": "(법인인감)",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "check",
@@ -1012,7 +1093,8 @@
      ],
      "line": 157
     }
-   ]
+   ],
+   "key": "check.본인은"
   },
   {
    "t": "date",
@@ -1037,7 +1119,8 @@
      333.1,
      676.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -1049,7 +1132,10 @@
     552.3,
     457.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■관계사업무위임및관계사ID에대한동의"
   }
  ]
 }

@@ -20,13 +20,14 @@ html 서식 (템플릿이 칸을 만든다 — 반복 행·조건 칸·레이아
    "regions": [{"key", "occurrence"?, "label"?, "source"?, "rect"?, "drop"?, …}],   칸 하나씩 덮어쓰기: 항목명·값·위치·빼기·새 칸
    "variants": {"<변형 ID>": {"regions": [...]}}}                          레이아웃 변형별 덮어쓰기 (docgen/html_regions.py)
 - 복제·분석기 서식은 예전 form.json 의 fields·lists 가 여기로 왔다 (form.json 에는 이름·그룹·부모·출처만 남는다).
-- 코드 서식은 값을 생성 함수(docgen/docs/*.py)가 만들고, fields·lists 를 적으면 그 위에 덮어쓴다.
+- 코드 서식은 값을 서식 폴더의 생성 함수(generate.py 의 @doc)가 만들고, fields·lists 를 적으면 그 위에 덮어쓴다.
 - 처음 한 번 예전 자리(regions.json, form.json 의 값 선언)를 모아 만든다 (adopt, python -m docgen.formdir migrate).
 """
 from __future__ import annotations
 
 import json
 import threading
+from contextlib import contextmanager
 from pathlib import Path
 
 NAME = "fields.json"
@@ -34,6 +35,28 @@ VALUE_KEYS = ("fields", "lists", "shared_copies")   # html 값 선언 (예전 fo
 REGION_KEYS = ("regions", "variants")              # html 칸 덮어쓰기 (예전 regions.json)
 UNIT = {"overlay": "pt", "html": "px"}
 _lock = threading.Lock()
+_drafts = threading.local()
+
+
+@contextmanager
+def draft(doc_id: str, body: dict):
+    """이 스레드에서 렌더링하는 동안 doc_id 의 칸 목록을 body 로 (저장하지 않은 값 출처 미리보기, studio 자리·템플릿)."""
+    d = getattr(_drafts, "map", None)
+    if d is None:
+        d = _drafts.map = {}
+    old = d.get(doc_id)
+    d[doc_id] = body
+    try:
+        yield
+    finally:
+        if old is None:
+            d.pop(doc_id, None)
+        else:
+            d[doc_id] = old
+
+
+def _draft(doc_id: str) -> dict | None:
+    return (getattr(_drafts, "map", None) or {}).get(doc_id)
 
 
 def path(doc_id: str) -> Path:
@@ -43,7 +66,10 @@ def path(doc_id: str) -> Path:
 
 
 def read(doc_id: str) -> dict | None:
-    """칸 목록 (engine·unit 칸 뺀 것). 아직 없으면 None."""
+    """칸 목록 (engine·unit 칸 뺀 것). 아직 없으면 None. 이 스레드에 초안이 있으면 초안."""
+    dr = _draft(doc_id)
+    if dr is not None:
+        return json.loads(json.dumps({k: v for k, v in dr.items() if k not in ("engine", "unit")}))
     p = path(doc_id)
     if not p.exists():
         return None
@@ -73,7 +99,7 @@ def hash_files(doc_id: str) -> list[Path]:
 
 
 def exists(doc_id: str) -> bool:
-    return path(doc_id).exists()
+    return _draft(doc_id) is not None or path(doc_id).exists()
 
 
 def write(doc_id: str, body: dict) -> Path:
@@ -102,8 +128,25 @@ def update(doc_id: str, values: dict, keys: tuple) -> Path:
         if v in (None, [], {}):
             cur.pop(k, None)
         else:
-            cur[k] = v
+            cur[k] = keep_q(cur.get(k), v) if k in ("fields", "lists") else v
     return write(doc_id, cur)
+
+
+def keep_q(old, new):
+    """칸 선언을 통째로 바꿀 때 (html 편집기 저장) 있던 칸의 질문 설정 "q" 는 남긴다 (새 값에 q 가 없으면).
+    fields {키: {…}} 와 lists {이름: {fields: {칸: {…}}}} 둘 다."""
+    if not isinstance(old, dict) or not isinstance(new, dict):
+        return new
+    out = {}
+    for k, v in new.items():
+        o = old.get(k)
+        if isinstance(v, dict) and isinstance(o, dict):
+            if "fields" in v and isinstance(v["fields"], dict):   # 반복 표
+                v = {**v, "fields": keep_q(o.get("fields"), v["fields"])}
+            elif "q" in o and "q" not in v:
+                v = {**v, "q": o["q"]}
+        out[k] = v
+    return out
 
 
 def merge_declared(doc_id: str, declared: dict) -> tuple[Path, int]:

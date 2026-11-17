@@ -36,7 +36,9 @@
     135.3,
     303.8,
     147.4
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   },
   {
    "t": "text",
@@ -48,7 +50,9 @@
     308.0,
     193.1
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -60,7 +64,9 @@
     308.0,
     272.5
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "check",
@@ -121,7 +127,8 @@
     272.5,
     549.1,
     306.5
-   ]
+   ],
+   "key": "check.기업규모"
   },
   {
    "t": "check",
@@ -166,7 +173,8 @@
     306.5,
     549.1,
     340.5
-   ]
+   ],
+   "key": "check.구분"
   },
   {
    "t": "text",
@@ -177,7 +185,10 @@
     432.2,
     546.1,
     464.2
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -189,7 +200,10 @@
     549.1,
     533.3
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "reason",
+   "std": false,
+   "key": "설치사유"
   },
   {
    "t": "text",
@@ -201,7 +215,10 @@
     549.1,
     567.3
    ],
-   "section": "신 청 내 역 변경사항"
+   "section": "신 청 내 역 변경사항",
+   "kind": "note",
+   "std": false,
+   "key": "내용"
   },
   {
    "t": "text",
@@ -213,7 +230,10 @@
     549.1,
     601.3
    ],
-   "section": "신 청 내 역 변경사항"
+   "section": "신 청 내 역 변경사항",
+   "kind": "reason",
+   "std": false,
+   "key": "사유"
   },
   {
    "t": "text",
@@ -225,7 +245,9 @@
     549.1,
     159.1
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -237,7 +259,9 @@
     549.1,
     193.1
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -248,7 +272,10 @@
     657.6,
     549.1,
     684.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -259,7 +286,10 @@
     684.6,
     549.1,
     711.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -273,7 +303,10 @@
    ],
    "group": "해외지점 설치(변경) 신고서",
    "row": true,
-   "section": "해외지점 설치(변경) 신고서"
+   "section": "해외지점 설치(변경) 신고서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -298,7 +331,8 @@
      532.3,
      635.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -323,7 +357,8 @@
      532.3,
      742.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -352,7 +387,9 @@
     305.0,
     154.4
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "key": "company.name"
   }
  ]
 }

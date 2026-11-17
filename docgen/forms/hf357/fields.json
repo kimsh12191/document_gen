@@ -24,7 +24,9 @@
     549.9,
     153.6
    ],
-   "hint": "필수사항 입니다 (기업은 본사의 법인등록번호 기입)"
+   "hint": "필수사항 입니다 (기업은 본사의 법인등록번호 기입)",
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -35,7 +37,9 @@
     202.3,
     549.9,
     222.7
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "check",
@@ -64,7 +68,8 @@
     222.7,
     549.9,
     281.6
-   ]
+   ],
+   "key": "check.하나해외지점/법인주1)고객"
   },
   {
    "t": "text",
@@ -75,7 +80,10 @@
     281.6,
     549.9,
     301.8
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "사업자명"
   },
   {
    "t": "text",
@@ -86,7 +94,10 @@
     301.8,
     549.9,
     321.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "사업자대표"
   },
   {
    "t": "text",
@@ -97,7 +108,9 @@
     321.9,
     549.9,
     342.0
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -108,7 +121,9 @@
     342.0,
     549.9,
     362.1
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -120,7 +135,9 @@
     549.9,
     402.4
    ],
-   "section": "대표 연락처"
+   "section": "대표 연락처",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -132,7 +149,10 @@
     549.9,
     422.5
    ],
-   "section": "대표 연락처"
+   "section": "대표 연락처",
+   "kind": "phone",
+   "std": false,
+   "key": "팩스번호"
   },
   {
    "t": "text",
@@ -144,7 +164,9 @@
     549.9,
     442.7
    ],
-   "section": "대표 연락처"
+   "section": "대표 연락처",
+   "kind": "text",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -156,7 +178,9 @@
     114.0,
     551.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실행자ID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -168,7 +192,9 @@
     114.0,
     591.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실행자ID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -180,7 +206,9 @@
     114.0,
     631.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실행자ID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -192,7 +220,9 @@
     114.0,
     670.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실행자ID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -204,7 +234,9 @@
     114.0,
     710.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실행자ID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -216,7 +248,9 @@
     161.6,
     551.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -228,7 +262,9 @@
     161.6,
     591.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -240,7 +276,9 @@
     161.6,
     631.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -252,7 +290,9 @@
     161.6,
     670.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -264,7 +304,9 @@
     161.6,
     710.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -276,7 +318,9 @@
     248.6,
     551.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -288,7 +332,9 @@
     248.6,
     591.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -300,7 +346,9 @@
     248.6,
     631.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -312,7 +360,9 @@
     248.6,
     670.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -324,7 +374,9 @@
     248.6,
     710.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -336,7 +388,9 @@
     335.6,
     551.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -348,7 +402,9 @@
     335.6,
     591.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -360,7 +416,9 @@
     335.6,
     631.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -372,7 +430,9 @@
     335.6,
     670.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -384,7 +444,9 @@
     335.6,
     710.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -396,7 +458,9 @@
     421.8,
     551.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -408,7 +472,9 @@
     421.8,
     591.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -420,7 +486,9 @@
     421.8,
     631.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -432,7 +500,9 @@
     421.8,
     670.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -444,7 +514,9 @@
     421.8,
     710.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -457,7 +529,9 @@
     532.0
    ],
    "hint": "국가명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -470,7 +544,9 @@
     551.9
    ],
    "hint": "지점/법인명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -483,7 +559,9 @@
     571.7
    ],
    "hint": "국가명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -496,7 +574,9 @@
     591.6
    ],
    "hint": "지점/법인명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -509,7 +589,9 @@
     611.4
    ],
    "hint": "국가명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -522,7 +604,9 @@
     631.2
    ],
    "hint": "지점/법인명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -535,7 +619,9 @@
     651.1
    ],
    "hint": "국가명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -548,7 +634,9 @@
     670.9
    ],
    "hint": "지점/법인명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -561,7 +649,9 @@
     690.8
    ],
    "hint": "국가명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "text",
@@ -574,7 +664,9 @@
     710.6
    ],
    "hint": "지점/법인명",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개설점",
+   "kind": "branch"
   },
   {
    "t": "check",
@@ -597,7 +689,8 @@
      ],
      "line": 48
     }
-   ]
+   ],
+   "key": "check.아래의사업장을CMSiN"
   },
   {
    "t": "check",
@@ -620,7 +713,8 @@
      ],
      "line": 120
     }
-   ]
+   ],
+   "key": "check.지사출금계좌"
   }
  ]
 }

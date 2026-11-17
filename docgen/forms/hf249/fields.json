@@ -55,7 +55,10 @@
     97.0,
     286.7,
     113.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -66,7 +69,10 @@
     97.0,
     411.7,
     113.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -77,7 +83,9 @@
     118.8,
     544.9,
     139.5
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -88,7 +96,10 @@
     288.9,
     544.9,
     313.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "하려는"
   },
   {
    "t": "text",
@@ -99,7 +110,10 @@
     141.5,
     544.9,
     162.1
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -111,7 +125,9 @@
     544.9,
     190.5
    ],
-   "hint": "(전화번호: )"
+   "hint": "(전화번호: )",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -123,7 +139,10 @@
     544.9,
     218.8
    ],
-   "hint": "(전화번호: )"
+   "hint": "(전화번호: )",
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -134,7 +153,9 @@
     220.8,
     544.9,
     241.5
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -145,7 +166,10 @@
     310.4,
     544.9,
     331.3
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "변경후내용"
   },
   {
    "t": "text",
@@ -158,7 +182,10 @@
     287.9
    ],
    "unit": "%",
-   "section": "이미 신고 (허가)된 외국인 투자내용"
+   "section": "이미 신고 (허가)된 외국인 투자내용",
+   "kind": "percent",
+   "std": false,
+   "key": "취득총액원"
   },
   {
    "t": "date",
@@ -183,7 +210,8 @@
      541.5,
      412.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -200,7 +228,9 @@
     420.3,
     550.3,
     431.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -211,7 +241,10 @@
     488.8,
     469.7,
     505.7
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "date",
@@ -236,7 +269,8 @@
      541.5,
      539.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -248,7 +282,10 @@
     161.7,
     111.7
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -260,7 +297,10 @@
     187.8,
     236.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "외국인"
   },
   {
    "t": "text",
@@ -272,7 +312,10 @@
     189.8,
     332.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "변경사항"
   },
   {
    "t": "text",
@@ -284,7 +327,10 @@
     368.3,
     332.3
    ],
-   "free": true
+   "free": true,
+   "kind": "note",
+   "std": false,
+   "key": "이미신고된내용"
   },
   {
    "t": "text",
@@ -296,7 +342,10 @@
     189.8,
     361.6
    ],
-   "free": true
+   "free": true,
+   "kind": "note",
+   "std": false,
+   "key": "변경내용"
   },
   {
    "t": "text",
@@ -307,7 +356,10 @@
     97.0,
     286.7,
     113.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -318,7 +370,10 @@
     97.0,
     411.7,
     113.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -329,7 +384,9 @@
     118.8,
     544.4,
     139.5
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -340,7 +397,10 @@
     288.9,
     544.4,
     313.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "하려는"
   },
   {
    "t": "text",
@@ -351,7 +411,10 @@
     141.5,
     544.4,
     162.1
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -363,7 +426,9 @@
     544.4,
     190.5
    ],
-   "hint": "(전화번호: )"
+   "hint": "(전화번호: )",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -375,7 +440,10 @@
     544.4,
     218.8
    ],
-   "hint": "(전화번호: )"
+   "hint": "(전화번호: )",
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -386,7 +454,9 @@
     220.8,
     544.4,
     241.5
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -397,7 +467,10 @@
     310.4,
     544.4,
     331.3
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "변경후내용"
   },
   {
    "t": "text",
@@ -410,7 +483,10 @@
     287.9
    ],
    "unit": "%",
-   "section": "이미 신고 (허가)된 외국인 투자내용"
+   "section": "이미 신고 (허가)된 외국인 투자내용",
+   "kind": "percent",
+   "std": false,
+   "key": "취득총액원"
   },
   {
    "t": "date",
@@ -435,7 +511,8 @@
      541.5,
      412.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -452,7 +529,9 @@
     420.3,
     550.3,
     431.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -463,7 +542,10 @@
     488.8,
     469.7,
     505.7
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "date",
@@ -488,7 +570,8 @@
      541.5,
      539.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -500,7 +583,10 @@
     161.7,
     111.7
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -512,7 +598,10 @@
     187.8,
     236.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "외국인"
   },
   {
    "t": "text",
@@ -524,7 +613,10 @@
     189.8,
     332.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "변경사항"
   },
   {
    "t": "text",
@@ -536,7 +628,10 @@
     368.3,
     332.3
    ],
-   "free": true
+   "free": true,
+   "kind": "note",
+   "std": false,
+   "key": "이미신고된내용"
   },
   {
    "t": "text",
@@ -548,7 +643,10 @@
     189.8,
     361.6
    ],
-   "free": true
+   "free": true,
+   "kind": "note",
+   "std": false,
+   "key": "변경내용"
   }
  ]
 }

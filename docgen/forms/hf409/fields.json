@@ -66,7 +66,10 @@
     548.0,
     429.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "는기관"
   },
   {
    "t": "text",
@@ -78,7 +81,10 @@
     552.3,
     684.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "능동적비금융법인여부"
   },
   {
    "t": "text",
@@ -90,7 +96,10 @@
     548.0,
     147.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "미함"
   },
   {
    "t": "text",
@@ -102,7 +111,10 @@
     548.0,
     398.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "재개하려는의도로조직변경중인경우"
   },
   {
    "t": "text",
@@ -114,7 +126,10 @@
     548.0,
     434.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "된관계회사그룹"
   },
   {
    "t": "text",
@@ -126,7 +141,10 @@
     548.0,
     649.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "위법인에귀속될것을요구할것"
   },
   {
    "t": "text",
@@ -137,7 +155,10 @@
     282.3,
     545.6,
     300.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "미국미국정부소유기관미국정부대행기관"
   },
   {
    "t": "text",
@@ -148,7 +169,10 @@
     353.2,
     545.6,
     371.0
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "미국연방세법제581조에정의된은행"
   },
   {
    "t": "text",
@@ -159,7 +183,10 @@
     506.3,
     545.6,
     524.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "미국연방세법제6045조에정의된중개인"
   },
   {
    "t": "text",
@@ -171,7 +198,10 @@
     548.0,
     331.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "유기관또는대행기관"
   },
   {
    "t": "text",
@@ -183,7 +213,10 @@
     548.0,
     422.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "라미국증권거래위원회에등록된법인"
   },
   {
    "t": "text",
@@ -195,7 +228,10 @@
     548.0,
     473.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "신탁"
   },
   {
    "t": "text",
@@ -207,7 +243,10 @@
     548.0,
     504.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "여등록된자"
   },
   {
    "t": "text",
@@ -218,7 +257,10 @@
     179.6,
     544.1,
     201.5
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "다음의요건을모두충족하는금융기관"
   },
   {
    "t": "text",
@@ -229,7 +271,10 @@
     617.3,
     544.1,
     636.6
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "다음의요건을모두충족하는금융기관"
   },
   {
    "t": "text",
@@ -241,7 +286,10 @@
     362.7,
     177.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "구분"
   },
   {
    "t": "text",
@@ -253,7 +301,10 @@
     548.0,
     227.3
    ],
-   "free": true
+   "free": true,
+   "kind": "bank",
+   "std": false,
+   "key": "가법에따라금융회사로인가받고규제될것"
   },
   {
    "t": "text",
@@ -265,7 +316,10 @@
     548.0,
     615.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "관행을가지지아니할것"
   },
   {
    "t": "text",
@@ -276,7 +330,10 @@
     72.1,
     544.7,
     91.1
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "다음의요건을모두충족하는금융기관"
   },
   {
    "t": "text",
@@ -287,7 +344,10 @@
     465.2,
     544.7,
     485.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "다음의요건을모두충족하는투자기구"
   },
   {
    "t": "text",
@@ -299,7 +359,10 @@
     548.0,
     116.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "가투자법인이아닐것"
   },
   {
    "t": "text",
@@ -311,7 +374,10 @@
     548.0,
     195.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "의정보를보고하는신탁"
   },
   {
    "t": "text",
@@ -323,7 +389,10 @@
     548.0,
     239.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "사에해당하는경우로한정한다"
   },
   {
    "t": "text",
@@ -335,7 +404,10 @@
     548.0,
     275.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "부여받을것"
   },
   {
    "t": "text",
@@ -347,7 +419,10 @@
     548.0,
     353.0
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "별번호를포함할것"
   },
   {
    "t": "text",
@@ -359,7 +434,10 @@
     548.0,
     361.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "바후원자로서의지위를취소하지아니할것"
   },
   {
    "t": "text",
@@ -371,7 +449,10 @@
     548.0,
     393.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "요건을충족하는피지배외국회사"
   },
   {
    "t": "text",
@@ -383,7 +464,10 @@
     548.0,
     429.3
    ],
-   "free": true
+   "free": true,
+   "kind": "bank",
+   "std": false,
+   "key": "해완전히소유되는금융회사일것"
   },
   {
    "t": "text",
@@ -395,7 +479,10 @@
     548.0,
     699.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "후원자로서의지위를취소하지아니할것"
   },
   {
    "t": "text",
@@ -407,7 +494,10 @@
     548.0,
     744.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "법인"
   },
   {
    "t": "text",
@@ -419,7 +509,10 @@
     548.0,
     767.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "가투자자문제공"
   },
   {
    "t": "text",
@@ -431,7 +524,10 @@
     548.0,
     789.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "용을포함한다"
   },
   {
    "t": "text",
@@ -442,7 +538,10 @@
     556.6,
     544.3,
     574.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "다음의요건을모두충족해야함"
   },
   {
    "t": "text",
@@ -453,7 +552,10 @@
     619.0,
     544.3,
     636.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "다음의요건을모두충족해야함"
   },
   {
    "t": "text",
@@ -465,7 +567,10 @@
     548.0,
     658.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "가한국에서설립된펀드일것"
   },
   {
    "t": "text",
@@ -477,7 +582,10 @@
     548.0,
     775.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "에만분배또는인출이가능할것"
   },
   {
    "t": "text",
@@ -488,7 +596,10 @@
     72.1,
     545.2,
     88.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "다음의요건을모두충족해야함"
   },
   {
    "t": "text",
@@ -499,7 +610,10 @@
     375.0,
     545.2,
     396.7
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "별정우체국법에의한별정우체국연금관리단"
   },
   {
    "t": "text",
@@ -510,7 +624,10 @@
     424.2,
     545.2,
     439.8
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "다음각목의요건을모두충족하는금융회사"
   },
   {
    "t": "text",
@@ -522,7 +639,10 @@
     548.0,
     112.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "가한국에서설립된펀드일것"
   },
   {
    "t": "text",
@@ -534,7 +654,10 @@
     548.0,
     203.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "할것"
   },
   {
    "t": "text",
@@ -546,7 +669,10 @@
     548.0,
     287.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "수익자또는참가자"
   },
   {
    "t": "text",
@@ -558,7 +684,10 @@
     548.0,
     329.5
    ],
-   "free": true
+   "free": true,
+   "kind": "bank",
+   "std": false,
+   "key": "가투자법인라는이유만으로금융회사일것"
   },
   {
    "t": "text",
@@ -570,7 +699,10 @@
     548.0,
     364.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "채권지분을소유할것"
   },
   {
    "t": "text",
@@ -582,7 +714,10 @@
     546.0,
     403.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "연금관리단"
   },
   {
    "t": "text",
@@ -594,7 +729,10 @@
     362.7,
     422.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "구분"
   },
   {
    "t": "text",
@@ -606,7 +744,10 @@
     546.0,
     546.4
    ],
-   "free": true
+   "free": true,
+   "kind": "bank",
+   "std": false,
+   "key": "금융회사"
   },
   {
    "t": "text",
@@ -618,7 +759,10 @@
     548.0,
     582.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "를보고하는신탁"
   },
   {
    "t": "text",
@@ -629,7 +773,10 @@
     72.1,
     544.1,
     89.7
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "다음의요건을모두충족해야함"
   },
   {
    "t": "text",
@@ -640,7 +787,10 @@
     229.9,
     544.1,
     245.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "다음의요건을모두충족해야함"
   },
   {
    "t": "text",
@@ -651,7 +801,10 @@
     418.2,
     544.1,
     439.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "별정우체국법에의한별정우체국연금관리단"
   },
   {
    "t": "text",
@@ -663,7 +816,10 @@
     546.0,
     446.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "연금간리단"
   }
  ]
 }

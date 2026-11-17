@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>모델 써 보기</title>
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+<header>
+  <b>모델 써 보기</b>
+  <nav>
+    <button class="tab on" data-tab="models">① GPU·모델</button>
+    <button class="tab" data-tab="try">② 써 보기</button>
+  </nav>
+  <span id="toast"></span>
+</header>
+
+<main id="tab-models">
+  <section>
+    <h2>GPU <button id="gpu-refresh" class="small">새로고침</button> <span class="muted">5초마다 갱신 · 고른 GPU 에 모델을 띄웁니다</span></h2>
+    <table id="gpus"><thead><tr><th></th><th>번호</th><th>이름</th><th>메모리</th><th>사용률</th><th>상태</th></tr></thead><tbody></tbody></table>
+    <p id="gpu-error" class="warn"></p>
+  </section>
+
+  <section>
+    <h2>모델 띄우기</h2>
+    <div class="form">
+      <label>모델 경로 <input id="m-path" list="m-recent" placeholder="/data/runs/exp3/merged/... 또는 checkpoint-800" size="70"></label>
+      <datalist id="m-recent"></datalist>
+      <label>이름 <input id="m-name" placeholder="비우면 폴더 이름" size="20"></label>
+      <label>방식
+        <select id="m-engine"><option value="swift">swift deploy (평가와 같음)</option><option value="vllm">vllm serve</option></select></label>
+      <label>model_type <input id="m-type" value="qwen3_5" size="10"></label>
+      <label>포트 <input id="m-port" type="number" size="6"></label>
+      <span>GPU: <b id="m-gpus">위 표에서 고르세요</b></span>
+    </div>
+    <ul id="m-warn" class="warn"></ul>
+    <div class="cmdhead">실행할 명령 <span class="muted">— 이 글자 그대로 bash 로 실행합니다. 고쳐도 됩니다.</span>
+      <button id="m-remake" class="small hidden">입력이 바뀌었습니다: 명령 다시 만들기</button></div>
+    <textarea id="m-cmd" rows="12" spellcheck="false"></textarea>
+    <div><button id="m-start" class="primary">띄우기</button></div>
+  </section>
+
+  <section>
+    <h2>떠 있는 모델</h2>
+    <table id="models"><thead><tr><th></th><th>이름</th><th>경로 / 주소</th><th>GPU</th><th>포트</th><th>상태</th><th></th></tr></thead><tbody></tbody></table>
+    <div class="form">
+      <span class="muted">이미 떠 있는 서버에 붙기:</span>
+      <label>이름 <input id="a-name" size="14"></label>
+      <label>주소 <input id="a-endpoint" placeholder="http://127.0.0.1:8000/v1" size="34"></label>
+      <button id="a-attach">붙기</button>
+    </div>
+    <div id="logbox" class="hidden">
+      <div class="cmdhead">로그 <b id="log-name"></b> <span class="muted">(끝 200줄, 열려 있는 동안 갱신)</span> <button id="log-close" class="small">닫기</button></div>
+      <pre id="log"></pre>
+    </div>
+  </section>
+</main>
+
+<main id="tab-try" class="hidden">
+  <div id="ask-models" class="bar"></div>
+  <div class="cols">
+    <aside class="pane files">
+      <div class="row"><input id="f-dir" list="f-recent" placeholder="이미지 폴더 경로"><button id="f-open">열기</button></div>
+      <datalist id="f-recent"></datalist>
+      <div class="row"><input id="f-filter" placeholder="이름 거르기"><span id="f-count" class="muted"></span></div>
+      <p class="muted small">누르면 고르기 · Ctrl/⌘ 누르고 누르면 여러 장 (쪽 순서 = 고른 순서)</p>
+      <div id="thumbs"></div>
+    </aside>
+
+    <section class="pane view">
+      <div id="picked" class="muted">그림을 고르세요</div>
+      <div id="stage"><div id="canvas" class="hidden"><img id="big" alt=""><div id="shapes"></div></div></div>
+      <p id="draw-hint" class="muted small"></p>
+    </section>
+
+    <section class="pane ask">
+      <div class="form col">
+        <label>질문 고르기 <select id="q-task"></select></label>
+        <label id="w-lang" class="hidden">질문 말 <select id="q-lang"><option value="ko">한국어</option><option value="en">영어</option></select></label>
+        <label id="w-form" class="hidden">서식 <input id="q-form" list="forms" placeholder="서식 ID 또는 이름 (안 골라도 됨)"></label>
+        <datalist id="forms"></datalist>
+        <label id="w-maxkeys" class="hidden">항목 수 <input id="q-maxkeys" type="number" value="40" min="0" size="4"> <span class="muted">0 이면 전부</span></label>
+        <label id="w-text" class="hidden">찾을 글자 <input id="q-text"></label>
+        <div id="w-anchor" class="hidden">
+          <label>기준 글자 <input id="q-anchor" placeholder="비우면 그림에 끈 네모를 기준으로"></label>
+          <label>방향 <select id="q-dir"><option value="right">오른쪽</option><option value="left">왼쪽</option><option value="below">아래</option><option value="above">위</option></select></label>
+        </div>
+        <div id="w-marker" class="hidden">
+          <label>상자 색 <select id="q-color"><option value="red">빨강</option><option value="blue">파랑</option><option value="green">초록</option></select></label>
+          <label><input id="q-coords" type="checkbox"> 좌표도 같이 적기</label>
+          <span class="muted small">색을 고르고 그림에서 끕니다 (색마다 하나, 셋까지). 묻는 것은 고른 색 상자.</span>
+        </div>
+        <div id="w-target" class="hidden">
+          <label>표 가리키기 <select id="q-target"><option value="only">"표" (표가 하나뿐)</option><option value="title">제목</option>
+            <option value="header">머리글 두어 개</option><option value="box">그림에서 네모</option></select></label>
+          <label id="w-title" class="hidden">제목 <input id="q-title" placeholder="예: 자격득실 확인 내역"></label>
+          <label id="w-headers" class="hidden">머리글 <input id="q-headers" placeholder="서식을 고르면 열 이름, 아니면 '가입자구분, 자격취득일'"></label>
+          <label id="w-table" class="hidden">표 <select id="q-table"></select></label>
+        </div>
+        <label id="w-tableq" class="hidden">질의 종류 <select id="q-tableq"><option value="count">행 수</option><option value="count_if">조건에 맞는 행 수</option>
+          <option value="lookup">찾기</option><option value="nth">몇 번째 행</option><option value="last">마지막 행</option><option value="sum">합계</option></select></label>
+        <div id="w-field" class="hidden">
+          <label>칸 이름 <input id="q-label" value="비고"></label>
+          <label>기준일 <input id="q-basis" type="date"></label>
+        </div>
+      </div>
+      <p id="q-note" class="muted small"></p>
+      <div class="cmdhead">질문 <span class="muted">— 고른 것이 채워집니다. 고쳐서 물어도 됩니다.</span>
+        <button id="q-reset" class="small hidden">원래 질문으로</button></div>
+      <textarea id="q-prompt" rows="9" spellcheck="false"></textarea>
+      <div class="row">
+        <label><input id="q-fit" type="checkbox" checked> 평가와 같은 크기로 줄여 보내기</label>
+        <button id="q-ask" class="primary">묻기</button>
+      </div>
+      <div id="answers"></div>
+      <div id="followup" class="hidden">
+        <div class="row"><input id="q-next" placeholder="이어서 묻기 (같은 그림, 앞의 질문·답을 함께 보냄)"><button id="q-send">보내기</button></div>
+        <button id="q-new" class="small">새 대화</button>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="app.js?v=3"></script>
+</body>
+</html>

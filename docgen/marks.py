@@ -1,6 +1,6 @@
 """표시 요소: 손글씨·체크 표시·도장·서명이 "어느 칸에 얼마나 나올지"(확률)와 "어떻게 생겼는지"(풀).
 
-  docgen/marks.json        확률 설정. 없는 항목은 아래 DEFAULTS (= 이 파일을 만들기 전 코드의 상수)
+  docgen/forms/_common/marks.json   확률 설정. 없는 항목은 아래 DEFAULTS (= 이 파일을 만들기 전 코드의 상수)
   docgen/assets/marks/pools.json  풀: 체크 표시·서명 이미지, 도장 틀, 손글씨·인쇄체 글꼴 (없는 풀은 DEFAULT_POOLS)
   docgen/assets/marks/<풀>/…      풀에 올린 이미지 (투명 배경 PNG)
 
@@ -19,7 +19,7 @@ from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent   # docgen/
-SETTINGS = ROOT / "marks.json"
+SETTINGS = ROOT / "forms" / "_common" / "marks.json"
 POOLS_DIR = ROOT / "assets" / "marks"
 POOLS = POOLS_DIR / "pools.json"
 
@@ -30,6 +30,7 @@ DEFAULTS = {
     "sign_spot": {"seal_below": 0.4, "sign_below": 0.88},   # overlay "(서명 또는 인)": 난수 < 0.4 도장, < 0.88 서명, 나머지 빈칸
     "seal_spot": {"seal_below": 0.5, "sign_below": 0.8},    # overlay "인감·서명/날인" 칸
     "staff_spot": {"square_below": 0.2, "seal_below": 0.7},  # 결재란: 사각 도장 비율, 도장(나머지는 서명)
+    "floats": [],   # 모든 overlay 서식의 자유 위치 도장·번호 [{preset, p, area, answer, …}] (docgen/floats.py)
 }
 
 DEFAULT_POOLS = {
@@ -88,7 +89,7 @@ def _read(p: Path) -> dict:
 
 
 def settings(form_marks: dict | None = None) -> dict:
-    """확률 설정: 기본값 ← docgen/marks.json ← 서식 덮어쓰기."""
+    """확률 설정: 기본값 ← docgen/forms/_common/marks.json ← 서식 덮어쓰기."""
     return _merge(_merge(DEFAULTS, _read(SETTINGS)), form_marks or {})
 
 

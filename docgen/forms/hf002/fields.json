@@ -35,7 +35,9 @@
     161.0,
     431.5,
     184.5
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -47,7 +49,10 @@
     493.1,
     207.0
    ],
-   "section": "Address"
+   "section": "Address",
+   "kind": "text",
+   "std": false,
+   "key": "Home"
   },
   {
    "t": "text",
@@ -60,7 +65,10 @@
     229.7
    ],
    "hint": "Providing company and division names in the office address helps to ensure accurate mail delivery.",
-   "section": "Address"
+   "section": "Address",
+   "kind": "text",
+   "std": false,
+   "key": "Office"
   },
   {
    "t": "text",
@@ -72,7 +80,10 @@
     491.1,
     252.1
    ],
-   "section": "Phone"
+   "section": "Phone",
+   "kind": "text",
+   "std": false,
+   "key": "Home"
   },
   {
    "t": "text",
@@ -84,7 +95,10 @@
     491.1,
     274.8
    ],
-   "section": "Phone"
+   "section": "Phone",
+   "kind": "text",
+   "std": false,
+   "key": "Office"
   },
   {
    "t": "text",
@@ -95,7 +109,10 @@
     298.4,
     293.7,
     309.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Occupation"
   },
   {
    "t": "text",
@@ -106,7 +123,10 @@
     309.3,
     293.7,
     319.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Occupation"
   },
   {
    "t": "text",
@@ -117,7 +137,10 @@
     161.0,
     493.1,
     184.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Payday"
   },
   {
    "t": "text",
@@ -130,7 +153,11 @@
     240.9
    ],
    "hint": "Registered seal",
-   "row": true
+   "row": true,
+   "group": "Nochangeincustomerinformation",
+   "kind": "text",
+   "std": false,
+   "key": "Nochangeincustomerinformation"
   },
   {
    "t": "text",
@@ -141,7 +168,10 @@
     405.6,
     160.4,
     416.0
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "RequestforSMSmaturitynotice"
   },
   {
    "t": "text",
@@ -152,7 +182,10 @@
     360.4,
     251.2,
     377.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "갋"
   },
   {
    "t": "text",
@@ -163,7 +196,10 @@
     420.4,
     251.2,
     437.4
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "갋"
   },
   {
    "t": "text",
@@ -174,7 +210,10 @@
     481.3,
     251.2,
     499.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "갋"
   },
   {
    "t": "text",
@@ -186,7 +225,10 @@
     332.4,
     395.3
    ],
-   "row": true
+   "row": true,
+   "group": "Floating",
+   "key": "Floating_목록.{i}.FixedFloating",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -198,7 +240,10 @@
     332.4,
     455.1
    ],
-   "row": true
+   "row": true,
+   "group": "Floating",
+   "key": "Floating_목록.{i}.FixedFloating",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -210,7 +255,10 @@
     332.4,
     517.0
    ],
-   "row": true
+   "row": true,
+   "group": "Floating",
+   "key": "Floating_목록.{i}.FixedFloating",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -221,7 +269,10 @@
     777.4,
     290.7,
     789.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "AccountItem"
   },
   {
    "t": "text",
@@ -232,7 +283,10 @@
     777.4,
     562.8,
     789.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "PaymentDeadline"
   },
   {
    "t": "text",
@@ -244,7 +298,10 @@
     547.3,
     380.0
    ],
-   "unit": "원"
+   "unit": "원",
+   "kind": "amount",
+   "std": false,
+   "key": "mthcapitalizationLimit"
   },
   {
    "t": "text",
@@ -256,7 +313,10 @@
     547.3,
     439.6
    ],
-   "unit": "원"
+   "unit": "원",
+   "kind": "amount",
+   "std": false,
+   "key": "mthcapitalizationLimit"
   },
   {
    "t": "text",
@@ -268,7 +328,10 @@
     547.3,
     501.9
    ],
-   "unit": "원"
+   "unit": "원",
+   "kind": "amount",
+   "std": false,
+   "key": "mthcapitalizationLimit"
   },
   {
    "t": "check",
@@ -291,7 +354,8 @@
      ],
      "line": 147
     }
-   ]
+   ],
+   "key": "check.Irequest/agr"
   },
   {
    "t": "check",
@@ -314,7 +378,8 @@
      ],
      "line": 148
     }
-   ]
+   ],
+   "key": "check.Ishallraisen"
   },
   {
    "t": "check",
@@ -337,7 +402,8 @@
      ],
      "line": 149
     }
-   ]
+   ],
+   "key": "check.Ihavereceive"
   },
   {
    "t": "text",
@@ -349,7 +415,10 @@
     207.1,
     376.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Bankbook"
   },
   {
    "t": "text",
@@ -361,7 +430,10 @@
     484.9,
     373.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Annual"
   },
   {
    "t": "text",
@@ -373,7 +445,10 @@
     207.1,
     436.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Bankbook"
   },
   {
    "t": "text",
@@ -385,7 +460,10 @@
     484.9,
     433.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Annual"
   },
   {
    "t": "text",
@@ -397,7 +475,10 @@
     484.9,
     494.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Annual"
   },
   {
    "t": "text",
@@ -409,7 +490,10 @@
     207.1,
     498.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Bankbook"
   },
   {
    "t": "text",
@@ -421,7 +505,10 @@
     273.5,
     568.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "WithdrawalAccount["
   },
   {
    "t": "text",
@@ -433,7 +520,10 @@
     562.0,
     607.0
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -445,7 +535,10 @@
     561.8,
     610.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "YYYY"
   },
   {
    "t": "text",
@@ -457,7 +550,9 @@
     170.0,
     775.4
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "key": "account"
   },
   {
    "t": "text",
@@ -469,7 +564,10 @@
     563.8,
     775.4
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DateofOpening"
   },
   {
    "t": "text",
@@ -481,7 +579,10 @@
     170.0,
     804.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Category"
   },
   {
    "t": "text",
@@ -493,7 +594,10 @@
     452.6,
     804.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Time"
   },
   {
    "t": "text",
@@ -505,7 +609,10 @@
     563.8,
     804.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "EmployeeNumber"
   },
   {
    "t": "text",
@@ -518,7 +625,11 @@
     92.6
    ],
    "hint": "(6 to 15 characters, in English or English + numbers)",
-   "row": true
+   "row": true,
+   "group": "NewWithdrawalAccountAddition",
+   "kind": "text",
+   "std": false,
+   "key": "NewWithdrawalAccountAddition"
   },
   {
    "t": "text",
@@ -529,7 +640,10 @@
     108.0,
     228.9,
     121.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "YesNo"
   },
   {
    "t": "text",
@@ -541,7 +655,10 @@
     156.4,
     285.0
    ],
-   "section": "Common Field"
+   "section": "Common Field",
+   "kind": "text",
+   "std": false,
+   "key": "Statusofassets"
   },
   {
    "t": "text",
@@ -553,7 +670,10 @@
     156.4,
     353.6
    ],
-   "section": "Common Field Sources of financing"
+   "section": "Common Field Sources of financing",
+   "kind": "text",
+   "std": false,
+   "key": "Sourcesoffinancing"
   },
   {
    "t": "text",
@@ -564,7 +684,10 @@
     354.6,
     563.3,
     373.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "YesNo"
   },
   {
    "t": "text",
@@ -576,7 +699,10 @@
     231.9,
     390.2
    ],
-   "section": "Sole Proprietor"
+   "section": "Sole Proprietor",
+   "kind": "text",
+   "std": false,
+   "key": "BusinessName"
   },
   {
    "t": "text",
@@ -588,7 +714,10 @@
     156.4,
     412.2
    ],
-   "section": "Sole Proprietor Industry (Business Type/ Item)"
+   "section": "Sole Proprietor Industry (Business Type/ Item)",
+   "kind": "text",
+   "std": false,
+   "key": "Industry"
   },
   {
    "t": "text",
@@ -600,7 +729,10 @@
     408.8,
     390.2
    ],
-   "section": "Sole Proprietor"
+   "section": "Sole Proprietor",
+   "kind": "biz_no",
+   "std": false,
+   "key": "BusinessRegistrationNo"
   },
   {
    "t": "text",
@@ -612,7 +744,10 @@
     566.3,
     390.2
    ],
-   "section": "Sole Proprietor"
+   "section": "Sole Proprietor",
+   "kind": "date",
+   "std": false,
+   "key": "BusinessCommencementDate"
   },
   {
    "t": "text",
@@ -623,7 +758,10 @@
     438.2,
     473.8,
     454.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "DepositAccount"
   },
   {
    "t": "text",
@@ -635,7 +773,9 @@
     241.4,
     659.0
    ],
-   "section": "Proxy’s Profile"
+   "section": "Proxy’s Profile",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -647,7 +787,10 @@
     241.4,
     677.3
    ],
-   "section": "Proxy’s Profile"
+   "section": "Proxy’s Profile",
+   "kind": "text",
+   "std": false,
+   "key": "RelationtoPrincipal"
   },
   {
    "t": "text",
@@ -659,7 +802,9 @@
     396.1,
     659.0
    ],
-   "section": "Proxy’s Profile"
+   "section": "Proxy’s Profile",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -672,7 +817,9 @@
     677.3
    ],
    "hint": "Optional",
-   "section": "Proxy’s Profile"
+   "section": "Proxy’s Profile",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -685,7 +832,10 @@
     659.0
    ],
    "hint": "Optional",
-   "section": "Proxy’s Profile"
+   "section": "Proxy’s Profile",
+   "kind": "phone",
+   "std": false,
+   "key": "PhoneNo"
   },
   {
    "t": "text",
@@ -696,7 +846,10 @@
     777.4,
     290.8,
     789.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "AccountItem"
   },
   {
    "t": "text",
@@ -707,7 +860,10 @@
     777.4,
     563.3,
     789.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "PaymentDeadline"
   },
   {
    "t": "text",
@@ -719,7 +875,10 @@
     552.8,
     116.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "PhoneBanking"
   },
   {
    "t": "text",
@@ -731,7 +890,10 @@
     556.0,
     149.4
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -743,7 +905,10 @@
     556.0,
     216.6
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -755,7 +920,10 @@
     561.2,
     325.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Publicfeepayment"
   },
   {
    "t": "text",
@@ -767,7 +935,10 @@
     563.2,
     413.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Other"
   },
   {
    "t": "text",
@@ -779,7 +950,10 @@
     556.0,
     475.0
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -791,7 +965,10 @@
     561.2,
     479.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "thedateofrenewal"
   },
   {
    "t": "text",
@@ -803,7 +980,10 @@
     417.3,
     615.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Depositor"
   },
   {
    "t": "text",
@@ -815,7 +995,10 @@
     556.0,
     615.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Proxy"
   },
   {
    "t": "text",
@@ -827,7 +1010,10 @@
     532.5,
     695.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Delegator"
   },
   {
    "t": "text",
@@ -839,7 +1025,9 @@
     169.9,
     775.4
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "key": "account"
   },
   {
    "t": "text",
@@ -851,7 +1039,10 @@
     562.4,
     775.4
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DateofOpening"
   },
   {
    "t": "text",
@@ -863,7 +1054,10 @@
     169.9,
     804.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Category"
   },
   {
    "t": "text",
@@ -875,7 +1069,10 @@
     452.5,
     804.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Time"
   },
   {
    "t": "text",
@@ -887,7 +1084,10 @@
     562.4,
     804.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "EmployeeNumber"
   }
  ]
 }

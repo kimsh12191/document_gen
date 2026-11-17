@@ -1,4 +1,4 @@
-"""② 표시 요소 화면의 서버 쪽: 확률 설정(docgen/marks.json)과 풀(docgen/assets/marks/pools.json, 이미지)을 읽고 쓴다.
+"""② 표시 요소 화면의 서버 쪽: 확률 설정(docgen/forms/_common/marks.json)과 풀(docgen/assets/marks/pools.json, 이미지)을 읽고 쓴다.
 
 생성기가 쓰는 규칙은 docgen/marks.py. 여기서는 형식만 검사하고 파일에 쓴다. API 는 studio/app.py (/api/marks…), 화면은 static/js/marks.js.
 """
@@ -12,8 +12,11 @@ from pathlib import Path
 
 from docgen import marks as M
 
-IMAGE_POOLS = ("check", "sign")
+IMAGE_POOLS = ("check", "sign", "seal")
+EDITABLE = ("name", "weight", "enabled", "kind", "scale", "shape", "border", "double", "font", "ink")   # 화면에서 고치는 칸
+# 파일 경로(file·font_file)와 builtin 은 서버만 정한다 (upload·글꼴 추가). 화면이 보낸 값은 받지 않는다.
 SEAL_SHAPES = ("circle", "square", "oval")
+PHOTO_EXTS = ("jpg", "jpeg", "webp")   # 도장 풀만: 사진도 받아 clean_seal 로 배경을 지운다
 
 
 def view() -> dict:
@@ -26,7 +29,13 @@ def view() -> dict:
                 ff = M.font_file(name, it)
                 it["face"] = f"/fonts/{ff}" if ff else None
     return {"settings": M.settings(), "saved": saved, "defaults": M.DEFAULTS, "pools": pools, "names": M.POOL_NAMES,
-            "image_pools": IMAGE_POOLS, "seal_shapes": SEAL_SHAPES}
+            "image_pools": IMAGE_POOLS, "seal_shapes": SEAL_SHAPES, "floats": _floats()}
+
+
+def _floats() -> dict:
+    from .generators import _floats as F
+
+    return F()
 
 
 def _prob(v, where):
@@ -36,10 +45,19 @@ def _prob(v, where):
 
 
 def save_settings(new: dict) -> dict:
-    """바꾼 값만 docgen/marks.json 에 쓴다 (기본값과 같으면 뺀다)."""
+    """바꾼 값만 docgen/forms/_common/marks.json 에 쓴다 (기본값과 같으면 뺀다)."""
     out = {}
     for k, dv in M.DEFAULTS.items():
         if k not in new:
+            continue
+        if k == "floats":   # 모든 overlay 서식의 자유 위치 도장·번호 (docgen/floats.py)
+            from docgen import floats as FL
+
+            fl = [{kk: v for kk, v in el.items() if v not in (None, "")} for el in (new[k] or [])]
+            for i, el in enumerate(fl):
+                FL.check(el, f"자유 위치 {i + 1}")
+            if fl:
+                out[k] = fl
             continue
         if isinstance(dv, dict):
             sub = {kk: _prob(new[k][kk], f"{k}.{kk}") for kk in dv if kk in new[k] and new[k][kk] != dv[kk]}
@@ -79,9 +97,11 @@ def save_pool(name: str, items: list[dict]) -> dict:
     for it in items:
         if not isinstance(it.get("id"), str) or not it["id"]:
             raise ValueError("항목마다 id 가 필요합니다")
-        base = dict(old.get(it["id"]) or it)   # 새 항목(add_font·add_seal_template)은 id·origin 까지 그대로
-        base.update({k: v for k, v in it.items() if k in ("name", "weight", "enabled", "kind", "scale", "shape", "border",
-                                                          "double", "font", "ink")})
+        if it["id"] in old:
+            base = dict(old[it["id"]])   # 있던 항목: 파일 경로·builtin 은 저장된 것 그대로
+        else:   # 새 항목(add_font·add_seal_template): id·origin 과 고치는 칸만
+            base = {"id": it["id"], **({"origin": it["origin"]} if isinstance(it.get("origin"), str) else {})}
+        base.update({k: v for k, v in it.items() if k in EDITABLE})
         if "weight" in base and (not isinstance(base["weight"], int) or not 0 <= base["weight"] <= 100):
             raise ValueError(f"{it['id']}: 가중치는 0~100 정수")
         if name == "seal" and not base.get("builtin"):
@@ -162,11 +182,90 @@ def add_seal_template(t: dict) -> dict:
     return save_pool("seal", pools["seal"] + [{k: v for k, v in item.items() if v not in (None, "")}])
 
 
+def _percentile(im, q: float, mask=None) -> int:
+    hist, acc = im.histogram(mask), 0
+    total = sum(hist)
+    for v, c in enumerate(hist):
+        acc += c
+        if acc >= total * q:
+            return v
+    return 255
+
+
+def clean_seal(data: bytes) -> bytes:
+    """도장 사진 → 배경을 지우고 인주만 남겨 도장 둘레로 자른 투명 PNG.
+
+    - 이미 투명 배경인 PNG 는 그대로 두고 자르기·줄이기만 한다.
+    - 붉은 인주가 보이면 '빨강 정도(R - max(G, B))', 아니면(검정·파랑 도장) 배경보다 어두운 정도로 인주를 고른다.
+    - 인주 색은 진하게 찍힌 칸의 평균 한 가지로 칠한다 (가장자리에 섞인 종이색이 남지 않게).
+    """
+    from PIL import Image, ImageChops, ImageFilter, ImageOps, ImageStat
+
+    try:
+        im = ImageOps.exif_transpose(Image.open(io.BytesIO(data)))
+        im.load()
+    except Exception as e:  # noqa: BLE001
+        raise ValueError(f"이미지를 읽을 수 없습니다: {e}") from e
+    im = im.convert("RGBA")
+    im.thumbnail((1200, 1200))
+    if max(im.size) < 600:   # 작게 찍힌 도장: 키운 뒤 처리해야 잡티 필터가 가는 획을 지우지 않는다
+        k = 600 / max(im.size)
+        im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+    alpha = im.getchannel("A")
+    if alpha.getextrema()[0] < 128 and ImageStat.Stat(alpha).mean[0] < 230:   # 이미 투명 배경
+        out = im
+    else:
+        rgb = im.convert("RGB")
+        r, g, b = rgb.split()
+        red = ImageChops.subtract(r, ImageChops.lighter(g, b))
+        noise, peak = _percentile(red, 0.5), _percentile(red, 0.99)   # 종이·배경의 빨강 정도, 인주의 빨강 정도
+        if peak - noise >= 18:   # 흐린 분홍 인주도 잡히게 사진마다 문턱을 정한다
+            # JPEG 는 색을 밝기보다 거칠게 저장한다: 색으로는 '인주가 있는 곳'만 정하고, 획 모양은 밝기(제 해상도)로 잡는다
+            near = red.point(lambda v: 255 if v > noise + (peak - noise) * 0.3 else 0).filter(ImageFilter.MaxFilter(9))
+            dark = ImageOps.invert(rgb.convert("L"))
+            sure = red.point(lambda v: 255 if v > noise + (peak - noise) * 0.5 else 0)   # 확실히 인주인 칸
+            paper, inked = _percentile(dark, 0.2, near), _percentile(dark, 0.9, sure)
+            if inked - paper < 12:
+                score, lo, hi = red, noise + (peak - noise) * 0.15, noise + (peak - noise) * 0.6
+            else:
+                # 인주보다 훨씬 어두운 칸은 종이 밖 배경·검은 인쇄 글자 → 뺀다
+                cut = inked + max(30, (inked - paper) // 2)
+                score = ImageChops.multiply(dark.point(lambda v: 0 if v > cut else v), near)
+                lo, hi = paper + (inked - paper) * 0.2, paper + (inked - paper) * 0.7
+        else:
+            dark = ImageOps.invert(rgb.convert("L"))
+            w, h = dark.size
+            edge = [dark.getpixel((x, y)) for x in range(0, w, max(1, w // 40)) for y in (0, h - 1)]
+            bg = sorted(edge)[len(edge) // 2]   # 테두리 중앙값 = 종이 어둡기
+            score, lo, hi = dark, bg + 30, bg + 120
+        a = score.point(lambda v: 0 if v <= lo else 255 if v >= hi else int((v - lo) * 255 / (hi - lo)))
+        a = a.filter(ImageFilter.MedianFilter(3))   # 종이 얼룩·잡티
+        solid = a.point(lambda v: 255 if v >= 200 else 0)
+        if not solid.getbbox():
+            raise ValueError("도장(인주)을 찾지 못했습니다. 도장이 크게 나오게 찍은 사진을 올려 주세요")
+        ink = tuple(int(c) for c in ImageStat.Stat(rgb, solid).mean)
+        out = Image.new("RGBA", rgb.size, ink + (255,))
+        out.putalpha(a)
+    box = out.getchannel("A").point(lambda v: 255 if v > 40 else 0).getbbox()
+    if not box:
+        raise ValueError("도장(인주)을 찾지 못했습니다")
+    pad = max(2, int(max(box[2] - box[0], box[3] - box[1]) * 0.04))
+    out = out.crop((max(0, box[0] - pad), max(0, box[1] - pad), min(out.width, box[2] + pad), min(out.height, box[3] + pad)))
+    out.thumbnail((320, 320))
+    buf = io.BytesIO()
+    out.save(buf, "PNG", optimize=True)
+    return buf.getvalue()
+
+
 def upload(name: str, filename: str, data: bytes, label: str = "") -> dict:
-    """체크·서명 풀에 투명 배경 PNG(또는 SVG)를 올린다."""
+    """체크·서명 풀에 투명 배경 PNG(또는 SVG)를 올린다. 도장 풀은 사진(JPG·PNG·WEBP)도 받아 clean_seal 로 처리한다."""
     if name not in IMAGE_POOLS:
         raise ValueError(f"이미지를 올릴 수 있는 풀: {IMAGE_POOLS}")
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
+    if len(data) > 20_000_000:
+        raise ValueError("20MB 이하 이미지만")
+    if name == "seal" and ext in PHOTO_EXTS + ("png",):
+        data, ext = clean_seal(data), "png"
     if ext == "svg":
         head = data[:200].decode("utf-8", "ignore").lstrip()
         if not (head.startswith("<svg") or head.startswith("<?xml")):
@@ -207,9 +306,19 @@ def delete_item(name: str, item_id: str) -> dict:
         raise ValueError("코드가 그리는 기본 항목은 지우지 않고 끕니다 (가중치 0 또는 끄기)")
     pools[name] = [x for x in items if x["id"] != item_id]
     _write_pools(pools)
-    if it.get("file") and not any(x.get("file") == it["file"] for x in pools[name]):
-        (M.POOLS_DIR / it["file"]).unlink(missing_ok=True)
-    ff = it.get("font_file")   # 경로로 등록하며 복사한 글꼴 파일 (다른 풀에서도 안 쓰면 지운다)
-    if ff and not any(x.get("font_file") == ff for items in pools.values() for x in items):
-        (M.FONTS_DIR / ff).unlink(missing_ok=True)
+    f = it.get("file")   # upload 가 만든 <풀>/<풀>_<해시>.<확장자> (다른 항목이 안 쓰면 지운다)
+    if f and not any(x.get("file") == f for x in pools[name]):
+        _unlink_inside(M.POOLS_DIR / name, M.POOLS_DIR / str(f))
+    ff = it.get("font_file")   # 경로로 등록하며 복사한 글꼴 파일 (다른 풀·기본 풀에서도 안 쓰면 지운다)
+    used = {M.font_file(pool, x) for pool, lst in [*pools.items(), *M.DEFAULT_POOLS.items()]
+            if pool in ("hand_fonts", "print_fonts") for x in lst}
+    if ff and ff not in used:
+        _unlink_inside(M.FONTS_DIR, M.FONTS_DIR / str(ff))
     return view()
+
+
+def _unlink_inside(folder: Path, f: Path) -> None:
+    """f 가 folder 바로 아래·그 안의 파일일 때만 지운다 (풀에 적힌 경로가 밖을 가리키면 지우지 않음)."""
+    root, target = folder.resolve(), f.resolve()
+    if root in target.parents and target.is_file():
+        target.unlink()

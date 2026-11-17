@@ -24,7 +24,10 @@
     493.4,
     74.2
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "RM"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     541.4,
     74.2
    ],
-   "row": true
+   "row": true,
+   "kind": "skip",
+   "std": false,
+   "key": "영업점장"
   },
   {
    "t": "text",
@@ -47,7 +53,10 @@
     161.7,
     541.4,
     181.5
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "고객번호"
   },
   {
    "t": "text",
@@ -58,7 +67,10 @@
     181.5,
     541.4,
     201.4
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "매입번호"
   },
   {
    "t": "text",
@@ -69,7 +81,10 @@
     421.4,
     541.4,
     446.9
-   ]
+   ],
+   "kind": "product",
+   "std": false,
+   "key": "상품명"
   },
   {
    "t": "text",
@@ -80,7 +95,10 @@
     446.9,
     541.4,
     472.5
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "수출신고번호"
   },
   {
    "t": "date",
@@ -105,7 +123,8 @@
      342.2,
      622.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -122,7 +141,9 @@
     674.6,
     401.4,
     686.8
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -133,7 +154,9 @@
     695.6,
     547.3,
     713.8
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -145,7 +168,10 @@
     535.4,
     241.8
    ],
-   "free": true
+   "free": true,
+   "kind": "note",
+   "std": false,
+   "key": "OAT/NET/기타"
   }
  ]
 }

@@ -30,7 +30,9 @@
     159.4,
     488.6,
     174.0
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -42,7 +44,9 @@
     549.8,
     238.5
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -54,7 +58,10 @@
     549.8,
     261.1
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "company",
+   "std": false,
+   "key": "상호기타명칭"
   },
   {
    "t": "text",
@@ -66,7 +73,10 @@
     297.6,
     320.6
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "증권종류"
   },
   {
    "t": "text",
@@ -78,7 +88,10 @@
     297.6,
     343.2
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "amount",
+   "std": false,
+   "key": "발행금액"
   },
   {
    "t": "text",
@@ -90,7 +103,10 @@
     297.6,
     365.9
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "계약체결시기및장소"
   },
   {
    "t": "text",
@@ -102,7 +118,10 @@
     297.6,
     411.3
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "percent",
+   "std": false,
+   "key": "표면금리"
   },
   {
    "t": "text",
@@ -114,7 +133,10 @@
     297.6,
     433.9
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "date",
+   "std": false,
+   "key": "만기"
   },
   {
    "t": "text",
@@ -126,7 +148,10 @@
     549.8,
     463.2
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "배당금지급시기및방법"
   },
   {
    "t": "text",
@@ -138,7 +163,10 @@
     549.8,
     485.9
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "repay",
+   "std": false,
+   "key": "원리금상환방법"
   },
   {
    "t": "text",
@@ -150,7 +178,10 @@
     549.8,
     531.2
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "reason",
+   "std": false,
+   "key": "자금용도"
   },
   {
    "t": "text",
@@ -162,7 +193,10 @@
     549.8,
     553.9
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "발행관련기관"
   },
   {
    "t": "text",
@@ -174,7 +208,10 @@
     549.8,
     320.6
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "amount",
+   "std": false,
+   "key": "액면금액및수량"
   },
   {
    "t": "text",
@@ -186,7 +223,10 @@
     549.8,
     365.9
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "발행시기및장소"
   },
   {
    "t": "text",
@@ -198,7 +238,10 @@
     549.8,
     411.3
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "발행가격"
   },
   {
    "t": "text",
@@ -210,7 +253,10 @@
     549.8,
     433.9
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "해외판매여부"
   },
   {
    "t": "text",
@@ -221,7 +267,10 @@
     630.7,
     549.8,
     650.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -232,7 +281,10 @@
     650.6,
     549.8,
     670.4
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   },
   {
    "t": "text",
@@ -243,7 +295,10 @@
     670.4,
     549.8,
     690.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -257,7 +312,10 @@
    ],
    "group": "증권발행 신고(보고)서",
    "row": true,
-   "section": "증권발행 신고(보고)서"
+   "section": "증권발행 신고(보고)서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -282,7 +340,8 @@
      463.8,
      599.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -293,7 +352,10 @@
     668.9,
     323.4,
     688.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "신고조건"
   },
   {
    "t": "date",
@@ -318,7 +380,8 @@
      463.8,
      717.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -335,7 +398,9 @@
     722.9,
     474.5,
     736.2
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -347,7 +412,10 @@
     294.6,
     673.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "위의신청을다음과같이신고필함"
   }
  ]
 }

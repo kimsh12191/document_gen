@@ -1,300 +1,282 @@
-"""모델끼리 나란히 놓은 벤치마크 보고서 (CSV, Markdown, HTML) — train.cli score 결과들로 (옛 bank_task/report.py + 1부 benchmark_report).
-OCR·문서 이해·업무 과제를 한 표에, 과제 묶음 순서로."""
+"""결과 보고서: 모델들의 평가 세트별 점수를 한 화면에 (report.html), 같은 숫자를 표 데이터로 (scores.csv), 문항별 답 (answers.html).
+
+  python -m train report <결과 폴더> [--rescore] [--per-task 30 | --all]
+
+- 결과 폴더: 학습 실행 workdir · 실험 묶음 root · 평가만 하기 root (results.json 이 있는 곳). 학습·평가가 끝날 때마다 저절로 만든다.
+  이 명령은 저장된 답으로 다시 만들 때 (추론 없음, GPU 안 씀).
+- --rescore: 채점 규칙(docgen.bench.evaluate·채점 함수)을 고쳤을 때. 점수 캐시(<답>.scores.json)를 버리고 다시 채점한다.
+- results.json: {"name", "about", "record"?, "baseline"?, "notes"?, "models": [{"label", "about", "model", "checkpoint"?, "changes"?,
+  "train"?, "sets": {세트 id: {"dir": 준비한 평가 세트, "tasks": 물은 질문 파일, "answers": 답 파일}}}]}
+"""
+import argparse
 import csv
 import html
-import json
-import re
+from collections import Counter
 from pathlib import Path
 
-from docgen.bench.ocr_data import read_json
-from docgen.bench.tracking import DIMENSIONS, SCORE_DIMENSIONS
+from docgen.bench import evaluate as E
+from docgen.bench.ocr_data import read_json, read_jsonl, write_json
+from docgen.bench.tracking import DIMENSIONS
 
-# (task, metric, column title, lower is better)
-COLUMNS = [
-    ("crop_ocr", "cer", "칸 잘라 읽기 CER", True),
-    ("bbox_ocr", "em", "좌표→글자 일치", False),
-    ("bbox_ocr", "numeric_em", "좌표→숫자 일치", False),
-    ("region_ocr", "cer", "영역 받아쓰기 CER", True),
-    ("grounding", "f1_iou50", "글자→좌표 F1@0.5", False),
-    ("grounding", "negative_accuracy", "글자→좌표 없음 정확도", False),
-    ("spotting", "f1_iou50", "글자 찾기 위치 F1@0.5", False),
-    ("spotting", "e2e_f1", "글자 찾기 위치+글자 F1", False),
-    ("relation", "e2e_f1", "항목명→값 위치+글자 F1", False),
-    ("marked_ocr", "em", "그린 박스→글자 일치", False),
-    ("marked_box", "f1_iou75", "그린 박스→좌표 F1@0.75", False),
-    ("ocr_field", "exact", "값 칸 OCR 일치", False),
-    ("ocr_field", "cer", "값 칸 CER", True),
-    ("ocr_page", "recall", "전체 받아쓰기 재현율", False),
-    ("classify", "acc", "서류 분류", False),
-    ("kie", "f1", "정보 추출 F1", False),
-    ("kie", "vl_f1", "정보 추출 값+위치 F1", False),
-    ("marks", "acc", "체크·도장·서명", False),
-    ("marks", "vl_f1", "체크·도장·서명 값+위치 F1", False),
-    ("freetext", "f1", "기타 칸 정리 F1", False),
-    ("freetext", "extra_key", "기타 칸 정리 지어낸 키 비율", True),
-    ("doc_check", "exact", "서류 구비 완전 일치", False),
-    ("doc_check", "set_f1", "서류 구비 F1", False),
-    ("cross_check", "score", "서류 대조 종합", False),
-    ("cross_check", "detect", "서류 대조 탐지", False),
-    ("cross_check", "localize", "서류 대조 위치(변조 문항)", False),
-    ("cross_check", "false_alarm", "서류 대조 오탐률", True),
-    ("review", "acc", "심사 질의 정확도", False),
-]
-SLICES = [("spotting", "view", "글자 찾기 — 깨끗한 쪽 / 변형한 쪽"),
-          ("crop_ocr", "view", "칸 잘라 읽기 — 깨끗한 쪽 / 변형한 쪽"),
-          ("cross_check", "category", "서류 대조 — 불일치 분류별 종합 점수"),
-          ("cross_check", "case", "서류 대조 — 사례별 종합 점수"),
-          ("review", "skill", "심사 질의 — 능력별 정확도"),
-          ("doc_check", "n_missing", "서류 구비 — 빠진 서류 수별 완전 일치"),
-          ("kie", "group", "정보 추출 — 서식 그룹별 F1"),
-          ("ocr_field", "writing", "값 칸 OCR — 인쇄체/손글씨별 일치")]
+from .score import headline, metric_label
+
+LOWER = E.LOWER_IS_BETTER
+DIMS = ("doc_type", "source_dataset", "label_format", "view")   # 구분별 표 (그룹이 둘 이상일 때만)
+SCORE_VERSION = 3   # 2: 잘못된 이스케이프(\N 등)가 든 JSON 답도 읽음. 3: 문항별 점수를 지표마다 (값·위치 따로) — 예전 캐시는 다시 채점
 
 
 def _pct(v):
     return "—" if v is None else f"{v * 100:.1f}"
 
 
-def _delta(v, base):
-    return None if v is None or base is None else (v - base) * 100
+# -- 채점 (캐시) ---------------------------------------------------------------------------------
+def scored(entry, rescore=False):
+    """세트 하나의 답 → 점수 (score.score + 문항별 앞 지표: per_item[과제][지표][문항 id]). <답>.scores.json 에 둔다 (문항·답이 같으면 다시 쓰지 않음)."""
+    from .mix import task_rows
+    from .predict import index_predictions
+    from .score import headline, items_digest, score
+
+    answers = Path(entry["answers"])
+    rows, items = task_rows(entry["dir"], {r["id"] for r in read_jsonl(entry["tasks"])})
+    if not answers.is_file():
+        return None
+    st = answers.stat()
+    key = {"v": SCORE_VERSION, "items": items_digest(items), "answers": [st.st_size, st.st_mtime_ns]}
+    cache = answers.with_name(answers.name + ".scores.json")
+    if cache.is_file() and not rescore:
+        old = read_json(cache)
+        if old.get("key") == key:
+            return old["score"]
+    preds = index_predictions(answers)
+    res = score(items, preds)
+    per = {}
+    for task, its in _by_task(items).items():
+        rows = E.score_task(task, its, preds)["per_item"]
+        per[task] = {metric: {p["id"]: p.get(metric) for p in rows} for metric in headline(task, res["tasks"][task])}
+    res["per_item"] = per
+    res["answered"] = sum(1 for it in items if it["id"] in preds)
+    res["complete"] = Path(str(answers) + ".done").exists()
+    write_json(cache, {"key": key, "score": res})
+    return res
 
 
-def build(paths, output):
-    reports = [read_json(p) for p in paths]
-    return _build_reports(reports, Path(output))
+def _by_task(items):
+    out = {}
+    for it in items:
+        out.setdefault(it["task"], []).append(it)
+    return out
 
 
-def _build_reports(reports, output, check_images=True):
-    """check_images=False: 그림이 같은지는 부른 쪽이 확인했다 (train/sweep.py: 섞은 폴더가 달라 그림 경로가 다르다)."""
-    if not reports:
-        raise ValueError("No reports")
-    if len({r["items_sha256"] for r in reports}) != 1:
-        raise ValueError("Reports use different benchmark items; do not compare them")
-    infos = [r.get("inference") or {} for r in reports]
-    for key in ("images_sha256", "temperature", "max_tokens", "enable_thinking", "request_options")[0 if check_images else 1:]:
-        known = [i.get(key) for i in infos if key in i]
-        if any(v != known[0] for v in known):
-            raise ValueError(f"Reports use different inference {key}")
-    labels = [r["label"] for r in reports]
-    if len(set(labels)) != len(labels):
-        raise ValueError("Report labels must be unique")
-    base = next((r for r in reports if r.get("role") == "start"), reports[0])
-    if any("benchmarks" in r for r in reports):
-        return _build_suite(reports, base, Path(output))
-    cols = [c for c in COLUMNS if any(c[0] in r["tasks"] for r in reports)]
-
-    def value(r, task, metric):
-        return r["tasks"].get(task, {}).get("metrics", {}).get(metric)
-
-    rows = []
-    for r in reports:
-        row = {"model": r["label"], "path": r.get("model")}
-        for task, metric, title, _ in cols:
-            row[title] = value(r, task, metric)
-            row[title + " Δpp"] = _delta(value(r, task, metric), value(base, task, metric))
-        rows.append(row)
-    output = Path(output)
-    if output.suffix.lower() != ".csv":
-        raise ValueError("--out must end with .csv; .md and .html are written next to it")
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0]))
-        w.writeheader()
-        w.writerows(rows)
-
-    def table(fmt):
-        head = ["모델"] + [t + (" ↓" if low else "") for _, _, t, low in cols]
-        body = [[r["label"]] + [fmt(value(r, task, m), value(base, task, m), r is base)
-                                for task, m, _, _ in cols] for r in reports]
-        return head, body
-
-    score_t = table(lambda v, b, is_base: _pct(v))
-    delta_t = table(lambda v, b, is_base: "기준" if is_base else
-                    ("—" if _delta(v, b) is None else f"{_delta(v, b):+.1f}"))
-    counts = {t: base["tasks"][t]["n"] for t in base["tasks"]}
-    tasks = [t for t in counts]
-    # Answers the scorer could not read count as wrong; a high rate means the model does not know the format yet.
-    fail_t = (["모델"] + tasks, [[r["label"]] + [_pct(r["tasks"].get(t, {}).get("parse_fail")) for t in tasks]
-                               for r in reports])
-    slices = []
-    for task, key, title in SLICES:
-        groups = []
-        for r in reports:
-            for g in r["tasks"].get(task, {}).get("slices", {}).get(key, {}):
-                if g not in groups:
-                    groups.append(g)
-        if len(groups) < 2:
-            continue
-        head = [key, "n"] + labels
-        body = []
-        for g in groups:
-            cells = [r["tasks"].get(task, {}).get("slices", {}).get(key, {}).get(g, {}) for r in reports]
-            n = next((c["n"] for c in cells if c), 0)
-            body.append([g, str(n)] + [_pct(next((v for k, v in c.items() if k != "n"), None)) if c else "—"
-                                       for c in cells])
-        slices.append((title, head, body))
-    # 생성 때의 분류를 그대로 사용한다. CER 등은 원본 문항 집합으로 다시 집계한 점수다.
-    detail_rows = []
-    for dimension in SCORE_DIMENSIONS:
-        keys = sorted({(group, task) for r in reports
-                       for group, bucket in r.get("breakdowns", {}).get(dimension, {}).items()
-                       for task in bucket["tasks"]})
-        body = []
-        for group, task in keys:
-            cells = [r.get("breakdowns", {}).get(dimension, {}).get(group, {}).get("tasks", {}).get(task) for r in reports]
-            known = [c for c in cells if c]
-            if len({c["membership_sha256"] for c in known}) > 1:
-                raise ValueError(f"Different group membership: {dimension}/{group}/{task}")
-            baseline = base.get("breakdowns", {}).get(dimension, {}).get(group, {}).get("tasks", {}).get(task)
-            metric = known[0]["main"]
-            n = known[0]["n"]
-            values = []
-            for r, c in zip(reports, cells):
-                value_ = c["metrics"].get(metric) if c else None
-                base_ = baseline["metrics"].get(metric) if baseline else None
-                values += [_pct(value_), "—" if _delta(value_, base_) is None else f"{_delta(value_, base_):+.1f}"]
-                detail_rows.append({"model": r["label"], "dimension": dimension, "group": group, "task": task,
-                                    "metric": metric, "lower_is_better": metric in {"cer", "false_alarm", "matched_label_cer"},
-                                    "n": c["n"] if c else 0, "unit": "items", "value": value_, "delta_pp": _delta(value_, base_),
-                                    "missing": c["missing"] if c else None, "parse_fail": c["parse_fail"] if c else None,
-                                    "membership_sha256": c["membership_sha256"] if c else None})
-            body.append([group, task, metric, str(n)] + values)
-        if body:
-            slices.append((f"{DIMENSIONS[dimension]}별 평가 · 과제별 주 지표", [DIMENSIONS[dimension], "과제", "지표", "문항 수"] +
-                           [title for label in labels for title in (label, label + " Δpp")], body))
-    # 필드 타입 점수의 n은 문항이 아니라 추출/표시 항목 수다.
-    for task, key in (("kie", "kind"), ("marks", "type")):
-        groups = sorted({g for r in reports for g in r["tasks"].get(task, {}).get("slices", {}).get(key, {})})
-        if groups:
-            body = []
-            for group in groups:
-                cells = [r["tasks"].get(task, {}).get("slices", {}).get(key, {}).get(group, {}) for r in reports]
-                body.append([group, str(next(c["n"] for c in cells if c))] + [_pct(c.get("acc")) for c in cells])
-                baseline = base["tasks"].get(task, {}).get("slices", {}).get(key, {}).get(group, {})
-                for r, c in zip(reports, cells):
-                    detail_rows.append({"model": r["label"], "dimension": "field_kind", "group": group, "task": task,
-                                        "metric": "acc", "lower_is_better": False, "n": c.get("n", 0), "unit": "fields",
-                                        "value": c.get("acc"), "delta_pp": _delta(c.get("acc"), baseline.get("acc")),
-                                        "missing": None, "parse_fail": None, "membership_sha256": None})
-            slices.append((f"{task} 필드 타입별 값 정확도 · 항목 단위", ["필드 타입", "항목 수"] + labels, body))
-    if detail_rows:
-        detail_path = output.with_name(output.stem + ".breakdowns.csv")
-        with detail_path.open("w", encoding="utf-8-sig", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=list(detail_rows[0]))
-            writer.writeheader()
-            writer.writerows(detail_rows)
-    output.with_name(output.stem + ".breakdowns.json").write_text(json.dumps({
-        "items_sha256": reports[0]["items_sha256"], "dimensions": {**DIMENSIONS, "field_kind": "필드 타입 (항목 단위)"},
-        "models": [{"label": r["label"], "composition": r.get("composition"), "breakdowns": r.get("breakdowns", {}),
-                    "field_type_scores": {task: r["tasks"].get(task, {}).get("slices", {}).get(key, {}) for task,key in (("kie","kind"),("marks","type"))}} for r in reports]},
-        ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    notes = [f"기준(Δ의 0): {base['label']}. 점수는 %, Δ는 기준 대비 %p. ↓ 표시는 낮을수록 좋음.",
-             "문항 수: " + ", ".join(f"{t} {n}" for t, n in counts.items()),
-             "합성 서류(docgen) 평가는 학습 데이터와 같은 생성기라 실제 서류 성능보다 높게 나옵니다. "
-             "OCR 과제의 정답이 사내 OCR 그대로(의사정답)면 점수는 '그것과 얼마나 같은지'입니다.",
-             "unknown은 메타데이터 누락, not_applicable은 업무 시나리오가 없는 단일 서류/OCR 문항입니다. 다른 과제의 점수는 평균내지 않습니다.",
-             "구분별 상세 CSV·JSON: benchmark.breakdowns.* (CSV 값은 원 지표, delta_pp는 %p). 필드 타입 표의 n은 항목 수입니다.",
-             "읽는 법: guide/results.md"]
-
-    def md(head, body):
-        def escaped(row):
-            return " | ".join(str(x).replace("|", "\\|").replace("\n", " ") for x in row)
-        return "\n".join(["| " + escaped(head) + " |", "|" + "---|" * len(head)] +
-                         ["| " + escaped(row) + " |" for row in body])
-
-    parts = ["# 벤치마크 비교\n", md(*score_t), "\n## 기준 대비 변화 (%p)\n", md(*delta_t),
-             "\n## 답 형식 오류 (%, 낮을수록 좋음)\n", md(*fail_t)]
-    for title, head, body in slices:
-        parts += [f"\n## {title}\n", md(head, body)]
-    parts += ["\n" + "\n".join(f"- {n}" for n in notes)]
-    output.with_suffix(".md").write_text("\n".join(parts) + "\n", encoding="utf-8")
-
-    def ht(head, body):
-        h = "".join(f"<th>{html.escape(x)}</th>" for x in head)
-        b = "".join("<tr>" + "".join(f"<td>{html.escape(x)}</td>" for x in row) + "</tr>" for row in body)
-        return f"<table><thead><tr>{h}</tr></thead><tbody>{b}</tbody></table>"
-
-    sections = [f"<h2>점수</h2>{ht(*score_t)}", f"<h2>기준 대비 변화 (%p)</h2>{ht(*delta_t)}",
-                f"<h2>답 형식 오류 (%, 낮을수록 좋음)</h2>{ht(*fail_t)}"]
-    sections += [f"<h2>{html.escape(t)}</h2>{ht(h, b)}" for t, h, b in slices]
-    page = ("<!doctype html><html lang=ko><meta charset=utf-8><title>벤치마크 비교</title><style>"
-            "body{font-family:sans-serif;margin:24px;color:#222}table{border-collapse:collapse;margin:8px 0 24px}"
-            "th,td{border:1px solid #ccc;padding:4px 8px;text-align:right}th:first-child,td:first-child{text-align:left}"
-            "th{background:#f3f3f3}</style><h1>벤치마크 비교</h1>" + "".join(sections)
-            + "<ul>" + "".join(f"<li>{html.escape(n)}</li>" for n in notes) + "</ul></html>")
-    output.with_suffix(".html").write_text(page, encoding="utf-8")
-    return {"models": labels, "output": str(output)}
-
-
-def _build_suite(reports, base, output):
-    """각 id를 독립 채점한 보고서를 먼저 보여 준다. group끼리는 합산하지 않는다."""
-    if output.suffix.lower() != ".csv":
-        raise ValueError("--out must end with .csv")
-    definitions = base.get("benchmarks", {})
-    if not definitions or any(set(r.get("benchmarks", {})) != set(definitions) for r in reports):
-        raise ValueError("Reports use different benchmark IDs; rescore every model with the same configuration")
-    for ident, definition in definitions.items():
-        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", ident):
-            raise ValueError(f"Invalid benchmark ID: {ident}")
-        for report in reports:
-            other = report["benchmarks"][ident]
-            if any(other.get(k) != definition.get(k) for k in ("name", "group", "items_sha256")):
-                raise ValueError(f"Benchmark {ident} changed its name/group/items")
-    output.parent.mkdir(parents=True, exist_ok=True)
-    labels = [r["label"] for r in reports]
-    csv_rows, detail_rows, markdown, sections = [], [], ["# 벤치마크별 모델 비교", "", "각 id의 paths를 합쳐 과제별로 계산합니다. group은 표시 분류이며 합산 점수가 없습니다.", ""], []
-    for group in dict.fromkeys(b["group"] for b in definitions.values()):
-        markdown += [f"## {group}", ""]
-        sections.append(f"<h2>{html.escape(group)}</h2>")
-        for ident, definition in definitions.items():
-            if definition["group"] != group:
+def collect(results, rescore=False):
+    """→ (모델들, 세트 정보 {id: {"name", "group", "ref"(기준 문항 지문)}}, 알림). 모델마다 m["scores"][세트 id] = 점수."""
+    models, notes, sets = [], list(results.get("notes") or []), {}
+    for m in results["models"]:
+        m = {**m, "scores": {}}
+        for sid, entry in (m.get("sets") or {}).items():
+            try:
+                s = scored(entry, rescore)
+            except (OSError, ValueError, KeyError) as exc:
+                notes.append(f"{m['label']} · {sid}: 채점하지 못함 ({type(exc).__name__}: {exc})")
                 continue
-            scoped = []
-            for report in reports:
-                child = {**report, **report["benchmarks"][ident]}
-                child.pop("benchmarks", None)
-                scoped.append(child)
-            child_output = output.parent / "benchmarks" / ident / output.name
-            _build_reports(scoped, child_output)
-            rel = child_output.relative_to(output.parent).with_suffix(".html").as_posix()
-            markdown += [f"### {definition['name']} · {ident}", "", f"경로 {len(definition.get('paths', []))}개 · 평가 문항 {definition['n']}개 · [상세 보고서]({rel})", ""]
-            head = ["과제", "지표", "문항 수"] + [t for label in labels for t in (label, label + " Δpp")]
-            body = []
-            baseline = base["benchmarks"][ident]
-            for task, task_base in baseline["tasks"].items():
-                metric = task_base["main"]
-                values = []
-                for report in scoped:
-                    result = report["tasks"][task]
-                    value = result["metrics"].get(metric)
-                    before = task_base["metrics"].get(metric)
-                    values += [_pct(value), "—" if _delta(value, before) is None else f"{_delta(value, before):+.1f}"]
-                    for key, val in sorted(result["metrics"].items()):
-                        csv_rows.append({"benchmark_group": group, "benchmark_id": ident, "benchmark_name": definition["name"],
-                                         "model": report["label"], "task": task, "metric": key, "n": result["n"], "value": val,
-                                         "delta_pp": _delta(val, task_base["metrics"].get(key)),
-                                         "lower_is_better": key in {"cer", "false_alarm", "matched_label_cer"}})
-                body.append([task, metric + (" ↓" if metric in {"cer", "false_alarm", "matched_label_cer"} else ""), str(task_base["n"])] + values)
-            def md_row(row):
-                return "| " + " | ".join(str(v).replace("|", "\\|").replace("\n", " ") for v in row) + " |"
-            markdown += [md_row(head), "|" + "---|" * len(head), *[md_row(row) for row in body], ""]
-            table = "<table><thead><tr>" + "".join(f"<th>{html.escape(v)}</th>" for v in head) + "</tr></thead><tbody>"
-            table += "".join("<tr>" + "".join(f"<td>{html.escape(v)}</td>" for v in row) + "</tr>" for row in body) + "</tbody></table>"
-            sections += [f"<h3>{html.escape(definition['name'])} · {html.escape(ident)}</h3><p>경로" +
-                         f" {len(definition.get('paths', []))}개 · 평가 문항 {definition['n']}개 · <a href='{rel}'>시나리오·서식·필드별 상세</a></p>", table]
-            detail = child_output.with_name(child_output.stem + ".breakdowns.csv")
-            if detail.exists():
-                with detail.open(encoding="utf-8-sig", newline="") as f:
-                    detail_rows += [{"benchmark_id": ident, "benchmark_name": definition["name"], "benchmark_group": group, **row} for row in csv.DictReader(f)]
-    def write_csv(path, rows):
-        if rows:
-            with path.open("w", encoding="utf-8-sig", newline="") as f:
-                writer = csv.DictWriter(f, fieldnames=list(rows[0]))
-                writer.writeheader()
-                writer.writerows(rows)
-    write_csv(output, csv_rows)
-    write_csv(output.with_name(output.stem + ".breakdowns.csv"), detail_rows)
-    output.with_suffix(".md").write_text("\n".join(markdown), encoding="utf-8")
-    output.with_suffix(".html").write_text("<!doctype html><html lang=ko><meta charset=utf-8><title>벤치마크별 비교</title><style>body{font-family:sans-serif;margin:24px}table{border-collapse:collapse;margin-bottom:24px}td,th{border:1px solid #ccc;padding:7px}th{background:#f3f3f3}</style><h1>벤치마크별 모델 비교</h1><p>각 id의 paths를 합산합니다. group은 표시 분류이며 합산 점수가 없습니다. 점수는 %, 변화는 %p입니다.</p>" + "".join(sections) + "</html>", encoding="utf-8")
-    output.with_name(output.stem + ".breakdowns.json").write_text(json.dumps({
-        "items_sha256": reports[0]["items_sha256"], "models": [{"label": r["label"], "benchmarks": r["benchmarks"]} for r in reports]}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    return {"models": labels, "output": str(output), "benchmarks": list(definitions)}
+            if s is None:
+                continue
+            if not s["complete"]:
+                notes.append(f"{m['label']} · {sid}: 답이 다 나오지 않았습니다 ({s['answered']}/{s['n']}, 없는 답은 0점)")
+            m["scores"][sid] = s
+            done = read_json(Path(entry["dir"]) / "DONE.json") if (Path(entry["dir"]) / "DONE.json").is_file() else {}
+            info = sets.setdefault(sid, {"name": done.get("name", sid), "group": done.get("group", ""), "hashes": []})
+            info["hashes"].append(s["items_sha256"])
+        models.append(m)
+    base = baseline_of(results, models)
+    for sid, info in sets.items():
+        own = (base or {}).get("scores", {}).get(sid)
+        info["ref"] = own["items_sha256"] if own else Counter(info["hashes"]).most_common(1)[0][0]
+        others = sorted({m["label"] for m in models if sid in m["scores"] and m["scores"][sid]["items_sha256"] != info["ref"]})
+        if others:
+            notes.append(f"{sid}: {', '.join(others)} 는 평가 문항이 기준 모델과 달라(평가 세트 원본·리허설이 다름) 흐리게 † 로 표시하고 비교하지 않습니다")
+    return models, sets, notes
+
+
+def baseline_of(results, models):
+    want = results.get("baseline")
+    return next((m for m in models if m["label"] == want), None) or (models[0] if models else None)
+
+
+# -- report.html · scores.csv -----------------------------------------------------------------
+CSS = """
+:root{--fg:#1f2328;--muted:#656d76;--line:#d0d7de;--bg:#fff;--head:#f6f8fa;--up:#1a7f37;--down:#cf222e;--group:#eef2f6}
+@media (prefers-color-scheme:dark){:root{--fg:#e6edf3;--muted:#8d96a0;--line:#30363d;--bg:#0d1117;--head:#161b22;--up:#3fb950;--down:#f85149;--group:#1c2430}}
+body{font:14px/1.5 -apple-system,"Segoe UI","Malgun Gothic",sans-serif;color:var(--fg);background:var(--bg);margin:24px 16px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px}h3{font-size:15px;margin:16px 0 4px}
+p,li,.muted{color:var(--muted)}a{color:inherit}code{font:12px ui-monospace,Consolas,monospace;word-break:break-all}
+.wrap{overflow-x:auto}table{border-collapse:collapse;font-variant-numeric:tabular-nums;margin:4px 0 12px}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:right;white-space:nowrap}
+th{background:var(--head)}td.l,th.l{text-align:left}td.w{white-space:normal;min-width:16em}
+tr.g td{background:var(--group);font-weight:600;text-align:left}
+.up{color:var(--up)}.down{color:var(--down)}.d{color:var(--muted)}.off{opacity:.45}b{font-weight:700}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+"""
+
+
+def _cell(v, d, lower, same=True, best=False):
+    if v is None:
+        return "<td>—</td>"
+    num = f"<b>{_pct(v)}</b>" if best and same else _pct(v)
+    delta = "" if d is None else f" <span class='{'d' if abs(d) < 0.05 else ('up' if (d > 0) != lower else 'down')}'>({d:+.1f})</span>"
+    return f"<td><span class='{'' if same else 'off'}'>{num}{'' if same else '†'}</span>{delta}</td>"
+
+
+def write(results, out_dir, rescore=False, per_task=30, take_all=False):
+    """results(results.json 꼴) → <out_dir>/report.html · scores.csv · answers.html. 만든 report.html 경로 (모델이 없으면 None)."""
+    out_dir = Path(out_dir)
+    models, sets, notes = collect(results, rescore)
+    if not any(m["scores"] for m in models):
+        return None
+    base = baseline_of(results, models)
+    e = html.escape
+    labels = [m["label"] for m in models]
+    head = "".join(f"<th>{e(l)}</th>" for l in labels)
+
+    def val(m, sid, task, metric, dim=None, bucket=None):
+        s = m["scores"].get(sid)
+        if not s:
+            return None, False
+        t = (s.get("breakdowns", {}).get(dim, {}).get(bucket, {}).get("tasks", {}) if dim else s["tasks"]).get(task)
+        v = (t or {}).get("metrics", {}).get(metric)
+        return v, s["items_sha256"] == sets[sid]["ref"]
+
+    def cells(sid, task, metric, dim=None, bucket=None, csv_rows=None, n=None):
+        lower = metric in LOWER
+        vals = [val(m, sid, task, metric, dim, bucket) for m in models]
+        b = val(base, sid, task, metric, dim, bucket)[0] if base else None
+        ok = [v for v, same in vals if v is not None and same]
+        best = (min(ok) if lower else max(ok)) if len(ok) > 1 else None
+        out = []
+        for m, (v, same) in zip(models, vals):
+            d = None if v is None or b is None or m is base or not same else (v - b) * 100
+            out.append(_cell(v, d, lower, same, v == best))
+            if csv_rows is not None and v is not None:
+                csv_rows.append({"set_id": sid, "set_name": sets[sid]["name"], "set_group": sets[sid]["group"],
+                                 "dimension": dim or "", "bucket": bucket or "", "task": task, "metric": metric, "model": m["label"],
+                                 "n": n, "value": round(v, 6), "delta_pp": None if d is None else round(d, 3),
+                                 "lower_is_better": lower, "same_items": same})
+        return "".join(out)
+
+    csv_rows = []
+    parts = [f"<h1>{e(results.get('name') or '결과')}</h1><p>{e(results.get('about') or '')}</p>"]
+    if results.get("record"):
+        parts.append(f"<p>기록: {e(results['record'])}</p>")
+    parts.append("<p>점수 %, 괄호는 기준 모델 <b>" + e(base["label"] if base else "") + "</b> 대비 %p (초록 = 좋아짐, 빨강 = 나빠짐, ↓ 는 낮을수록 좋음). "
+                 "굵게 = 그 줄에서 가장 좋은 값. 흐린 † = 평가 문항이 기준 모델과 달라 비교하지 않는 칸. "
+                 "문항별 답은 <a href='answers.html'>answers.html</a> (두 모델을 골라 견줌), 숫자는 <a href='scores.csv'>scores.csv</a>.</p>")
+    # 모델
+    parts.append("<h2>모델</h2><div class='wrap'><table><tr><th class='l'>모델</th><th class='l'>설명</th><th class='l'>바꾼 설정</th>"
+                 "<th class='l'>학습 데이터</th><th class='l'>모델 경로</th></tr>")
+    for m in models:
+        path = f"<code>{e(str(m.get('model') or ''))}</code>" + (f"<br><small>SFT 체크포인트 <code>{e(m['checkpoint'])}</code></small>" if m.get("checkpoint") else "")
+        train = "<br>".join(e(t) for t in m.get("train") or [])
+        parts.append(f"<tr><td class='l'>{e(m['label'])}{' (기준)' if m is base else ''}</td><td class='l w'>{e(m.get('about') or '')}</td>"
+                     f"<td class='l w'>{e(m.get('changes') or '')}</td><td class='l w'>{train}</td><td class='l w'>{path}</td></tr>")
+    parts.append("</table></div>")
+    # 한눈에 보기
+    order = list(sets)
+    parts.append(f"<h2>한눈에 보기</h2><p>평가 세트·과제마다 주 지표. 위치까지 답하는 과제(kie·marks)는 <b>값</b>(글자를 맞게 읽었나)과 "
+                 f"<b>위치</b>(박스 IoU 0.5)를 따로 냅니다 — 둘 다 맞아야 하는 값+위치(vl_f1)는 세트별 자세히에.</p>"
+                 f"<div class='wrap'><table><tr><th class='l'>과제</th><th class='l'>지표</th><th>문항 수</th>{head}</tr>")
+    for sid in order:
+        parts.append(f"<tr class='g'><td colspan='{3 + len(models)}'>{e(sets[sid]['name'])} · {e(sid)}"
+                     + (f" <span class='muted'>({e(sets[sid]['group'])})</span>" if sets[sid]['group'] not in ("", "ungrouped") else "") + "</td></tr>")
+        ref = next((m["scores"][sid] for m in ([base] if base else []) + models if sid in m["scores"]), None)
+        for task, t in ref["tasks"].items():
+            for metric in headline(task, t):
+                parts.append(f"<tr><td class='l'>{e(task)}</td><td class='l'>{e(metric_label(task, metric, t))}{' ↓' if metric in LOWER else ''}</td>"
+                             f"<td>{t['n']}</td>" + cells(sid, task, metric, n=t["n"]) + "</tr>")
+    parts.append("</table></div>")
+    # 평가 세트별 자세히
+    parts.append("<h2>평가 세트별 자세히</h2><p>모든 지표, 답 형식 오류(못 읽은 답, 0점 처리), 구분별 점수.</p>")
+    for sid in order:
+        ref = next((m["scores"][sid] for m in ([base] if base else []) + models if sid in m["scores"]), None)
+        block = [f"<details><summary>{e(sets[sid]['name'])} · {e(sid)} — 문항 {ref['n']}</summary>",
+                 f"<div class='wrap'><table><tr><th class='l'>과제</th><th class='l'>지표</th><th>문항 수</th>{head}</tr>"]
+        for task, t in ref["tasks"].items():
+            for metric in [t["main"], *sorted(k for k in t["metrics"] if k != t["main"])]:
+                block.append(f"<tr><td class='l'>{e(task)}</td><td class='l'>{e(metric)}{' ↓' if metric in LOWER else ''}</td><td>{t['n']}</td>"
+                             + cells(sid, task, metric, csv_rows=csv_rows, n=t["n"]) + "</tr>")
+            fails = [(m["scores"].get(sid) or {}).get("tasks", {}).get(task, {}).get("parse_fail") for m in models]
+            block.append(f"<tr><td class='l'>{e(task)}</td><td class='l'>답 형식 오류 ↓</td><td></td>"
+                         + "".join(f"<td>{_pct(v)}</td>" for v in fails) + "</tr>")
+        block.append("</table></div>")
+        for dim in DIMS:
+            groups = ref.get("breakdowns", {}).get(dim, {})
+            if len(groups) < 2:
+                continue
+            block.append(f"<h3>{e(DIMENSIONS.get(dim, dim))}별</h3><div class='wrap'><table><tr><th class='l'>{e(DIMENSIONS.get(dim, dim))}</th>"
+                         f"<th class='l'>과제</th><th class='l'>지표</th><th>문항 수</th>{head}</tr>")
+            for bucket, g in groups.items():
+                for task, t in g["tasks"].items():
+                    block.append(f"<tr><td class='l'>{e(bucket)}</td><td class='l'>{e(task)}</td><td class='l'>{e(t['main'])}</td><td>{t['n']}</td>"
+                                 + cells(sid, task, t["main"], dim, bucket, csv_rows, t["n"]) + "</tr>")
+            block.append("</table></div>")
+        for task, t in ref["tasks"].items():   # 과제 안의 구분 (kie 값 종류 등)
+            for key, groups in (t.get("slices") or {}).items():
+                if len(groups) < 2:
+                    continue
+                block.append(f"<h3>{e(task)} · {e(key)}별</h3><div class='wrap'><table><tr><th class='l'>{e(key)}</th><th>수</th>{head}</tr>")
+                for bucket, g in groups.items():
+                    vs = []
+                    for m in models:
+                        c = (m["scores"].get(sid) or {}).get("tasks", {}).get(task, {}).get("slices", {}).get(key, {}).get(bucket)
+                        vs.append(next((v for k, v in c.items() if k != "n"), None) if c else None)
+                    block.append(f"<tr><td class='l'>{e(bucket)}</td><td>{g['n']}</td>" + "".join(f"<td>{_pct(v)}</td>" for v in vs) + "</tr>")
+                block.append("</table></div>")
+        parts.append("".join(block) + "</details>")
+    if notes:
+        parts.append("<h2>알림</h2><ul>" + "".join(f"<li>{e(n)}</li>" for n in notes) + "</ul>")
+    parts.append("<p>합성 서류 평가는 학습 데이터와 같은 생성기라 실서류보다 높게 나옵니다. 읽는 법: guide/train/sweep.md</p>")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    page = out_dir / "report.html"
+    page.write_text("<!doctype html><html lang='ko'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
+                    f"<title>{e(results.get('name') or '결과')}</title><style>{CSS}</style></head><body>" + "".join(parts) + "</body></html>\n",
+                    encoding="utf-8")
+    if csv_rows:
+        with (out_dir / "scores.csv").open("w", encoding="utf-8-sig", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(csv_rows[0]))
+            w.writeheader()
+            w.writerows(csv_rows)
+    try:
+        from .answers import build
+
+        build(models, out_dir / "answers.html", results.get("name") or "", base["label"] if base else None, per_task, take_all)
+    except Exception as exc:  # noqa: BLE001  문항별 답 페이지 하나 때문에 보고서를 멈추지 않는다
+        print(f"WARNING: answers.html 을 만들지 못했습니다: {type(exc).__name__}: {exc}", flush=True)
+    return page
+
+
+def write_safe(results, out_dir):
+    """학습·평가 중에 부를 때: 보고서가 실패해도 학습은 계속한다."""
+    try:
+        page = write(results, out_dir)
+        if page:
+            print(f"보고서 → {page} · {Path(out_dir) / 'answers.html'}", flush=True)
+        return page
+    except Exception as exc:  # noqa: BLE001
+        print(f"WARNING: 보고서를 만들지 못했습니다 ({out_dir}): {type(exc).__name__}: {exc}", flush=True)
+        return None
+
+
+def main(argv=None):
+    p = argparse.ArgumentParser(prog="python -m train report", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("folder", help="결과 폴더 (results.json 이 있는 곳)")
+    p.add_argument("--rescore", action="store_true", help="점수 캐시를 버리고 다시 채점 (채점 규칙을 고쳤을 때)")
+    p.add_argument("--per-task", type=int, default=30, help="answers.html: 평가 세트·과제마다 보여 줄 문항 수 (기본 30)")
+    p.add_argument("--all", action="store_true", help="answers.html: 모든 문항 (파일이 커짐)")
+    a = p.parse_args(argv)
+    folder = Path(a.folder).resolve()
+    if not (folder / "results.json").is_file():
+        raise SystemExit(f"{folder} 에 results.json 이 없습니다 (학습 실행 workdir · 실험 묶음 root · 평가만 하기 root)")
+    page = write(read_json(folder / "results.json"), folder, a.rescore, a.per_task, a.all)
+    print(f"보고서 → {page} · {folder / 'answers.html'} · {folder / 'scores.csv'}" if page else "점수가 있는 모델이 없습니다")
+
+
+if __name__ == "__main__":
+    main()

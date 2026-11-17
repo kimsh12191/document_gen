@@ -35,7 +35,8 @@
      ],
      "line": 24
     }
-   ]
+   ],
+   "key": "check.Total"
   },
   {
    "t": "check",
@@ -58,7 +59,8 @@
      ],
      "line": 29
     }
-   ]
+   ],
+   "key": "check.Partial"
   },
   {
    "t": "text",
@@ -69,7 +71,9 @@
     150.4,
     547.3,
     168.5
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -80,7 +84,10 @@
     174.9,
     535.1,
     193.1
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "L/CNo"
   },
   {
    "t": "text",
@@ -91,7 +98,10 @@
     189.9,
     539.2,
     208.1
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "Dated"
   },
   {
    "t": "text",
@@ -102,7 +112,10 @@
     204.9,
     511.8,
     223.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "IssuingBank"
   },
   {
    "t": "text",
@@ -113,7 +126,10 @@
     219.9,
     530.6,
     238.1
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "Amount"
   },
   {
    "t": "text",
@@ -124,7 +140,10 @@
     234.9,
     517.0,
     253.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Beneficiary"
   },
   {
    "t": "text",
@@ -135,7 +154,10 @@
     249.9,
     519.2,
     268.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Accountee"
   },
   {
    "t": "text",
@@ -146,7 +168,10 @@
     283.8,
     473.9,
     301.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Gentlemen"
   },
   {
    "t": "text",
@@ -157,7 +182,10 @@
     358.8,
     473.9,
     376.9
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "Amounttobetransferred"
   },
   {
    "t": "text",
@@ -168,7 +196,10 @@
     373.8,
     497.9,
     391.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Latestshippingdate"
   },
   {
    "t": "text",
@@ -179,7 +210,10 @@
     388.8,
     536.9,
     406.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Expirydate"
   },
   {
    "t": "check",
@@ -202,7 +236,8 @@
      ],
      "line": 116
     }
-   ]
+   ],
+   "key": "check.thefirstbene"
   },
   {
    "t": "check",
@@ -225,7 +260,8 @@
      ],
      "line": 120
     }
-   ]
+   ],
+   "key": "check.thesecondben"
   }
  ]
 }

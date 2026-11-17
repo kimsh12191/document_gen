@@ -24,7 +24,9 @@
     102.5,
     530.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     102.5,
     550.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     102.5,
     569.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     102.5,
     589.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     102.5,
     609.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -84,7 +94,9 @@
     102.5,
     628.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -96,7 +108,9 @@
     102.5,
     648.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -108,7 +122,9 @@
     102.5,
     667.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -120,7 +136,9 @@
     102.5,
     687.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -132,7 +150,9 @@
     102.5,
     706.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -144,7 +164,9 @@
     102.5,
     726.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.결제원어음번호",
+   "kind": "check_no"
   },
   {
    "t": "text",
@@ -156,7 +178,9 @@
     207.7,
     530.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -168,7 +192,9 @@
     207.7,
     550.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -180,7 +206,9 @@
     207.7,
     569.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -192,7 +220,9 @@
     207.7,
     589.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -204,7 +234,9 @@
     207.7,
     609.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -216,7 +248,9 @@
     207.7,
     628.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -228,7 +262,9 @@
     207.7,
     648.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -240,7 +276,9 @@
     207.7,
     667.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -252,7 +290,9 @@
     207.7,
     687.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -264,7 +304,9 @@
     207.7,
     706.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -276,7 +318,9 @@
     207.7,
     726.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.어음금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -288,7 +332,9 @@
     267.5,
     530.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -300,7 +346,9 @@
     267.5,
     550.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -312,7 +360,9 @@
     267.5,
     569.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -324,7 +374,9 @@
     267.5,
     589.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -336,7 +388,9 @@
     267.5,
     609.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -348,7 +402,9 @@
     267.5,
     628.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -360,7 +416,9 @@
     267.5,
     648.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -372,7 +430,9 @@
     267.5,
     667.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -384,7 +444,9 @@
     267.5,
     687.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -396,7 +458,9 @@
     267.5,
     706.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -408,7 +472,9 @@
     267.5,
     726.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -420,7 +486,9 @@
     327.3,
     530.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -432,7 +500,9 @@
     327.3,
     550.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -444,7 +514,9 @@
     327.3,
     569.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -456,7 +528,9 @@
     327.3,
     589.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -468,7 +542,9 @@
     327.3,
     609.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -480,7 +556,9 @@
     327.3,
     628.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -492,7 +570,9 @@
     327.3,
     648.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -504,7 +584,9 @@
     327.3,
     667.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -516,7 +598,9 @@
     327.3,
     687.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -528,7 +612,9 @@
     327.3,
     706.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -540,7 +626,9 @@
     327.3,
     726.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인수거절사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -552,7 +640,9 @@
     387.2,
     530.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -564,7 +654,9 @@
     387.2,
     550.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -576,7 +668,9 @@
     387.2,
     569.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -588,7 +682,9 @@
     387.2,
     589.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -600,7 +696,9 @@
     387.2,
     609.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -612,7 +710,9 @@
     387.2,
     628.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -624,7 +724,9 @@
     387.2,
     648.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -636,7 +738,9 @@
     387.2,
     667.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -648,7 +752,9 @@
     387.2,
     687.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -660,7 +766,9 @@
     387.2,
     706.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -672,7 +780,9 @@
     387.2,
     726.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -684,7 +794,9 @@
     491.8,
     530.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -696,7 +808,9 @@
     491.8,
     550.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -708,7 +822,9 @@
     491.8,
     569.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -720,7 +836,9 @@
     491.8,
     589.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -732,7 +850,9 @@
     491.8,
     609.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -744,7 +864,9 @@
     491.8,
     628.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -756,7 +878,9 @@
     491.8,
     648.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -768,7 +892,9 @@
     491.8,
     667.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -780,7 +906,9 @@
     491.8,
     687.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -792,7 +920,9 @@
     491.8,
     706.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -804,7 +934,9 @@
     491.8,
     726.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -816,7 +948,9 @@
     548.7,
     530.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -828,7 +962,9 @@
     548.7,
     550.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -840,7 +976,9 @@
     548.7,
     569.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -852,7 +990,9 @@
     548.7,
     589.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -864,7 +1004,9 @@
     548.7,
     609.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -876,7 +1018,9 @@
     548.7,
     628.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -888,7 +1032,9 @@
     548.7,
     648.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -900,7 +1046,9 @@
     548.7,
     667.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -912,7 +1060,9 @@
     548.7,
     687.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -924,7 +1074,9 @@
     548.7,
     706.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -936,7 +1088,9 @@
     548.7,
     726.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -947,7 +1101,9 @@
     761.2,
     547.3,
     777.3
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   }
  ]
 }

@@ -30,7 +30,9 @@
     154.1,
     543.2,
     188.9
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -41,7 +43,9 @@
     227.8,
     543.2,
     262.6
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -52,7 +56,10 @@
     276.3,
     388.8,
     311.2
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "개설점포"
   },
   {
    "t": "text",
@@ -63,7 +70,10 @@
     276.3,
     543.2,
     311.2
-   ]
+   ],
+   "kind": "product",
+   "std": false,
+   "key": "예금종별"
   },
   {
    "t": "text",
@@ -74,7 +84,9 @@
     313.2,
     543.2,
     348.0
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "date",
@@ -99,7 +111,8 @@
      532.8,
      622.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -116,7 +129,9 @@
     653.3,
     542.8,
     664.3
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -128,7 +143,9 @@
     216.3,
     253.6
    ],
-   "free": true
+   "free": true,
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -140,7 +157,9 @@
     341.4,
     253.6
    ],
-   "free": true
+   "free": true,
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -152,7 +171,10 @@
     259.9,
     302.1
    ],
-   "free": true
+   "free": true,
+   "kind": "bank",
+   "std": false,
+   "key": "금융회사"
   },
   {
    "t": "text",
@@ -164,7 +186,10 @@
     259.9,
     311.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "지급정지"
   },
   {
    "t": "text",
@@ -176,7 +201,9 @@
     388.8,
     338.9
    ],
-   "free": true
+   "free": true,
+   "kind": "account",
+   "key": "account"
   }
  ]
 }

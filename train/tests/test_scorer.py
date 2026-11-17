@@ -6,9 +6,8 @@ import pytest
 
 from docgen.bench import evaluate as E
 from train.benchmarks import normalize
-from train.cli import resolve_data
+from train.benchmarks import resolve
 from train.score import score
-from train.tests.test_train import model, ocr_set  # noqa: F401  (pytest 준비물)
 
 SAMPLE = str(Path(__file__).resolve().parents[1] / "scorers" / "kie_default.py")
 SWIFT = {"id": "po/00001", "task": "kie", "answer": {"NEGO_CLCT": "EOA", "DATE": "2025 05 21", "TENOR": ""}, "meta": {},
@@ -44,8 +43,7 @@ def test_benchmark_scorer_used_and_main(tmp_path):
     assert res["tasks"]["kie"]["main"] == "hit" and res["tasks"]["kie"]["metrics"]["hit"] == 1.0
     assert score(items, {})["tasks"]["kie"]["metrics"]["hit"] == 0.0   # 답 없음 = 0 (함수에는 "" 로)
     # 설정: 상대 경로는 설정 파일 기준, 없는 파일·함수는 돌리기 전에
-    data = resolve_data({"data": {"train": [], "output_dir": "o", "benchmark": [
-        {"id": "po", "paths": ["po.jsonl"], "format": "swift-fields", "scorer": "loose.py:score"}]}}, tmp_path)
+    data = {"benchmark": resolve([{"id": "po", "paths": ["po.jsonl"], "format": "swift-fields", "scorer": "loose.py:score"}], tmp_path)}
     (b,) = normalize(data["benchmark"])
     assert b["scorer"] == f"{tmp_path / 'loose.py'}:score"
     with pytest.raises(ValueError, match="함수 nope"):
@@ -71,18 +69,28 @@ def test_sample_field_types(tmp_path):
 SCORERS_DIR = Path(__file__).resolve().parents[1] / "scorers"
 
 
-def test_bank_and_ocr_samples_match_default(tmp_path, model, ocr_set):
-    """합성 세트 견본(bank_default·ocr_default)은 기본 채점과 같은 문항 점수, 붙여서 섞어도 정답 만점 검사를 지난다."""
+@pytest.fixture(scope="module")
+def ocr_set(tmp_path_factory):
+    """OCR 준비 결과 (train·val·benchmark 문서가 한 폴더에, 과제 형식 tasks/ 포함)."""
+    from docgen.bench.ocr_prepare import prepare
+    from docgen.tests.ocr_fixture import create_demo
+
+    root = tmp_path_factory.mktemp("ocr")
+    prepare(create_demo(root))
+    return root / "prepared"
+
+
+def test_bank_and_ocr_samples_match_default(tmp_path, ocr_set):
+    """합성 세트 견본(bank_default·ocr_default)은 기본 채점과 같은 문항 점수, 붙여서 평가 세트를 준비해도 정답 만점 검사를 지난다."""
     import contextlib
     import io
 
     from docgen.bench.ocr_data import read_jsonl
     from docgen.bench.runner import oracle_output
     from train import mix as M
-    from train.tests.test_train import _item, bank_folder, data_cfg
 
     bank = E.load_scorer(str(SCORERS_DIR / "bank_default.py"))
-    for it in [_item(t, "a") for t in ("cross_check", "review", "doc_check", "kie")] + [SWIFT, LISTED]:
+    for it in [SWIFT, LISTED]:
         for out in (oracle_output(it), "엉뚱한 답", '{"x": 1}'):
             assert bank(it, out)["metrics"] == E.SCORERS[it["task"]](it, out)["metrics"], (it["id"], out)
     ocr = E.load_scorer(str(SCORERS_DIR / "ocr_default.py"))
@@ -92,12 +100,9 @@ def test_bank_and_ocr_samples_match_default(tmp_path, model, ocr_set):
         r = ocr(it, oracle_output(it))
         one = E.score_task(it["task"], [it], {it["id"]: oracle_output(it)})   # 문항 하나면 기본 채점(과제 전체 계산)과 같다
         assert r["main"] == one["main"] and r["metrics"][r["main"]] == one["metrics"][one["main"]], it["id"]
-    bank_folder(tmp_path / "train", "train", [f"m_{i}" for i in range(6)], n_images=1, size=(400, 560))
-    bank_folder(tmp_path / "bench", None, ["b_0", "b_1"], n_images=1, size=(400, 560))
-    bench = [{"id": "syn", "paths": [str(tmp_path / "bench")], "scorer": str(SCORERS_DIR / "bank_default.py")},
-             {"id": "ocr", "paths": [str(ocr_set)], "scorer": str(SCORERS_DIR / "ocr_default.py")}]
+    bench = normalize([{"id": "ocr", "paths": [str(ocr_set)], "scorer": str(SCORERS_DIR / "ocr_default.py")}])
     with contextlib.redirect_stdout(io.StringIO()):
-        M.mix(data_cfg(tmp_path, benchmark=bench), model)   # cer 처럼 낮을수록 좋은 주 지표도 정답 = 만점
+        M.prepare_sets(bench, tmp_path / "cache", [2300, 1600], 12000, 32, workers=1)   # cer 처럼 낮을수록 좋은 주 지표도 정답 = 만점
 
 
 def test_swift_default_matches_old_swift_scoring():
@@ -137,5 +142,76 @@ def test_swift_kie_scorer_reads_converted_file_and_jsonl_line(tmp_path):
         assert fn(it, '["NO.ILH1", null, "x2"]')["metrics"]["f1"] == 1.0   # 값만 순서대로
         assert fn(it, '{"NEGO No": "zz", "Amount": null, "NEGO No#2": "X2"}')["metrics"]["f1"] == 0.5
         assert fn(it, "모름")["parse_fail"]
+    # v2 (temp/swift_to_kie_v2_tmp.py): 질문만 바뀜 — 답 꼴 예시가 실제 키, 키 옆에 항목명. 정답·채점은 같다
+    v2 = runpy.run_path(str(Path(__file__).resolve().parents[2] / "temp" / "swift_to_kie_v2_tmp.py"))
+    (tmp_path / "labels.json").write_text(json.dumps({"NEGO No": "매입번호"}, ensure_ascii=False), encoding="utf-8")
+    v2["cmd_convert"](str(tmp_path / "out.jsonl"), str(tmp_path / "v2.jsonl"), str(tmp_path / "labels.json"))
+    line2 = json.loads((tmp_path / "v2.jsonl").read_text(encoding="utf-8"))
+    q = line2["messages"][0]["content"]
+    assert '답 꼴: {"NEGO No": "…", "Amount": "…", "NEGO No#2": "…"}' in q and "- NEGO No: 매입번호" in q and "- Amount: -" in q
+    assert '"키"' not in q and line2["messages"][1]["content"] == line["messages"][1]["content"] and line2["images"] == line["images"]
+    _, (item2,) = load_swift(tmp_path / "v2.jsonl")
+    assert fn(item2, '["NO.ILH1", null, "x2"]')["metrics"]["f1"] == 1.0
+    assert fn(item2, '{"NEGO No": "zz", "Amount": null, "NEGO No#2": "X2"}')["metrics"]["f1"] == 0.5
+    # v3 (temp/swift_to_kie_v3_tmp.py): 합성 kie 와 같은 질문(P_KIE)·목록 정답, 채점은 합성과 같은 값 채점 (위치 정답이 없어 주 지표 f1)
+    from docgen.bench.prompts import P_KIE
+
+    v3 = runpy.run_path(str(Path(__file__).resolve().parents[2] / "temp" / "swift_to_kie_v3_tmp.py"))
+    v3["cmd_convert"](str(tmp_path / "out.jsonl"), str(tmp_path / "v3.jsonl"), str(tmp_path / "labels.json"))
+    line3 = json.loads((tmp_path / "v3.jsonl").read_text(encoding="utf-8"))
+    q3 = line3["messages"][0]["content"]
+    assert q3.startswith("<image>" + P_KIE.split("{items}")[0].replace("{{", "{").replace("}}", "}"))
+    assert "- NEGO No: 매입번호\n- Amount: Amount\n- NEGO No#2: 매입번호 (같은 항목명 중 2번째 칸)" in q3
+    assert json.loads(line3["messages"][1]["content"]) == [{"key": "NEGO No", "value": "NO:ILH1"}, {"key": "Amount", "value": None},
+                                                           {"key": "NEGO No#2", "value": "X2"}]
+    kl = E.load_scorer(str(Path(__file__).resolve().parents[1] / "scorers" / "kie_list_scorer.py"))
+    _, (item3,) = load_swift(tmp_path / "v3.jsonl")
+    item3 = {**item3, "eval": {**item3["eval"], "scorer": str(Path(__file__).resolve().parents[1] / "scorers" / "kie_list_scorer.py")}}
+    boxed = ('[{"key": "NEGO No", "value": "NO.ILH1", "bbox_2d": [10, 10, 90, 30], "page": 1}, {"key": "Amount", "value": null},'
+             ' {"key": "NEGO No#2", "value": "x2", "bbox_2d": [10, 40, 90, 60], "page": 1}]')
+    r = kl(item3, boxed)   # 모델은 위치까지 답한다: 정답에 위치가 없어도 값으로만 채점 (값+위치 0 이 되지 않게)
+    assert r["main"] == "f1" and r["metrics"]["f1"] == 1.0 and "vl_f1" not in r["metrics"]
+    assert kl(item3, '[{"key": "NEGO No", "value": "zz"}, {"key": "NEGO No#2", "value": "X2"}]')["metrics"]["f1"] == 0.5
+    assert kl(line3, boxed)["metrics"]["f1"] == 1.0 and kl(item3, "모름")["parse_fail"]
+    res = E.score_task("kie", [item3], {item3["id"]: boxed})
+    assert res["main"] == "f1" and res["metrics"]["f1"] == 1.0
     with pytest.raises(ValueError, match="키: 값"):
         fn({"answer": "", "eval": {"prompt": ""}}, '{"a": 1}')
+
+
+VQA = str(Path(__file__).resolve().parents[1] / "scorers" / "vqa_scorer.py")
+VQA_OBJ = '{"보험료 납부": "[날인]", "보증인 성명": "", "지점": "센텀"}'
+
+
+@pytest.mark.parametrize("answer,output,f1,fail", [
+    (VQA_OBJ, VQA_OBJ, 1.0, False),
+    (VQA_OBJ, '{"지점": "센텀", "보험료 납부": "[날인]", "보증인 성명": ""}', 1.0, False),   # 키 순서는 무시
+    (VQA_OBJ, '{"보험료 납부": "[날인]", "보증인 성명": "", "지점": "해운대"}', 2 / 3, False),
+    (VQA_OBJ, "```json\n" + VQA_OBJ + "\n```", 1.0, False),
+    (VQA_OBJ, "답: " + VQA_OBJ, 0.0, True),                       # 객체 정답에 JSON 이 아닌 답 = 못 읽음
+    (VQA_OBJ, "", 0.0, True),
+    ('["a", "b"]', '["b", "a"]', 0.0, False),                     # 배열 순서는 지킨다
+    ("[]", "[]", 1.0, False), ("[]", "{}", 0.0, False),
+    ('"정례 지원형"', '"정례 지원형"', 1.0, False),
+    ('"정례 지원형"', "정례 지원형", 1.0, False),                    # 하나짜리 글 정답: 따옴표 없이 답해도 맞음
+    ("3", "3개", 0.0, False),                                      # 틀림이지 못 읽음이 아님
+    ('{"a": 1.0}', '{"a": 1}', 0.0, False),                       # 타입 구분
+    ("2023년 5월 20일 현재", "2023년  5월 20일 현재", 1.0, False),   # 그냥 글: 공백만 맞춤
+    ("보증인", '"보증인"', 1.0, False), ("Seal", "seal", 0.0, False),
+    ("", "", 1.0, False),
+])
+def test_vqa_scorer_compares_text_and_json_answers(answer, output, f1, fail):
+    r = E.load_scorer(VQA)({"task": "kie", "answer": answer, "eval": {}}, output)
+    assert r["main"] == "f1" and r["metrics"]["f1"] == pytest.approx(f1) and r["parse_fail"] is fail
+
+
+def test_vqa_scorer_passes_the_training_data_check_and_gives_the_reward():
+    """학습 데이터에 붙여도: 정답을 답으로 넣으면 만점 (깨진 줄 거르기 통과), GRPO 보상은 f1."""
+    from train.mix import perfect
+
+    for answer in (VQA_OBJ, "[]", '"정례 지원형"', "그냥 글", ""):
+        item = {"task": "kie", "answer": answer, "eval": {"scorer": VQA}}
+        assert perfect(item)
+        assert E.reward("kie", answer, item) == 1.0
+    item = {"task": "kie", "answer": VQA_OBJ, "eval": {"scorer": VQA}}
+    assert E.reward("kie", "모름", item) == 0.0

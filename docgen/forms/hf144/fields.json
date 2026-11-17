@@ -23,7 +23,9 @@
     225.5,
     550.1,
     252.8
-   ]
+   ],
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -34,7 +36,10 @@
     252.8,
     550.1,
     280.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "보관장소명"
   },
   {
    "t": "text",
@@ -46,7 +51,9 @@
     206.0,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -58,7 +65,9 @@
     206.0,
     438.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -70,7 +79,9 @@
     206.0,
     466.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -82,7 +93,9 @@
     206.0,
     494.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -94,7 +107,9 @@
     206.0,
     522.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -106,7 +121,9 @@
     274.1,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.식별번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -118,7 +135,9 @@
     274.1,
     438.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.식별번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -130,7 +149,9 @@
     274.1,
     466.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.식별번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -142,7 +163,9 @@
     274.1,
     494.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.식별번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -154,7 +177,9 @@
     274.1,
     522.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.식별번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -166,7 +191,9 @@
     342.1,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.모델명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -178,7 +205,9 @@
     342.1,
     438.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.모델명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -190,7 +219,9 @@
     342.1,
     466.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.모델명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -202,7 +233,9 @@
     342.1,
     494.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.모델명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -214,7 +247,9 @@
     342.1,
     522.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.모델명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -226,7 +261,9 @@
     410.1,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조사",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -238,7 +275,9 @@
     410.1,
     438.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조사",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -250,7 +289,9 @@
     410.1,
     466.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조사",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -262,7 +303,9 @@
     410.1,
     494.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조사",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -274,7 +317,9 @@
     410.1,
     522.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조사",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -286,7 +331,9 @@
     478.2,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조년월",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -298,7 +345,9 @@
     478.2,
     438.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조년월",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -310,7 +359,9 @@
     478.2,
     466.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조년월",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -322,7 +373,9 @@
     478.2,
     494.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조년월",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -334,7 +387,9 @@
     478.2,
     522.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.제조년월",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -346,7 +401,9 @@
     550.1,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -358,7 +415,9 @@
     550.1,
     438.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -370,7 +429,9 @@
     550.1,
     466.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -382,7 +443,9 @@
     550.1,
     494.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -394,7 +457,9 @@
     550.1,
     522.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "date",
@@ -419,7 +484,8 @@
      380.9,
      648.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -436,7 +502,9 @@
     676.6,
     517.6,
     686.6
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

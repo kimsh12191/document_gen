@@ -24,7 +24,9 @@
     553.1,
     187.4
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     553.1,
     212.9
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     553.1,
     238.4
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     553.1,
     264.0
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "check",
@@ -105,7 +113,8 @@
     264.0,
     553.1,
     289.4
-   ]
+   ],
+   "key": "check.폐쇄구분"
   },
   {
    "t": "text",
@@ -116,7 +125,10 @@
     289.4,
     553.1,
     314.9
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "폐쇄일자"
   },
   {
    "t": "text",
@@ -127,7 +139,10 @@
     314.9,
     553.1,
     399.9
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "폐쇄사유"
   },
   {
    "t": "text",
@@ -138,7 +153,10 @@
     577.3,
     553.1,
     602.8
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -149,7 +167,9 @@
     602.8,
     553.1,
     628.3
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -163,7 +183,10 @@
    ],
    "group": "외 국 기 업 국 내 지 사 폐 쇄 신 고 서",
    "row": true,
-   "section": "외 국 기 업 국 내 지 사 폐 쇄 신 고 서"
+   "section": "외 국 기 업 국 내 지 사 폐 쇄 신 고 서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -188,7 +211,8 @@
      488.4,
      468.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -205,7 +229,9 @@
     482.3,
     500.9,
     495.7
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -217,7 +243,10 @@
     275.4,
     288.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "폐쇄구분"
   },
   {
    "t": "text",
@@ -229,7 +258,10 @@
     295.0,
     610.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "위와같이신고되었음을확인함"
   }
  ]
 }

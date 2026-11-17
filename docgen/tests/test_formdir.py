@@ -90,7 +90,7 @@ def test_builtin_template_loader_and_paths():
     assert p == formdir.folder("employment_certificate") / "look" / "template.html.j2"
     assert env().get_template("income/employment_certificate.html.j2").filename == str(p)
     assert formdir.jinja_source("corporate/_seal.html.j2") is None   # 그룹 부품은 templates/ 에 남는다
-    assert formdir.hash_label(p) == formdir.TEMPLATES / "income" / "employment_certificate.html.j2"
+    assert formdir.hash_label(p) == formdir.LEGACY_TEMPLATES / "income" / "employment_certificate.html.j2"
     assert formdir.variants_dir("employment_certificate") == formdir.folder("employment_certificate") / "variants"
     roles = dict(formdir.describe("gov_income"))
     assert roles["값 선언 (form.json)"] == formdir.folder("gov_income") / "form.json"
@@ -163,3 +163,23 @@ def test_refresh_registers_updates_and_removes_form_folders(tmp_path, monkeypatc
     finally:
         for k in ("t_new_form", "img_t_refresh", "t_bad_form"):
             reg.pop(k, None)
+
+
+def test_unknown_form_id_gets_a_message_not_a_traceback(capsys):
+    from docgen import formdir, regions
+
+    assert formdir.main(["path", "employment_certificat"]) == 2
+    err = capsys.readouterr().err
+    assert "서식 ID 'employment_certificat' 가 없습니다" in err and "employment_certificate" in err
+    assert formdir.main(["check", "hf001", "no_such_form_x"]) == 2
+    assert regions.main(["path", "no_such_form_x"]) == 2
+
+
+def test_regions_path_points_at_the_field_list(capsys):
+    from docgen import regions
+
+    assert regions.main(["path", "employment_certificate"]) == 0
+    out = capsys.readouterr().out
+    assert out.startswith("docgen/forms/employment_certificate/fields.json") and "regions·variants" in out
+    assert regions.main(["path", "hf001"]) == 0
+    assert "docgen/forms/hf001/fields.json" in capsys.readouterr().out

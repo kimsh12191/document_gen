@@ -5,15 +5,11 @@ import os
 import uuid
 from pathlib import Path
 from urllib.request import Request, urlopen
-# OCR API 서버 엔드포인트 설정
+
+# 사내 OCR 서버 주소 (studio 설정 ocr.base_url 이 있으면 그것을 INTERNAL_OCR_BASE_URL 로 넘긴다)
 BASE_URL = os.getenv("INTERNAL_OCR_BASE_URL", "http://localhost:30107")
 
-# 주요 엔드포인트
-HEALTH_URL = f"{BASE_URL}/health"
-STATS_URL = f"{BASE_URL}/stats"
-OCR_URL = f"{BASE_URL}/ocr"
-OCR_JSON_URL = f"{BASE_URL}/api/v1/ocr"
-CHAT_URL = f"{BASE_URL}/v1/chat/completions"
+
 def ocr_from_file(image_path: str, *, base_url: str | None = None) -> dict:
     """
     이미지 파일을 OCR API 로 전송

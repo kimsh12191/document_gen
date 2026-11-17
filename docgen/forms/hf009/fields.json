@@ -68,7 +68,9 @@
     107.4,
     235.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -80,7 +82,9 @@
     107.4,
     258.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -92,7 +96,9 @@
     107.4,
     280.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -104,7 +110,9 @@
     186.7,
     235.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -116,7 +124,9 @@
     186.7,
     258.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -128,7 +138,9 @@
     186.7,
     280.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -140,7 +152,9 @@
     302.1,
     235.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -152,7 +166,9 @@
     302.1,
     258.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -164,7 +180,9 @@
     302.1,
     280.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -176,7 +194,9 @@
     365.0,
     235.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액주1",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -188,7 +208,9 @@
     365.0,
     258.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액주1",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -200,7 +222,9 @@
     365.0,
     280.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액주1",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -212,7 +236,9 @@
     426.9,
     235.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일주2",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -224,7 +250,9 @@
     426.9,
     258.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일주2",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -236,7 +264,9 @@
     426.9,
     280.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일주2",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -248,7 +278,9 @@
     489.1,
     235.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.질권설정금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -260,7 +292,9 @@
     489.1,
     258.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.질권설정금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -272,7 +306,9 @@
     489.1,
     280.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.질권설정금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -284,7 +320,9 @@
     548.1,
     235.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변제기일주2",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -296,7 +334,9 @@
     548.1,
     258.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변제기일주2",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -308,7 +348,9 @@
     548.1,
     280.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변제기일주2",
+   "kind": "date"
   },
   {
    "t": "sign",
@@ -326,7 +368,9 @@
     536.4,
     511.4,
     549.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -338,7 +382,9 @@
     365.0,
     576.8
    ],
-   "section": "질권설정자 (예금주)"
+   "section": "질권설정자 (예금주)",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -350,7 +396,9 @@
     548.1,
     599.5
    ],
-   "section": "질권설정자 (예금주)"
+   "section": "질권설정자 (예금주)",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -362,7 +410,9 @@
     548.1,
     576.8
    ],
-   "section": "질권설정자 (예금주)"
+   "section": "질권설정자 (예금주)",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "sign",
@@ -380,7 +430,9 @@
     610.6,
     511.4,
     623.6
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -392,7 +444,9 @@
     365.0,
     651.0
    ],
-   "section": "질권자"
+   "section": "질권자",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -404,7 +458,9 @@
     548.1,
     673.7
    ],
-   "section": "질권자"
+   "section": "질권자",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -416,7 +472,9 @@
     548.1,
     651.0
    ],
-   "section": "질권자"
+   "section": "질권자",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "sign",
@@ -433,7 +491,9 @@
     754.4,
     292.2,
     767.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -450,7 +510,9 @@
     754.4,
     545.4,
     767.4
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "date",
@@ -476,7 +538,8 @@
      350.4,
      455.0
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

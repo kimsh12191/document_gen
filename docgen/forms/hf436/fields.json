@@ -24,7 +24,9 @@
     99.4,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주주명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     99.4,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주주명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     99.4,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주주명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     191.5,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     191.5,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -84,7 +94,9 @@
     191.5,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -96,7 +108,9 @@
     255.4,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주식의종류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -108,7 +122,9 @@
     255.4,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주식의종류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -120,7 +136,9 @@
     255.4,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주식의종류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -132,7 +150,9 @@
     305.0,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지분율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -144,7 +164,9 @@
     305.0,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지분율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -156,7 +178,9 @@
     305.0,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지분율",
+   "kind": "percent"
   },
   {
    "t": "text",
@@ -168,7 +192,9 @@
     368.8,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주식수",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -180,7 +206,9 @@
     368.8,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주식수",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -192,7 +220,9 @@
     368.8,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주식수",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -204,7 +234,9 @@
     368.8,
     449.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주식수",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -216,7 +248,9 @@
     432.6,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주당액면가액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -228,7 +262,9 @@
     432.6,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주당액면가액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -240,7 +276,9 @@
     432.6,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주당액면가액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -252,7 +290,9 @@
     432.6,
     449.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.주당액면가액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -264,7 +304,9 @@
     510.6,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자본금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -276,7 +318,9 @@
     510.6,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자본금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -288,7 +332,9 @@
     510.6,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자본금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -300,7 +346,9 @@
     510.6,
     449.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자본금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -312,7 +360,9 @@
     552.6,
     332.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.국적",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -324,7 +374,9 @@
     552.6,
     371.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.국적",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -336,7 +388,9 @@
     552.6,
     409.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.국적",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -348,7 +402,9 @@
     552.6,
     449.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.국적",
+   "kind": "text"
   },
   {
    "t": "date",
@@ -373,7 +429,8 @@
      334.7,
      548.8
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

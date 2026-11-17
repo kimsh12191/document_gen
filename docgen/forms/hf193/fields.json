@@ -24,7 +24,11 @@
     457.8,
     76.7
    ],
-   "row": true
+   "row": true,
+   "group": "접수확인자",
+   "kind": "text",
+   "std": false,
+   "key": "서류확인및접수확인자"
   },
   {
    "t": "text",
@@ -35,7 +39,9 @@
     230.4,
     292.3,
     253.1
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -46,7 +52,9 @@
     230.4,
     542.5,
     253.1
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "check",
@@ -123,7 +131,8 @@
     281.0,
     542.5,
     303.7
-   ]
+   ],
+   "key": "check.해지사유"
   },
   {
    "t": "check",
@@ -168,7 +177,8 @@
     303.7,
     542.5,
     326.4
-   ]
+   ],
+   "key": "check.수수료연동출금"
   },
   {
    "t": "text",
@@ -180,7 +190,10 @@
     142.1,
     425.9
    ],
-   "row": true
+   "row": true,
+   "group": "가입자정보",
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "check",
@@ -225,7 +238,8 @@
     462.0,
     142.1,
     501.7
-   ]
+   ],
+   "key": "check.개인형IRP"
   },
   {
    "t": "text",
@@ -236,7 +250,10 @@
     525.4,
     340.4,
     545.4
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "금융기관명"
   },
   {
    "t": "text",
@@ -247,7 +264,9 @@
     547.4,
     340.4,
     568.8
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -259,7 +278,10 @@
     258.3,
     425.9
    ],
-   "row": true
+   "row": true,
+   "group": "가입자정보",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "check",
@@ -304,7 +326,8 @@
     462.0,
     343.4,
     501.7
-   ]
+   ],
+   "key": "check.만55세이후퇴직"
   },
   {
    "t": "text",
@@ -316,7 +339,10 @@
     343.4,
     425.9
    ],
-   "row": true
+   "row": true,
+   "group": "가입자정보",
+   "kind": "date",
+   "key": "employer.hire_date"
   },
   {
    "t": "text",
@@ -328,7 +354,11 @@
     457.8,
     425.9
    ],
-   "row": true
+   "row": true,
+   "group": "가입자정보",
+   "kind": "date",
+   "std": false,
+   "key": "중간정산일자"
   },
   {
    "t": "text",
@@ -340,7 +370,11 @@
     457.8,
     501.7
    ],
-   "row": true
+   "row": true,
+   "group": "잔여부담금",
+   "kind": "amount",
+   "std": false,
+   "key": "잔여부담금"
   },
   {
    "t": "check",
@@ -385,7 +419,8 @@
     524.4,
     542.5,
     569.8
-   ]
+   ],
+   "key": "check.계좌번호"
   },
   {
    "t": "text",
@@ -397,7 +432,11 @@
     542.5,
     425.9
    ],
-   "row": true
+   "row": true,
+   "group": "가입자정보",
+   "kind": "date",
+   "std": false,
+   "key": "퇴직일자"
   },
   {
    "t": "check",
@@ -442,7 +481,8 @@
     462.0,
     542.5,
     501.7
-   ]
+   ],
+   "key": "check.적용"
   },
   {
    "t": "date",
@@ -468,7 +508,8 @@
      529.3,
      204.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -485,7 +526,9 @@
     743.0,
     273.3,
     755.2
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -502,7 +545,9 @@
     743.0,
     511.9,
     755.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

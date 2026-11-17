@@ -1,4 +1,4 @@
-"""OCR 문항 만들기(docgen/bench/ocr_*): 사내 OCR 응답 읽기·나누기·채점/보상·쪽 그림 변형·과제 만들기·준비 전체 (studio/DESIGN.md 17절).
+"""OCR 문항 만들기(docgen/bench/ocr_*): 사내 OCR 응답 읽기·나누기·채점/보상·쪽 그림 변형·과제 만들기·준비 전체 (archive/studio/DESIGN.md 17절).
 옛 1부 ocr/tests/test_pipeline.py 에서 옮김 (학습·답 내기·골라 뽑기 시험은 train/tests)."""
 import io
 import json
@@ -280,10 +280,7 @@ class IntegrationTests(unittest.TestCase):
         for image in {i for r in rows for i in r["images"]}:
             with Image.open(image) as im:
                 self.assertLessEqual(max(im.size), 2300)
-        for r in read_jsonl(out / "train_grpo.jsonl"):
-            self.assertEqual(len(r["messages"]), 1)
-            self.assertEqual(r["split"], "train")
-            self.assertIn(r["task"], ("grounding", "spotting", "relation"))
+        self.assertFalse((out / "train_grpo.jsonl").exists())
         sft_rows = read_jsonl(out / "train_sft.jsonl")
         for r in sft_rows:
             self.assertEqual(r["messages"][-1]["role"], "assistant")

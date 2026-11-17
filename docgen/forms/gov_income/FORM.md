@@ -1,0 +1,256 @@
+# 소득금액증명 (`gov_income`)
+
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_income · card-hash: 4c3e64f696c2 -->
+
+- **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
+- **그룹:** income · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 소득금액증명원 (다른 이름: 소득금액증명)
+- **질문·답:** 이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)
+- **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa gov_income --new`)
+- **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
+
+> 소득금액증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626737&flNm=%5B%EB%B3%84%EC%A7%80+15%5D+%EC%86%8C%EB%93%9D%EA%B8%88%EC%95%A1%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 종합과세와 연말정산을 구분한 2024 개정 서식. 같은 근로소득을 두 구역에 중복 기재하지 않는다.
+
+## 파일
+
+| 파일 | 정하는 것 |
+|---|---|
+| `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
+| `fields.json` | 칸 목록·값 출처 |
+| `questions.json` | 기본 과제의 질문 문장·답 틀 (기본과 다른 것만) |
+| `form.json` | 이름·그룹·출처 |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
+
+## 추출 항목 (정보 추출 kie) — 23칸
+
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `official.name` | 성명 | text | 1쪽 [214, 169, 275, 184] | 늘 | 템플릿 | `profile.person.name` | look/template.html.j2:140 · fields.json:5 | 묻기 |
+| `official.rrn` | 주민등록번호 | rrn | 1쪽 [670, 170, 784, 183] | 늘 | 템플릿 | `profile.person.rrn` | look/template.html.j2:141 · fields.json:10 | 묻기 |
+| `official.address` | 주소 | text | 1쪽 [214, 188, 535, 203] | 늘 | 템플릿 | `profile.person.address.road_short` | look/template.html.j2:142 · fields.json:15 | 묻기 |
+| `official.company` | 근로소득발생처 | text | 1쪽 [185, 469, 283, 481] | 늘 | 템플릿 | `profile.employment.company.name` | look/template.html.j2:143 · fields.json:20 | 묻기 |
+| `official.biz_no` | 발생처사업자등록번호 | biz_no | 1쪽 [321, 478, 392, 487] | 늘 | 템플릿 | `profile.employment.company.biz_no` | look/template.html.j2:144 · fields.json:25 | 묻기 |
+| `official.salary` | 지급받은총액 | amount | 1쪽 [431, 478, 490, 487] | 늘 | 템플릿 | `parent.rows.0.amount` | look/template.html.j2:145 · fields.json:30 | 묻기 |
+| `official.year` | 귀속연도 | number | 1쪽 [385, 148, 415, 159] | 늘 | 템플릿 | `parent.rows.0.year` | look/template.html.j2:146 · fields.json:35 | 묻기 |
+| `official.tax` | 총결정세액 | amount | 1쪽 [693, 478, 746, 487] | 늘 | 템플릿 | `parent.rows.0.tax` | look/template.html.j2:147 · fields.json:41 | 묻기 |
+| `official.number` | 발급번호 | text | 1쪽 [105, 143, 193, 151] | 늘 | 템플릿 | `parent.issue_no` | look/template.html.j2:148 · fields.json:46 | 묻기 |
+| `official.office` | 관할지역 | text | 1쪽 [601, 630, 627, 643] | 늘 | 템플릿 | `parent.issuer` | look/template.html.j2:149 · fields.json:51 | 묻기 |
+| `official.issue0` | 발급일년 | number | 1쪽 [544, 607, 570, 616] | 늘 | 템플릿 | `profile.issue_date` | look/template.html.j2:150 · fields.json:57 | 묻기 |
+| `official.issue1` | 발급일월 | number | 1쪽 [619, 607, 632, 616] | 늘 | 템플릿 | `profile.issue_date` | look/template.html.j2:151 · fields.json:63 | 묻기 |
+| `official.issue2` | 발급일일 | number | 1쪽 [681, 607, 694, 616] | 늘 | 템플릿 | `profile.issue_date` | look/template.html.j2:152 · fields.json:69 | 묻기 |
+| `official.salary_income` | 근로소득소득금액 | amount | 1쪽 [555, 478, 612, 487] | 늘 | 템플릿 | `rule:amount` | look/template.html.j2:153 · fields.json:75 | 묻기 |
+| `official.period_from` | 납세자가신청한증명귀속연도시작 | number | 1쪽 [579, 548, 604, 557] | 늘 | 템플릿 | `parent.period` | look/template.html.j2:154 · fields.json:80 | 묻기 |
+| `official.period_to` | 납세자가신청한증명귀속연도끝 | number | 1쪽 [636, 548, 661, 557] | 늘 | 템플릿 | `parent.period` | look/template.html.j2:155 · fields.json:87 | 묻기 |
+| `official.receipt_no` | 접수번호 | text | 1쪽 [103, 905, 156, 914] | 늘 | 템플릿 | `rule:number` | look/template.html.j2:156 · fields.json:94 | 묻기 |
+| `official.issuer_department` | 증명발급자담당부서 | text | 1쪽 [327, 893, 383, 907] | 늘 | 템플릿 | `rule:choice` | look/template.html.j2:157 · fields.json:99 | 묻기 |
+| `official.issuer_person` | 증명발급자담당자 | text | 1쪽 [514, 893, 555, 907] | 늘 | 템플릿 | `rule:other_person` | look/template.html.j2:158 · fields.json:109 | 묻기 |
+| `official.issuer_phone` | 증명발급자연락처 | phone | 1쪽 [668, 895, 755, 905] | 늘 | 템플릿 | `rule:office_phone` | look/template.html.j2:159 · fields.json:114 | 묻기 |
+| `official.tax_officer_department` | 세적담당자담당부서 | text | 1쪽 [327, 911, 418, 926] | 늘 | 템플릿 | `rule:choice` | look/template.html.j2:160 · fields.json:119 | 묻기 |
+| `official.tax_officer_person` | 세적담당자담당자 | text | 1쪽 [514, 911, 559, 926] | 늘 | 템플릿 | `rule:other_person` | look/template.html.j2:161 · fields.json:129 | 묻기 |
+| `official.tax_officer_phone` | 세적담당자연락처 | phone | 1쪽 [668, 912, 763, 924] | 늘 | 템플릿 | `rule:office_phone` | look/template.html.j2:162 · fields.json:134 | 묻기 |
+
+- **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
+
+## 질문 → 답 (seed 1000000 로 그린 실제 문항)
+
+질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 이 폴더 `questions.json` 과 공통 `docgen/forms/_common/questions.json`.
+
+### 서류 분류 `classify` · 채점 acc
+
+질문:
+
+```
+이 문서는 고객이 은행에 제출한 서류입니다. 서류의 정식 명칭(서류명)을 답하세요. 설명 없이 서류명만 한 줄로 답하세요.
+```
+
+답:
+
+```json
+"소득금액증명원"
+```
+
+### 전체 받아쓰기 `ocr_page` · 채점 recall
+
+질문:
+
+```
+이 문서 이미지에 보이는 모든 글자를 빠짐없이 읽어 텍스트로 옮기세요. 위에서 아래, 왼쪽에서 오른쪽 순서로 쓰고, 표는 한 행을 한 줄로 쓰세요. 설명 없이 읽은 글자만 출력하세요.
+```
+
+답:
+
+```json
+[
+ "남궁예태",
+ "850328-2489940",
+ "서울특별시 서초구 강남대로 357, 103동 1301호",
+ "주식회사 다온패션",
+ "123-88-81212",
+ "47,550,000",
+ "2024",
+ "2,132,740",
+ "8906-955-1735-796",
+ "반포",
+ "2025",
+ "04",
+ "01",
+ "12,820,000",
+ "2022",
+ "8111-5978",
+ "소득세과",
+ "정서경",
+ "051-675-9542",
+ "재산법인세과",
+ "장현승",
+ "051-242-4681"
+]
+```
+
+### 값 칸 읽기 `ocr_field` · 채점 exact
+
+질문:
+
+```
+이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요.
+```
+
+답:
+
+```json
+"04"
+```
+
+### 값 칸 읽기 `ocr_field` · 채점 exact
+
+질문:
+
+```
+이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요.
+```
+
+답:
+
+```json
+"소득세과"
+```
+
+### 정보 추출 `kie` · 채점 vl_f1 (값+위치)
+
+틀 (질문의 항목 한 줄 · 답 항목 하나 · 빈 칸일 때) — `questions.json` 의 `kie`:
+
+```
+item:         - {key}: {label}{note}
+answer:       {"key": "{key}", "value": "{value}", "bbox_2d": "{bbox_2d}", "page": "{page}"}
+answer_empty: {"key": "{key}", "value": null}
+```
+
+질문:
+
+```
+이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
+항목 (키: 설명 (몇 번째 행))
+- official.name: 성명
+- official.rrn: 주민등록번호
+- official.address: 주소
+- official.company: 근로소득발생처
+- official.biz_no: 발생처사업자등록번호
+- official.salary: 지급받은총액
+- official.year: 귀속연도
+- official.tax: 총결정세액
+- official.number: 발급번호
+- official.office: 관할지역
+- official.issue0: 발급일년
+- official.issue1: 발급일월
+- official.issue2: 발급일일
+- official.salary_income: 근로소득소득금액
+- official.period_from: 납세자가신청한증명귀속연도시작
+- official.period_to: 납세자가신청한증명귀속연도끝
+- official.receipt_no: 접수번호
+- official.issuer_department: 증명발급자담당부서
+- official.issuer_person: 증명발급자담당자
+- official.issuer_phone: 증명발급자연락처
+- official.tax_officer_department: 세적담당자담당부서
+- official.tax_officer_person: 세적담당자담당자
+- official.tax_officer_phone: 세적담당자연락처
+```
+
+답:
+
+```json
+[{"key": "official.name", "value": "남궁예태", "bbox_2d": [214, 169, 275, 184], "page": 1},
+ {"key": "official.rrn", "value": "850328-2489940", "bbox_2d": [670, 170, 784, 183], "page": 1},
+ {"key": "official.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [214, 188, 535, 203], "page": 1},
+ {"key": "official.company", "value": "주식회사 다온패션", "bbox_2d": [185, 469, 283, 481], "page": 1},
+ {"key": "official.biz_no", "value": "123-88-81212", "bbox_2d": [321, 478, 392, 487], "page": 1},
+ {"key": "official.salary", "value": "47,550,000", "bbox_2d": [431, 478, 490, 487], "page": 1},
+ {"key": "official.year", "value": "2024", "bbox_2d": [385, 148, 415, 159], "page": 1},
+ {"key": "official.tax", "value": "2,132,740", "bbox_2d": [693, 478, 746, 487], "page": 1},
+ {"key": "official.number", "value": "8906-955-1735-796", "bbox_2d": [105, 143, 193, 151], "page": 1},
+ {"key": "official.office", "value": "반포", "bbox_2d": [601, 630, 627, 643], "page": 1},
+ {"key": "official.issue0", "value": "2025", "bbox_2d": [544, 607, 570, 616], "page": 1},
+ {"key": "official.issue1", "value": "04", "bbox_2d": [619, 607, 632, 616], "page": 1},
+ {"key": "official.issue2", "value": "01", "bbox_2d": [681, 607, 694, 616], "page": 1},
+ {"key": "official.salary_income", "value": "12,820,000", "bbox_2d": [555, 478, 612, 487], "page": 1},
+ {"key": "official.period_from", "value": "2022", "bbox_2d": [579, 548, 604, 557], "page": 1},
+ {"key": "official.period_to", "value": "2024", "bbox_2d": [636, 548, 661, 557], "page": 1},
+ {"key": "official.receipt_no", "value": "8111-5978", "bbox_2d": [103, 905, 156, 914], "page": 1},
+ {"key": "official.issuer_department", "value": "소득세과", "bbox_2d": [327, 893, 383, 907], "page": 1},
+ {"key": "official.issuer_person", "value": "정서경", "bbox_2d": [514, 893, 555, 907], "page": 1},
+ {"key": "official.issuer_phone", "value": "051-675-9542", "bbox_2d": [668, 895, 755, 905], "page": 1},
+ {"key": "official.tax_officer_department", "value": "재산법인세과", "bbox_2d": [327, 911, 418, 926], "page": 1},
+ {"key": "official.tax_officer_person", "value": "장현승", "bbox_2d": [514, 911, 559, 926], "page": 1},
+ {"key": "official.tax_officer_phone", "value": "051-242-4681", "bbox_2d": [668, 912, 763, 924], "page": 1}]
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[]
+```
+
+## 이 서식만의 질문 `qa.py` (과제 form_qa)
+
+없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa gov_income --new`):
+
+```python
+def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: 값} (키는 위 표의 키)
+    return "직위만 답하세요.", v["employer.position"]   # (질문, 정답) → 평가 세트·학습 데이터에 들어감
+```
+
+## 고치려면
+
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check gov_income` → `python -m docgen.formdir card gov_income` (실제 질문→답 확인).
+
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `fields.json` 의 `fields` 에 키·source | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` + `fields.json` 의 그 키 | 다시 |
+| 답의 값 | `fields.json` 의 그 칸 `source` ([값 출처 목록](../_common/values.md)) | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` 의 `adjust(d, p, rng)` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장 | `questions.json`: `{"kie": {"prompt": "…\n{items}"}}` | 필요 없음 |
+| 답 모양 (JSON) | `questions.json`: `{"kie": {"answer": {"key": "{key}", "value": "{value}"}}}` (답 항목 하나의 틀. 위 예는 위치 없이 — 질문 문장도 같은 꼴로) | 필요 없음 |
+| 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
+| 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa gov_income --new`) | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions gov_income --show` · `python -m docgen.preview gov_income --out work/gov_income`

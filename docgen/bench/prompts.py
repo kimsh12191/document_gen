@@ -1,51 +1,65 @@
 """평가 문항의 질문 문장 (build 가 쓰고, studio·학습 실행도 같은 문장으로 묻는다).
 
+문장 원본은 docgen/forms/_common/questions.json (모든 서식의 기본값 — 서식 폴더의 questions.json 에 없으면 이것).
+여기서는 그 글을 읽어 format 용 틀(P_KIE 등, JSON 중괄호는 {{ }})로 바꿔 둔다. 문장은 그 JSON 에서 고친다.
 표준 라이브러리만 쓰므로 렌더링 환경(jinja2·Playwright)이 없어도 import 된다.
-문장을 바꾸면 guide/questions.md 도 같이 고친다 (docgen/tests/test_bench.py 가 둘이 같은지 본다).
+문장을 바꾸면 guide/reference/questions.md 도 같이 고친다 (docgen/tests/test_bench.py 가 둘이 같은지 본다).
 """
+import json
+import re
+from pathlib import Path
 
-P_CLASSIFY = ("이 문서는 고객이 은행에 제출한 서류입니다. 서류의 정식 명칭(서류명)을 답하세요. "
-              "설명 없이 서류명만 한 줄로 답하세요.")
-P_OCR_PAGE = ("이 문서 이미지에 보이는 모든 글자를 빠짐없이 읽어 텍스트로 옮기세요. 위에서 아래, 왼쪽에서 오른쪽 순서로 쓰고, "
-              "표는 한 행을 한 줄로 쓰세요. 설명 없이 읽은 글자만 출력하세요.")
-P_OCR_FIELD = "이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요."
+COMMON = Path(__file__).resolve().parents[1] / "forms" / "_common" / "questions.json"
+DEFAULTS = json.loads(COMMON.read_text(encoding="utf-8"))   # {과제: {"prompt", "line"?, "answer"?}}
+
+
+def _fmt(text: str, names: tuple = ()) -> str:
+    """사람이 쓴 글 → format 틀: 중괄호를 모두 {{ }} 로 감추고 자리(names)만 되살린다."""
+    out = text.replace("{", "{{").replace("}", "}}")
+    return re.sub(r"\{\{(" + "|".join(names) + r")\}\}", r"{\1}", out) if names else out
+
+
+P_CLASSIFY = _fmt(DEFAULTS["classify"]["prompt"])
+P_OCR_PAGE = _fmt(DEFAULTS["ocr_page"]["prompt"])
+P_OCR_FIELD = _fmt(DEFAULTS["ocr_field"]["prompt"])
 # kie·marks 는 값과 함께 위치를 답한다 (평가 세트 2.0). 좌표는 OCR 과제와 같은 bbox_2d: 그 쪽 이미지 기준 0~1000 정수.
-P_KIE = ("이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 "
-         '{{"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}} 를 쓰세요. '
-         "좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 "
-         '{{"key": 키, "value": null}} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n{items}')
-P_MARKS = ("이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n"
-           '- 체크박스: 체크된 보기마다 {{"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}}. '
-           '체크된 것이 없으면 {{"key": 키, "value": null}}\n'
-           "- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n"
-           '- 도장·서명: {{"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽}} (비어 있으면 value 만 false)\n항목\n{items}')
-P_DOC_CHECK = ("고객 '{customer}' 님이 '{task}' 업무를 위해 서류를 제출했습니다. 첨부 이미지는 제출된 서류의 첫 쪽입니다 "
-               "(순서 무관).\n필수 제출 서류:\n{required}\n\n제출 서류를 확인해 다음을 JSON 으로 답하세요.\n"
-               "- missing: 필수 서류 중 제출되지 않은 서류. 고객 본인 명의가 아닌 서류만 낸 경우도 제출되지 않은 것으로 봅니다.\n"
-               "- not_required: 제출됐지만 필수 서류 목록에 없는 서류\n"
-               "- not_customer: 고객 본인 명의가 아닌 서류\n"
-               '{{"missing": ["서류명", ...], "not_required": [...], "not_customer": [...]}} 형식으로 답하고, 해당 없으면 빈 목록 [] 으로 '
-               "두세요. 서류명은 목록에 있으면 목록 그대로, 없으면 서류에 적힌 제목대로 쓰세요.")
-P_CROSS = ("고객 '{customer}' 님이 '{task}' 업무를 위해 제출한 서류 {n}건입니다 (이미지 {pages}장). 서류들을 서로 대조해 "
-           "맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계"
-           "(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. "
-           "표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n"
-           '{{"consistent": true 또는 false, "issues": [{{"document": "문제가 있는 서류명", "field": "항목명", '
-           '"value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}}]}} 형식의 JSON 으로 답하세요. '
-           '문제가 없으면 {{"consistent": true, "issues": []}} 입니다.')
-
+P_KIE = _fmt(DEFAULTS["kie"]["prompt"], ("items",))
+P_MARKS = _fmt(DEFAULTS["marks"]["prompt"], ("items",))
 # freetext: 기타·비고·사유 칸의 자유 기재를 DB 칸으로. 보기 목록은 docgen/freetext.py (freetext_prompt 가 채운다)
-P_FREETEXT = ("이 문서의 '{label}' 칸에 적힌 내용을 DB에 넣을 수 있게 정리해 JSON 한 줄로 답하세요. 기준일(서류 작성일)은 {basis} 입니다.\n"
-              "쓸 수 있는 키\n"
-              "- purpose: 용도. 보기 중 하나: {purposes}\n"
-              "- reason: 사유. 보기 중 하나: {reasons}\n"
-              "- amount: 금액. 원 단위 정수 (3천만원 → 30000000)\n"
-              "- date: 날짜. YYYY-MM-DD. 상대 날짜는 기준일로 계산 (초 = 1일, 중순 = 15일, 말 = 말일, 다음주 = 7일 뒤)\n"
-              "- period_months: 기간. 개월 수 정수 (1년 → 12)\n"
-              "- request: 요청. 보기 중 하나: {requests}\n"
-              "- memo: 위 키에 맞지 않는 내용. 적힌 그대로\n"
-              "- approx: 대략적인 값(정도, 쯤, 약, 초·중순, 다음주 등)을 쓴 키의 목록\n"
-              "적힌 내용만 쓰고 null 은 쓰지 않습니다. 대략적인 값도 가장 그럴듯한 값 하나로 쓰세요.")
+P_FREETEXT = _fmt(DEFAULTS["freetext"]["prompt"], ("label", "basis", "purposes", "reasons", "requests"))
+LINE = DEFAULTS["kie"]["item"]   # 질문의 항목 한 줄 틀 (서식의 questions.json 의 item 으로 바꿀 수 있다)
+# 표(목록) 과제 (docgen/bench/tasks/table*.py). {target} 표를 가리키는 말, {scope} 범위 (없으면 빈칸), {columns} 열 줄들
+P_TABLE = _fmt(DEFAULTS["table"]["prompt"], ("target", "scope", "columns"))
+P_TABLE_READ = _fmt(DEFAULTS["table_read"]["prompt"], ("target", "scope"))
+P_TABLE_FIND = _fmt(DEFAULTS["table_find"]["prompt"])
+P_TABLE_QA = _fmt(DEFAULTS["table_qa"]["prompt"], ("target", "question"))
+COLUMN = DEFAULTS["table"]["column"]   # 열 한 줄 틀
+
+
+def table_target(how: str, title: str | None = None, labels: list[str] | None = None, box: list[int] | None = None,
+                 page: int | None = None) -> str:
+    """표를 가리키는 말. how: title (제목) / header (머리글 두어 개) / box (위치) / only (표가 하나뿐인 서류)."""
+    if how == "title":
+        return f"'{title}' 표"
+    if how == "header":
+        return "·".join(f"'{x}'" for x in labels) + " 열이 있는 표"
+    if how == "box":
+        return f"{page}쪽 bbox_2d={json.dumps(box)} 위치의 표"
+    return "표"
+
+
+def table_scope(page: int | None = None, first: int | None = None) -> str:
+    """범위: 그 쪽의 행만 / 앞에서부터 몇 행까지. 없으면 빈칸 (모든 행)."""
+    if page:
+        return f" (단, {page}쪽에 있는 행만)"
+    if first:
+        return f" (단, 앞에서부터 {first}행까지만)"
+    return ""
+
+
+def column_line(key: str, label: str | None, note: str | None = None) -> str:
+    """표 열 한 줄 '- 키: 항목명 (설명)'. 설명은 칸 목록 fields.json 의 그 열 칸 "q": {"note"} (없으면 뺌)."""
+    return COLUMN.replace("{key}", key).replace("{label}", label or "-").replace("{note}", f" ({note})" if note else "")
 
 
 def freetext_prompt(label: str, basis: str) -> str:
@@ -55,20 +69,44 @@ def freetext_prompt(label: str, basis: str) -> str:
                              requests=", ".join(REQUESTS))
 
 
-def kie_line(form_id: str | None, key: str, label: str | None, doc_key: str | None = None, extra: str = "",
-             siblings: list[dict] | None = None) -> str:
-    """kie·marks 항목 한 줄: '- 키: 항목명 (설명)'. 설명은 키 사전의 누구의 무엇과 표의 행 (docgen.dictionary.describe).
-    extra 는 marks 의 종류·보기처럼 괄호에 같이 넣을 것. siblings(그 문서의 같은 과제 칸, 문서 순서)에 항목명이 같은 칸이
-    또 있으면 몇 번째 칸인지 붙인다 (작성일·작성일2 처럼 행 번호가 없는 반복 칸)."""
-    from .. import dictionary as DIC
-
-    desc = DIC.describe(form_id, key, label, doc_key)
-    same = [s["key"] for s in siblings or [] if DIC._norm(s.get("label") or "") == DIC._norm(label or "")]
-    me = key if key in same else doc_key   # 공통 키로 묻는 칸은 서식의 키로 찾는다
-    if label and len(same) > 1 and me in same and not any(p.isdigit() for p in key.split(".")):
-        desc = ", ".join(x for x in [desc, f"같은 항목명 중 {same.index(me) + 1}번째 칸"] if x)
-    note = ", ".join(x for x in [desc, extra] if x)
-    return f"- {key}: {label or '-'}" + (f" ({note})" if note else "")
+def _norm(s: str) -> str:
+    return re.sub(r"[^0-9a-z가-힣]", "", (s or "").lower())
 
 
-P_REVIEW ="고객이 '{task}' 업무를 위해 제출한 서류입니다 (이미지 {pages}장).\n{question}"
+def row_of(key: str) -> str:
+    """표 칸이면 몇 번째 행인지: "debts.1.balance" → "2행", "기업부담금_목록.0.상품명" → "기업부담금 목록 1행" (행은 0부터 센다)."""
+    segs = key.split(".")
+    nums = [i for i, s in enumerate(segs) if s.isdigit()]
+    if not nums:
+        return ""
+    i = nums[0]
+    table = ".".join(segs[:i]).replace("_", " ")   # 한글 키면 표 이름으로 쓴다
+    table = table + " " if re.search(r"[가-힣]", table) else ""
+    return f"{table}{int(segs[i]) + 1}{'번째' if i == len(segs) - 1 else '행'}"
+
+
+def kie_line(key: str, label: str | None, extra: str = "", siblings: list[dict] | None = None,
+             note: str | None = None, line: str | None = None) -> str:
+    """kie·marks 항목 한 줄: '- 키: 키 설명 (덧붙임)'. 키·키 설명은 서식의 칸 그대로(fields.json·템플릿).
+    덧붙임은 표의 몇 번째 행, extra(marks 의 종류·보기), 키 설명이 같은 칸이 또 있으면 몇 번째 칸인지
+    (작성일·작성일2 처럼 행 번호가 없는 반복 칸). 칸에 질문 설명 q.note 를 적었으면 그것만 쓴다."""
+    if note is not None:   # 칸 목록 fields.json 의 그 칸 "q": {"note"} 그대로 (docgen/formquestions.pick)
+        return item_line(key, label, ", ".join(x for x in [note, extra] if x), line)
+    desc = row_of(key)
+    desc = "" if _norm(desc) == _norm(label or "") else desc
+    same = [s["key"] for s in siblings or [] if _norm(s.get("label") or "") == _norm(label or "")]
+    if label and len(same) > 1 and key in same and not any(p.isdigit() for p in key.split(".")):
+        desc = ", ".join(x for x in [desc, f"같은 설명 중 {same.index(key) + 1}번째 칸"] if x)
+    return item_line(key, label, ", ".join(x for x in [desc, extra] if x), line)
+
+
+def item_line(key: str, label: str | None, note: str, line: str | None = None) -> str:
+    """{key}·{label}(없으면 -)·{note}(괄호 설명, 없으면 빈칸)를 채운다. 글자 그대로 바꿔 넣는다 (항목명에 중괄호가 있어도 됨)."""
+    return ((line or LINE).replace("{key}", key).replace("{label}", label or "-")
+            .replace("{note}", f" ({note})" if note else ""))
+
+
+def text_of(template: str) -> str:
+    """format 용 틀(P_KIE 의 {{ }})을 사람이 읽고 고치는 글로: {{ → {, }} → }. {items} 같은 자리는 그대로."""
+    return template.replace("{{", "{").replace("}}", "}")
+

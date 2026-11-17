@@ -24,7 +24,11 @@
     505.2,
     70.7
    ],
-   "row": true
+   "row": true,
+   "group": "감사통할",
+   "kind": "text",
+   "std": false,
+   "key": "감사통할"
   },
   {
    "t": "text",
@@ -36,7 +40,11 @@
     548.2,
     70.7
    ],
-   "row": true
+   "row": true,
+   "group": "감사통할",
+   "kind": "skip",
+   "std": false,
+   "key": "영업점장"
   },
   {
    "t": "text",
@@ -48,7 +56,10 @@
     215.1,
     349.2
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -60,7 +71,10 @@
     215.1,
     383.2
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -72,7 +86,10 @@
     215.1,
     417.2
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -84,7 +101,10 @@
     215.1,
     451.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -96,7 +116,10 @@
     215.1,
     485.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -108,7 +131,10 @@
     215.1,
     519.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -120,7 +146,10 @@
     215.1,
     553.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -132,7 +161,10 @@
     215.1,
     587.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.예금종별",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -144,7 +176,10 @@
     548.2,
     349.2
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -156,7 +191,10 @@
     548.2,
     383.2
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -168,7 +206,10 @@
     548.2,
     417.2
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -180,7 +221,10 @@
     548.2,
     451.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -192,7 +236,10 @@
     548.2,
     485.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -204,7 +251,10 @@
     548.2,
     519.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -216,7 +266,10 @@
     548.2,
     553.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -228,7 +281,10 @@
     548.2,
     587.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금종별",
+   "key": "예금종별_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "date",
@@ -253,7 +309,8 @@
      339.5,
      677.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -270,7 +327,9 @@
     724.7,
     448.7,
     738.1
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

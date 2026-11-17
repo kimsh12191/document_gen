@@ -23,7 +23,9 @@
     160.2,
     298.0,
     197.0
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -34,7 +36,9 @@
     197.0,
     298.0,
     233.9
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -45,7 +49,10 @@
     233.9,
     549.0,
     270.7
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "본점소재지주"
   },
   {
    "t": "text",
@@ -56,7 +63,10 @@
     270.7,
     549.0,
     327.4
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "외국환업무의내용"
   },
   {
    "t": "text",
@@ -68,7 +78,10 @@
     314.5,
     364.3
    ],
-   "unit": "백만원"
+   "unit": "백만원",
+   "kind": "amount",
+   "std": false,
+   "key": "자기자본"
   },
   {
    "t": "text",
@@ -81,7 +94,10 @@
     401.1
    ],
    "unit": "개",
-   "section": "시 설 현 황"
+   "section": "시 설 현 황",
+   "kind": "count",
+   "std": false,
+   "key": "영업점수"
   },
   {
    "t": "text",
@@ -94,7 +110,10 @@
     438.0
    ],
    "unit": "개",
-   "section": "시 설 현 황"
+   "section": "시 설 현 황",
+   "kind": "count",
+   "std": false,
+   "key": "외국환업무취급점"
   },
   {
    "t": "text",
@@ -106,7 +125,10 @@
     354.7,
     486.1
    ],
-   "section": "시 설 현 황"
+   "section": "시 설 현 황",
+   "kind": "text",
+   "std": false,
+   "key": "위험관리전산시스템명"
   },
   {
    "t": "date",
@@ -131,7 +153,8 @@
      528.0,
      185.5
     ]
-   }
+   },
+   "key": "company.established"
   },
   {
    "t": "text",
@@ -142,7 +165,9 @@
     197.0,
     549.0,
     233.9
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -154,7 +179,10 @@
     512.9,
     364.3
    ],
-   "unit": "백만원"
+   "unit": "백만원",
+   "kind": "amount",
+   "std": false,
+   "key": "납입자본"
   },
   {
    "t": "text",
@@ -168,7 +196,10 @@
    ],
    "group": "외 국 환 업 무 등 록 신 청 서",
    "row": true,
-   "section": "외 국 환 업 무 등 록 신 청 서"
+   "section": "외 국 환 업 무 등 록 신 청 서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "text",
@@ -181,7 +212,10 @@
     486.1
    ],
    "unit": "월",
-   "section": "시 설 현 황"
+   "section": "시 설 현 황",
+   "kind": "text",
+   "std": false,
+   "key": "도입시기"
   },
   {
    "t": "date",
@@ -206,7 +240,8 @@
      526.6,
      601.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -218,7 +253,10 @@
     283.5,
     522.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "인력현황"
   }
  ]
 }

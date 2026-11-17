@@ -74,7 +74,9 @@
     92.6,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -86,7 +88,9 @@
     92.6,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -98,7 +102,9 @@
     92.6,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -110,7 +116,9 @@
     92.6,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -122,7 +130,9 @@
     92.6,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -134,7 +144,9 @@
     92.6,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -146,7 +158,9 @@
     92.6,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -158,7 +172,9 @@
     92.6,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -170,7 +186,9 @@
     92.6,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -182,7 +200,9 @@
     92.6,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -194,7 +214,9 @@
     92.6,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -206,7 +228,9 @@
     92.6,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -218,7 +242,9 @@
     92.6,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -230,7 +256,9 @@
     92.6,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -242,7 +270,9 @@
     92.6,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -254,7 +284,9 @@
     92.6,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -266,7 +298,9 @@
     92.6,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수표어음",
+   "kind": "check_kind"
   },
   {
    "t": "text",
@@ -278,7 +312,9 @@
     159.1,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -290,7 +326,9 @@
     159.1,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -302,7 +340,9 @@
     159.1,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -314,7 +354,9 @@
     159.1,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -326,7 +368,9 @@
     159.1,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -338,7 +382,9 @@
     159.1,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -350,7 +396,9 @@
     159.1,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -362,7 +410,9 @@
     159.1,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -374,7 +424,9 @@
     159.1,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -386,7 +438,9 @@
     159.1,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -398,7 +452,9 @@
     159.1,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -410,7 +466,9 @@
     159.1,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -422,7 +480,9 @@
     159.1,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -434,7 +494,9 @@
     159.1,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -446,7 +508,9 @@
     159.1,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -458,7 +522,9 @@
     159.1,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -470,7 +536,9 @@
     159.1,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -482,7 +550,9 @@
     210.5,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -494,7 +564,9 @@
     210.5,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -506,7 +578,9 @@
     210.5,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -518,7 +592,9 @@
     210.5,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -530,7 +606,9 @@
     210.5,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -542,7 +620,9 @@
     210.5,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -554,7 +634,9 @@
     210.5,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -566,7 +648,9 @@
     210.5,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -578,7 +662,9 @@
     210.5,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -590,7 +676,9 @@
     210.5,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -602,7 +690,9 @@
     210.5,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -614,7 +704,9 @@
     210.5,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -626,7 +718,9 @@
     210.5,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -638,7 +732,9 @@
     210.5,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -650,7 +746,9 @@
     210.5,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -662,7 +760,9 @@
     210.5,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -674,7 +774,9 @@
     210.5,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -686,7 +788,9 @@
     260.1,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -698,7 +802,9 @@
     260.1,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -710,7 +816,9 @@
     260.1,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -722,7 +830,9 @@
     260.1,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -734,7 +844,9 @@
     260.1,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -746,7 +858,9 @@
     260.1,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -758,7 +872,9 @@
     260.1,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -770,7 +886,9 @@
     260.1,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -782,7 +900,9 @@
     260.1,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -794,7 +914,9 @@
     260.1,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -806,7 +928,9 @@
     260.1,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -818,7 +942,9 @@
     260.1,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -830,7 +956,9 @@
     260.1,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -842,7 +970,9 @@
     260.1,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -854,7 +984,9 @@
     260.1,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -866,7 +998,9 @@
     260.1,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -878,7 +1012,9 @@
     260.1,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.지급일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -890,7 +1026,9 @@
     341.9,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -902,7 +1040,9 @@
     341.9,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -914,7 +1054,9 @@
     341.9,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -926,7 +1068,9 @@
     341.9,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -938,7 +1082,9 @@
     341.9,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -950,7 +1096,9 @@
     341.9,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -962,7 +1110,9 @@
     341.9,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -974,7 +1124,9 @@
     341.9,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -986,7 +1138,9 @@
     341.9,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -998,7 +1152,9 @@
     341.9,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1010,7 +1166,9 @@
     341.9,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1022,7 +1180,9 @@
     341.9,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1034,7 +1194,9 @@
     341.9,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1046,7 +1208,9 @@
     341.9,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1058,7 +1222,9 @@
     341.9,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1070,7 +1236,9 @@
     341.9,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1082,7 +1250,9 @@
     341.9,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1094,7 +1264,9 @@
     402.6,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1106,7 +1278,9 @@
     402.6,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1118,7 +1292,9 @@
     402.6,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1130,7 +1306,9 @@
     402.6,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1142,7 +1320,9 @@
     402.6,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1154,7 +1334,9 @@
     402.6,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1166,7 +1348,9 @@
     402.6,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1178,7 +1362,9 @@
     402.6,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1190,7 +1376,9 @@
     402.6,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1202,7 +1390,9 @@
     402.6,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1214,7 +1404,9 @@
     402.6,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1226,7 +1418,9 @@
     402.6,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1238,7 +1432,9 @@
     402.6,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1250,7 +1446,9 @@
     402.6,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1262,7 +1460,9 @@
     402.6,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1274,7 +1474,9 @@
     402.6,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1286,7 +1488,9 @@
     402.6,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.수취인",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -1298,7 +1502,9 @@
     456.3,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1310,7 +1516,9 @@
     456.3,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1322,7 +1530,9 @@
     456.3,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1334,7 +1544,9 @@
     456.3,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1346,7 +1558,9 @@
     456.3,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1358,7 +1572,9 @@
     456.3,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1370,7 +1586,9 @@
     456.3,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1382,7 +1600,9 @@
     456.3,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1394,7 +1614,9 @@
     456.3,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1406,7 +1628,9 @@
     456.3,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1418,7 +1642,9 @@
     456.3,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1430,7 +1656,9 @@
     456.3,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1442,7 +1670,9 @@
     456.3,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1454,7 +1684,9 @@
     456.3,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1466,7 +1698,9 @@
     456.3,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1478,7 +1712,9 @@
     456.3,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1490,7 +1726,9 @@
     456.3,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.용도",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -1502,7 +1740,9 @@
     508.2,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1514,7 +1754,9 @@
     508.2,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1526,7 +1768,9 @@
     508.2,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1538,7 +1782,9 @@
     508.2,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1550,7 +1796,9 @@
     508.2,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1562,7 +1810,9 @@
     508.2,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1574,7 +1824,9 @@
     508.2,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1586,7 +1838,9 @@
     508.2,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1598,7 +1852,9 @@
     508.2,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1610,7 +1866,9 @@
     508.2,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1622,7 +1880,9 @@
     508.2,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1634,7 +1894,9 @@
     508.2,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1646,7 +1908,9 @@
     508.2,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1658,7 +1922,9 @@
     508.2,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1670,7 +1936,9 @@
     508.2,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1682,7 +1950,9 @@
     508.2,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1694,7 +1964,9 @@
     508.2,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.확인여부",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1706,7 +1978,9 @@
     549.0,
     337.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1718,7 +1992,9 @@
     549.0,
     355.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1730,7 +2006,9 @@
     549.0,
     373.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1742,7 +2020,9 @@
     549.0,
     392.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1754,7 +2034,9 @@
     549.0,
     410.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1766,7 +2048,9 @@
     549.0,
     429.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1778,7 +2062,9 @@
     549.0,
     447.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1790,7 +2076,9 @@
     549.0,
     465.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1802,7 +2090,9 @@
     549.0,
     484.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1814,7 +2104,9 @@
     549.0,
     502.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1826,7 +2118,9 @@
     549.0,
     521.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1838,7 +2132,9 @@
     549.0,
     539.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1850,7 +2146,9 @@
     549.0,
     557.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1862,7 +2160,9 @@
     549.0,
     576.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1874,7 +2174,9 @@
     549.0,
     594.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1886,7 +2188,9 @@
     549.0,
     613.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -1898,7 +2202,9 @@
     549.0,
     631.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.담당자인",
+   "kind": "skip"
   },
   {
    "t": "date",
@@ -1924,7 +2230,8 @@
      500.0,
      686.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -1941,7 +2248,9 @@
     724.9,
     380.8,
     738.3
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

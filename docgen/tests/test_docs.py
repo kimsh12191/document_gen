@@ -6,7 +6,7 @@ import pytest
 
 from docgen import korean as K
 from docgen.entities import make_profile
-from docgen.registry import GROUPS, SCENARIOS, load_all
+from docgen.registry import GROUPS, load_all
 from docgen.render import render, to_nested
 
 REG = load_all()
@@ -33,12 +33,6 @@ def test_renders_and_records_fields(doc_id):
         json.dumps(to_nested(fields), ensure_ascii=False)
         if spec.sample_mark:
             assert "sample-mark" in html
-
-
-def test_scenarios_reference_registered_docs():
-    for name, (_, ids) in SCENARIOS.items():
-        missing = [i for i in ids if i not in REG]
-        assert not missing, f"{name}: {missing}"
 
 
 def test_profile_is_deterministic():
@@ -75,7 +69,7 @@ def test_to_nested_lists():
 # 은행별 서식 (하나은행, 옛 은행 외환은행·KEB하나은행)
 # ---------------------------------------------------------------------------
 
-from docgen.banks import BRANDS, LEGACY, bank_view, form_bank, supports  # noqa: E402
+from docgen.banks import BRANDS, LEGACY, bank_view, supports  # noqa: E402
 
 from docgen.registry import BANK_FORM_GROUPS  # noqa: E402
 
@@ -115,19 +109,6 @@ def test_bank_forms_render_for_bank(bank, doc_id):
         assert "금융소비자 보호에 관한 법률" not in html and "모바일신분증" not in html
     if doc_id == "credit_agreement":
         assert BRANDS[bank].legal in html
-
-
-def test_default_mix_includes_legacy_banks_outside_scenarios():
-    banks = set()
-    for seed in range(60):
-        p = make_profile(seed)
-        _, fields, _ = render(REG["credit_agreement"], p, seed)
-        banks.add(next(f["value"] for f in fields if f["key"] == "bank"))
-    assert {"외환은행", "KEB하나은행"} <= banks
-    for seed in range(60):  # 시나리오는 서류 간 일관성을 위해 프로필 은행 그대로
-        p = make_profile(seed)
-        p.extra["scenario"] = "mortgage"
-        assert form_bank(p, "credit_agreement") == p.bank
 
 
 # ---------------------------------------------------------------------------

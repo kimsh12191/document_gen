@@ -9,25 +9,27 @@ import hashlib
 import json
 
 GROUPS = {**{t: "ocr" for t in ("crop_ocr", "bbox_ocr", "region_ocr", "marked_ocr", "grounding", "spotting", "relation", "marked_box", "ocr_field", "ocr_page")},
-          "classify": "doc", "kie": "doc", "marks": "doc", "freetext": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
+          "classify": "doc", "kie": "doc", "marks": "doc", "freetext": "doc", "form_qa": "doc",
+          "table": "doc", "table_read": "doc", "table_find": "doc", "table_qa": "doc"}
 FORMATS = {**{t: "text" for t in ("crop_ocr", "bbox_ocr", "region_ocr", "marked_ocr", "ocr_field", "classify")},
            **{t: "text_boxes" for t in ("grounding", "spotting", "relation", "marked_box")},
-           "ocr_page": "text_list", "kie": "key_values", "marks": "mark_states", "freetext": "record",
-           "doc_check": "document_sets", "cross_check": "consistency_issues", "review": "scalar"}
-DIMENSIONS = {"task_group": "업무·과제 그룹", "task": "과제", "scenario": "업무 시나리오",
-              "label_format": "정답 구조", "doc_type": "서식", "source_dataset": "원본 데이터셋"}
-SCORE_DIMENSIONS = ("task_group", "scenario", "label_format", "doc_type", "source_dataset")
-PROVENANCE_KEYS = ("doc_type", "scenario", "scenario_name", "condition", "template_variant", "source_dataset")
+           "ocr_page": "text_list", "kie": "key_values", "marks": "mark_states", "freetext": "record", "form_qa": "scalar",
+           "table": "table_rows", "table_read": "table_rows", "table_find": "table_list", "table_qa": "scalar"}
+DIMENSIONS = {"task_group": "과제 그룹", "task": "과제",
+              "label_format": "정답 구조", "doc_type": "서식", "source_dataset": "원본 데이터셋",
+              "view": "넣은 쪽 (page 한 쪽만 / all 모든 쪽)"}
+SCORE_DIMENSIONS = ("task_group", "label_format", "doc_type", "source_dataset", "view")
+PROVENANCE_KEYS = ("doc_type", "condition", "template_variant", "source_dataset")
 
 
 def facets(item: dict) -> dict[str, str]:
     task, meta = item["task"], item.get("meta") or {}
     group = GROUPS.get(task, "unknown")
     return {"task_group": group, "task": task,
-            "scenario": str(meta.get("scenario") or ("unknown" if group == "work" else "not_applicable")),
             "label_format": str(meta.get("label_format") or FORMATS.get(task, "unknown")),
             "doc_type": str(meta.get("doc_type") or "unknown"),
-            "source_dataset": str(meta.get("source_dataset") or "unknown")}
+            "source_dataset": str(meta.get("source_dataset") or "unknown"),
+            "view": str(meta.get("view") or "not_applicable")}
 
 
 def enrich(item: dict, source_dataset: str | None = None) -> dict:
@@ -57,7 +59,7 @@ class Composition:
         self.n += 1
         for key, value in f.items():
             self.by[key][value] += 1
-        self.cells[(f["task_group"], f["scenario"], f["task"], f["label_format"])] += 1
+        self.cells[(f["task_group"], f["task"], f["label_format"])] += 1
         ev = item.get("eval") or {}
         fields = ev.get("fields") or {}
         kinds = [v.get("kind") or v.get("type") or "unknown" for v in fields.values()]
@@ -69,10 +71,10 @@ class Composition:
     def result(self) -> dict:
         return {"version": 1, "n": self.n,
                 "by": {key: dict(sorted(c.items())) for key, c in self.by.items()},
-                "rows": [dict(zip(("task_group", "scenario", "task", "label_format"), key), n=n)
+                "rows": [dict(zip(("task_group", "task", "label_format"), key), n=n)
                          for key, n in sorted(self.cells.items())],
                 "field_kind_counts": dict(sorted(self.fields.items())),
-                "notes": "by·rows의 n은 문항 수. field_kind_counts는 eval에 정의된 필드 수. unknown은 이전 데이터의 누락 정보이며 시나리오를 추측하지 않습니다."}
+                "notes": "by·rows의 n은 문항 수. field_kind_counts는 eval에 정의된 필드 수. unknown은 이전 데이터의 누락 정보입니다."}
 
 
 def composition(items) -> dict:

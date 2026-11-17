@@ -68,7 +68,10 @@
     171.0,
     448.9
    ],
-   "row": true
+   "row": true,
+   "kind": "number",
+   "std": false,
+   "key": "기호및번호"
   },
   {
    "t": "text",
@@ -80,7 +83,10 @@
     297.6,
     448.9
    ],
-   "row": true
+   "row": true,
+   "kind": "date",
+   "std": false,
+   "key": "수령일자"
   },
   {
    "t": "text",
@@ -92,7 +98,10 @@
     424.3,
     448.9
    ],
-   "row": true
+   "row": true,
+   "kind": "date",
+   "std": false,
+   "key": "폐기일자"
   },
   {
    "t": "text",
@@ -104,7 +113,10 @@
     547.3,
     448.9
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "폐기경위"
   },
   {
    "t": "text",
@@ -115,7 +127,10 @@
     175.1,
     254.0,
     194.5
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "sign",
@@ -132,7 +147,9 @@
     535.0,
     421.4,
     548.3
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -143,7 +160,9 @@
     554.0,
     547.3,
     573.3
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -154,7 +173,9 @@
     576.0,
     547.3,
     595.3
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "date",
@@ -180,7 +201,8 @@
      358.3,
      694.5
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

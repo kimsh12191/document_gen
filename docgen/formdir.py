@@ -9,13 +9,18 @@
     layout.json                          overlay: 기재 자리 (hf### 은 PDF 에서 자동 추출, img_* 는 가져올 때 만든 것)
     form.json                            복제·분석기 html 서식: 부모 서식·값 선언 (docgen/htmlform.py)
     regions.json                         사람 수정 (docgen/regions.py)
+    fields.json                          칸 목록 (docgen/formfields.py)
+    generate.py                          값 만들기: 코드 서식은 @doc 함수(값 전부), html 서식은 adjust(d, p, rng)(칸끼리 관계)
+    questions.json                       이 서식의 질문·답 — 기본과 다르게 할 것만 (docgen/formquestions.py)
+    FORM.md                              서식 카드 (자동 생성, 읽는 곳): 항목·위치·정의한 곳·질문→답 예시·고치는 곳 (docgen/formcard.py)
     variants/                            html 레이아웃 변형: variants.json, <변형>.html.j2 (docgen/template_variants.py)
 
-  docgen/templates/                      여러 서식이 같이 쓰는 틀만: _base·_macros·_official_*·_real_form, 그룹 부품(_seal 등)
+  docgen/forms/_common/                  모든 서식이 같이 쓰는 것 (README.md): 바탕 틀 templates/(_base·_macros·_official_*·_real_form,
+                                         그룹 부품 _seal 등)·기본 질문 questions.json
   docgen/forms/하나은행_서식자료/        원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일)
   docgen/forms/official_sources/         공식 원본 대조용 PDF (여러 서식이 같이 쓰므로 보관소에 둔다)
 
-코드 서식(docgen/docs/*.py 의 @doc)은 값을 파이썬이 만든다. spec.template("<그룹>/<ID>.html.j2")은 이름으로 남고,
+코드 서식(서식 폴더 generate.py 의 @doc)은 값을 파이썬이 만든다. spec.template("<그룹>/<ID>.html.j2")은 이름으로 남고,
 render 의 로더가 그 이름을 이 폴더의 look/template.html.j2 로 찾는다.
 hf### 레이아웃의 "file"(원본을 내려받은 자리)과 form.json 의 source.source_file 은 기록으로 두고, 파일은 source_path() 로 찾는다.
 
@@ -23,6 +28,10 @@ hf### 레이아웃의 "file"(원본을 내려받은 자리)과 form.json 의 sou
 서식 폴더 바로 아래의 template.html.j2·page_<n>.png)는 새 위치에 없을 때만 읽는다. 옮기기:
   python -m docgen.formdir migrate [--apply]     (기본은 목록만. 글 파일은 복사하고 예전 것을 <이름>.migrated 로, 그림·PDF 는 옮긴다)
   python -m docgen.formdir path <ID>             이 서식의 파일들
+  python -m docgen.formdir questions <ID>…|--all [--show|--check|--slim [--write]]   질문·답 questions.json (docgen/formquestions.py)
+  python -m docgen.formdir card <ID>…|--all [--stale|--check] [--workers N]          서식 카드 FORM.md (docgen/formcard.py)
+  python -m docgen.formdir values                                                    공통 값 출처 목록 forms/_common/values.md
+  python -m docgen.formdir check <ID>…|--all                                         서식 검사 (고친 뒤 이것 하나)
 """
 from __future__ import annotations
 
@@ -33,18 +42,23 @@ import os
 import re
 import shutil
 import sys
+import threading
+from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 
 DOCGEN = Path(__file__).resolve().parent
 PUBLIC = DOCGEN / "forms"
 NEW_FORMS = PUBLIC          # 새 공개 서식을 만드는 곳 (테스트는 임시 폴더로 바꾼다. 찾을 때는 이것부터 본다)
-TEMPLATES = DOCGEN / "templates"
+SHARED = PUBLIC / "_common"  # 모든 서식이 같이 쓰는 것: 바탕 틀(templates/)·기본 질문(questions.json)
+TEMPLATES = SHARED / "templates"
+LEGACY_TEMPLATES = DOCGEN / "templates"   # 예전 자리 (코드 서식 템플릿·copies·variants·바탕 틀이 있던 곳)
+SHARED_FILES = ("key_rules.json", "keys.json", "marks.json", "freetext_templates.json")   # docgen/ 에서 공통 폴더로 옮긴 설정
 ARCHIVE = PUBLIC / "하나은행_서식자료"
 LEGACY_LAYOUTS = PUBLIC / "layouts"
 LEGACY_IMAGES = PUBLIC / "images"
-LEGACY_COPIES = TEMPLATES / "copies"
-LEGACY_VARIANTS = TEMPLATES / "variants"
+LEGACY_COPIES = LEGACY_TEMPLATES / "copies"
+LEGACY_VARIANTS = LEGACY_TEMPLATES / "variants"
 LEGACY_REGIONS = PUBLIC / "regions"
 MARKERS = ("look", "layout.json", "form.json", "regions.json", "variants")
 TEMPLATE = "template.html.j2"
@@ -253,23 +267,59 @@ def template(doc_id: str) -> Path | None:
     spec = load_all().get(doc_id)
     if spec is None or spec.template.startswith("@") or spec.template == "_real_form.html.j2":
         return None
-    p = TEMPLATES / spec.template
+    p = LEGACY_TEMPLATES / spec.template
     return p if p.exists() else None
 
 
+_drafts = threading.local()
+
+
+def draft_key(doc_id: str, variant: str = "default") -> str:
+    return doc_id if variant == "default" else f"{doc_id}@{variant}"
+
+
+def template_draft_of(doc_id: str, variant: str = "default") -> str | None:
+    """이 스레드의 저장하지 않은 템플릿 (없으면 None). variant: 레이아웃 변형 (template_variants 가 읽음)."""
+    return (getattr(_drafts, "map", None) or {}).get(draft_key(doc_id, variant))
+
+
+@contextmanager
+def template_draft(doc_id: str, text: str, variant: str = "default"):
+    """이 스레드에서 렌더링하는 동안 doc_id 의 템플릿을 text 로 (저장하지 않은 템플릿 미리보기, studio 자리·템플릿 화면).
+    variant 가 "default" 면 코드 서식의 look/template.html.j2, 아니면 레이아웃 변형 variants/<변형>.html.j2."""
+    d = getattr(_drafts, "map", None)
+    if d is None:
+        d = _drafts.map = {}
+    key = draft_key(doc_id, variant)
+    old = d.get(key)
+    d[key] = text
+    try:
+        yield
+    finally:
+        if old is None:
+            d.pop(key, None)
+        else:
+            d[key] = old
+
+
 def jinja_source(name: str):
-    """render 의 로더: 코드 서식 템플릿 이름 "<그룹>/<ID>.html.j2" → 서식 폴더의 look/template.html.j2."""
+    """render 의 로더: 코드 서식 템플릿 이름 "<그룹>/<ID>.html.j2" → 서식 폴더의 look/template.html.j2 (초안이 있으면 초안)."""
     if name.startswith("@") or "/" not in name or not name.endswith(".html.j2"):
         return None
     doc_id = name.rsplit("/", 1)[1][:-len(".html.j2")]
     if doc_id.startswith("_"):
-        return None   # 그룹 부품 (templates/ 에 남는다)
+        return None   # 그룹 부품 (forms/_common/templates/ 에 있다)
+    text = (getattr(_drafts, "map", None) or {}).get(doc_id)
+    if text is not None:
+        return text, f"{doc_id} (저장 전 초안)", lambda: False
     d = folder(doc_id)
     p = d / "look" / TEMPLATE if d else None
     if p is None or not p.exists():
         return None
     mtime = p.stat().st_mtime_ns
-    return p.read_text(encoding="utf-8"), str(p), lambda: p.exists() and p.stat().st_mtime_ns == mtime
+    # 이 스레드에 초안이 생기면 캐시에 있던 저장본은 낡은 것으로 (초안이 바로 쓰이게)
+    return p.read_text(encoding="utf-8"), str(p), lambda: (p.exists() and p.stat().st_mtime_ns == mtime
+                                                            and doc_id not in (getattr(_drafts, "map", None) or {}))
 
 
 def variants_dir(doc_id: str) -> Path:
@@ -299,6 +349,11 @@ def hash_label(path: Path) -> Path:
     if r is None or path == r:
         return path
     doc_id, *rest = path.relative_to(r).parts
+    if doc_id == SHARED.name and rest:   # 공통 폴더로 옮긴 바탕 틀·키 사전·설정 파일: 예전 자리 이름
+        if rest[0] == "templates":
+            return LEGACY_TEMPLATES / Path(*rest[1:])
+        if rest[0] in SHARED_FILES:
+            return DOCGEN / rest[0]
     if not rest or doc_id in ("layouts", "images", "regions", "하나은행_서식자료", "official_sources"):
         return path
     private = r in [p.resolve() for p in private_roots()]
@@ -324,7 +379,7 @@ def hash_label(path: Path) -> Path:
 
         spec = load_all().get(doc_id)
         if spec is not None and not spec.template.startswith("@"):
-            return TEMPLATES / spec.template
+            return LEGACY_TEMPLATES / spec.template
     return path
 
 
@@ -374,8 +429,8 @@ def _moves(doc_id: str) -> list[tuple[Path, Path]]:
                     out.append((f, to))
             break
     else:
-        if not spec.template.startswith("@") and (TEMPLATES / spec.template).exists():
-            out.append((TEMPLATES / spec.template, NEW_FORMS / doc_id / "look" / TEMPLATE))
+        if not spec.template.startswith("@") and (LEGACY_TEMPLATES / spec.template).exists():
+            out.append((LEGACY_TEMPLATES / spec.template, NEW_FORMS / doc_id / "look" / TEMPLATE))
     vd = LEGACY_VARIANTS / doc_id
     for f in sorted(vd.iterdir()) if vd.is_dir() else []:
         if f.is_file() and not f.name.endswith(".migrated") and not f.name.endswith(".regions.json"):
@@ -478,18 +533,31 @@ def _rel(p: Path) -> str:
         return str(p)
 
 
+def unknown_id(doc_id: str) -> str:
+    """없는 서식 ID 안내 (비슷한 ID 와 목록 보는 법)."""
+    import difflib
+
+    from .registry import load_all
+
+    near = difflib.get_close_matches(doc_id, list(load_all()), n=5, cutoff=0.6)
+    return (f"서식 ID '{doc_id}' 가 없습니다 (새 서식이면 쓸 수 있는 ID)." + (f" 비슷한 ID: {', '.join(near)}." if near else "")
+            + " 목록: python -m docgen list")
+
+
 def describe(doc_id: str) -> list[tuple[str, Path | None]]:
-    from . import regions
     from .registry import load_all
 
     spec = load_all()[doc_id]
-    rows = [("서식 폴더", folder(doc_id))]
+    rows = [("서식 폴더", folder(doc_id)), ("서식 카드 FORM.md (자동, 읽는 곳)", (folder(doc_id) or home(doc_id)) / "FORM.md")]
     if spec.template == "_real_form.html.j2":
         if re.fullmatch(r"hf\d{3}", doc_id):
             rows += [("기재 자리 (자동 추출)", hf_layout(int(doc_id[2:]))), ("모양 (원본 PDF)", original_pdf(int(doc_id[2:])))]
         else:
             d = image_dir(doc_id)
             rows += [("기재 자리", d / "layout.json" if d else None), ("모양 (견본 그림)", page_png(doc_id, 0) if d else None)]
+        d = folder(doc_id)   # 칸끼리 관계 (overlay 도 서식 폴더 generate.py 의 adjust)
+        if d is not None:
+            rows += [("칸끼리 관계 (generate.py)", d / "generate.py")]
     else:
         rows += [("모양 (템플릿)", template(doc_id))]
         if copy_dir(doc_id):
@@ -497,16 +565,171 @@ def describe(doc_id: str) -> list[tuple[str, Path | None]]:
             if (copy_dir(doc_id) / "generate.py").exists():
                 rows += [("생성 스크립트 (generate.py)", copy_dir(doc_id) / "generate.py")]
         else:
-            from .preview import _source_file
+            from .preview import generator_files
 
-            rows += [("값 생성 (코드)", Path(_source_file(spec.generate)))]
+            gen = generator_files(spec.generate)
+            rows += [("값 만들기 (generate.py)", gen[0])] + [("같은 그룹 도우미", g) for g in gen[1:]]
         vd = variants_dir(doc_id)
         if vd.exists():
             rows += [("레이아웃 변형", vd)]
     from . import formfields
 
-    rows += [("칸 목록 (사람이 고치는 곳)", formfields.path(doc_id))]
+    from . import formquestions
+
+    from . import formqa
+
+    rows += [("칸 목록 (사람이 고치는 곳)", formfields.path(doc_id)), ("질문·답 (questions.json)", formquestions.path(doc_id)),
+             ("서식 전용 질문 (qa.py)", formqa.path(doc_id))]
     return rows
+
+
+def questions_slim(ids: list[str], write: bool = False) -> list[dict]:
+    """questions.json 에서 기본과 같은 것을 지운다 (예전 꼴의 전체 사본 → 바꾼 것만, 다 같으면 파일을 지움). [{id, status}]."""
+    from . import formquestions as FQ
+
+    rows = []
+    for doc_id in ids:
+        body = FQ.read(doc_id) if FQ.path(doc_id).exists() else None
+        if body is None:
+            continue
+        new = FQ.slim(doc_id, body)
+        status = "그대로" if new == body else ("지움 (모두 기본)" if not new else "줄임")
+        if write and status != "그대로":
+            FQ.write(doc_id, new)
+        rows.append({"id": doc_id, "status": status, "body": new})
+    return rows
+
+
+def check_form(doc_id: str, seeds: int = 4) -> dict:
+    """서식 하나 검사 — 고친 뒤 이것 하나: 칸 목록 형식·박스가 쪽 안·값 출처·그려지지 않는 선언·질문(questions.json·q)·카드.
+    {"problems": 고쳐야 하는 것, "notes": 알아 둘 것}."""
+    from . import formcard, formfields, regions
+    from . import formquestions as FQ
+    from . import sources as S
+    from .entities import make_profile
+    from .keyrules import load as rules
+
+    problems, notes = list(regions.check(doc_id)), []
+    body = formfields.read(doc_id) or {}
+    profiles = [make_profile(s) for s in range(8)]
+    kinds = set(S.RULE_KINDS) | set(S.SPECIAL_RULES) | set(rules().get("kinds", {})) | {"text"}
+    from .keyrules import CODE_KINDS
+
+    kinds |= set(CODE_KINDS)
+    from . import usergen
+
+    try:
+        kinds |= set(usergen.all_generators())   # 직접 만든 생성기 (docgen/forms/_common/generators.py)
+    except ValueError as e:
+        problems.append(f"직접 만든 생성기 파일 오류: {e}")
+
+    def bad_source(src) -> str | None:
+        if src in (None, "code"):
+            return None
+        if not isinstance(src, str):
+            return "글자가 아님"
+        if src.startswith("profile."):   # 고객 8명 중 누구에게든 값이 있으면 맞는 경로 (조건부 정보: 사업자·외국인 …)
+            return None if any(S.lookup_profile(p, src) is not None for p in profiles) else "고객 정보에 없는 경로 (forms/_common/values.md)"
+        if src.startswith("parent."):   # 복제 서식: 부모 서식 생성 함수가 만든 값
+            return None
+        if src.startswith("rule:"):
+            return None if src[5:] in kinds else "모르는 값 종류 (forms/_common/values.md)"
+        return "profile.<경로>·rule:<종류>·parent.<경로>(복제 서식) 여야 합니다"
+    pages = body.get("pages") or []
+    for i, it in enumerate(body.get("items") or []):
+        why = bad_source(it.get("source"))
+        if why:
+            problems.append(f"items[{i}] '{it.get('label', '')}': source {it.get('source')!r} — {why}")
+        r, pg = it.get("rect"), it.get("page", 0)
+        if r and pg < len(pages) and (r[0] < 0 or r[1] < 0 or r[2] > pages[pg].get("width", 1e9) + 1 or r[3] > pages[pg].get("height", 1e9) + 1):
+            problems.append(f"items[{i}] '{it.get('label', '')}': 박스 {r} 가 {pg + 1}쪽 밖으로 나갑니다")
+    declared = dict(body.get("fields") or {})
+    for name, lst in (body.get("lists") or {}).items():
+        for sub, d in (lst.get("fields") or {}).items():
+            declared[f"{name}.*.{sub}"] = d
+    for k, d in declared.items():
+        why = bad_source(d.get("source"))
+        if why:
+            problems.append(f"fields.json '{k}': source {d.get('source')!r} — {why}")
+    from . import realform as RF
+
+    if RF.script_path(doc_id) is not None:   # overlay 의 칸끼리 관계 generate.py: 오류·같은 seed 두 번·새 키 (guide/studio/generators.md)
+        import random
+
+        from . import htmlform as HF
+
+        for s in range(min(seeds, 3)):
+            try:
+                a = RF.build_form(doc_id, make_profile(s), random.Random(s))
+                b = RF.build_form(doc_id, make_profile(s), random.Random(s))
+            except ValueError as e:
+                problems.append(str(e))
+                return {"problems": problems, "notes": notes}
+            if a["items"] != b["items"]:
+                problems.append("generate.py: 같은 seed 로 두 번 그렸는데 값이 다릅니다 (난수는 넘겨받은 rng 만, 시간·파일을 읽지 않음)")
+                break
+        problems += [w for w in HF.script_warnings(doc_id) if "칸 목록에 없는 키" in w]
+    try:
+        docs = FQ.seen_fields(doc_id, seeds)
+    except ValueError as e:   # 생성 스크립트·생성기 오류 (몇 번째 줄인지 담겨 있음)
+        problems.append(str(e))
+        return {"problems": problems, "notes": notes}
+    from .fieldinfo import pattern
+
+    drawn = {pattern(f["key"]) for fs in docs for f in fs}
+    stray = [k for k in (body.get("q") or {}) if pattern(k.replace("*", "0")) not in drawn]
+    if stray:
+        problems.append(f"fields.json 맨 위 \"q\" 의 키가 그린 칸에 없습니다 (오타·반복 행은 *): {', '.join(stray[:8])}")
+    if declared:
+        never = [k for k in declared if pattern(k.replace("*", "0")) not in drawn]
+        if never:
+            notes.append(f"fields.json 에 적었는데 {len(docs)}번 그려도 안 나온 칸 {len(never)}개 (템플릿에 f(\"키\") 가 없거나 드문 조건부 칸): "
+                         + ", ".join(never[:8]))
+    q = FQ.check(doc_id, seeds, docs)
+    problems += q["problems"]
+    notes += q["notes"]
+    if formcard.stale(doc_id):
+        notes.append(f"카드 FORM.md 가 없거나 오래됨 — python -m docgen.formdir card {doc_id}")
+    return {"problems": problems, "notes": notes}
+
+
+def show_questions(doc_id: str, seeds: int = 8) -> str:
+    """합친 전체 (기본 + 이 서식에서 바꾼 것) 를 글로."""
+    from . import formquestions as FQ
+
+    v = FQ.resolved(doc_id, seeds=seeds)
+    mark = lambda task, k: " ← 이 서식에서 바꿈" if k in v[task]["changed"] else ""  # noqa: E731
+    out = [f"# {doc_id} 질문·답 (기본 + {FQ.path(doc_id).name if FQ.path(doc_id).exists() else '바꾼 것 없음'})"]
+    for task in ("kie", "marks"):
+        t = v[task]
+        out += [f"\n## {task}", f"질문 항목 줄 틀: {t['item']}{mark(task, 'item')}",
+                f"답 항목 틀: {json.dumps(t['answer'], ensure_ascii=False)}{mark(task, 'answer')}",
+                f"빈 칸 답 틀: {json.dumps(t['answer_empty'], ensure_ascii=False)}{mark(task, 'answer_empty')}",
+                f"질문{mark(task, 'prompt')}:", *("  " + x for x in t["prompt"].split("\n")), "칸:"]
+        for it in t["items"]:
+            ch = f"  ← 바꿈: {', '.join(it['changed'])}" if it["changed"] else ""
+            seen = "" if it["seen"] == it["of"] else f"  (그린 {it['of']}번 중 {it['seen']}번 나옴)"
+            out.append(f"  {'묻기' if it['ask'] else '안 묻기'}  {it['key']}: {it['q_label'] or '/'.join(map(str, it['labels']))}"
+                       + (f" ({it['note']})" if it["note"] else "") + seen + ch)
+        if t.get("unknown"):
+            out.append(f"  (지금 칸에 없는 키: {', '.join(t['unknown'])})")
+    for task in ("classify", "ocr_field", "ocr_page"):
+        t = v[task]
+        out += [f"\n## {task}{mark(task, 'prompt')}", "  " + t["prompt"].replace("\n", "\n  ")]
+        if task == "classify":
+            out.append(f"  정답: {t['answer']}{mark(task, 'answer')}" + (f" (다른 이름: {', '.join(t['aliases'])})" if t["aliases"] else ""))
+        elif t["exclude"]:
+            out.append(f"  뺄 칸: {', '.join(t['exclude'])}")
+    from . import formqa
+
+    qa = formqa.check(doc_id, FQ.seen_fields(doc_id, seeds))
+    out.append("\n## form_qa (이 서식만의 질문, qa.py)" + ("" if qa["rows"] else ": 없음"))
+    for r in qa["rows"]:
+        ex = r["example"] or {}
+        out += [f"  {r['name']}()  — 그린 {r['of']}개 중 {r['asked']}개에서 물음, 정답 꼴 {r['kind'] or '-'}",
+                f"    질문: {ex.get('prompt', '-')}", f"    정답: {json.dumps(ex['answer'], ensure_ascii=False) if 'answer' in ex else '-'}"]
+    out += [f"  문제: {p}" for p in qa["problems"]]
+    return "\n".join(out)
 
 
 def main(argv=None) -> int:
@@ -517,10 +740,41 @@ def main(argv=None) -> int:
     dc.add_argument("ids", nargs="*")
     dc.add_argument("--apply", action="store_true")
     dc.add_argument("--seeds", type=int, default=24, help="그려 볼 seed 수 (조건부 칸을 찾으려면 늘린다)")
+    qs = sub.add_parser("questions", help="서식의 질문·답 (questions.json = 기본과 다르게 할 것만): 보기·검사·정리")
+    qs.add_argument("ids", nargs="*")
+    qs.add_argument("--all", action="store_true", help="모든 서식")
+    qs.add_argument("--show", action="store_true", help="합친 전체 (기본 + 이 서식에서 바꾼 것)")
+    qs.add_argument("--check", action="store_true", help="지금 칸과 맞는지 검사 (질문 설정 q·답 틀과 질문·기본과 같은 줄)")
+    qs.add_argument("--slim", action="store_true", help="기본과 같은 것을 파일에서 지움 (예전 꼴의 전체 사본 정리)")
+    qs.add_argument("--write", action="store_true", help="--slim 을 파일에 쓴다 (없으면 목록만)")
+    qs.add_argument("--seeds", type=int, default=8, help="그려 볼 seed 수 (평가·학습 범위에서 각각)")
+    qa = sub.add_parser("qa", help="이 서식만의 질문 qa.py: 견본 만들기(--new)·보기")
+    qa.add_argument("id")
+    qa.add_argument("--new", action="store_true", help="견본 qa.py 를 만든다 (이 서식의 칸 키로 쓴 예시, 주석). 있으면 멈춤")
+    qa.add_argument("--seeds", type=int, default=8)
+    ad = sub.add_parser("adjust", help="칸끼리 관계 generate.py (overlay 서식): 견본 만들기(--new)")
+    ad.add_argument("id")
+    ad.add_argument("--new", action="store_true", help="견본 generate.py 를 만든다 (이 서식의 칸 키를 주석으로). 있으면 멈춤")
+    ck = sub.add_parser("check", help="서식 검사 (고친 뒤 이것 하나): 칸 목록·박스·생성 방법·질문 설정·questions.json·카드")
+    ck.add_argument("ids", nargs="*")
+    ck.add_argument("--all", action="store_true", help="모든 서식")
+    sub.add_parser("values", help="공통 생성 방법 목록 docgen/forms/_common/values.md 다시 만들기")
+    cd = sub.add_parser("card", help="서식 카드 FORM.md 만들기 (항목·위치·정의한 곳·질문→답 예시·고치는 곳)")
+    cd.add_argument("ids", nargs="*")
+    cd.add_argument("--all", action="store_true", help="모든 서식")
+    cd.add_argument("--stale", action="store_true", help="오래된(원본이 바뀐) 카드만")
+    cd.add_argument("--check", action="store_true", help="만들지 않고 오래된 카드만 보임 (있으면 종료 코드 1)")
+    cd.add_argument("--workers", type=int, default=1, help="동시에 그릴 프로세스 수")
     m = sub.add_parser("migrate", help="예전 자리의 서식 파일을 서식 폴더로 (사람 수정도 함께)")
     m.add_argument("--apply", action="store_true", help="실제로 옮긴다 (없으면 목록만)")
     a = ap.parse_args(argv)
     from .registry import load_all
+
+    known = load_all()
+    for i in [getattr(a, "id", None), *(getattr(a, "ids", None) or [])]:
+        if i is not None and i not in known:
+            print(unknown_id(i), file=sys.stderr)
+            return 2
 
     if a.cmd == "path":
         for role, p in describe(a.id):
@@ -531,6 +785,106 @@ def main(argv=None) -> int:
         for r in rows:
             print(f"{r['id']}: 칸 {r['keys']}개" + (f" (새로 {r['new']}개)" if a.apply else ""))
         print(f"코드 서식 {len(rows)}개" + ("" if a.apply else ". 목록만 보였습니다. 적으려면 --apply"))
+        return 0
+    if a.cmd == "questions":
+        ids = sorted(load_all()) if a.all else a.ids
+        if not ids:
+            ap.error("서식 ID 나 --all")
+        from . import formquestions as FQ
+
+        if a.show:
+            for i in ids:
+                print(show_questions(i, a.seeds))
+            return 0
+        if a.slim:
+            rows = questions_slim(ids, a.write)
+            for r in rows:
+                if r["status"] != "그대로":
+                    print(f"{r['status']}  {r['id']}")
+            n = sum(r["status"] != "그대로" for r in rows)
+            print(f"questions.json {len(rows)}개 중 {n}개 " + ("정리함" if a.write else "정리할 것 (목록만. 쓰려면 --write)"))
+            return 0
+        bad = 0
+        for i in ids:
+            r = FQ.check(i, a.seeds)
+            bad += bool(r["problems"])
+            for p in r["problems"]:
+                print(f"문제  {i}: {p}")
+            for n in r["notes"]:
+                if FQ.path(i).exists() or len(ids) == 1:
+                    print(f"참고  {i}: {n}")
+        print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개")
+        return 1 if bad else 0
+    if a.cmd == "adjust":
+        from . import realform as RF
+
+        d = folder(a.id)
+        if d is None or not (d / "layout.json").exists() and RF.form_no(a.id) is None:
+            print("overlay(원본·그린) 서식만 됩니다. html 서식의 generate.py 는 docgen/manual/NEW_FORM_SPEC.md 8절", file=sys.stderr)
+            return 2
+        p = d / "generate.py"
+        if not a.new:
+            print(_rel(p) if p.exists() else f"없음: {_rel(p)} — 견본: python -m docgen.formdir adjust {a.id} --new")
+            return 0
+        if p.exists():
+            print(f"이미 있습니다 (덮어쓰지 않음): {_rel(p)}")
+            return 1
+        p.write_text(RF.adjust_skeleton(a.id), encoding="utf-8")
+        print(f"만듦: {_rel(p)} — adjust 를 고친 뒤 영역 편집의 수정 전후 비교, check {a.id} 로 확인")
+        return 0
+    if a.cmd == "qa":
+        from . import formqa
+        from . import formquestions as FQ
+
+        p = formqa.path(a.id)
+        if a.new:
+            if p.exists():
+                print(f"이미 있습니다 (덮어쓰지 않음): {_rel(p)}")
+                return 1
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(formqa.skeleton(a.id, FQ.seen_fields(a.id, a.seeds)), encoding="utf-8")
+            print(f"만듦: {_rel(p)} — 주석을 풀고 고친 뒤 python -m docgen.formdir qa {a.id} 로 확인, 카드는 card {a.id}")
+            return 0
+        print("## form_qa" + show_questions(a.id, a.seeds).split("\n## form_qa", 1)[-1] if p.exists()
+              else f"{_rel(p)} 없음 — 견본: python -m docgen.formdir qa {a.id} --new")
+        return 0
+    if a.cmd == "check":
+        ids = sorted(load_all()) if a.all else a.ids
+        if not ids:
+            ap.error("서식 ID 나 --all")
+        bad = 0
+        for i in ids:
+            r = check_form(i)
+            bad += bool(r["problems"])
+            for p in r["problems"]:
+                print(f"문제  {i}: {p}")
+            if len(ids) == 1 or r["problems"]:
+                for n in r["notes"]:
+                    print(f"참고  {i}: {n}")
+        print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개" + ("" if bad else " — 괜찮습니다"))
+        return 1 if bad else 0
+    if a.cmd == "values":
+        from . import formcard
+
+        p = SHARED / "values.md"
+        p.write_text(formcard.values_md(), encoding="utf-8")
+        print(p)
+        return 0
+    if a.cmd == "card":
+        from . import formcard
+
+        ids = sorted(load_all()) if a.all else a.ids
+        if not ids:
+            ap.error("서식 ID 나 --all")
+        stale = [i for i in ids if formcard.stale(i)]
+        if a.check:
+            for i in stale:
+                print(f"오래됨  {i}: {formcard.path(i)}")
+            print(f"서식 {len(ids)}개 중 카드가 없거나 오래된 것 {len(stale)}개")
+            return 1 if stale else 0
+        todo = stale if a.stale else ids
+        done = formcard.write_many(todo, a.workers)
+        print(f"카드 {len(done)}개 만듦" + (f" (예: {formcard.path(done[0])})" if done else ""))
         return 0
     from . import regions
 

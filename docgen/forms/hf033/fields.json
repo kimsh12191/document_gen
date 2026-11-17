@@ -29,7 +29,10 @@
     106.7,
     298.0,
     126.5
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "FilingNo"
   },
   {
    "t": "text",
@@ -40,7 +43,10 @@
     106.7,
     551.6,
     126.5
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "FilingDate"
   },
   {
    "t": "text",
@@ -51,7 +57,10 @@
     208.8,
     310.7,
     229.1
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "TaxpayerIdentificationNo"
   },
   {
    "t": "text",
@@ -62,7 +71,10 @@
     229.1,
     310.7,
     249.0
-   ]
+   ],
+   "kind": "country",
+   "std": false,
+   "key": "CountryofResidence"
   },
   {
    "t": "text",
@@ -73,7 +85,9 @@
     208.8,
     551.6,
     229.1
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -84,7 +98,10 @@
     229.1,
     551.6,
     249.0
-   ]
+   ],
+   "kind": "country",
+   "std": false,
+   "key": "CountryCode"
   },
   {
    "t": "text",
@@ -96,7 +113,9 @@
     508.5,
     432.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -108,7 +127,9 @@
     508.5,
     452.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -120,7 +141,9 @@
     508.5,
     472.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -132,7 +155,9 @@
     508.5,
     492.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -144,7 +169,9 @@
     508.5,
     511.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -156,7 +183,9 @@
     508.5,
     531.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -168,7 +197,9 @@
     508.5,
     551.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -180,7 +211,9 @@
     551.6,
     571.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Yes",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -192,7 +225,9 @@
     551.6,
     432.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.No",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -204,7 +239,9 @@
     551.6,
     452.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.No",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -216,7 +253,9 @@
     551.6,
     472.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.No",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -228,7 +267,9 @@
     551.6,
     492.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.No",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -240,7 +281,9 @@
     551.6,
     511.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.No",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -252,7 +295,9 @@
     551.6,
     531.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.No",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -264,7 +309,9 @@
     551.6,
     551.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.No",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -276,7 +323,10 @@
     551.6,
     759.8
    ],
-   "section": "Attachment"
+   "section": "Attachment",
+   "kind": "text",
+   "std": false,
+   "key": "AddressorLocation"
   },
   {
    "t": "text",
@@ -288,7 +338,10 @@
     387.3,
     731.4
    ],
-   "section": "Attachment"
+   "section": "Attachment",
+   "kind": "text",
+   "std": false,
+   "key": "NameofIndividualorCorporation"
   },
   {
    "t": "text",
@@ -299,7 +352,10 @@
     774.8,
     547.3,
     790.5
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   }
  ]
 }

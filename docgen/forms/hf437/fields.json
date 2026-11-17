@@ -23,7 +23,10 @@
     190.1,
     546.1,
     211.2
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "▪매출채권보험추천등모집대행업무수행"
   },
   {
    "t": "text",
@@ -34,7 +37,10 @@
     174.6,
     549.1,
     189.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "필수사항"
   },
   {
    "t": "text",
@@ -45,7 +51,10 @@
     415.5,
     549.1,
     430.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "필수사항"
   },
   {
    "t": "text",
@@ -56,7 +65,9 @@
     717.8,
     280.9,
     740.5
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -67,7 +78,9 @@
     740.5,
     204.3,
     763.2
-   ]
+   ],
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -78,7 +91,9 @@
     740.5,
     374.4,
     763.2
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "sign",
@@ -95,7 +110,9 @@
     722.4,
     545.3,
     734.5
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -106,7 +123,9 @@
     740.5,
     549.1,
     763.2
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "sign",
@@ -123,7 +142,9 @@
     771.3,
     545.3,
     783.4
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -135,7 +156,9 @@
     549.4,
     250.2
    ],
-   "free": true
+   "free": true,
+   "kind": "phone",
+   "key": "customer.phone"
   }
  ]
 }

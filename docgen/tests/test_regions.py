@@ -102,7 +102,7 @@ def test_check_reports_leftovers_and_unknown_fields(roots):
 
 def test_cli_path_and_show(roots, capsys):
     assert regions.main(["path", "hf169"]) == 0
-    assert "hf169/regions.json" in capsys.readouterr().out
+    assert "hf169/fields.json" in capsys.readouterr().out   # 사람 수정은 칸 목록에 (처음 저장할 때 생김)
     rows = regions.show("hf169")
     assert rows and all(r["key"] and r["how"] == "자동" for r in rows)
     lay = RF.raw_layout("hf169")

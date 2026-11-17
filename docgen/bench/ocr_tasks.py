@@ -1,4 +1,4 @@
-"""OCR 8과제 문항 만들기 (studio/DESIGN.md 17절, 옛 1부 bank_ocr/tasks.py 그대로): 질문(PROMPTS)과 과제별 함수."""
+"""OCR 8과제 문항 만들기 (archive/studio/DESIGN.md 17절, 옛 1부 bank_ocr/tasks.py 그대로): 질문(PROMPTS)과 과제별 함수."""
 import math
 
 from PIL import ImageDraw, ImageStat

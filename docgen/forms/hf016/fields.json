@@ -64,7 +64,9 @@
     143.0,
     299.5,
     167.8
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -75,7 +77,9 @@
     213.1,
     299.5,
     235.8
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -86,7 +90,9 @@
     143.0,
     548.5,
     167.8
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -98,7 +104,8 @@
     548.5,
     190.5
    ],
-   "section": "계 좌 번 호"
+   "section": "계 좌 번 호",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -110,7 +117,8 @@
     548.5,
     213.1
    ],
-   "section": "계 좌 번 호"
+   "section": "계 좌 번 호",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -121,7 +129,9 @@
     213.1,
     548.5,
     235.8
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -132,7 +142,9 @@
     300.9,
     339.2,
     323.6
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -143,7 +155,9 @@
     323.6,
     339.2,
     346.2
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -154,7 +168,9 @@
     368.9,
     339.2,
     391.6
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -165,7 +181,9 @@
     391.6,
     339.2,
     414.3
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -176,7 +194,10 @@
     414.3,
     339.2,
     439.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "참고사항"
   },
   {
    "t": "text",
@@ -188,7 +209,9 @@
     548.5,
     323.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.은행지점",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -200,7 +223,9 @@
     548.5,
     346.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.은행지점",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -212,7 +237,9 @@
     548.5,
     391.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.은행지점",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -224,7 +251,9 @@
     548.5,
     414.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.은행지점",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -236,7 +265,9 @@
     548.5,
     439.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.은행지점",
+   "kind": "bank"
   },
   {
    "t": "date",
@@ -262,7 +293,8 @@
      336.8,
      528.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -279,7 +311,9 @@
     567.5,
     378.8,
     579.6
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

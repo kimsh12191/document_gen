@@ -2,7 +2,7 @@
 
 과제마다 함수 하나 (아래 TASKS). 한 과제만 바꾸려면 이 파일을 복사해 그 함수만 고친다. 고치지 않은 과제는 기본 채점과 같은 점수.
   {"id": "syn", "paths": ["<bank 데이터셋>"], "scorer": "scorers/my_bank.py:score"}
-꼴·규칙은 train/scorers/kie_default.py 맨 위, guide/training.md 3절 '채점 함수'. 쪽 OCR 8과제는 ocr_default.py.
+꼴·규칙은 train/scorers/kie_default.py 맨 위, guide/train/sweep.md 2절 (평가 세트·채점). 쪽 OCR 8과제는 ocr_default.py.
 """
 from docgen.bench import evaluate as E
 
@@ -28,19 +28,10 @@ def freetext(item, output):
     return E.s_freetext(item, output)
 
 
-def doc_check(item, output):
-    """서류 구비 확인: missing·not_required·not_customer 세 목록이 모두 맞으면 exact (주 지표), 목록 F1 은 set_f1."""
-    return E.s_doc_check(item, output)
-
-
-def cross_check(item, output):
-    """서류 간 대조: 정상 문항은 consistent=true 면 1, 변조 문항은 탐지(detect) + 문제 서류·값까지 맞힘. 주 지표 score."""
-    return E.s_cross_check(item, output)
-
-
-def review(item, output):
-    """심사 질의: 예/아니오, 숫자(허용 오차 item["eval"]["tol"]), 짧은 답 일치. 주 지표 acc."""
-    return E.s_review(item, output)
+def form_qa(item, output):
+    """서식 전용 질문 (서식 폴더 qa.py): 정답 꼴로 — 숫자는 허용 오차 안에서, 예/아니오는 같은지, 글은 띄어쓰기·문장부호를 맞춰 같은지,
+    JSON 은 칸마다 같은지. 주 지표 acc. 질문 하나만 다르게 채점하려면 form_qa_example.py."""
+    return E.s_form_qa(item, output)
 
 
 def ocr_field(item, output):
@@ -53,8 +44,9 @@ def ocr_page(item, output):
     return E.s_ocr_page(item, output)
 
 
-TASKS = {"classify": classify, "kie": kie, "marks": marks, "freetext": freetext, "doc_check": doc_check,
-         "cross_check": cross_check, "review": review, "ocr_field": ocr_field, "ocr_page": ocr_page}
+TASKS = {"classify": classify, "kie": kie, "marks": marks, "freetext": freetext, "form_qa": form_qa,
+         "ocr_field": ocr_field, "ocr_page": ocr_page,
+         **{t: E.SCORERS[t] for t in ("table", "table_read", "table_find", "table_qa")}}   # 표 과제는 기본 채점 그대로
 
 
 def score(item, output):

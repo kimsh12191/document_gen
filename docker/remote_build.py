@@ -1,26 +1,23 @@
 """다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡긴다 (파이썬 표준 라이브러리만 씀. 이 파일만 복사해 가도 된다).
 
 studio 를 sh docker/studio.sh --open 으로 띄워 두고, URL 은 --url 또는 환경변수 STUDIO_URL (예: http://10.0.0.5:8765).
-사용 설명서: guide/README.md · 생성·학습 절차: guide/agent-workflow.md
-서류별 추출·시나리오: guide/catalog.md (기계용 catalog.json)
+사용 설명서: guide/README.md · 데이터 만들기 절차: guide/studio/data.md · agent 규칙: AGENTS.md
+서식별 추출 항목: 서식 카드 docgen/forms/<ID>/FORM.md
 
 보기
   python remote_build.py types [--group income] [--find 재직]     서식 ID 목록 (그룹·이름으로 거르기)
-  python remote_build.py scenarios                                업무(시나리오) ID 와 필요 서류
   python remote_build.py recipes                                  저장된 레시피
   python remote_build.py jobs                                     생성 작업 목록
   python remote_build.py status <작업ID>                          작업 하나 (진행·로그 끝)
   python remote_build.py paths                                    데이터셋이 생기는 곳 (컨테이너 안 경로 ↔ 서버 경로)
-  python remote_build.py catalog --form employment_certificate     서식별 추출 항목·연결 업무
   python remote_build.py composition <데이터셋ID> --out trace.json  생성된 전체/평가 문항 구성·재현 정보
 
 만들기 (끝날 때까지 기다림. --no-wait 면 작업 ID 만 받고 끝)
   python remote_build.py build --name bench-1021 --recipe bank-bench          저장된 레시피 그대로 (벤치마크 통째)
   python remote_build.py build --name try1 --types resident_id_card,hf169 --per-doc 3
-                                                                              특정 서식만 (업무 묶음 없음)
-  python remote_build.py build --name loan1 --scenarios mortgage --bundles 20  특정 업무만 (단일 서류 없음)
-  python remote_build.py build --name inc --types income --scenarios all --bundles 10 --split train
-                                                                              그룹 + 업무, 학습용
+                                                                              특정 서식만
+  python remote_build.py build --name inc --types income --per-doc 10 --split train
+                                                                              그룹, 학습용
   python remote_build.py build --name ocr1 --track ocr --types identity --per-doc 2 --unit line
                                                                               합성 OCR (쪽 전체 글자 정답)
   python remote_build.py build --name my1 --file my.json                      레시피 JSON 을 보내서
@@ -66,11 +63,7 @@ def recipe_from_args(a) -> dict:
     r = {"about": f"remote_build.py 로 만듦: {a.name}", "track": a.track}
     if a.track == "bank":
         r["split"] = a.split or "test"
-        # 서식·업무 중 하나만 주면 나머지는 빼서 그것만 만든다
-        r["types"] = csv(a.types) if a.types is not None else ([] if a.scenarios is not None else "all")
-        r["scenarios"] = csv(a.scenarios) if a.scenarios is not None else ([] if a.types is not None else "all")
-        if a.bundles is not None:
-            r["bundles"] = a.bundles
+        r["types"] = csv(a.types) if a.types is not None else "all"
     else:
         r["split"] = a.split or "benchmark"
         r["types"] = csv(a.types) if a.types is not None else "all"
@@ -106,7 +99,7 @@ def cmd_build(a) -> None:
         with open(a.file, encoding="utf-8") as f:
             r = json.load(f)
         recipe = a.recipe or f"remote-{a.name}"
-    elif a.recipe and not any(v is not None for v in (a.types, a.scenarios, a.bundles, a.per_doc, a.conditions, a.exclude)):
+    elif a.recipe and not any(v is not None for v in (a.types, a.per_doc, a.conditions, a.exclude)):
         recipe, r = a.recipe, None
     else:
         recipe, r = a.recipe or f"remote-{a.name}", recipe_from_args(a)
@@ -148,19 +141,6 @@ def cmd_paths(a) -> None:
     print(f"studio 설정 파일: {p.get('config_file') or '없음 (기본값: 코드 폴더 안 studio_workspace/)'}")
 
 
-def cmd_catalog(a) -> None:
-    """현재 서류·추출 항목·연결 업무를 기계가 읽는 JSON으로 받는다."""
-    path = f"/api/guide/forms/{urllib.parse.quote(a.form, safe='')}" if a.form else "/api/guide/catalog"
-    data = call(path)
-    content = json.dumps(data, ensure_ascii=False, indent=2)
-    if a.out:
-        with open(a.out, "w", encoding="utf-8") as f:
-            f.write(content + "\n")
-        print(f"카탈로그 저장: {a.out}")
-    else:
-        print(content)
-
-
 def cmd_composition(a) -> None:
     """등록한 데이터셋의 실제 생성 구성과 재현 정보를 조회한다."""
     data = call(f"/api/datasets/{urllib.parse.quote(a.dataset, safe='')}/composition")
@@ -183,11 +163,6 @@ def cmd_types(a) -> None:
         print(f"{x['id']:<40} {x['group']:<12} {x['name']}")
     groups = call("/api/recipes/options")["groups"]
     print(f"\n{len(rows)}종. --types 에 ID 를 쉼표로 잇거나, 그룹 이름을 씁니다: " + ", ".join(f"{k}({v})" for k, v in groups.items()))
-
-
-def cmd_scenarios(a) -> None:
-    for s in call("/api/recipes/options")["scenarios"]:
-        print(f"{s['id']:<26} {s['name']}  ← {', '.join(s['docs'])}")
 
 
 def cmd_recipes(a) -> None:
@@ -218,10 +193,8 @@ def main() -> None:
     b.add_argument("--name", required=True, help="만들 데이터셋 이름 (폴더 이름. 이미 있으면 거절)")
     b.add_argument("--recipe", help="저장된 레시피 이름. 옵션과 같이 주면 그 이름으로 레시피를 저장(덮어씀)")
     b.add_argument("--file", help="레시피 JSON 파일을 보내서 만들기")
-    b.add_argument("--track", choices=("bank", "ocr"), default="bank", help="bank: 은행 업무 (서식 문항 + 업무 묶음), ocr: 합성 OCR")
-    b.add_argument("--types", help="서식: all | ID,ID,… | 그룹 (예: income). 빈 값('')이면 서식 과제 없음")
-    b.add_argument("--scenarios", help="[bank] 업무: all | ID,ID,… 빈 값('')이면 업무 묶음 없음")
-    b.add_argument("--bundles", type=int, help="[bank] 업무마다 고객 수 (기본 4)")
+    b.add_argument("--track", choices=("bank", "ocr"), default="bank", help="bank: 은행 서류 (서식 문항), ocr: 합성 OCR")
+    b.add_argument("--types", help="서식: all | ID,ID,… | 그룹 (예: income)")
     b.add_argument("--per-doc", type=int, help="서식마다 만들 장 수 (기본 1)")
     b.add_argument("--split", help="bank: test(평가, 기본) | train,  ocr: benchmark(기본) | train")
     b.add_argument("--conditions", help="촬영 조건 비율, 합 1 (예: clean=0.5,scan=0.2,photo=0.15,fax=0.15)")
@@ -234,14 +207,10 @@ def main() -> None:
     t = sub.add_parser("types", help="서식 ID 목록")
     t.add_argument("--group")
     t.add_argument("--find", help="이름·ID 에 이 글자가 든 것만")
-    sub.add_parser("scenarios", help="업무 ID 와 필요 서류")
     sub.add_parser("recipes", help="저장된 레시피")
     sub.add_parser("jobs", help="생성 작업 목록")
     sub.add_parser("paths", help="데이터셋이 생기는 곳 (컨테이너 안 ↔ 서버)")
-    c = sub.add_parser("catalog", help="서류별 추출 항목·문항 키·연결 업무 JSON")
-    c.add_argument("--form", help="서식 ID 하나만 조회 (생략하면 전체)")
-    c.add_argument("--out", help="JSON을 UTF-8 파일로 저장")
-    c = sub.add_parser("composition", help="데이터셋의 업무·시나리오·정답 구조별 구성 조회")
+    c = sub.add_parser("composition", help="데이터셋의 과제·정답 구조별 구성 조회")
     c.add_argument("dataset", help="등록된 데이터셋 ID (통상 생성할 때의 --name)")
     c.add_argument("--out", help="구성 JSON을 UTF-8 파일로 저장")
     s = sub.add_parser("status", help="작업 하나의 상태·로그")
@@ -250,8 +219,8 @@ def main() -> None:
     if not a.url:
         ap.error("--url 또는 STUDIO_URL 이 필요합니다 (예: http://10.0.0.5:8765)")
     BASE = a.url.rstrip("/")
-    {"build": cmd_build, "types": cmd_types, "scenarios": cmd_scenarios, "recipes": cmd_recipes,
-     "jobs": cmd_jobs, "status": cmd_status, "paths": cmd_paths, "catalog": cmd_catalog, "composition": cmd_composition}[a.cmd](a)
+    {"build": cmd_build, "types": cmd_types, "recipes": cmd_recipes,
+     "jobs": cmd_jobs, "status": cmd_status, "paths": cmd_paths, "composition": cmd_composition}[a.cmd](a)
 
 
 if __name__ == "__main__":

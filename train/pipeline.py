@@ -1,241 +1,162 @@
-"""학습 실행 하나 (옛 ocr/run_pipeline.py + bank/run_bank_pipeline.py): 데이터셋 섞기부터 Base/SFT/GRPO 비교 보고서까지.
+"""학습 실행 하나: 데이터 준비 → 출발 모델 평가 → SFT → SFT 모델 평가 → 보고서.
+
+  python -m train --config <설정.json> [--smoke | --dry-run | --from <단계> | --only <단계>]
 
 단계 (<workdir>/state.json 에 끝난 것을 적고, 다시 돌리면 이어서):
-  ocr_prepare (설정에 ocr_prepare 가 있을 때만) 가진 이미지를 사내 OCR 해 OCR 학습·평가 데이터로 (docgen.bench.ocr_prepare <그 설정>,
-              여러 개면 차례로. 예: 학습용 + 평가 전용(benchmark_only)).
-              결과 폴더(그 설정의 output_dir)를 data.train·data.benchmark 에 적어 둔다. 합성 OCR 등 이미 만든 데이터만 쓰면 빼 둔다
-  prepare     data 칸의 데이터셋 섞기 (mix.py) → data.output_dir
-  eval_base   출발 모델 평가 (eval.compare_models 도)
-  sft         SFT (launch.py), 마지막 체크포인트를 적어 둠
-  eval_sft    SFT 모델 병합·평가, GRPO 후보 답 (골라 뽑기용)
-  select      GRPO 문항 고르기 (mine / random / all)
-  grpo        SFT 체크포인트에서 GRPO, 보상 = 평가 채점 (reward_plugin.py)
-  eval_grpo   GRPO 모델 병합·평가
-  report      reports/benchmark.{csv,md,html}
+  prepare      평가 세트 준비 (<cache_dir>/sets/, 같은 세트는 실험끼리 같이 씀) + 학습 데이터 섞기 (data.output_dir)
+  eval_start   출발 모델 평가 (같은 모델·같은 평가 세트의 답이 캐시에 있으면 추론 없이)
+  sft          SFT (launch.py → ms-swift), 마지막 체크포인트를 적어 둠
+  eval_sft     SFT 체크포인트 병합(<workdir>/merged/…)·평가
+  report       <workdir>/report.html · answers.html · scores.csv, results.json (python -m train report <workdir> 로 다시)
+평가는 GPU 마다 vLLM 서버 하나를 띄우고 요청을 나눠 보낸다 (같은 그림의 질문은 같은 서버로). 여러 모델은 python -m train sweep.
 
-평가는 GPU 마다 추론 서버 하나를 띄우고 요청을 나눠 보낸다 (같은 그림의 질문은 같은 서버로 → 그림 캐시 재사용).
-저장소 최상위에서:
-  python -m train --config train/configs/pipeline.json --smoke     # 5 step·작은 평가 리허설 (workdir/smoke)
-  python -m train --config train/configs/pipeline.json             # 전부
-  python -m train --config train/configs/pipeline.json --part sft  # SFT 까지 (섞기·출발 평가·SFT·SFT 평가·보고서)
-  python -m train --config train/configs/pipeline.json --part grpo  # 그 SFT 에서 GRPO (고르기·GRPO·평가·보고서)
-  python -m train --config train/configs/pipeline.json --part grpo --sft-checkpoint <SFT 체크포인트>   # 다른 SFT 에서
-  python -m train --config train/configs/pipeline.json --from grpo # GRPO 다시 (보고서는 둘 다 남김)
-  python -m train --config train/configs/pipeline.json --dry-run   # 명령만 보기
-보고서(report)는 단계를 돌릴 때마다 다시 만든다.
+설정 (상대 경로는 설정 파일 기준):
+  workdir, cache_dir(기본 <workdir 의 부모>/_cache), model, model_type, gpus,
+  data: train · benchmark · output_dir(기본 <workdir>/data) · task_mix · sft_max_examples · image_max_size ·
+        max_image_tokens_per_sample · sft_max_length · val_count · pack_turns · seed  (train/mix.py)
+  sft:  config(yaml) + yaml 위에 덮어쓸 ms-swift 옵션 (learning_rate, lora_rank …)
+  eval: inference_config · concurrency_per_server · port_base · server_start_timeout_minutes · deploy_command · merge_command ·
+        fill_from_base  (train/serve.py)
 """
 import argparse
 import json
 import os
-import random
-import shutil
-import signal
-import socket
 import subprocess
 import sys
 import time
-from contextlib import contextmanager
 from pathlib import Path
-from urllib.error import URLError
-from urllib.request import urlopen
 
-from docgen.bench.ocr_data import read_json, read_jsonl, write_json, write_jsonl
+from docgen.bench.ocr_data import read_json, write_json
 
-from .cli import resolve_data
-from .settings import image_tokens, image_tokens_for, load_settings
+from .settings import load_settings, log, merged, pixel_factor
 
 ROOT = Path(__file__).resolve().parents[1]   # 저장소 최상위: 하위 명령은 여기서 python -m train.… 으로
-STAGES = ["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
-PARTS = {"sft": ["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "report"],
-         "grpo": ["prepare", "eval_sft", "select", "grpo", "eval_grpo", "report"]}
-AFTER_SFT = ["eval_sft", "select", "grpo", "eval_grpo"]   # SFT 체크포인트가 바뀌면 다시 할 단계
+STAGES = ["prepare", "eval_start", "sft", "eval_sft", "report"]
+FOLDER_HINT = ("데이터셋 폴더 (meta.json + tasks/): studio 데이터셋, 또는 OCR 준비 결과 폴더 — OCR 준비는 학습 전에 따로 한 번 "
+               "python -m docgen.bench.ocr_prepare <설정> (guide/train/ocr.md)")
+REMOVED = {"grpo": "GRPO 는 이 브랜치에서 뺐습니다",
+           "ocr_prepare": "OCR 준비는 학습 전에 따로 한 번 python -m docgen.bench.ocr_prepare <설정> 으로 하고, 결과 폴더를 data.train·data.benchmark 에 적습니다"}
 DEFAULTS = {
     "model_type": "qwen3_5",
     "gpus": [0, 1],
     "sft": {"config": "sft.yaml"},
-    "grpo": {"config": "grpo_a100x2.yaml", "select": "mine", "candidates": 3000, "count": 1000,
-             "hard_fraction": 0.5, "seed": 42,
-             "tasks": ["cross_check", "review", "doc_check", "kie", "grounding", "spotting", "relation"], "max_images": 4},
-    "eval": {
-        "inference_config": "inference.json",
-        "concurrency_per_server": 16,
-        "port_base": 8000,
-        "server_start_timeout_minutes": 40,
-        "merge_command": ["swift", "export", "--model", "{model}", "--model_type", "{model_type}",
-                          "--adapters", "{adapter}", "--merge_lora", "true", "--output_dir", "{output}"],
-        # 질문 하나에 그림 13장까지 (여러 서류), 그림 토큰 ~12000 + 답 4096
-        "deploy_command": ["swift", "deploy", "--model", "{model}", "--model_type", "{model_type}",
-                           "--infer_backend", "vllm", "--vllm_max_model_len", "20480", "--vllm_max_num_seqs", "32",
-                           "--vllm_limit_mm_per_prompt", "{{\"image\": 16}}",  # 중괄호 두 겹: str.format 을 거친다
-                           "--vllm_gpu_memory_utilization", "0.9", "--host", "127.0.0.1", "--port", "{port}",
-                           "--served_model_name", "docgen", "--enable_thinking", "false", "--max_new_tokens", "4096"],
-        "health_path": "/v1/models",
-        "compare_models": [],
-        "skip_start": False,   # 출발 모델 평가를 건너뜀 (train/sweep.py: 첫 모델만 평가)
-    },
-    "smoke": {"train_steps": 5, "benchmark_per_task": 8, "grpo_candidates": 40, "grpo_count": 8},
+    "eval": {},
+    "smoke": {"train_steps": 5, "benchmark_per_task": 8},
 }
-LABELS = {"start": "출발 모델", "sft": "SFT", "grpo": "GRPO"}
-# sft·grpo 칸에서 파이프라인이 쓰는 칸. 나머지는 ms-swift 옵션으로 yaml(config) 위에 덮어쓴다 (launch.py --options)
-OWN_KEYS = {"sft": {"config"}, "grpo": {"config", "select", "candidates", "count", "hard_fraction", "seed", "tasks", "max_images"}}
 
 
-def log(message):
-    print(time.strftime("[%Y-%m-%d %H:%M:%S] ") + message, flush=True)
+def drop_removed(raw: dict) -> dict:
+    """없어진 칸(grpo · ocr_prepare · eval.compare_models · eval.skip_start)은 알리고 뺀다."""
+    for k in [k for k in raw if k in REMOVED]:
+        log(f"WARNING: 설정의 {k} 는 쓰지 않습니다: {REMOVED[k]}")
+    ev = {k: v for k, v in (raw.get("eval") or {}).items() if k not in ("compare_models", "skip_start")}
+    if len(ev) < len(raw.get("eval") or {}):
+        log("WARNING: eval.compare_models · eval.skip_start 는 쓰지 않습니다 (다른 모델 평가는 python -m train eval)")
+    return {**{k: v for k, v in raw.items() if k not in REMOVED}, **({"eval": ev} if "eval" in raw else {})}
 
 
-def merged(base, override):
-    result = dict(base)
-    for key, value in override.items():
-        result[key] = merged(base[key], value) if isinstance(value, dict) and isinstance(base.get(key), dict) else value
-    return result
+def resolve(cfg: dict, base: Path) -> dict:
+    """설정의 상대 경로를 설정 파일 기준 절대 경로로, 빠진 칸은 기본값으로 (두 번 해도 같다)."""
+    from .benchmarks import resolve as res_entries
+    from .serve import EVAL_DEFAULTS, conf_path
+
+    def res(p):
+        return str((base / p).resolve()) if p and not Path(p).is_absolute() else p
+
+    cfg = merged(DEFAULTS, cfg)
+    cfg["eval"] = {**EVAL_DEFAULTS, **cfg["eval"]}
+    cfg["workdir"] = res(cfg["workdir"])
+    cfg["cache_dir"] = res(cfg.get("cache_dir")) or str(Path(cfg["workdir"]).parent / "_cache")
+    cfg["model"] = res(cfg["model"]) if cfg["model"].startswith(".") else cfg["model"]
+    d = dict(cfg["data"])
+    d["train"] = res_entries(d.get("train") or [], base)
+    d["benchmark"] = res_entries(d.get("benchmark") or [], base)
+    d["output_dir"] = res(d.get("output_dir")) or str(Path(cfg["workdir"]) / "data")
+    cfg["data"] = d
+    cfg["sft"] = {**cfg["sft"], "config": conf_path(cfg["sft"]["config"], base)}
+    cfg["eval"]["inference_config"] = conf_path(cfg["eval"]["inference_config"], base)
+    return cfg
 
 
-class Runner:
-    def __init__(self, cfg, config_path, smoke, dry_run):
-        self.cfg, self.smoke, self.dry = cfg, smoke, dry_run
-        self.config_path = Path(config_path).resolve()
-        base = self.config_path.parent
-        here = Path(__file__).resolve().parent / "configs"   # 설정 파일 옆에 없으면 train/configs 의 기본 파일
-        resolve = lambda p: str((base / p).resolve()) if not Path(p).is_absolute() else p  # noqa: E731
+def sh(cmd, log_path, env=None, dry=False):
+    """명령을 돌리며 화면과 로그 파일에 같이 쓴다."""
+    log("$ " + " ".join(map(str, cmd)) + f"   (log: {log_path})")
+    if dry:
+        return
+    Path(log_path).parent.mkdir(parents=True, exist_ok=True)
+    with open(log_path, "a", encoding="utf-8") as out:
+        # 하위 로그는 한국어: 양쪽 다 UTF-8 (윈도 콘솔 기본값 cp949)
+        proc = subprocess.Popen(list(map(str, cmd)), env={**(env or os.environ), "PYTHONIOENCODING": "utf-8"}, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace", cwd=ROOT)
+        for line in proc.stdout:
+            out.write(line)
+            sys.stdout.write(line)
+        if proc.wait():
+            raise RuntimeError(f"명령 실패 ({proc.returncode}); see {log_path}")
 
-        def resolve_conf(p):
-            q = Path(resolve(p))
-            return str(q) if q.exists() or Path(p).is_absolute() else str(here / p)
-        self.workdir = Path(resolve(cfg["workdir"])) / ("smoke" if smoke else "")
-        self.data_cfg = resolve_data(cfg, base)
-        ocr = cfg.get("ocr_prepare") or []   # OCR 준비 설정 (선택, 하나 또는 목록)
-        self.ocr_configs = [resolve(p) for p in (ocr if isinstance(ocr, list) else [ocr])]
-        self.data = Path(self.data_cfg["output_dir"])
+
+def benchmark_sets(cfg, dry=False) -> dict:
+    """설정의 평가 세트를 준비(또는 캐시에서 찾아) {세트 id: 폴더}. 실험 묶음은 미리 준비해 data.prepared_sets 로 넘긴다."""
+    from .benchmarks import normalize
+    from .mix import DEFAULTS as MIX, prepare_sets
+
+    d = cfg["data"]
+    if d.get("prepared_sets"):
+        return d["prepared_sets"]
+    size = d.get("image_max_size") or MIX["image_max_size"]
+    budget = d.get("max_image_tokens_per_sample") or MIX["max_image_tokens_per_sample"]
+    if dry:
+        log(f"평가 세트 {len(d['benchmark'])}개 준비 → {Path(cfg['cache_dir']) / 'sets'} (dry run)")
+        return {b["id"]: str(Path(cfg["cache_dir"]) / "sets" / b["id"]) for b in normalize(d["benchmark"])}
+    return {k: str(v) for k, v in prepare_sets(normalize(d["benchmark"]), cfg["cache_dir"], size, budget,
+                                               pixel_factor(cfg["model"]), d.get("workers") or MIX["workers"]).items()}
+
+
+class Run:
+    def __init__(self, cfg, smoke=False, dry=False):
+        from .serve import Evaluator
+
+        self.cfg, self.smoke, self.dry = cfg, smoke, dry
+        self.workdir = Path(cfg["workdir"]) / ("smoke" if smoke else "")
+        self.data = Path(cfg["data"]["output_dir"])
         self.model = cfg["model"]
-        self.gpus = [str(g) for g in cfg["gpus"]]
-        for section in ("sft", "grpo"):
-            cfg[section]["config"] = resolve_conf(cfg[section]["config"])
-        cfg["eval"]["inference_config"] = resolve_conf(cfg["eval"]["inference_config"])
-        os.environ["PYTHONPATH"] = os.pathsep.join([str(ROOT)] + ([os.environ["PYTHONPATH"]] if os.environ.get("PYTHONPATH") else []))
         self.state_path = self.workdir / "state.json"
-        self.state = read_json(self.state_path) if self.state_path.exists() else {"done": [], "timings": {}}
-        for d in ("logs", "predictions", "reports", "merged"):
-            (self.workdir / d).mkdir(parents=True, exist_ok=True)
+        self.state = read_json(self.state_path) if self.state_path.exists() else {"done": [], "timings": {}, "models": {}}
+        self.state.setdefault("models", {})
+        self.ev = Evaluator(cfg["eval"], cfg["gpus"], self.workdir / "logs", cfg["cache_dir"], dry,
+                            cfg["smoke"]["benchmark_per_task"] if smoke else None)
+        if not dry:
+            self.workdir.mkdir(parents=True, exist_ok=True)
 
     def check_inputs(self):
         """설정의 입력 경로를 단계 시작 전에 한꺼번에 확인한다."""
-        d, problems = self.data_cfg, []
+        from .benchmarks import normalize, train_entries
+
+        d, problems = self.cfg["data"], []
 
         def need(ok, key, path, hint):
             if not ok:
                 problems.append(f"  {key}: {path}\n      {hint}")
 
         need(Path(self.model, "config.json").is_file(), "model", self.model, "출발 모델 폴더 (config.json 이 있는 폴더)")
-        ocr_outs = set()
-        for conf in self.ocr_configs:
-            need(Path(conf).is_file(), "ocr_prepare", conf, "OCR 준비 설정 (docgen/bench/ocr_config.example.json 꼴)")
-            if Path(conf).is_file():
-                oc, at = read_json(conf), Path(conf).parent
-                out = str((at / oc["output_dir"]).resolve())
-                ocr_outs.add(out)
-                if not Path(out, "DONE.json").is_file() and oc.get("images"):
-                    need((at / oc["images"]).is_dir(), "ocr_prepare → images", str((at / oc["images"]).resolve()), "이미지 폴더")
-                elif not Path(out, "DONE.json").is_file():
-                    need((at / oc["manifest"]).is_file(), "ocr_prepare → manifest", str((at / oc["manifest"]).resolve()),
-                         "이미지 목록 (docgen.bench.ocr_data.scan 으로 만든 manifest.jsonl)")
-        if not Path(d["output_dir"], "DONE.json").is_file():   # 섞기가 아직이면 데이터셋을 읽어야 한다
-            from .benchmarks import normalize, train_entries
-
-            train = train_entries(d["train"])
-            train_paths = [e["path"] for e in train]
-            swift = {p for b in normalize(d["benchmark"]) if b.get("format") == "swift-fields" for p in b["paths"]}
-            swift |= {e["path"] for e in train if e.get("format") == "swift-fields"}
-            for p in [*train_paths, *(p for b in normalize(d["benchmark"]) for p in b["paths"])]:
-                if p in ocr_outs:
-                    continue   # ocr_prepare 단계가 만든다
-                if p in swift:
-                    need(Path(p).is_file(), "data.train / data.benchmark", p, 'swift .jsonl ("format": "swift-fields")')
-                    continue
-                need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir(), "data.train / data.benchmark", p,
-                     "studio 데이터셋 폴더 (meta.json + tasks/)")
+        need(Path(self.cfg["sft"]["config"]).is_file(), "sft.config", self.cfg["sft"]["config"], "ms-swift 학습 설정 yaml")
+        benches = normalize(d["benchmark"]) if d.get("benchmark") else []
+        need(bool(benches), "data.benchmark", "(비어 있음)", "평가 세트를 하나 이상 적으세요")
+        for b in benches:
+            for p in b["paths"]:
+                ok = Path(p).is_file() if b.get("format") == "swift-fields" else Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir()
+                need(ok, f"data.benchmark {b['id']}", p, "swift .jsonl" if b.get("format") else FOLDER_HINT)
+        if not (self.data / "DONE.json").is_file():
+            for e in train_entries(d["train"]):
+                ok = Path(e["path"]).is_file() if e.get("format") == "swift" else \
+                    Path(e["path"], "meta.json").is_file() and Path(e["path"], "tasks").is_dir()
+                need(ok, "data.train", e["path"], "ms-swift .jsonl" if e.get("format") else FOLDER_HINT)
         if problems:
-            sys.exit(f"설정({self.config_path})의 경로를 확인하세요. 상대 경로는 설정 파일이 있는 폴더 기준입니다.\n"
-                     + "\n".join(problems))
+            sys.exit("설정의 경로를 확인하세요. 상대 경로는 설정 파일이 있는 폴더 기준입니다.\n" + "\n".join(problems))
 
-    # -- helpers -------------------------------------------------------------------------
     def save(self):
         if not self.dry:
             write_json(self.state_path, self.state)
-
-    def run(self, cmd, log_name, env=None):
-        log("$ " + " ".join(cmd) + f"   (log: logs/{log_name})")
-        if self.dry:
-            return
-        path = self.workdir / "logs" / log_name
-        with path.open("a", encoding="utf-8") as out:
-            # Child logs are Korean: force UTF-8 both ways (Windows consoles default to cp949).
-            env = {**(env or os.environ), "PYTHONIOENCODING": "utf-8"}
-            proc = subprocess.Popen(cmd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
-                                    encoding="utf-8", errors="replace", cwd=ROOT)
-            for line in proc.stdout:
-                out.write(line)
-                sys.stdout.write(line)
-            if proc.wait():
-                raise RuntimeError(f"Command failed ({proc.returncode}); see {path}")
-
-    def image_token_budget(self):
-        if self.dry and not (self.data / "DONE.json").exists():
-            return image_tokens_for([2300, 1600], 32)
-        done = read_json(self.data / "DONE.json")
-        # 평가 그림(benchmark_image_max_size)과 GRPO 후보 그림(image_max_size) 어느 쪽도 서버가 다시 줄이지 않게
-        sizes = [done["image_max_size"], done.get("benchmark_image_max_size") or done["image_max_size"]]
-        try:
-            return max(image_tokens(self.model, s)[0] for s in sizes)
-        except (OSError, ValueError) as exc:
-            log(f"WARNING: {exc}; assuming 32x32 pixels per visual token")
-            return max(image_tokens_for(s, 32) for s in sizes)
-
-    def benchmark_tasks(self):
-        tasks = self.data / "benchmark_tasks.jsonl"
-        if self.smoke:
-            subset = self.workdir / "benchmark_subset.jsonl"
-            if not subset.exists() and not self.dry:
-                by_task = {}
-                for row in read_jsonl(tasks):
-                    by_task.setdefault(row["task"], []).append(row)
-                n = self.cfg["smoke"]["benchmark_per_task"]
-                rows = [r for t in sorted(by_task) for r in random.Random(0).sample(by_task[t], min(n, len(by_task[t])))]
-                write_jsonl(subset, rows)
-            tasks = subset
-        return self.servable(tasks)
-
-    def image_limit(self):
-        """평가 서버가 질문 하나에 받는 그림 수 (deploy_command 의 limit_mm_per_prompt). 못 읽으면 None."""
-        cmd = self.cfg["eval"]["deploy_command"]
-        for flag, value in zip(cmd, cmd[1:]):
-            if flag.lstrip("-").replace("-", "_") in ("vllm_limit_mm_per_prompt", "limit_mm_per_prompt"):
-                try:
-                    return int(json.loads(value.format())["image"])
-                except (ValueError, KeyError, TypeError):
-                    return None
-        return None
-
-    def servable(self, tasks):
-        """그림이 서버 한도보다 많은 문항은 빼고 평가한다 (서버가 400 으로 거절해 추론 전체가 멈추던 것).
-        뺀 문항은 <workdir>/benchmark_over_image_limit.jsonl 에 남기고, 모든 모델을 같은 문항으로 잰다."""
-        limit = self.image_limit()
-        if not limit or not tasks.exists():
-            return tasks
-        rows = read_jsonl(tasks)
-        keep = [r for r in rows if len(r["images"]) <= limit]
-        if len(keep) == len(rows):
-            return tasks
-        over = [{"id": r["id"], "task": r["task"], "n_images": len(r["images"])} for r in rows if len(r["images"]) > limit]
-        out = self.workdir / f"{tasks.stem}.max{limit}images.jsonl"
-        write_jsonl(out, keep)
-        write_jsonl(self.workdir / "benchmark_over_image_limit.jsonl", over)
-        by_task = {}
-        for r in over:
-            by_task[r["task"]] = by_task.get(r["task"], 0) + 1
-        log(f"WARNING: 평가 문항 {len(over)}개는 그림이 {limit}장보다 많아 빼고 평가합니다 (서버 limit_mm_per_prompt): "
-            + ", ".join(f"{t} {n}" for t, n in sorted(by_task.items())) + f" → {self.workdir / 'benchmark_over_image_limit.jsonl'}")
-        return out
 
     @staticmethod
     def last_checkpoint(output):
@@ -244,267 +165,101 @@ class Runner:
             raise RuntimeError(f"No checkpoint-* directory under {output}")
         return str(max(found, key=lambda p: (p.stat().st_mtime, int(p.name.split("-")[-1]))))
 
-    @contextmanager
-    def serve(self, model_path, name):
-        ev = self.cfg["eval"]
-        tokens = self.image_token_budget()
-        procs, endpoints = [], []
-        for i, gpu in enumerate(self.gpus):
-            port = ev["port_base"] + i
-            with socket.socket() as sock:
-                if sock.connect_ex(("127.0.0.1", port)) == 0 and not self.dry:
-                    raise RuntimeError(f"Port {port} is already in use; stop the old server so the wrong model is not evaluated")
-            cmd = [part.format(model=model_path, model_type=self.cfg["model_type"], port=port) for part in ev["deploy_command"]]
-            env = {**os.environ, "CUDA_VISIBLE_DEVICES": gpu, "IMAGE_MAX_TOKEN_NUM": str(tokens),
-                   "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}
-            env.pop("NPROC_PER_NODE", None)
-            log(f"start server {name} on GPU {gpu}: IMAGE_MAX_TOKEN_NUM={tokens} " + " ".join(cmd))
-            endpoints.append(f"http://127.0.0.1:{port}/v1")
-            if not self.dry:
-                out = (self.workdir / "logs" / f"{name}-server{i}.log").open("w", encoding="utf-8")
-                procs.append((subprocess.Popen(cmd, env=env, stdout=out, stderr=subprocess.STDOUT, cwd=ROOT,
-                                               start_new_session=True), out, port))
-        try:
-            deadline = time.monotonic() + ev["server_start_timeout_minutes"] * 60
-            for proc, out, port in procs:
-                while True:
-                    if proc.poll() is not None:
-                        raise RuntimeError(f"Server on port {port} exited; see {out.name}")
-                    try:
-                        with urlopen(f"http://127.0.0.1:{port}{ev['health_path']}", timeout=5) as response:
-                            if response.status == 200:
-                                break
-                    except (URLError, OSError):
-                        pass
-                    if time.monotonic() > deadline:
-                        raise RuntimeError(f"Server on port {port} not ready in time; see {out.name}")
-                    time.sleep(3)
-                log(f"server on port {port} ready")
-            yield ",".join(endpoints)
-        finally:
-            for proc, out, _ in procs:
-                if proc.poll() is None:
-                    os.killpg(proc.pid, signal.SIGTERM)
-            for proc, out, _ in procs:
-                try:
-                    proc.wait(timeout=120)
-                except subprocess.TimeoutExpired:
-                    os.killpg(proc.pid, signal.SIGKILL)
-                out.close()
+    def sets(self):
+        if "sets" not in self.state:
+            raise SystemExit("평가 세트가 준비되지 않았습니다: prepare 단계부터 돌리세요 (--from prepare)")
+        return self.state["sets"]
 
-    @staticmethod
-    def tag(checkpoint):
-        # ms-swift writes <output>/<version>/checkpoint-N; both parts identify one training run.
-        return f"{Path(checkpoint).parent.name}-{Path(checkpoint).name}"
+    # -- 단계 --------------------------------------------------------------------------------
+    def stage_prepare(self):
+        from .mix import mix
 
-    def merge(self, adapter, name):
-        output = self.workdir / "merged" / f"{name}-{self.tag(adapter)}"
-        if (output / "config.json").exists():
-            return str(output)
-        cmd = [p.format(model=self.model, model_type=self.cfg["model_type"], adapter=adapter, output=output)
-               for p in self.cfg["eval"]["merge_command"]]
-        self.run(cmd, f"merge-{name}.log", env={**os.environ, "CUDA_VISIBLE_DEVICES": self.gpus[0]})
-        return str(output)
+        self.state["sets"] = benchmark_sets(self.cfg, self.dry)
+        if (self.data / "DONE.json").exists():
+            log(f"섞은 학습 데이터가 있습니다: {self.data}")
+            return
+        if self.dry:
+            log(f"학습 데이터 섞기 → {self.data} (dry run)")
+            return
+        result = mix({**self.cfg["data"], "output_dir": str(self.data)}, pixel_factor(self.model),
+                     list(self.state["sets"].values()), Path(self.cfg["cache_dir"]) / "images")
+        log("섞기: " + json.dumps(result, ensure_ascii=False))
 
-    def predict(self, tasks, endpoints, run_id, out):
-        concurrency = self.cfg["eval"]["concurrency_per_server"] * len(self.gpus)
-        self.run([sys.executable, "-m", "train.cli", "predict", "--config", self.cfg["eval"]["inference_config"],
-                  "--tasks", str(tasks), "--endpoint", endpoints, "--model", "docgen", "--run-id", run_id,
-                  "--concurrency", str(concurrency), "--out", str(out)], f"predict-{run_id}.log")
+    def stage_eval_start(self):
+        plan = self.ev.answer(self.model, self.cfg["model_type"], self.sets(), "출발 모델")
+        self.state["models"]["start"] = {"label": "출발 모델", "model": self.model, "sets": plan}
 
-    def evaluate(self, label, model_path, run_id, extra=None):
-        role = label if label in LABELS else "other"
-        name = LABELS.get(label, label)
-        tasks = self.benchmark_tasks()
-        # 모델 실행마다 파일 하나: 끊긴 실행은 이어서, 다시 학습한 모델은 새로.
-        preds = self.workdir / "predictions" / f"{run_id}.jsonl"
-        key = label if label in LABELS else "cmp-" + run_id
-        report = self.workdir / "reports" / f"{key}.json"
-        with self.serve(model_path, key) as endpoints:
-            started = time.monotonic()
-            self.predict(tasks, endpoints, run_id, preds)
-            log(f"{name} benchmark inference took {(time.monotonic() - started) / 60:.1f} min")
-            if extra:
-                extra(endpoints)
-        if label == "grpo" and not self.dry:
-            name = f"{name} {self.tag(self.state['grpo_checkpoint'])}"
-        self.run([sys.executable, "-m", "train.cli", "score", "--items", str(self.data / "benchmark_items.jsonl"),
-                  "--tasks", str(tasks), "--predictions", str(preds), "--label", name, "--role", role,
-                  "--model", str(model_path), "--out", str(report)], f"score-{key}.log")
-        self.state[f"report_{key}"] = str(report)
-        if label == "grpo" and not self.dry:
-            # GRPO 를 다시 돌려도(--from grpo) 앞의 점수를 남겨 보고서에 줄이 늘어난다
-            shutil.copy2(report, report.with_name(f"grpo-{self.tag(self.state['grpo_checkpoint'])}.json"))
-
-    def swift_options(self, stage):
-        """yaml 위에 덮어쓸 ms-swift 옵션: sft·grpo 칸의 파이프라인 칸이 아닌 것 (예: learning_rate).
-        SFT 의 max_length 는 data.sft_max_length 를 적었으면 그 값 (섞기가 이 길이에 맞춰 문항을 거른다)."""
-        options = {k: v for k, v in self.cfg[stage].items() if k not in OWN_KEYS[stage]}
-        if stage == "sft" and "sft_max_length" in self.cfg["data"]:
+    def stage_sft(self):
+        output = self.workdir / "sft"
+        options = {k: v for k, v in self.cfg["sft"].items() if k != "config"}   # yaml 위에 덮어쓸 ms-swift 옵션
+        if "sft_max_length" in self.cfg["data"]:   # 섞기가 이 길이에 맞춰 문항을 거른다
             options.setdefault("max_length", self.cfg["data"]["sft_max_length"])
-        return options
-
-    def train(self, stage, extra):
-        output = self.workdir / stage
-        cmd = [sys.executable, "-m", "train.launch", stage, "--config", self.cfg[stage]["config"],
-               "--gpus", ",".join(self.gpus), "--model", self.model, "--model-type", self.cfg["model_type"],
-               "--data", str(self.data), "--output", str(output), "--execute"] + extra
-        options = self.swift_options(stage)
+        cmd = [sys.executable, "-m", "train.launch", "--config", self.cfg["sft"]["config"], "--gpus", ",".join(map(str, self.cfg["gpus"])),
+               "--model", self.model, "--model-type", self.cfg["model_type"], "--data", str(self.data), "--output", str(output), "--execute"]
         if options:
             cmd += ["--options", json.dumps(options, ensure_ascii=False)]
         if self.smoke:
             cmd += ["--max-steps", str(self.cfg["smoke"]["train_steps"])]
-        self.run(cmd, f"train-{stage}.log")
-        self.state[f"{stage}_checkpoint"] = "<checkpoint>" if self.dry else self.last_checkpoint(output)
-        log(f"{stage} checkpoint: {self.state[f'{stage}_checkpoint']}")
-
-    # -- stages --------------------------------------------------------------------------
-    def stage_ocr_prepare(self):
-        if not self.ocr_configs:
-            log("no ocr_prepare config")
-        for n, conf in enumerate(self.ocr_configs):
-            out = (Path(conf).parent / read_json(conf)["output_dir"]).resolve() if Path(conf).is_file() else None
-            if out and (out / "DONE.json").exists():
-                log(f"OCR prepared data exists: {out}")
-                continue
-            self.run([sys.executable, "-m", "docgen.bench.ocr_prepare", conf], f"ocr_prepare{n or ''}.log")
-
-    def stage_prepare(self):
-        if (self.data / "DONE.json").exists():
-            log(f"prepared data exists: {self.data}")
-            return
-        self.run([sys.executable, "-m", "train.cli", "mix", "--config", str(self.config_path)], "prepare.log")
-
-    def stage_eval_base(self):
-        for i, m in enumerate(self.cfg["eval"].get("compare_models") or []):
-            self.evaluate(m["label"], m["model"], f"compare{i}")
-        if self.cfg["eval"].get("skip_start"):
-            log("출발 모델 평가 건너뜀 (eval.skip_start)")
-            return
-        self.evaluate("start", self.model, "start")
-
-    def stage_sft(self):
-        self.train("sft", [])
-
-    def grpo_candidates(self):
-        g = self.cfg["grpo"]
-        n = self.cfg["smoke"]["grpo_candidates"] if self.smoke else g["candidates"]
-        path = self.workdir / "grpo_candidates.jsonl"
-        if not path.exists() and not self.dry:
-            rows = [r for r in read_jsonl(self.data / "train_grpo.jsonl")
-                    if (not g.get("tasks") or r["task"] in g["tasks"])
-                    and (not g.get("max_images") or r["n_images"] <= g["max_images"])]
-            random.Random(g["seed"]).shuffle(rows)
-            write_jsonl(path, rows[:n])
-        return path
+        env = {**os.environ, "PYTHONPATH": os.pathsep.join([str(ROOT)] + ([os.environ["PYTHONPATH"]] if os.environ.get("PYTHONPATH") else []))}
+        sh(cmd, self.workdir / "logs" / "train-sft.log", env, self.dry)
+        self.state["sft_checkpoint"] = "<checkpoint>" if self.dry else self.last_checkpoint(output)
+        log(f"SFT 체크포인트: {self.state['sft_checkpoint']}")
 
     def stage_eval_sft(self):
         ckpt = self.state["sft_checkpoint"]
-        model = self.merge(ckpt, "sft")
+        tag = f"{Path(ckpt).parent.name}-{Path(ckpt).name}"   # ms-swift: <output>/<version>/checkpoint-N
+        model = self.ev.merge(self.model, self.cfg["model_type"], ckpt, self.workdir / "merged" / f"sft-{tag}",
+                              self.workdir / "logs" / "merge-sft.log")
+        plan = self.ev.answer(model, self.cfg["model_type"], self.sets(), "SFT")
+        self.state["models"]["sft"] = {"label": "SFT", "model": model, "checkpoint": ckpt, "sets": plan}
 
-        def mining_predictions(endpoints):
-            # 띄운 SFT 서버로 GRPO 후보에도 답해 둔다 (골라 뽑기)
-            if self.cfg["grpo"]["select"] == "mine":
-                run_id = "sft-grpo-candidates-" + self.tag(ckpt)
-                self.predict(self.grpo_candidates(), endpoints, run_id, self.workdir / "predictions" / f"{run_id}.jsonl")
-                self.state["grpo_candidate_predictions"] = str(self.workdir / "predictions" / f"{run_id}.jsonl")
-        self.evaluate("sft", model, "sft-" + self.tag(ckpt), mining_predictions)
-
-    def stage_select(self):
-        g = self.cfg["grpo"]
-        count = self.cfg["smoke"]["grpo_count"] if self.smoke else g["count"]
-        out = self.workdir / "grpo_train.jsonl"
-        if g["select"] == "all":
-            self.state["grpo_dataset"] = None
-            return
-        if g["select"] == "random":
-            if not self.dry:
-                write_jsonl(out, read_jsonl(self.grpo_candidates())[:count])
-        elif g["select"] == "mine":
-            self.run([sys.executable, "-m", "train.cli", "mine", "--tasks", str(self.grpo_candidates()),
-                      "--predictions", str(self.state.get("grpo_candidate_predictions", "<predictions>")),
-                      "--out", str(out), "--count", str(count), "--seed", str(g["seed"]),
-                      "--hard-fraction", str(g["hard_fraction"])], "mine.log")
-        else:
-            raise ValueError("grpo.select must be mine, random or all")
-        self.state["grpo_dataset"] = str(out)
-
-    def stage_grpo(self):
-        extra = ["--adapter", self.state["sft_checkpoint"]]
-        if self.state.get("grpo_dataset"):
-            extra += ["--grpo-dataset", self.state["grpo_dataset"]]
-        self.train("grpo", extra)
-
-    def stage_eval_grpo(self):
-        ckpt = self.state["grpo_checkpoint"]
-        self.evaluate("grpo", self.merge(ckpt, "grpo"), "grpo-" + self.tag(ckpt))
+    def results(self):
+        models = [self.state["models"][k] for k in ("start", "sft") if k in self.state["models"]]
+        return {"name": Path(self.cfg["workdir"]).name, "about": self.cfg.get("about") or "학습 실행 (출발 모델 → SFT)",
+                "baseline": "출발 모델", "models": models}
 
     def stage_report(self):
-        reports = self.workdir / "reports"
-        compare = [reports / f"cmp-compare{i}.json" for i, _ in enumerate(self.cfg["eval"].get("compare_models") or [])]
-        grpo = sorted(reports.glob("grpo-*.json"), key=lambda p: p.stat().st_mtime) or [reports / "grpo.json"]
-        ordered = [p for p in compare + [reports / "start.json", reports / "sft.json"] + grpo if p.exists() or self.dry]
-        self.run([sys.executable, "-m", "train.cli", "report", "--reports", *map(str, ordered),
-                  "--out", str(reports / "benchmark.csv")], "report.log")
-        log(f"open {reports / 'benchmark.html'}")
-        if not self.dry:   # 한 화면 (실험 모아 보기와 같은 꼴, 이 workdir 의 모델만)
-            from .summary import gather, write_own
+        from .report import write_safe
 
-            exps = gather([str(self.workdir)])
-            if write_own(exps, reports / "summary.html"):
-                log(f"한 화면: {reports / 'summary.html'}")
-            from .answers import write_own as write_answers
-
-            sw, rows, _ = exps[0]
-            if write_answers(rows, {r["label"]: (self.workdir, self.data) for r in rows}, reports / "answers.html",
-                             sw["name"], sw["runs"][0]["label"] if sw["runs"] else None):
-                log(f"문항별 답: {reports / 'answers.html'}")
+        if self.dry:
+            return
+        write_json(self.workdir / "results.json", self.results())
+        if not self.cfg.get("sweep"):   # 실험 묶음은 묶음 보고서 하나만 만든다
+            write_safe(self.results(), self.workdir)
 
 
 def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m train", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--config", required=True, help="파이프라인 설정 JSON (train/configs/pipeline.example.json)")
+    p.add_argument("--config", required=True, help="학습 설정 JSON (train/configs/pipeline.example.json)")
     pick = p.add_mutually_exclusive_group()
-    pick.add_argument("--part", choices=PARTS, help="sft: SFT 까지, grpo: SFT 체크포인트에서 GRPO (끝난 단계는 건너뜀)")
     pick.add_argument("--from", dest="start", choices=STAGES, help="이 단계와 뒤 단계를 다시")
     pick.add_argument("--only", choices=STAGES, help="이 단계만")
-    p.add_argument("--sft-checkpoint", help="GRPO 를 시작할 SFT 체크포인트 (다른 실험의 것도 됨). 주면 SFT 평가부터 다시")
-    p.add_argument("--smoke", action="store_true", help="5 step 학습·작은 평가 (workdir/smoke)")
+    p.add_argument("--smoke", action="store_true", help="리허설: 5 step 학습, 평가 세트·과제마다 8문항 (workdir/smoke)")
     p.add_argument("--dry-run", action="store_true", help="명령만 보여 주고 실행하지 않음")
     a = p.parse_args(argv)
-    cfg = merged(DEFAULTS, load_settings(a.config))
-    runner = Runner(cfg, a.config, a.smoke, a.dry_run)
-    stages = [a.only] if a.only else STAGES[STAGES.index(a.start):] if a.start else PARTS[a.part] if a.part else STAGES
+    path = Path(a.config).resolve()
+    cfg = resolve(drop_removed(load_settings(path)), path.parent)
+    run = Run(cfg, a.smoke, a.dry_run)
+    stages = [a.only] if a.only else STAGES[STAGES.index(a.start):] if a.start else STAGES
     if a.start or a.only:
-        runner.state["done"] = [s for s in runner.state["done"] if s not in stages]
-    if a.sft_checkpoint:
-        ckpt = str(Path(a.sft_checkpoint).resolve())
-        if not a.dry_run and not Path(ckpt).is_dir():
-            sys.exit(f"--sft-checkpoint 폴더가 없습니다: {ckpt}")
-        if runner.state.get("sft_checkpoint") != ckpt:
-            runner.state["sft_checkpoint"] = ckpt
-            runner.state["done"] = [s for s in runner.state["done"] if s not in AFTER_SFT]
-    if a.part == "grpo" and "sft_checkpoint" not in runner.state:
-        if not a.dry_run:
-            sys.exit("SFT 체크포인트가 없습니다. 먼저 --part sft 로 SFT 를 돌리거나 --sft-checkpoint <폴더> 로 주세요.")
-        runner.state["sft_checkpoint"] = "<sft checkpoint>"
-    # 보고서는 늘 지금 있는 점수로 다시 만든다 (--part sft 뒤 --part grpo 를 돌려도 GRPO 줄이 생기게)
-    runner.state["done"] = [s for s in runner.state["done"] if s != "report"]
+        run.state["done"] = [s for s in run.state["done"] if s not in stages]
+    run.state["done"] = [s for s in run.state["done"] if s != "report"]   # 보고서는 늘 다시
     if not a.dry_run:
-        runner.check_inputs()
+        run.check_inputs()
+        write_json(run.workdir / "config.json", cfg)   # 실제로 쓴 설정 (절대 경로)
     for stage in stages:
-        if stage in runner.state["done"]:
+        if stage in run.state["done"]:
             log(f"skip {stage} (done)")
             continue
         log(f"=== {stage} ===")
         started = time.monotonic()
-        getattr(runner, "stage_" + stage)()
+        getattr(run, "stage_" + stage)()
         hours = (time.monotonic() - started) / 3600
-        runner.state["timings"][stage] = round(hours, 3)
-        runner.state["done"].append(stage)
-        runner.save()
+        run.state["timings"][stage] = round(hours, 3)
+        run.state["done"].append(stage)
+        run.save()
         log(f"=== {stage} done in {hours:.2f} h ===")
-    log("timings (h): " + json.dumps(runner.state["timings"]))
+    log("timings (h): " + json.dumps(run.state["timings"]))
 
 
 if __name__ == "__main__":

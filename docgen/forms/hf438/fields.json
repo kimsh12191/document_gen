@@ -23,7 +23,9 @@
     157.1,
     230.4,
     188.3
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -34,7 +36,9 @@
     188.3,
     230.4,
     219.5
-   ]
+   ],
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -45,7 +49,9 @@
     219.5,
     417.6,
     250.7
-   ]
+   ],
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -56,7 +62,10 @@
     250.7,
     230.4,
     281.9
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "당기매출액"
   },
   {
    "t": "text",
@@ -67,7 +76,9 @@
     157.1,
     417.6,
     188.3
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -78,7 +89,9 @@
     188.3,
     417.6,
     219.5
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -89,7 +102,10 @@
     250.7,
     417.6,
     281.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "업종/업종분류코드"
   },
   {
    "t": "text",
@@ -100,7 +116,9 @@
     157.1,
     549.2,
     188.3
-   ]
+   ],
+   "kind": "date",
+   "key": "company.established"
   },
   {
    "t": "text",
@@ -111,7 +129,9 @@
     188.3,
     549.2,
     219.5
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -122,7 +142,9 @@
     219.5,
     549.2,
     250.7
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -133,7 +155,10 @@
     250.7,
     549.2,
     281.9
-   ]
+   ],
+   "kind": "goods",
+   "std": false,
+   "key": "품목"
   },
   {
    "t": "text",
@@ -148,7 +173,10 @@
    "unit": "년",
    "group": "상 담 시 기",
    "row": true,
-   "section": "상 담 시 기"
+   "section": "상 담 시 기",
+   "kind": "count",
+   "std": false,
+   "key": "년"
   },
   {
    "t": "text",
@@ -161,7 +189,10 @@
     342.0
    ],
    "unit": "월",
-   "section": "상 담 시 기"
+   "section": "상 담 시 기",
+   "kind": "skip",
+   "std": false,
+   "key": "년"
   },
   {
    "t": "text",
@@ -174,7 +205,10 @@
     373.2
    ],
    "unit": "월",
-   "section": "상 담 시 기"
+   "section": "상 담 시 기",
+   "kind": "skip",
+   "std": false,
+   "key": "년"
   },
   {
    "t": "text",
@@ -187,7 +221,10 @@
     342.0
    ],
    "unit": "일",
-   "section": "상 담 시 기"
+   "section": "상 담 시 기",
+   "kind": "skip",
+   "std": false,
+   "key": "월"
   },
   {
    "t": "text",
@@ -200,7 +237,10 @@
     373.2
    ],
    "unit": "일",
-   "section": "상 담 시 기"
+   "section": "상 담 시 기",
+   "kind": "skip",
+   "std": false,
+   "key": "월"
   },
   {
    "t": "text",
@@ -213,7 +253,10 @@
     342.0
    ],
    "unit": "시",
-   "section": "상 담 시 기"
+   "section": "상 담 시 기",
+   "kind": "skip",
+   "std": false,
+   "key": "일"
   },
   {
    "t": "text",
@@ -226,7 +269,10 @@
     373.2
    ],
    "unit": "시",
-   "section": "상 담 시 기"
+   "section": "상 담 시 기",
+   "kind": "skip",
+   "std": false,
+   "key": "일"
   },
   {
    "t": "text",
@@ -237,7 +283,10 @@
     427.7,
     240.0,
     458.9
-   ]
+   ],
+   "kind": "person",
+   "std": false,
+   "key": "신청기업담당자"
   },
   {
    "t": "text",
@@ -248,7 +297,9 @@
     427.7,
     378.9,
     458.9
-   ]
+   ],
+   "kind": "text",
+   "key": "employer.position"
   },
   {
    "t": "text",
@@ -259,7 +310,9 @@
     427.7,
     549.2,
     458.9
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -270,7 +323,9 @@
     612.8,
     549.2,
     635.5
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -281,7 +336,9 @@
     635.5,
     549.2,
     658.2
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -292,7 +349,9 @@
     658.2,
     549.2,
     680.9
-   ]
+   ],
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "sign",
@@ -309,7 +368,9 @@
     685.4,
     545.5,
     697.5
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "sign",
@@ -326,7 +387,9 @@
     724.0,
     545.5,
     736.2
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "date",
@@ -351,7 +414,8 @@
      324.5,
      564.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -363,7 +427,10 @@
     548.8,
     397.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "신용보험센터"
   }
  ]
 }

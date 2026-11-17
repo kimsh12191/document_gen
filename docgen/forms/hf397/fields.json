@@ -23,7 +23,10 @@
     201.1,
     542.1,
     223.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "KEBHanaBank"
   },
   {
    "t": "text",
@@ -34,7 +37,10 @@
     127.4,
     547.3,
     145.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Name/NameoftheCorporation"
   },
   {
    "t": "text",
@@ -45,7 +51,9 @@
     159.4,
     547.3,
     177.5
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -56,7 +64,10 @@
     693.2,
     482.3,
     711.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Consentedby"
   },
   {
    "t": "text",
@@ -68,7 +79,10 @@
     539.6,
     158.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "CustomerWhoConsents"
   },
   {
    "t": "text",
@@ -80,7 +94,10 @@
     541.6,
     203.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "FinancialCompanies"
   },
   {
    "t": "text",
@@ -92,7 +109,10 @@
     539.6,
     217.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "etcWhichWillProvide"
   },
   {
    "t": "text",
@@ -104,7 +124,10 @@
     539.6,
     332.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "toWhichTransaction"
   },
   {
    "t": "text",
@@ -116,7 +139,10 @@
     242.8,
     767.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Signedon"
   }
  ]
 }

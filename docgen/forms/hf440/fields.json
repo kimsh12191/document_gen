@@ -63,7 +63,8 @@
      544.0,
      656.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -74,7 +75,9 @@
     712.7,
     547.3,
     728.7
-   ]
+   ],
+   "kind": "number",
+   "key": "customer.phone"
   },
   {
    "t": "sign",
@@ -91,7 +94,9 @@
     736.7,
     470.4,
     746.7
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -103,7 +108,10 @@
     358.5,
     290.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "요구불예금"
   },
   {
    "t": "text",
@@ -115,7 +123,10 @@
     358.5,
     344.0
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "중도해지금액제한없음"
   },
   {
    "t": "text",
@@ -127,7 +138,10 @@
     358.5,
     371.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "건당1억원이상"
   },
   {
    "t": "text",
@@ -139,7 +153,10 @@
     358.5,
     400.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "통장재발급"
   },
   {
    "t": "text",
@@ -151,7 +168,10 @@
     358.5,
     414.7
    ],
-   "free": true
+   "free": true,
+   "kind": "account",
+   "std": false,
+   "key": "계좌비밀번호변경"
   },
   {
    "t": "text",
@@ -163,7 +183,10 @@
     358.5,
     428.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "현금IC카드재발급"
   },
   {
    "t": "text",
@@ -175,7 +198,10 @@
     358.5,
     442.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "통장M/S훼손재기록"
   },
   {
    "t": "text",
@@ -187,7 +213,9 @@
     358.5,
     472.0
    ],
-   "free": true
+   "free": true,
+   "kind": "phone",
+   "key": "customer.phone"
   }
  ]
 }

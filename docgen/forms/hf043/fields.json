@@ -49,7 +49,10 @@
     181.9,
     203.0,
     221.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "예금/신탁종류"
   },
   {
    "t": "check",
@@ -174,7 +177,8 @@
     385.9,
     548.9,
     442.6
-   ]
+   ],
+   "key": "check.신청구분"
   },
   {
    "t": "text",
@@ -185,7 +189,10 @@
     471.0,
     362.6,
     499.3
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "한도설정"
   },
   {
    "t": "text",
@@ -196,7 +203,10 @@
     499.3,
     362.6,
     527.7
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "한도증액"
   },
   {
    "t": "text",
@@ -207,7 +217,10 @@
     527.7,
     362.6,
     556.0
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "한도감액"
   },
   {
    "t": "text",
@@ -218,7 +231,10 @@
     556.0,
     362.6,
     584.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "상속인등록"
   },
   {
    "t": "text",
@@ -229,7 +245,10 @@
     584.4,
     362.6,
     612.7
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "sign",
@@ -247,7 +266,9 @@
     233.9,
     312.2,
     247.3
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -259,7 +280,9 @@
     387.3,
     303.7
    ],
-   "section": "예 금 주 (위 탁 자)"
+   "section": "예 금 주 (위 탁 자)",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "sign",
@@ -277,7 +300,9 @@
     316.1,
     312.2,
     329.5
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -289,7 +314,9 @@
     387.3,
     385.9
    ],
-   "section": "신탁수익자"
+   "section": "신탁수익자",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -300,7 +327,9 @@
     181.9,
     548.9,
     221.5
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -312,7 +341,9 @@
     548.9,
     499.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -324,7 +355,9 @@
     548.9,
     527.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -336,7 +369,9 @@
     548.9,
     556.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -348,7 +383,9 @@
     548.9,
     584.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -360,7 +397,9 @@
     548.9,
     612.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -372,7 +411,9 @@
     548.9,
     261.2
    ],
-   "section": "예 금 주 (위 탁 자)"
+   "section": "예 금 주 (위 탁 자)",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -384,7 +425,9 @@
     548.9,
     343.4
    ],
-   "section": "신탁수익자"
+   "section": "신탁수익자",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "check",
@@ -455,7 +498,8 @@
      ],
      "line": 32
     }
-   ]
+   ],
+   "key": "check.한도설정"
   },
   {
    "t": "date",
@@ -480,7 +524,8 @@
      541.3,
      180.0
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -492,7 +537,9 @@
     546.7,
     372.1
    ],
-   "free": true
+   "free": true,
+   "kind": "phone",
+   "key": "customer.phone"
   }
  ]
 }

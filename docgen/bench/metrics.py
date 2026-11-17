@@ -23,8 +23,32 @@ NO = {"아니오", "아니요", "아니", "no", "n", "false", "x", "없음", "�
 # 출력 파싱
 # ---------------------------------------------------------------------------
 
+_ESCAPE = re.compile(r"\\(.)", re.S)   # 앞에서부터 '\\' + 한 글자씩 짝지어 읽음 (\\\\ 다음 글자를 따로 보지 않게)
+
+
+def _fix_escapes(t: str) -> str:
+    """JSON 에 없는 이스케이프를 고친다: 대문자 \\N·\\T·\\R·\\B·\\F → 소문자 (모델이 대문자 글 속에서 \\n 을 \\N 으로 씀),
+    그 밖의 \\X 는 글자 그대로 (\\\\X). 하나만 틀려도 답 전체를 못 읽어 0점이 되지 않게."""
+    def fix(m):
+        c = m.group(1)
+        if c in '"\\/bfnrtu':
+            return m.group(0)
+        return "\\" + c.lower() if c in "NTRBF" else "\\\\" + c
+    return _ESCAPE.sub(fix, t)
+
+
+def _loads(t: str):
+    try:
+        return json.loads(t)
+    except (ValueError, TypeError):
+        fixed = _fix_escapes(t)
+        if fixed == t:
+            raise
+        return json.loads(fixed)
+
+
 def parse_json(text: str | None):
-    """모델 출력에서 JSON 값을 꺼낸다. 못 꺼내면 None."""
+    """모델 출력에서 JSON 값을 꺼낸다 (코드 블록 안, 앞뒤 말 무시, 잘못된 이스케이프는 고쳐 읽음). 못 꺼내면 None."""
     if text is None:
         return None
     if not isinstance(text, str):
@@ -34,14 +58,14 @@ def parse_json(text: str | None):
     if m:
         t = m.group(1).strip()
     try:
-        return json.loads(t)
+        return _loads(t)
     except (ValueError, TypeError):
         pass
     for open_, close in (("{", "}"), ("[", "]")):
         i, j = t.find(open_), t.rfind(close)
         if 0 <= i < j:
             try:
-                return json.loads(t[i:j + 1])
+                return _loads(t[i:j + 1])
             except ValueError:
                 continue
     return None
@@ -135,11 +159,13 @@ def to_number(v) -> float | None:
     if (k := korean_number(s)) is not None:
         return float(k)
     mult = 1
-    if re.search(r"\d\s*억", s) or re.search(r"\d\s*만\s*원?$", s):  # '3억 2천만원' 같은 혼용 표기
-        total, rest = 0.0, s.replace(",", "")
-        for num, unit in re.findall(r"(\d+(?:\.\d+)?)\s*(조|억|천만|백만|십만|만|천|백)?", rest):
-            total += float(num) * {"조": 1e12, "억": 1e8, "천만": 1e7, "백만": 1e6, "십만": 1e5, "만": 1e4,
-                                   "천": 1e3, "백": 1e2}.get(unit, 1)
+    if re.search(r"\d\s*(?:[십백천]\s*)?(?:조|억|만)", s):  # '3억 2천만원'·'2천만원'·'1천2백만원' 같은 혼용 표기
+        total = 0.0
+        # 조·억·만 단위 하나 앞의 작은 수 ('1천2백') 를 모아 곱한다. 단위가 없는 끝 수는 그대로 더함
+        for small, big in re.findall(r"((?:\d+(?:\.\d+)?\s*[십백천]?\s*)+)(조|억|만)?", s.replace(",", "")):
+            part = sum(float(n) * {"천": 1e3, "백": 1e2, "십": 10}.get(u, 1)
+                       for n, u in re.findall(r"(\d+(?:\.\d+)?)\s*([십백천]?)", small))
+            total += part * {"조": 1e12, "억": 1e8, "만": 1e4}.get(big, 1)
         return total if total else None
     if re.search(r"천원\s*$", s):
         mult = 1000

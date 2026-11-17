@@ -24,7 +24,10 @@
     504.7,
     70.6
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "RM"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     547.0,
     70.6
    ],
-   "row": true
+   "row": true,
+   "kind": "skip",
+   "std": false,
+   "key": "영업점장"
   },
   {
    "t": "date",
@@ -61,7 +67,8 @@
      542.7,
      287.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -78,7 +85,9 @@
     307.3,
     320.3,
     320.7
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

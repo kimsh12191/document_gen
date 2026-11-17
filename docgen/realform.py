@@ -27,11 +27,11 @@ from datetime import timedelta
 from functools import lru_cache
 from pathlib import Path
 
-from . import dictionary as DIC
 from . import freetext as FT
 from . import keyrules as KR
 from . import korean as K
 from . import marks as M
+from . import formkit as FK
 from . import overrides as OV
 from . import sources as SRC
 from .entities import Profile
@@ -176,22 +176,6 @@ def norm(s: str) -> str:
     return re.sub(r"[\s:：*※·.,]+", "", s)
 
 
-# 항목명(norm) 정규식 → 표준 키, 항목명 → 값 종류: docgen/key_rules.json (studio 키 사전 화면이 고친다, docgen/keyrules.py).
-# 위에서부터 처음 맞는 것. 아래 두 이름은 지금 파일 내용 (build_keys.py·studio editor 가 읽는다).
-KEY_RULES: list[tuple[str, str]] = [tuple(x) for x in KR.load()["label_rules"]]
-
-# 표준 키가 아닌 항목: 항목명 끝말로 값의 종류를 정한다
-KIND_RULES: list[tuple[str, str]] = [tuple(x) for x in KR.load()["kind_rules"]]
-_RX: dict = {}
-
-
-def _compiled(name: str) -> list:
-    """key_rules.json 의 규칙을 정규식으로 (파일이 바뀌면 다시)."""
-    d = KR.load()
-    if _RX.get(name, (None,))[0] is not d:
-        _RX[name] = (d, [(re.compile(rx), k) for rx, k in d[name]])
-    return _RX[name][1]
-
 PRODUCTS = {
     "퇴직연금": ["정기예금 (1년)", "정기예금 (3년)", "이율보증형 보험(GIC) 1년", "하나 IRP 정기예금 3년",
               "하나 TDF 2045 증권투자신탁", "인덱스(KOSPI200) 증권자투자신탁", "국내채권형 증권자투자신탁",
@@ -223,30 +207,10 @@ def _company(r: random.Random) -> str:
     return r.choice([f"(주){name}", f"주식회사 {name}", f"{name}(주)", name])
 
 
-def key_of(label: str) -> str | None:
-    n = norm(label)
-    for rx, key in _compiled("label_rules"):
-        if rx.match(n):
-            return key
-    return next((k for lab, k in KR.label_index().items() if norm(lab).lower() == n.lower()), None)
-
-
 def _text_key(it: dict) -> tuple[str | None, str]:
-    """글자 칸(표 행이 아닌 것)의 표준 키와 값 종류. 렌더링(build_form)과 영역 편집기(layout_keys)가 같이 쓴다."""
-    label = it.get("label") or ""
-    skey = it.get("key") or key_of(label)
-    kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
-    # '연소득 / 본인 / 백만원'의 '본인'은 성명 칸이 아니다.
-    if not it.get("key") and it.get("unit") in ("원", "천원", "만원", "백만원", "억원", "%", "명", "개", "건", "회"):
-        skey = None
-    sec = norm(it.get("section") or "")
-    if it.get("key"):
-        pass   # 사람이 정한 키는 구역(대리인·받는 분)으로 바꾸지 않는다
-    elif skey and AGENT_SEC.search(sec) and skey.startswith("customer."):
-        skey = "agent." + skey.split(".", 1)[1]   # 대리인 구역의 성명·생년월일 …
-    elif skey and FOREIGN_SEC.search(sec) and (skey.startswith("customer.") or skey == "account"):
-        skey = "foreign." + (skey.split(".", 1)[1] if "." in skey else "account")  # 받는 분
-    return skey, kind
+    """글자 칸(표 행이 아닌 것)의 키와 값 종류: 칸 목록(fields.json)에 적힌 그대로 (모든 서식 공통 규칙은 없다).
+    키가 없으면 None — 도장 자리(kind seal)이거나, 키 설명으로 키를 만든다 (build_form)."""
+    return it.get("key"), it.get("kind") or "text"
 
 
 def _uniq_fn():
@@ -299,32 +263,24 @@ def layout_keys(doc_id: str) -> dict[str, dict]:
         elif t == "check" and it.get("options"):
             ks = [uniq(_check_key(it))]
         elif t == "date":
-            ks = [uniq(key_of(label) or "date") if label else uniq("date")]
+            ks = [uniq(it.get("key") or "date")]
         elif t == "sign":
             role = uniq(it["key"] if it.get("key") else "signer")
             ks = ([f"{role}.name"] if it.get("name") else []) + mark(role)
         elif t == "copy":
             ks = [uniq(it["key"] if it.get("key") else "handwritten")]
+        elif t == "float":
+            from . import floats as FL
+
+            c = FL.preset(it)
+            k = uniq(c["key"])
+            ks = [f"seal.{k}"] + ([k] if c.get("answer") else []) if c["type"] == "stamp" else [k]
         out[it.get("_id") or f"item:{len(out)}"] = {"t": t, "label": label, "keys": ks}
     for pg in lay["pages"]:
         for c in pg.get("staff", []):
             out[c.get("_id") or f"staff:{len(out)}"] = {"t": "staff", "label": c["role"],
                                                         "keys": mark(uniq("staff." + (norm(c["role"]) or "결재")))}
     return out
-
-
-def kind_of(label: str, unit: str | None, hint: str | None) -> str:
-    if unit in ("원", "천원", "백만원", "만원", "억원", "원정"):
-        return "amount"
-    if unit == "%":
-        return "percent"
-    if unit in ("개월", "년", "회", "건", "명", "주", "개", "매", "좌", "세", "일간", "개년"):
-        return "count"
-    n = norm(label)
-    for rx, k in _compiled("kind_rules"):
-        if rx.search(n):
-            return k
-    return "text"
 
 
 def _acct(r: random.Random) -> str:
@@ -335,6 +291,7 @@ class Values:
     """한 서류 안에서 값을 만든다. 같은 표준 키는 같은 값 (표에 두 번 나와도 일치)."""
 
     def __init__(self, p: Profile, r: random.Random, cls: str):
+        self.not_profile: set[str] = set()
         self.p, self.r, self.cls = p, r, cls
         self.cache: dict[str, str] = {}
         self.home_phone = K.landline(r, p.person.address.sido)
@@ -395,9 +352,10 @@ class Values:
             "related.name": lambda: K.make_name(r, r.choice("MF"))[0],   # 보증인·공동: 이 서류 안에서 같은 사람
             "date": lambda: D(p.issue_date, r.choice(["kor", "dot"])),
         }.get(key)
-        if v is None:   # 키 사전(key_rules.json)에서 더한 표준 키: 값 출처(프로필 경로) 또는 값 종류
+        if v is None:   # key_rules.json 의 keys 에서 더한 키: 값 출처(프로필 경로) 또는 값 종류
             k = KR.load()["keys"].get(key)
             if not k or not (k.get("source") or k.get("kind")):
+                self.not_profile.add(key)   # 고객 정보 키가 아님 (build_form 이 값 종류로 만든다)
                 return None
             v = (lambda: KR.resolve_source(p, k["source"])) if k.get("source") else (lambda: self.by_kind(k["kind"], key))
         self.cache[key] = v()
@@ -475,7 +433,7 @@ class Values:
             return p.person.email
         if kind == "phone":
             return p.person.mobile if not re.search(r"팩스|FAX|직장|회사", label) else p.employment.company.phone
-        return KR.make_value(kind, p, r)  # 키 사전에서 더한 종류. 그 밖의 뜻을 모르는 칸은 비워 둔다 (실제 서식도 빈 칸이 많다)
+        return KR.make_value(kind, p, r)  # key_rules.json 의 공통 값 종류. 그 밖의 뜻을 모르는 칸은 비워 둔다 (실제 서식도 빈 칸이 많다)
 
 
 # ---------------------------------------------------------------------------
@@ -540,7 +498,6 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
     style["fill"] = rng.uniform(0.75, 0.97) if p.extra.get("sparse_fields") else 1.0
     out: list[dict] = []
     uniq = _uniq_fn()
-    fk = DIC.form_entries(doc_id)   # 칸마다 누구의 · 무엇 (키 사전): 서명 칸에 누구 이름을 쓸지
 
     # 표 행(같은 묶음·같은 항목명이 여러 줄): 묶음마다 채울 줄 수를 정한다
     rows: dict[tuple, int] = {}
@@ -548,9 +505,17 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
         if it["t"] == "text" and it.get("row"):
             k = (it["page"], it.get("group") or "", norm(it["label"]))
             rows[k] = rows.get(k, 0) + 1
+    cap: dict[tuple, int] = {}   # 묶음마다 인쇄된 줄 수
+    for (pg, grp, _), n in rows.items():
+        cap[(pg, grp)] = max(cap.get((pg, grp), 0), n)
     fill_rows: dict[tuple, int] = {}
+    fills = {}   # 묶음마다 채우는 행 수 설정 (영역 편집기 표 칸의 fill: few·half·full·any)
+    for it in lay["items"]:
+        if it["t"] == "text" and it.get("row") and it.get("fill"):
+            fills.setdefault((it["page"], it.get("group") or ""), it["fill"])
     pct_plan: dict[tuple, list[int]] = {}
     row_idx: dict[tuple, int] = {}
+    row_cols: dict[tuple, dict] = {}   # 묶음마다 열(항목명 → 첫 줄 칸): 별지에 이어 적을 때 쓴다
 
     for it in lay["items"]:
         t, page = it["t"], it["page"]
@@ -562,19 +527,17 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             gk = (page, it.get("group") or "")
             if n_rows > 1:
                 if gk not in fill_rows:
-                    fill_rows[gk] = rng.choice([0, 1, 1, 2, 2, 3] if p.extra.get("sparse_fields") else [1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
-                    fill_rows[gk] = min(fill_rows[gk], n_rows)
+                    fill_rows[gk] = _fill_count(fills.get(gk), n_rows, p, rng)
+                    more = _more_rows(p, doc_id, gk, cap[gk])
+                    if more:   # 인쇄된 줄을 다 채우고 남은 줄은 별지에 (extra_rows)
+                        fill_rows[gk] = cap[gk] + more
+                row_cols.setdefault(gk, {}).setdefault(norm(label), it)
                 key = _row_key(it, i)
-                kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
+                kind = it.get("kind") or "text"
                 if i >= fill_rows[gk]:
                     value = None
-                elif it.get("source"):
-                    value = SRC.value(it["source"], p, rng, {**it, "class": cls}, vals, row=i)
-                elif kind == "percent":
-                    plan = pct_plan.setdefault(gk, _split100(rng, max(1, fill_rows[gk])))
-                    value = str(plan[i])
                 else:
-                    value = vals.by_kind(kind, label)
+                    value = FK.fmt(_row_value(it, i, gk, p, rng, vals, cls, fill_rows, pct_plan), it.get("fmt"))
             else:
                 skey, kind = _text_key(it)
                 if kind == "seal" and not skey:   # '인감', '서명/날인' 칸 → 도장·서명 자리
@@ -589,20 +552,21 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 if it.get("source"):
                     value = SRC.value(it["source"], p, rng, {**it, "class": cls}, vals)
                     key = uniq(skey or norm(label) or "value")
-                elif skey:
+                elif skey and it.get("std", True):   # 키가 고객 정보 키면 그 값 (customer.name …, Values.std)
                     value = vals.std(skey)
-                    if value is None and it.get("key"):   # 사람이 정한 키인데 프로필 규칙에 없는 키 → 값 종류로
+                    if value is None and skey in vals.not_profile:   # 고객 정보 키가 아니면 값 종류로 (배우자 없는 고객의 spouse.name 은 빈칸 그대로)
                         value = vals.by_kind(kind, label)
                     if skey == "customer.rrn" and re.search(r"앞\s*6|앞자리", label) and value:
                         value = value[:6]
                     key = uniq(skey)
-                else:
+                else:   # "std": false — 값 종류로 만드는 칸 (기타·비고·사유 칸은 자유 기재 글)
                     value = vals.by_kind(kind, label)
-                    key = uniq(norm(label) or "value")
+                    key = uniq(skey or norm(label) or "value")
                     x0, y0, x1, y1 = _px(it["rect"])   # 기타·비고·사유 칸 일부는 자유 기재 글 (docgen/freetext.py)
                     value = FT.fill(label, f"{p.seed}:{doc_id}:{page}:{it['rect']}", p.issue_date,
                                     lambda s: _fit(s, x1 - x0 - 6, y1 - y0, style["hand"], style["base"],
                                                    style.get("scale", 1.0)) >= FT_MIN_SIZE) or value
+                value = FK.fmt(value, it.get("fmt"))
                 if value is not None and rng.random() > style["fill"] and skey not in ("customer.name", "date"):
                     value = None
             if it.get("at") and value and "@" in value:
@@ -618,18 +582,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             align = "right" if (it.get("unit") in ("원", "천원", "만원", "백만원") or kind == "amount") else \
                 "center" if (it["rect"][2] - it["rect"][0]) < 70 or kind in ("percent", "count") else "left"
             unit = it.get("unit")
-            if value is not None and unit in ("천원", "만원", "백만원", "억원") and it.get("source") != "rule:fixed":
-                from .schema import korean_number
-
-                amount = korean_number(str(value))
-                if amount is None:
-                    try:
-                        amount = float(re.sub(r"[^0-9.+-]", "", str(value)))
-                    except ValueError:
-                        amount = None
-                if amount is not None:
-                    factor = {"천원": 1000, "만원": 10000, "백만원": 1000000, "억원": 100000000}[unit]
-                    value = f"{amount / factor:,.4f}".rstrip("0").rstrip(".")
+            value = _in_unit(value, it)
             out.append({**_visible(key, value, it["rect"], page, style, rng, label=label, align=align), "unit": unit})
         elif t == "check":
             opts = [o for o in it["options"]]
@@ -650,19 +603,19 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                         "union": _px([min(o["box"][0] for o in opts), min(o["rect"][1] for o in opts),
                                       max(o["rect"][2] for o in opts), max(o["rect"][3] for o in opts)])})
         elif t == "date":
-            d0 = p.issue_date
+            d0 = _date_value(it, p, rng, vals, cls)
             pr = it["parts"]
             y = f"{d0.year % 100:02d}" if it.get("yy") else (
                 str(d0.year) if (pr["y"][2] - pr["y"][0]) > 18 or rng.random() < 0.3 else f"{d0.year % 100:02d}")
             m, dd = (str(d0.month), str(d0.day)) if rng.random() < 0.6 else (f"{d0.month:02d}", f"{d0.day:02d}")
-            key = uniq(key_of(label) or "date") if label else uniq("date")
+            key = uniq(it.get("key") or "date")
             union = [pr["y"][0], pr["y"][1], pr["d"][2] + 9, pr["d"][3]]
             out.append(_hidden(key, label or "작성일", union, f"{d0.year}년 {d0.month}월 {d0.day}일", page))
             for part, txt in (("y", y), ("m", m), ("d", dd)):
                 out.append(_visible(None, txt, pr[part], page, style, rng, align="center"))
         elif t == "sign":
             role = uniq(it["key"] if it.get("key") else "signer")
-            name = _signer_name(role, label, it, fk, vals, rng)
+            name = _signer_name(label, it, vals, rng)
             if it.get("name"):
                 out.append(_visible(f"{role}.name", name, it["name"], page, style, rng, label=label, align="center"))
             x = rng.random()
@@ -678,6 +631,24 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             out.append(_visible(uniq(it["key"] if it.get("key") else "handwritten"), it["text"] if filled else None,
                                 it["rect"], page, {**style, "hand": True, "font": f"'{hf}'", "scale": hfont.get("scale", 1.0)}, rng,
                                 label=label or "자필기재", align="center"))
+    # 인쇄된 줄보다 많은 행: 별지(계속) 쪽에 같은 열로 이어 적는다 (_extra_rows.html.j2, 넘치면 paginate.js 가 쪽을 늘림)
+    extra_rows = []
+    for gk, total in fill_rows.items():
+        if total <= cap[gk]:
+            continue
+        cols = sorted(row_cols[gk].values(), key=lambda c: c["rect"][0])
+        body = []
+        for i in range(cap[gk], total):
+            cells = []
+            for c in cols:
+                v = _in_unit(FK.fmt(_row_value(c, i, gk, p, rng, vals, cls, fill_rows, pct_plan), c.get("fmt")), c)
+                kind = c.get("kind") or "text"
+                cells.append({"key": _row_key(c, i), "value": v, "label": c.get("label") or "",
+                              "align": "right" if (c.get("unit") in ("원", "천원", "만원", "백만원") or kind == "amount") else "left"})
+            body.append({"no": i + 1, "cells": cells})
+        extra_rows.append({"page": gk[0], "title": gk[1] or "", "columns": [c.get("label") or "" for c in cols],
+                           "units": [c.get("unit") or "" for c in cols], "rows": body})
+    _adjust(doc_id, out, extra_rows, p, style)   # 서식 폴더 generate.py 의 adjust(d, p, rng): 칸끼리 관계 (합계·순서)
     # 결재란: 은행이 접수·처리한 서류에는 직원 도장·서명이 있다. 같은 칸 이름은 서류 안에서 같은 직원.
     cells = [(i, c) for i, pg in enumerate(lay["pages"]) for c in pg.get("staff", [])]
     if cells:
@@ -697,6 +668,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                   "name": text, "seal": on and x < ss["seal_below"], "sign": on and x >= ss["seal_below"], "rect": rect,
                   "rot": round(rng.uniform(-12, 8), 1), "staff": True, "square": square, "size": round(size, 1)}
             out.append(_pooled(mk, pools, rng))
+    out += _floats(doc_id, lay, S, p, vals, cls, style, pools, uniq)   # 자유 위치 도장·번호 (docgen/floats.py)
     pages = []
     for i, pg in enumerate(lay["pages"]):
         bg = f"{HOST}bg/{no}/{i}.png" if no is not None else f"{HOST}bgi/{doc_id}/{i}.png"
@@ -705,15 +677,268 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
         pages.append({"w": round(pg["width"] * PX, 1), "h": round(pg["height"] * PX, 1), "bg": bg})
     fonts = M.font_faces(pools)
     return {"no": no, "doc_id": doc_id, "pages": pages, "items": out, "style": style, "class": lay.get("class", ""),
-            "name": lay.get("name", doc_id), "fonts": fonts}
+            "name": lay.get("name", doc_id), "fonts": fonts, "extra_rows": extra_rows}
 
 
-def _signer_name(role: str, label: str, it: dict, fk: dict, vals: "Values", rng: random.Random) -> str | None:
-    """서명 칸에 쓰는 이름. 키 사전에서 그 칸을 누구의 것으로 정했으면 그 사람 (은행·직원 칸은 직원 이름이거나 빈칸),
-    정하지 않았으면 항목명으로 (대리인 칸은 대개 빈칸, 법인·상호 칸은 상호, 나머지는 고객)."""
+def script_path(doc_id: str) -> Path | None:
+    """overlay 서식의 생성 스크립트: 서식 폴더의 generate.py (adjust 가 있는 것만. html 서식과 같은 약속)."""
+    from . import formdir
+
+    d = formdir.folder(doc_id)
+    f = d / "generate.py" if d else None
+    return f if f is not None and f.exists() and re.search(r"^def adjust\(", f.read_text(encoding="utf-8"), re.M) else None
+
+
+def nest(flat: dict) -> dict:
+    """{"customer.name": v, "deals.0.amount": w} → {"customer": {"name": v}, "deals": [{"amount": w}]}.
+    숫자 마디는 표 행 목록 (행 번호 순서). 다른 키와 부딪히는 키는 점 경로 그대로 맨 위에 둔다."""
+    d: dict = {}
+    for key in sorted(flat, key=lambda k: [int(x) if x.isdigit() else -1 for x in k.split(".")]):
+        parts, cur, ok = key.split("."), d, True
+        for j, k in enumerate(parts[:-1]):
+            nxt_list = parts[j + 1].isdigit()
+            if isinstance(cur, list):
+                i = int(k)
+                while len(cur) <= i:
+                    cur.append({})
+                cur = cur[i]
+                continue
+            if k.isdigit() or (k in cur and not isinstance(cur[k], (list if nxt_list else dict))):
+                ok = False
+                break
+            cur = cur.setdefault(k, [] if nxt_list else {})
+        last = parts[-1]
+        if ok and isinstance(cur, list) and last.isdigit():
+            ok = False
+        if ok and isinstance(cur, dict) and last not in cur:
+            cur[last] = flat[key]
+        else:
+            d[key] = flat[key]
+    return d
+
+
+def flatten(d, prefix: str = "") -> dict:
+    """nest 의 반대."""
+    out = {}
+    if isinstance(d, dict):
+        for k, v in d.items():
+            out.update(flatten(v, f"{prefix}{k}."))
+    elif isinstance(d, list):
+        for i, v in enumerate(d):
+            out.update(flatten(v, f"{prefix}{i}."))
+    else:
+        out[prefix[:-1]] = d
+    return out
+
+
+def _adjust(doc_id: str, out: list[dict], extra_rows: list[dict], p: Profile, style: dict) -> None:
+    """generate.py 의 adjust(d, p, rng) 로 글자 칸 값을 다듬는다 (없으면 그대로). d 는 칸 키의 점 경로를 중첩한 dict —
+    표 행은 목록 (formkit.rows(d, "<묶음>")). 값을 바꾼 칸은 글자 크기를 다시 맞춘다. 새 키는 정답에 없다 (검사 경고).
+    난수는 따로 (rng 를 같이 쓰면 스크립트를 더하기만 해도 다른 칸 값이 바뀐다)."""
+    path = script_path(doc_id)
+    if path is None:
+        return
+    from . import htmlform as HF
+
+    flat = {it["key"]: it["value"] for it in out if it["t"] == "text" and it.get("key")}
+    for g in extra_rows:
+        for row in g["rows"]:
+            for c in row["cells"]:
+                flat[c["key"]] = c["value"]
+    new = flatten(HF.run_script(doc_id, nest(flat), p, random.Random(f"adjust:{p.seed}:{doc_id}"), path))
+    for it in out:
+        if it["t"] == "text" and it.get("key") and it["key"] in new and new[it["key"]] != it["value"]:
+            v = new[it["key"]]
+            it["value"] = None if v in (None, "") else str(v)
+            x0, y0, x1, y1 = it["rect"]
+            it["size"] = _fit(it["value"], x1 - x0 - 6, y1 - y0, style["hand"], style["base"], style.get("scale", 1.0)) if it["value"] else 10
+    for g in extra_rows:
+        for row in g["rows"]:
+            for c in row["cells"]:
+                if c["key"] in new and new[c["key"]] != c["value"]:
+                    c["value"] = None if new[c["key"]] in (None, "") else str(new[c["key"]])
+
+
+def adjust_skeleton(doc_id: str) -> str:
+    """overlay 서식의 견본 generate.py: 이 서식의 칸(seed 0 으로 그린 값)을 d 의 꼴로 주석에 적고, 흔한 관계 예시."""
+    from .entities import make_profile
+
+    d0 = build_form(doc_id, make_profile(0), random.Random(0))
+    flat = {it["key"]: it["value"] for it in d0["items"] if it["t"] == "text" and it.get("key")}
+    d = nest(flat)
+    tables = [k for k, v in d.items() if isinstance(v, list)]
+    lines = [f"# {k} = {v!r}" for k, v in flatten({k: (v[:1] if isinstance(v, list) else v) for k, v in d.items()}).items()]
+    t = tables[0] if tables else "<표 묶음>"
+    return f'''"""{doc_id} 생성 스크립트: 칸끼리 관계를 맞춘다 (합계 = 행의 합, 시작일 ≤ 종료일, 잔액 …).
+
+값 하나하나는 영역 편집의 '생성 방법'이 만들고, 이 함수는 그 값을 받아 서로 맞게 고친다.
+d = 이 서식의 칸 키(점 경로)를 중첩한 dict. 표 행은 목록: rows(d, "{t}") → [{{열: 값}}, …] (빈 행은 값이 None).
+약속: 난수는 rng 만, 파일·네트워크·시간 금지, 새 키 금지 (정답에 없음). 확인: 영역 편집 › 수정 전후 비교, python -m docgen.formdir check {doc_id}
+도우미: docgen/formkit.py (to_date·date_like·to_amount·amount_like·won_korean·rows·get·put·add_days)
+
+seed 0 의 칸 (표는 첫 행만):
+{chr(10).join(lines)}
+"""
+from docgen.formkit import add_days, amount_like, date_like, get, put, rows, to_amount, to_date  # noqa: F401
+
+
+def adjust(d, p, rng):
+    # 예: 표 금액 열의 합계 → 합계 칸
+    # total = sum(to_amount(r.get("금액")) or 0 for r in rows(d, "{t}"))
+    # put(d, "<합계 칸 키>", amount_like(total, get(d, "<합계 칸 키>") or "1,000"))
+    #
+    # 예: 시작일 ≤ 종료일
+    # s, e = to_date(get(d, "<시작일 키>")), to_date(get(d, "<종료일 키>"))
+    # if s and e and s > e:
+    #     put(d, "<종료일 키>", date_like(add_days(s, rng.randint(30, 365)), get(d, "<종료일 키>")))
+    return d
+'''
+
+
+def _spots(it: dict) -> list[list[float]]:
+    """칸 하나가 차지하는 상자들 (pt): 값 자리·체크 보기·서명·날짜 칸."""
+    out = [it[k] for k in ("rect", "mark", "name") if isinstance(it.get(k), list) and it["t"] != "float"]
+    out += [v for v in (it.get("parts") or {}).values() if isinstance(v, list)]
+    out += [o.get("rect") or o.get("box") for o in it.get("options") or [] if o.get("rect") or o.get("box")]
+    return out
+
+
+def _floats(doc_id: str, lay: dict, S: dict, p: Profile, vals: "Values", cls: str, style: dict, pools: dict, uniq) -> list[dict]:
+    """자유 위치 요소 (docgen/floats.py): 서식의 float 칸 + 모든 서식 설정(marks.json floats). 요소마다 따로 난수
+    (나올지·자리·회전·값) — 다른 칸의 값을 흔들지 않고, 요소가 없으면 결과가 예전과 같다."""
+    from . import floats as FL
+
+    els = [it for it in lay["items"] if it["t"] == "float"]
+    els += [{**g, "page": None, "_global": True} for g in (S.get("floats") or [])]
+    if not els:
+        return []
+    busy: dict[int, list] = {}
+    for it in lay["items"]:
+        busy.setdefault(it["page"], []).extend(_spots(it))
+    out = []
+    for j, el in enumerate(els):
+        r = random.Random(f"float:{p.seed}:{doc_id}:{j}")
+        c = FL.preset(el)
+        page = el["page"] if el.get("page") is not None else r.randrange(len(lay["pages"]))
+        pg = lay["pages"][page]
+        if el.get("_global"):
+            a = FL.AREAS[c.get("area") or "any"]
+            area = [a[0] * pg["width"], a[1] * pg["height"], a[2] * pg["width"], a[3] * pg["height"]]
+        else:
+            area = el["rect"]
+        show = r.random() < float(c.get("p", 0.5))
+        key, label = uniq(c["key"]), el.get("label") or c["name"]
+        if c["type"] == "stamp":
+            size = float(c.get("size") or 50)
+            rect = FL.place((size, size), area, busy.get(page, []), r) if show else [round(v, 1) for v in area]
+            text = FL.stamp_text(c, p, r) if show else ""
+            lines = [ln for ln in text.split("\n") if ln.strip()] or [""]
+            spx = size * PX
+            ems = max(sum(1.0 if ord(ch) > 0x2E80 else 0.56 for ch in ln) for ln in lines) or 1   # 숫자·점은 반 글자 폭
+            fs = min(spx * 0.24, spx * 0.78 / ems, spx * 0.7 / (len(lines) * 1.12))
+            mk = {"t": "mark", "page": page, "key": key, "label": label, "name": text, "seal": show, "sign": False,
+                  "rect": _px(rect), "rot": round(r.uniform(-25, 25), 1), "square": c.get("shape") == "square",
+                  "size": round(spx, 1), "fs": round(fs, 1), "no_sign": True, "float": True, "kind": c["name"].split(" ")[0]}
+            if c.get("color"):
+                mk["color"] = FL.COLORS[c["color"]]
+            out.append(mk)
+            if show and c.get("answer"):   # 도장 글자도 정답 (kie): 줄바꿈은 띄어쓰기로
+                out.append(_hidden(key, label, rect, " ".join(text.split()), page))
+        elif show:
+            v = FL.text_value(c, p, r, el, cls, vals)
+            if v in (None, ""):
+                continue
+            fs = r.uniform(8.5, 11.0)
+            rect = FL.place(FL.text_size(str(v), fs), area, busy.get(page, []), r)
+            st = c.get("style") or "print"
+            hand = st == "hand"
+            font = (style["font"] if style["hand"] else f"'{r.choice(_pool(pools, 'hand_fonts'))['id']}'") if hand \
+                else r.choice(_pool(pools, "print_fonts"))["id"]
+            item = _visible(key, str(v), rect, page, {**style, "hand": hand, "scale": 1.0}, r, label=label, align="left")
+            item["font"] = font
+            if st == "print":   # 전산으로 찍힌 번호는 검은색 (손글씨 서류의 펜 색이 아니라)
+                item["color"] = "#1a1a1a"
+            if st == "stamp":
+                item["color"] = FL.COLORS[c.get("color") or "blue"]
+                item["css"] = (item["css"] or "") + f"transform: rotate({r.uniform(-8, 8):.1f}deg);"
+            out.append(item)
+        else:
+            continue
+        busy.setdefault(page, []).append(rect)
+    return out
+
+
+def _date_value(it: dict, p: Profile, rng: random.Random, vals: "Values", cls: str):
+    """년·월·일 칸의 날짜: 생성 방법(source)이 있으면 그 값을 날짜로 읽고, 없거나 못 읽으면 서류 날짜(발급·작성일)."""
+    if it.get("source"):
+        v = SRC.value(it["source"], p, rng, {**it, "class": cls}, vals)
+        d = FK.to_date(v) or FK._compact_date(str(v or ""))
+        if d:
+            return d
+    return p.issue_date
+
+
+FILLS = {"few": "1~3행 (기본)", "half": "절반쯤", "full": "모든 행", "any": "1행 ~ 모든 행 고르게"}
+
+
+def _fill_count(mode: str | None, n_rows: int, p: Profile, rng: random.Random) -> int:
+    """표 묶음 하나에 채울 행 수. 기본(few)은 예전 그대로: 대개 1~3행, 15% 는 모든 행."""
+    if mode == "full":
+        return n_rows
+    if mode == "half":
+        return max(1, min(n_rows, round(n_rows * rng.uniform(0.35, 0.65))))
+    if mode == "any":
+        return rng.randint(1, n_rows)
+    n = rng.choice([0, 1, 1, 2, 2, 3] if p.extra.get("sparse_fields") else [1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
+    return min(n, n_rows)
+
+
+MORE_ROWS = 0.15   # 표 하나가 인쇄된 줄을 넘쳐 별지로 이어지는 비율 (DOCGEN_HEAVY=1 이면 늘, 0 이면 없음 — 미리보기 '내용 많음')
+
+
+def _more_rows(p: Profile, doc_id: str, gk: tuple, cap: int) -> int:
+    """인쇄된 줄(cap)보다 더 적을 행 수 (0 이면 넘치지 않음). 다른 값의 난수를 흔들지 않게 따로 난수를 쓴다."""
+    from .docs._common import heavy
+
+    r = random.Random(f"rows:{p.seed}:{doc_id}:{gk}")
+    return r.randint(1, max(4, 3 * cap)) if heavy(r, MORE_ROWS) else 0
+
+
+def _row_value(it: dict, i: int, gk: tuple, p: Profile, rng: random.Random, vals: "Values", cls: str,
+               fill_rows: dict, pct_plan: dict):
+    """표 행 칸 하나의 값 (i 번째 줄)."""
+    label = it.get("label") or ""
+    kind = it.get("kind") or "text"
+    if it.get("source"):
+        return SRC.value(it["source"], p, rng, {**it, "class": cls}, vals, row=i)
+    if kind == "percent":
+        plan = pct_plan.setdefault(gk, _split100(rng, max(1, fill_rows[gk])))
+        return str(plan[i])
+    return vals.by_kind(kind, label)
+
+
+def _in_unit(value, it: dict):
+    """칸에 단위(천원·만원 …)가 인쇄돼 있으면 금액을 그 단위로 나눈 글자로."""
+    unit = it.get("unit")
+    if value is None or unit not in ("천원", "만원", "백만원", "억원") or it.get("source") == "rule:fixed":
+        return value
+    from .schema import korean_number
+
+    amount = korean_number(str(value))
+    if amount is None:
+        try:
+            amount = float(re.sub(r"[^0-9.+-]", "", str(value)))
+        except ValueError:
+            return value
+    factor = {"천원": 1000, "만원": 10000, "백만원": 1000000, "억원": 100000000}[unit]
+    return f"{amount / factor:,.4f}".rstrip("0").rstrip(".")
+
+
+def _signer_name(label: str, it: dict, vals: "Values", rng: random.Random) -> str | None:
+    """서명 칸에 쓰는 이름. 칸에 누구의 것인지(who: customer·agent·family·related·corp·bank, corp 면 what: ceo) 적었으면 그 사람
+    (은행·직원 칸은 직원 이름이거나 빈칸), 없으면 키 설명으로 (대리인 칸은 대개 빈칸, 법인·상호 칸은 상호, 나머지는 고객)."""
     p = vals.p
-    e = fk.get(f"{role}.name") or fk.get(f"sign.{role}") or fk.get(f"seal.{role}") or {}
-    who, what = e.get("who"), (fk.get(f"{role}.name") or {}).get("what")
+    who, what = it.get("who"), it.get("what")
     if who == "bank":
         return K.make_name(rng, rng.choice("MF"))[0] if rng.random() < 0.5 else None
     if who == "corp":
@@ -738,7 +963,10 @@ def _pooled(mk: dict, pools: dict, rng: random.Random) -> dict:
     if mk["seal"]:
         it = M.pick(rng, pools["seal"])
         if it and not it.get("builtin"):
-            mk["seal_tpl"] = it
+            if it.get("file"):   # 올린 도장 사진 (글자는 사진 그대로, 이름이 서류와 다를 수 있다)
+                mk["seal_img"] = M.image_url(it)
+            else:
+                mk["seal_tpl"] = it
             render["seal"] = it["id"]
     if render:
         mk["render"] = render

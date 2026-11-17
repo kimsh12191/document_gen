@@ -1,4 +1,4 @@
-"""docgen studio — 벤치마크 데이터 생성·관리 도구. 설계는 studio/DESIGN.md."""
+"""docgen studio — 벤치마크 데이터 생성·관리 도구. 개발자 안내는 studio/README.md."""
 import sys
 from pathlib import Path
 

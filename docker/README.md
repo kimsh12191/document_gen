@@ -18,7 +18,7 @@ GPU 학습(`train/`, `python -m train`)은 이 컨테이너가 아니라 따로 
 | 파일 | 역할 |
 |---|---|
 | `docker/studio.sh` | **서버에서 직접 쓰는 것.** studio 컨테이너 만들기·켜기, 포트·여는 주소, 로그, 셸, 지우기 |
-| `docker/remote_build.py`, `guide/agent-workflow.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
+| `docker/remote_build.py`, `guide/studio/data.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
 | `docker/build.sh` | 인터넷 되는 PC 에서 반입 파일 두 개 만들기 (이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트) |
 | `docker/Dockerfile` | 이미지: 파이썬·글꼴·Chromium·studio 패키지·SSH 서버 |
 | `docker/requirements.lock` | 이미지에 넣는 파이썬 패키지 (판 고정) |
@@ -57,20 +57,32 @@ Linux 서버에서 (컨테이너 밖):
 
 ```bash
 cd ~/docgen/document_gen
-sh docker/studio.sh --data /database/docgen_studio    # 처음 한 번: 저장 폴더를 정해 띄우기
-sh docker/studio.sh                                   # 그다음부터: 정한 저장 폴더·포트 그대로
+# 처음 한 번: 이미지 판·저장 폴더·포트·여는 범위를 정해 띄우기 (지금 쓰는 명령)
+DOCGEN_IMAGE=docgen:1.3 sh docker/studio.sh --data /database/cv_database/docgen_studio -p 30009 --open
+# 그다음부터: 정한 저장 폴더·포트·여는 범위 그대로
+sh docker/studio.sh
 ```
+
+| 부분 | 뜻 |
+|---|---|
+| `DOCGEN_IMAGE=docgen:1.3` | 반입한 이미지 판. 안 적으면 `docgen:1.2` 를 찾습니다 (`docker images docgen` 으로 있는 판 확인) |
+| `--data /database/cv_database/docgen_studio` | 저장 폴더 (데이터셋·작업 기록이 쌓이는 곳, 학습 서버와 같이 봄) |
+| `-p 30009` | 서버 포트 (기본 8765) |
+| `--open` | 터널 없이 `http://<서버IP>:30009` 로 접속 (로그인 없음, 아래 주의). 빼면 이 서버에서만 열리고 다른 PC 는 SSH 터널 |
+
+- 저장 폴더·포트·여는 범위는 컨테이너에 남아, 다음부터는 `sh docker/studio.sh` 만 해도 그대로 뜹니다.
+- **이미지 판은 남지 않고, 바꿔도 컨테이너를 새로 만들지 않습니다.** 새 이미지를 반입했으면 `sh docker/studio.sh rm` 로 지운 뒤 위 명령을 새 판으로 다시 칩니다 (데이터·코드는 그대로).
 
 저장 폴더 안은 studio 가 알아서 나눠 씁니다.
 
 ```
-/database/docgen_studio/          (컨테이너 안에서는 /out)
-  workspace/datasets/<이름>/      만든 데이터셋 (⑥ 새로 만들기, remote_build.py)
-  workspace/registry.json, jobs/  ⑥ 데이터셋 목록, ⑧ 작업 기록
+<저장 폴더>/                      (컨테이너 안에서는 /out)
+  workspace/datasets/<이름>/      만든 데이터셋 (데이터셋 › 새로 만들기, remote_build.py)
+  workspace/registry.json, jobs/  데이터셋 목록, 생성 작업 기록
   real_data/                      실서류 검수 결과
 ```
 
-윈도우 PC 에서 (PowerShell). 이 창을 켜 둔 동안 브라우저에서 `http://localhost:8765` 로 들어갑니다. `studio.sh` 가 끝에 맞는 명령을 보여 줍니다.
+접속: `--open` 으로 띄웠으면 브라우저에서 바로 `http://<서버IP>:30009`. `--open` 없이 띄웠으면 윈도우 PC 에서 (PowerShell) 아래 터널을 켜 둔 동안 `http://localhost:8765` 로 들어갑니다. `studio.sh` 가 끝에 맞는 주소·명령을 보여 줍니다.
 
 ```powershell
 ssh -N -L 8765:localhost:8765 <서버 계정>@<서버IP>
@@ -94,7 +106,7 @@ ssh -N -L 8765:localhost:8765 <서버 계정>@<서버IP>
 - 저장 폴더·포트·주소는 한 번 정하면 컨테이너에 남아, 다음부터는 옵션 없이 `sh docker/studio.sh` 만 해도 그대로 뜹니다. `--data` 를 안 주고 처음 띄우면 `~/docgen/data` 를 씁니다.
 - 컨테이너 안 계정 번호를 서버 사용자와 맞춰 띄우므로, studio 가 만든 파일도 서버 사용자 것입니다.
 - studio 화면·로그에 나오는 경로는 컨테이너 안 경로입니다: `/out` = 저장 폴더, `/home/docgen/document_gen` = 코드 폴더. `studio.sh` 가 끝에 데이터셋이 생기는 서버 경로를 보여 주고, 다른 곳에서는 `python remote_build.py paths` 로 봅니다.
-- 다른 이미지·컨테이너 이름: 환경변수 `DOCGEN_IMAGE=docgen:1.2`, `STUDIO_NAME=docgen-studio`.
+- 이미지·컨테이너 이름: 환경변수 `DOCGEN_IMAGE` (기본 `docgen:1.2`, 지금 서버는 `docgen:1.3`), `STUDIO_NAME` (기본 `docgen-studio`).
 - 학습 컨테이너가 저장 폴더를 `/out` 이 아닌 다른 경로로 연결했다면, studio 가 내보내는 학습 설정의 경로를 바꿔 쓰도록 코드 폴더에 `studio/config.json` 을 둡니다: `{"path_map": {"/out": "<학습 컨테이너에서 보이는 경로>"}}` (그 밖의 설정은 필요 없음).
 - 원본 서식 배경 캐시(약 165MB)는 `docgen-cache` 볼륨에 남아, 컨테이너를 다시 만들어도 새로 그리지 않습니다.
 
@@ -107,11 +119,14 @@ tar -xzf docgen-code-1.3.tar.gz -C ~/docgen
 ```
 
 - `studio/`·`docgen/` 의 `.py` 가 바뀌면 studio 가 몇 초 안에 다시 뜹니다. 화면 파일(`studio/static`)은 브라우저 새로고침만 하면 됩니다. 서버에서 파일을 직접 고쳐도 같습니다.
-- 다시 뜰 때 돌고 있던 ⑧ 작업은 "끊김"으로 표시됩니다 (생성은 끝까지 돌고, 끝난 데이터셋은 ⑥ 목록에서 자동 등록이 복구됨). 긴 빌드 중에는 코드 반입을 미루세요.
-- 풀어도 지워진 파일은 남습니다. 2026-10-20 재배치·2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 전 코드에서 넘어왔다면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../README.md#예전-구조에서-옮겨-올-때)에 있습니다.
+- 다시 뜰 때 돌고 있던 생성 작업은 (데이터셋 › 생성 현황) "studio 재시작 · 생성은 계속"으로 표시됩니다. 생성은 따로 끝까지 돌고, studio 가 30초마다 확인해 끝나면 자동 등록합니다. 그 사이 생성이 멈췄으면(완료 파일 없음) "생성 실패"로 바뀌니 새 이름으로 다시 만듭니다.
+- 풀어도 지워진 파일은 남습니다. 2026-10-20 재배치·2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 전 코드에서 넘어왔다면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../archive/MIGRATION.md)에 있습니다.
 - 이미지는 `docker/Dockerfile`·`docker/requirements.lock`·`studio/requirements.txt` 가 바뀌었을 때만 새로 반입합니다. 반입 뒤 `sh docker/studio.sh rm` → `DOCGEN_IMAGE=docgen:<새 버전> sh docker/studio.sh`.
 
 ## 5. 명령줄로 데이터 만들기
+
+> **보통은 이 절이 필요 없습니다.** 데이터셋은 studio **데이터셋 › 새로 만들기**(레시피)나 아래 `remote_build.py` 로 만들면 목록에 저절로 등록됩니다.
+> 이 절의 직접 명령 결과는 등록되지 않으니 **데이터셋 › 폴더 등록**으로 넣습니다. 모델 평가는 학습 서버의 `python -m train` 이 정식 길입니다 ([guide/train/steps.md](../guide/train/steps.md)); `bench run/eval` 은 API 모델을 따로 잴 때만.
 
 같은 컨테이너에서 합니다. `sh docker/studio.sh shell` 로 들어가면 코드 폴더에서 시작하고, 결과는 `/out` (저장 폴더)에 둡니다.
 
@@ -127,27 +142,20 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 ### 다른 컨테이너에서 생성 맡기기 (HTTP)
 
 studio 를 `--open` 으로 띄워 두면, 다른 컨테이너(학습 컨테이너 등)나 PC 에서 [`docker/remote_build.py`](remote_build.py) 로 생성을 맡기고 끝날 때까지 기다릴 수 있습니다. 포트는 studio 포트 하나로 됩니다.
-**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [agent 작업 절차](../guide/agent-workflow.md) 에 있습니다.**
+**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [데이터 만들기](../guide/studio/data.md) 에 있습니다.**
 
 ```bash
 export STUDIO_URL=http://<서버IP>:8765
 python remote_build.py build --name bench-1021 --recipe bank-bench                     # 평가 세트 통째
 python remote_build.py build --name id-5 --types resident_id_card,hf169 --per-doc 5     # 특정 서식만
-python remote_build.py build --name loan-20 --scenarios mortgage --bundles 20           # 특정 업무만
 ```
 
-### 은행 업무 데이터 만들기
+### 평가 세트·학습 데이터 한 벌
 
-학습(`python -m train`)에 쓸 평가 세트(`/out/bench`)와 학습 데이터(`/out/bank_train`)를 한 번 만들어 둡니다 (8코어 약 1시간 15분, 약 19GB).
+은행 서류 평가 세트(서식마다 1건)와 학습 데이터(서식마다 5건)는 기본 레시피 `bank-bench`·`bank-train` 으로 만듭니다 (studio **데이터셋 › 새로 만들기**, 또는 위 `remote_build.py build --recipe bank-bench`).
+학습 설정(`data.train`·`data.benchmark`)에는 컨테이너 경로(`/out/…`)가 아니라 서버 경로(예: `/database/docgen_studio/workspace/datasets/<이름>`)를 씁니다 ([guide/studio/data.md](../guide/studio/data.md)).
 
-```bash
-bash docgen/scripts/make_bank_data.sh          # 백그라운드로 시작. 셸을 나가도 계속
-tail -f /out/logs/make_bank_data.log           # "전부 완료" 가 나오면 끝
-```
-
-양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다. 컨테이너의 `/out` 은 저장 폴더이므로, 학습 설정(`data.train`·`data.benchmark`)에는 서버 경로(예: `/database/docgen_studio/bench`)를 씁니다 ([guide/training.md](../guide/training.md)).
-
-결과 파일을 윈도우로 가져오기: `scp -r <서버 계정>@<서버IP>:docgen/data/bench_out .\` (WinSCP 도 SFTP 로 접속 가능).
+결과 파일을 윈도우로 가져오기: `scp -r <서버 계정>@<서버IP>:<저장 폴더>/workspace/datasets/<이름> .\` (저장 폴더를 안 정했으면 `~/docgen/data`. WinSCP 도 SFTP 로 접속 가능).
 
 ## 6. (선택) 컨테이너에 SSH 로 바로 들어가기
 

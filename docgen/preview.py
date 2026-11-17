@@ -38,13 +38,17 @@ CONDITIONS = ("clean", "scan", "photo", "fax", "clean_jpeg")   # clean 외에는
 MODES = ("default", "on", "off")
 _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
         "special": ("DOCGEN_SPECIAL", {"on": "all", "off": "none"})}
+# 공란으로 그리기: 값 글자는 투명(자리·크기는 그대로), 도장·서명은 숨김.
+BLANK_CSS = "<style>.fv{color:transparent!important}.seal,.scribble,.sigimg{visibility:hidden!important}</style>"
 # 모든 서식이 함께 쓰는 렌더링 코드. 바뀌면 모든 미리보기를 새로 그린다.
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
-          "docgen/realform.py", "docgen/keyrules.py", "docgen/key_rules.json", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
-          "docgen/marks.py", "docgen/overrides.py", "docgen/regions.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "docgen/assets/marks/pools.json",
-          "docgen/templates/_base.html.j2", "docgen/templates/_macros.html.j2", "docgen/templates/_real_form.html.j2",
-          "docgen/templates/_official_base.html.j2", "docgen/templates/_official_values.html.j2",
-          "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py"]
+          "docgen/realform.py", "docgen/keyrules.py", "docgen/forms/_common/key_rules.json", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
+          "docgen/marks.py", "docgen/overrides.py", "docgen/regions.py", "docgen/sources.py", "docgen/preview.py", "docgen/forms/_common/marks.json", "docgen/assets/marks/pools.json",
+          "docgen/forms/_common/templates/_base.html.j2", "docgen/forms/_common/templates/_macros.html.j2",
+          "docgen/forms/_common/templates/_real_form.html.j2", "docgen/forms/_common/templates/_official_base.html.j2",
+          "docgen/forms/_common/templates/_official_values.html.j2", "docgen/forms/_common/templates/_extra_rows.html.j2",
+          "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py",
+          "docgen/formkit.py", "docgen/usergen.py", "docgen/forms/_common/generators.py"]   # 표기·직접 만든 생성기
 
 
 @cache
@@ -52,12 +56,21 @@ def _source_file(fn) -> str:
     return inspect.getsourcefile(fn)
 
 
+def generator_files(fn) -> list[Path]:
+    """값 만드는 함수의 파일. 서식 폴더의 generate.py(코드 서식)면 그것이 가져다 쓰는 그룹 도우미 모듈(docgen/docs/<그룹>.py)도."""
+    p = Path(_source_file(fn))
+    if p.name != "generate.py":
+        return [p]
+    groups = re.findall(r"^\s*from docgen\.docs\.(\w+) import", p.read_text(encoding="utf-8"), re.M)
+    return [p, *(ROOT / "docgen" / "docs" / f"{g}.py" for g in dict.fromkeys(groups) if g != "_common")]
+
+
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
     """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통). common=False 면 서식 전용만 (검수 후 바뀌었는지 볼 때)."""
     from . import formdir, formfields, regions
 
     spec = load_all()[doc_id]
-    files = [Path(_source_file(spec.generate)), *regions.hash_files(doc_id)]
+    files = [*generator_files(spec.generate), *regions.hash_files(doc_id)]
     if spec.template != "_real_form.html.j2":
         vd = formdir.variants_dir(doc_id)
         files += [vd/"variants.json"] + (sorted(vd.glob("*.html.j2")) + sorted(vd.glob("*.regions.json")) if vd.exists() else [])
@@ -70,7 +83,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
             files.append(d / htmlform.SCRIPT)
         parent = (htmlform.load_form(doc_id) if d else {}).get("parent")
         if parent in load_all():
-            files.append(Path(_source_file(load_all()[parent].generate)))
+            files += generator_files(load_all()[parent].generate)
             if re.fullmatch(r"hf\d{3}", parent):
                 from .realform import layout_path
 
@@ -89,6 +102,11 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
             files += formfields.hash_files(doc_id)
         if no is None:
             files += formdir.image_files(doc_id)
+        from .realform import script_path
+
+        sp = script_path(doc_id)   # overlay 의 칸끼리 관계 generate.py (없는 서식은 해시가 예전 그대로)
+        if sp is not None:
+            files.append(sp)
     return files + ([ROOT / c for c in COMMON] if common else [])
 
 
@@ -104,8 +122,25 @@ def _file_digest(p: Path) -> bytes:
     key = (str(p), st.st_mtime_ns, st.st_size)
     d = _DIGESTS.get(key)
     if d is None:
-        d = _DIGESTS[key] = hashlib.sha1(p.read_bytes()).digest()
+        d = _DIGESTS[key] = hashlib.sha1(_without_questions(p) if p.name == "fields.json" else p.read_bytes()).digest()
     return d
+
+
+def _without_questions(p: Path) -> bytes:
+    """칸 목록의 질문 설정 "q" 는 그림을 바꾸지 않으므로 서식 해시에서 뺀다 (q 만 고치면 재검수 필요로 바뀌지 않게).
+    q 가 없으면 파일 그대로, 있으면 q 를 뺀 내용을 칸 목록을 쓰는 꼴(json indent 1)로 다시 써서 잰다."""
+    raw = p.read_bytes()
+    if b'"q"' not in raw:
+        return raw
+    data = json.loads(raw)
+
+    def strip(v):
+        if isinstance(v, dict):
+            return {k: strip(x) for k, x in v.items() if not (k == "q" and isinstance(x, dict))}
+        if isinstance(v, list):
+            return [strip(x) for x in v]
+        return v
+    return (json.dumps(strip(data), ensure_ascii=False, indent=1) + "\n").encode("utf-8")
 
 
 def source_hash(doc_id: str, common: bool = True) -> str:
@@ -116,7 +151,17 @@ def source_hash(doc_id: str, common: bool = True) -> str:
         name = hash_label(p)   # 서식 폴더로 옮긴 파일은 예전 자리 이름으로 (옮겨도 해시가 그대로)
         h.update(str(name.relative_to(ROOT) if name.is_relative_to(ROOT) else name).encode())
         h.update(_file_digest(p))
-    return h.hexdigest()[:12]
+    out = h.hexdigest()[:12]
+    if not common:   # 파일을 옮기기만 한 서식은 옮기기 전 해시 (검수 기록·데이터셋 기록이 그대로 맞게). 고치면 새 해시
+        out = _moved().get(doc_id, {}).get(out, out)
+    return out
+
+
+@cache
+def _moved() -> dict:
+    """docgen/forms/_common/hash_moves.json: {서식ID: {옮긴 뒤 해시: 옮기기 전 해시}} — 내용을 바꾸지 않고 파일만 옮긴 서식."""
+    p = ROOT / "docgen" / "forms" / "_common" / "hash_moves.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
 class Previewer:
@@ -146,7 +191,9 @@ class Previewer:
         draft: 저장하지 않은 overlay 수정 (docgen/overrides.py). 주면 파일 대신 그것으로 그린다 (수정 전후 비교).
         extra: 시나리오 미리보기의 Profile.extra. 캐시에도 반영한다.
         html 서식(복제·분석기)이면 draft 는 {"template"?, "form"?} (저장하지 않은 템플릿·form.json), rows 는 반복 행 수
-        "min" | "max" (없으면 서식대로 무작위).
+        "min" | "max" (없으면 서식대로 무작위). 코드 서식은 draft {"template"} (저장하지 않은 look/template.html.j2).
+        draft 에 "blank": true 를 더하면 값 글자·도장·서명을 안 보이게 그린다 (자리·위치는 같음).
+        "texts": true 면 라벨에 쪽 전체 글자 박스 texts, "fields": 저장하지 않은 칸 목록, "variant": 그 레이아웃 변형의 템플릿 초안.
         first=True (화면 미리보기): 1쪽을 찍으면 바로 돌려주고 남은 쪽은 렌더러가 이어서 찍는다 (다른 요청이 오면 양보).
         그동안 폴더에 pending.json 이 있고, 남은 쪽 그림은 complete(폴더) 가 마저 만든다. first=False 면 늘 모든 쪽이 있다."""
         reg = load_all()
@@ -229,6 +276,10 @@ class Previewer:
 
         self._ensure_renderer()
         spec = load_all()[doc_id]
+        blank, texts = bool((draft or {}).get("blank")), bool((draft or {}).get("texts"))
+        fields_draft, variant = (draft or {}).get("fields"), (draft or {}).get("variant") or "default"
+        if draft is not None:
+            draft = {k: v for k, v in draft.items() if k not in ("blank", "texts", "fields", "variant")} or None
         folder.mkdir(parents=True, exist_ok=True)
         t0 = time.time()
         saved = {name: os.environ.get(var) for name, (var, _) in _ENV.items()}
@@ -239,19 +290,32 @@ class Previewer:
                     os.environ.pop(var, None)
                 else:
                     os.environ[var] = values[mode]
-            if spec.template.startswith("@form/"):
+            if variant != "default" and draft is not None and "template" in draft:   # 레이아웃 변형 템플릿 초안
+                from . import formdir
+
+                ctx = formdir.template_draft(doc_id, draft["template"], variant)
+            elif spec.template.startswith("@form/"):
                 from . import htmlform
 
                 ctx = htmlform.draft(doc_id, draft, rows)
+            elif draft is not None and "template" in draft:
+                from . import formdir
+
+                ctx = formdir.template_draft(doc_id, draft["template"])
             else:
                 ctx = overrides.draft(doc_id, draft) if draft is not None else nullcontext()
             from . import html_regions
             region_draft = (draft or {}).get("html_regions")
-            with ctx, html_regions.draft(doc_id, region_draft):
+            from . import formfields
+            fctx = formfields.draft(doc_id, fields_draft) if fields_draft is not None else nullcontext()
+            with ctx, fctx, html_regions.draft(doc_id, region_draft):
                 profile = make_profile(seed)
                 profile.extra.update(extra or {})
                 html, raw, data = render(spec, profile, seed)
-                info = self._renderer.render(html, folder / "page.png", **({"first_only": True} if early else {}))
+                if blank:
+                    html = html.replace("</head>", BLANK_CSS + "</head>", 1)
+                info = self._renderer.render(html, folder / "page.png", **({"texts": True} if texts else {}),
+                                             **({"first_only": True} if early else {}))
                 checks = None
                 if spec.template.startswith("@form/"):   # html 서식: 저장 전 검사 (선언·템플릿 키, 쪽 넘침)
                     checks = htmlform.check(htmlform.load_form(doc_id), raw, data, bool(info.get("overflow")), doc_id)
@@ -295,6 +359,7 @@ class Previewer:
             "visible": sorted(visible_keys(html)),
             "writing": "hand" if spec.group in ("hana", "imported") and (data or {}).get("style", {}).get("hand") else "print",
             "elapsed": round(time.time() - t0, 2),
+            **({"texts": info.get("texts", [])} if texts else {}),
             **({"checks": checks, "rows": rows or "auto"} if checks is not None else {}),
         }
         pending = folder / "pending.json"

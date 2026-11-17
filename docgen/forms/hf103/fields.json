@@ -29,7 +29,9 @@
     376.3,
     179.4,
     417.1
-   ]
+   ],
+   "kind": "text",
+   "key": "company.biz_type"
   },
   {
    "t": "text",
@@ -40,7 +42,9 @@
     294.5,
     313.0,
     335.3
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -51,7 +55,10 @@
     335.3,
     313.0,
     376.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "MPURL"
   },
   {
    "t": "text",
@@ -62,7 +69,9 @@
     417.1,
     313.0,
     458.0
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -73,7 +82,9 @@
     458.0,
     313.0,
     498.9
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -84,7 +95,9 @@
     498.9,
     561.1,
     539.8
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -95,7 +108,10 @@
     580.8,
     313.0,
     621.5
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "수수료입금계좌"
   },
   {
    "t": "text",
@@ -106,7 +122,10 @@
     621.5,
     561.1,
     662.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "담당부서"
   },
   {
    "t": "text",
@@ -117,7 +136,10 @@
     662.5,
     561.1,
     703.4
-   ]
+   ],
+   "kind": "person",
+   "std": false,
+   "key": "담당자명"
   },
   {
    "t": "text",
@@ -128,7 +150,10 @@
     744.3,
     561.1,
     785.1
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "e-mail주소"
   },
   {
    "t": "text",
@@ -139,7 +164,9 @@
     376.3,
     313.0,
     417.1
-   ]
+   ],
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -150,7 +177,9 @@
     294.5,
     561.1,
     335.3
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -162,7 +191,10 @@
     561.1,
     362.6
    ],
-   "section": "기 관 코 드"
+   "section": "기 관 코 드",
+   "kind": "text",
+   "std": false,
+   "key": "신용보증"
   },
   {
    "t": "text",
@@ -174,7 +206,10 @@
     561.1,
     389.8
    ],
-   "section": "기 관 코 드"
+   "section": "기 관 코 드",
+   "kind": "text",
+   "std": false,
+   "key": "기술보증"
   },
   {
    "t": "text",
@@ -186,7 +221,10 @@
     561.1,
     417.1
    ],
-   "section": "기 관 코 드"
+   "section": "기 관 코 드",
+   "kind": "text",
+   "std": false,
+   "key": "지역보증"
   },
   {
    "t": "text",
@@ -197,7 +235,10 @@
     417.1,
     561.1,
     458.0
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "대표자생년월일"
   },
   {
    "t": "text",
@@ -208,7 +249,10 @@
     458.0,
     561.1,
     498.9
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "FAX번호"
   },
   {
    "t": "text",
@@ -219,7 +263,9 @@
     580.8,
     561.1,
     621.5
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "date",
@@ -245,7 +291,8 @@
      434.8,
      439.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -262,7 +309,9 @@
     484.4,
     509.2,
     495.5
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -273,7 +322,9 @@
     502.4,
     547.3,
     519.5
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -285,7 +336,10 @@
     447.8,
     123.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "선택"
   },
   {
    "t": "text",
@@ -297,7 +351,10 @@
     558.0,
     171.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "있어야추심등록및대출실행"
   },
   {
    "t": "text",
@@ -309,7 +366,10 @@
     558.0,
     372.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "절차필요"
   }
  ]
 }

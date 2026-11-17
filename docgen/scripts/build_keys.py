@@ -1,12 +1,12 @@
-"""표준 키 사전 초안 docgen/keys.json 을 만든다 (studio 영역 편집기가 키를 고를 때 쓴다).
+"""표준 키 사전 초안 docgen/forms/_common/keys.json 을 만든다 (studio 영역 편집기가 키를 고를 때 쓴다).
 
   python docgen/scripts/build_keys.py
 
-- 재료: guide/fields/fields.json (서식마다 30번 렌더링해 모은 키, docgen/scripts/build_schema.py) 과 docgen/realform.py 의 KEY_RULES.
+- 재료: docgen/forms/_common/fields_catalog.json (서식마다 30번 렌더링해 모은 키, docgen/scripts/build_schema.py) 과 docgen/realform.py 의 KEY_RULES.
 - 영어 키만 사전에 넣는다. 반복 행 번호는 * 로 묶는다 (rows.3.amount → rows.*.amount).
 - 키마다 항목명(한글) 예시, 타입, 쓰는 서식 수, 그룹을 남긴다.
 - 같은 뜻인데 이름이 두 벌인 키는 duplicates 에 모은다. 이름을 실제로 바꾸는 일은 평가 세트 버전을 올릴 때 한다
-  (studio/DESIGN.md 5.3). 사전을 다시 만들어도 duplicates 의 decision(사람이 정한 것)은 유지한다.
+  (archive/studio/DESIGN.md 5.3). 사전을 다시 만들어도 duplicates 의 decision(사람이 정한 것)은 유지한다.
 """
 from __future__ import annotations
 
@@ -22,8 +22,8 @@ sys.path.insert(0, str(ROOT))
 from docgen.realform import KEY_RULES  # noqa: E402
 from docgen.schema import LEAF_SYNONYMS  # noqa: E402
 
-FIELDS = ROOT / "guide" / "fields" / "fields.json"
-OUT = ROOT / "docgen" / "keys.json"
+FIELDS = ROOT / "docgen" / "forms" / "_common" / "fields_catalog.json"
+OUT = ROOT / "docgen" / "forms" / "_common" / "keys.json"
 ASCII = re.compile(r"^[A-Za-z0-9_.]+$")
 
 # 사람이 확인한 이름 두 벌. decision 은 아직 정하지 않은 것은 null.

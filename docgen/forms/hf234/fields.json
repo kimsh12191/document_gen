@@ -83,7 +83,8 @@
     190.9,
     550.0,
     213.6
-   ]
+   ],
+   "key": "check.송금방법"
   },
   {
    "t": "text",
@@ -94,7 +95,10 @@
     213.6,
     550.0,
     236.3
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "송금일자"
   },
   {
    "t": "text",
@@ -105,7 +109,10 @@
     236.3,
     550.0,
     258.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "송금번호"
   },
   {
    "t": "text",
@@ -116,7 +123,10 @@
     258.9,
     550.0,
     281.6
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "수취인"
   },
   {
    "t": "text",
@@ -127,7 +137,10 @@
     389.5,
     547.0,
     410.2
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "check",
@@ -188,7 +201,8 @@
     309.1,
     550.0,
     331.8
-   ]
+   ],
+   "key": "check.전신송금"
   },
   {
    "t": "check",
@@ -217,7 +231,8 @@
     331.8,
     550.0,
     354.5
-   ]
+   ],
+   "key": "check.송금수표"
   },
   {
    "t": "text",
@@ -229,7 +244,10 @@
     368.5,
     456.5
    ],
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "kind": "bank",
+   "std": false,
+   "key": "거래은행"
   },
   {
    "t": "text",
@@ -241,7 +259,9 @@
     368.5,
     479.2
    ],
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "kind": "account",
+   "key": "foreign.account"
   },
   {
    "t": "text",
@@ -253,7 +273,9 @@
     368.5,
     501.9
    ],
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "kind": "person",
+   "key": "foreign.name"
   },
   {
    "t": "text",
@@ -265,7 +287,9 @@
     368.5,
     524.5
    ],
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "kind": "address",
+   "key": "foreign.address"
   },
   {
    "t": "text",
@@ -277,7 +301,9 @@
     368.5,
     547.2
    ],
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "kind": "phone",
+   "key": "foreign.phone"
   },
   {
    "t": "text",
@@ -288,7 +314,10 @@
     547.2,
     368.5,
     569.9
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -302,7 +331,9 @@
    ],
    "group": "수 취 인",
    "row": true,
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "key": "수취인_목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -316,7 +347,9 @@
    ],
    "group": "수 취 인",
    "row": true,
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "key": "수취인_목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -330,7 +363,9 @@
    ],
    "group": "수 취 인",
    "row": true,
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "key": "수취인_목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -344,7 +379,9 @@
    ],
    "group": "수 취 인",
    "row": true,
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "key": "수취인_목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -358,7 +395,9 @@
    ],
    "group": "수 취 인",
    "row": true,
-   "section": "수 취 인"
+   "section": "수 취 인",
+   "key": "수취인_목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -370,7 +409,10 @@
     550.0,
     569.9
    ],
-   "row": true
+   "row": true,
+   "kind": "note",
+   "std": false,
+   "key": "변경후"
   },
   {
    "t": "text",
@@ -382,7 +424,10 @@
     550.0,
     661.1
    ],
-   "hint": "(날인 또는 서명)"
+   "hint": "(날인 또는 서명)",
+   "kind": "text",
+   "std": false,
+   "key": "송금인"
   },
   {
    "t": "text",
@@ -393,7 +438,9 @@
     661.1,
     550.0,
     683.8
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -404,7 +451,9 @@
     683.8,
     550.0,
     706.5
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -415,7 +464,9 @@
     706.5,
     550.0,
     729.1
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -426,7 +477,9 @@
     729.1,
     550.0,
     751.8
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "date",
@@ -451,7 +504,8 @@
      534.0,
      630.6
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

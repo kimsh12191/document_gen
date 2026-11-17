@@ -23,7 +23,10 @@
     253.5,
     297.9,
     281.8
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상조회사명"
   },
   {
    "t": "text",
@@ -34,7 +37,9 @@
     281.8,
     548.3,
     315.9
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -45,7 +50,9 @@
     253.5,
     548.3,
     281.8
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -57,7 +64,9 @@
     212.6,
     422.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금과목",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -69,7 +78,9 @@
     212.6,
     450.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금과목",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -81,7 +92,9 @@
     212.6,
     479.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금과목",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -93,7 +106,9 @@
     212.6,
     507.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금과목",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -105,7 +120,9 @@
     212.6,
     535.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금과목",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -117,7 +134,9 @@
     382.5,
     422.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -129,7 +148,9 @@
     382.5,
     450.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -141,7 +162,9 @@
     382.5,
     479.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -153,7 +176,9 @@
     382.5,
     507.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -165,7 +190,9 @@
     382.5,
     535.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -177,7 +204,9 @@
     548.3,
     422.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -189,7 +218,9 @@
     548.3,
     450.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -201,7 +232,9 @@
     548.3,
     479.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -213,7 +246,9 @@
     548.3,
     507.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -225,7 +260,9 @@
     548.3,
     535.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "date",
@@ -250,7 +287,8 @@
      542.8,
      664.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -262,7 +300,8 @@
     683.4,
     552.8,
     695.5
-   ]
+   ],
+   "who": "bank"
   }
  ]
 }

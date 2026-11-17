@@ -24,7 +24,11 @@
     513.0,
     70.7
    ],
-   "row": true
+   "row": true,
+   "group": "RM",
+   "kind": "text",
+   "std": false,
+   "key": "RM"
   },
   {
    "t": "text",
@@ -36,7 +40,11 @@
     549.0,
     70.7
    ],
-   "row": true
+   "row": true,
+   "group": "RM",
+   "kind": "skip",
+   "std": false,
+   "key": "영업점장"
   },
   {
    "t": "text",
@@ -47,7 +55,10 @@
     137.2,
     549.0,
     157.0
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "고객번호"
   },
   {
    "t": "text",
@@ -58,7 +69,10 @@
     157.0,
     549.0,
     176.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "매입번호"
   },
   {
    "t": "text",
@@ -69,7 +83,10 @@
     183.3,
     346.2,
     203.1
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "일부매입금액"
   },
   {
    "t": "text",
@@ -80,7 +97,10 @@
     183.3,
     549.0,
     203.1
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "일부추심금액"
   },
   {
    "t": "text",
@@ -91,7 +111,10 @@
     209.5,
     297.9,
     237.8
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "AMOUNT"
   },
   {
    "t": "text",
@@ -102,7 +125,10 @@
     257.7,
     297.9,
     277.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "COMMODITY"
   },
   {
    "t": "text",
@@ -113,7 +139,10 @@
     277.5,
     297.9,
     301.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "ACCOUNTEE"
   },
   {
    "t": "text",
@@ -124,7 +153,10 @@
     321.2,
     215.8,
     341.0
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "PRICETERM"
   },
   {
    "t": "text",
@@ -135,7 +167,10 @@
     341.0,
     215.8,
     360.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "수출상대국"
   },
   {
    "t": "text",
@@ -146,7 +181,10 @@
     321.2,
     388.7,
     360.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "수출신고번호"
   },
   {
    "t": "text",
@@ -157,7 +195,10 @@
     209.5,
     549.0,
     237.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "TENOR&MATURITY"
   },
   {
    "t": "text",
@@ -168,7 +209,10 @@
     257.7,
     549.0,
     277.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "HSCODE"
   },
   {
    "t": "text",
@@ -179,7 +223,10 @@
     277.5,
     549.0,
     301.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "BENEFICIARY"
   },
   {
    "t": "text",
@@ -190,7 +237,10 @@
     321.2,
     549.0,
     360.9
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "FOB금액"
   },
   {
    "t": "text",
@@ -204,7 +254,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.BENE",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -218,7 +270,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.BENE",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -229,7 +283,10 @@
     435.3,
     163.5,
     455.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "TOREIMBANK"
   },
   {
    "t": "text",
@@ -243,7 +300,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.BANK",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -257,7 +316,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.BANK",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -269,7 +330,11 @@
     193.3,
     455.1
    ],
-   "row": true
+   "row": true,
+   "group": "COMM",
+   "kind": "text",
+   "std": false,
+   "key": "BANK"
   },
   {
    "t": "text",
@@ -283,7 +348,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.COMM",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -297,7 +364,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.COMM",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -311,7 +380,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.CUST",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -325,7 +396,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.CUST",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -339,7 +412,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.B/L",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -353,7 +428,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.B/L",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -367,7 +444,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.AWB",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -381,7 +460,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.AWB",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -395,7 +476,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.P/L",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -409,7 +492,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.P/L",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -423,7 +508,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.I/P",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -437,7 +524,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.I/P",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -451,7 +540,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.C/O",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -465,7 +556,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.C/O",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -479,7 +572,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.I/C",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -493,7 +588,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.I/C",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -507,7 +604,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.BENECERT",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -521,7 +620,9 @@
    ],
    "group": "TO ISSUING BANK",
    "row": true,
-   "section": "TO ISSUING BANK"
+   "section": "TO ISSUING BANK",
+   "key": "TOISSUINGBANK_목록.{i}.BENECERT",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -532,7 +633,10 @@
     367.3,
     492.6,
     395.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "BENECERT"
   },
   {
    "t": "text",
@@ -543,7 +647,10 @@
     494.2,
     297.9,
     514.0
-   ]
+   ],
+   "kind": "fx_amount",
+   "std": false,
+   "key": "외화계정대체"
   },
   {
    "t": "text",
@@ -554,7 +661,10 @@
     514.0,
     297.9,
     533.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "원화계정대체"
   },
   {
    "t": "text",
@@ -566,7 +676,10 @@
     297.9,
     562.2
    ],
-   "section": "원화 계정 대체 내용 무역 어음 대출"
+   "section": "원화 계정 대체 내용 무역 어음 대출",
+   "kind": "text",
+   "std": false,
+   "key": "A"
   },
   {
    "t": "text",
@@ -578,7 +691,10 @@
     297.9,
     590.6
    ],
-   "section": "원화 계정 대체 내용 무역 어음 대출"
+   "section": "원화 계정 대체 내용 무역 어음 대출",
+   "kind": "text",
+   "std": false,
+   "key": "B"
   },
   {
    "t": "text",
@@ -590,7 +706,10 @@
     297.9,
     610.4
    ],
-   "section": "원화 계정 대체 내용"
+   "section": "원화 계정 대체 내용",
+   "kind": "amount",
+   "std": false,
+   "key": "수입보증금"
   },
   {
    "t": "date",
@@ -615,7 +734,8 @@
      452.1,
      646.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -632,7 +752,9 @@
     652.1,
     488.6,
     664.3
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -644,7 +766,10 @@
     181.6,
     162.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "MAILTO"
   },
   {
    "t": "text",
@@ -656,7 +781,10 @@
     222.8,
     256.7
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "NO"
   },
   {
    "t": "text",
@@ -668,7 +796,10 @@
     225.1,
     320.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "FROM"
   }
  ]
 }

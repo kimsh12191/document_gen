@@ -24,7 +24,10 @@
     517.7,
     85.0
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "담당Prepare"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     549.7,
     85.0
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "책임자Approval"
   },
   {
    "t": "text",
@@ -49,7 +55,10 @@
     146.6
    ],
    "hint": "한글 Korean",
-   "section": "신청인 Applicant 성 명 Name"
+   "section": "신청인 Applicant 성 명 Name",
+   "kind": "person",
+   "std": false,
+   "key": "성명Name"
   },
   {
    "t": "text",
@@ -62,7 +71,10 @@
     166.5
    ],
    "hint": "영문 여권과 일치하여야 함 English Name on your Passport",
-   "section": "신청인 Applicant 성 명 Name"
+   "section": "신청인 Applicant 성 명 Name",
+   "kind": "person",
+   "std": false,
+   "key": "성명Name"
   },
   {
    "t": "text",
@@ -74,7 +86,9 @@
     366.3,
     193.3
    ],
-   "section": "신청인 Applicant"
+   "section": "신청인 Applicant",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -86,7 +100,10 @@
     366.3,
     220.1
    ],
-   "section": "신청인 Applicant"
+   "section": "신청인 Applicant",
+   "kind": "passport",
+   "std": false,
+   "key": "여권번호PassportNo"
   },
   {
    "t": "text",
@@ -101,7 +118,9 @@
    "hint": "한글 Korean",
    "group": "국내주소 Domestic Address",
    "row": true,
-   "section": "신청인 Applicant 국내주소 Domestic Address"
+   "section": "신청인 Applicant 국내주소 Domestic Address",
+   "key": "국내주소DomesticAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -116,7 +135,9 @@
    "hint": "영문 English",
    "group": "국내주소 Domestic Address",
    "row": true,
-   "section": "신청인 Applicant 국내주소 Domestic Address"
+   "section": "신청인 Applicant 국내주소 Domestic Address",
+   "key": "국내주소DomesticAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -129,7 +150,10 @@
     288.2
    ],
    "hint": "선택Selective",
-   "section": "신청인 Applicant 국내주소 Domestic Address"
+   "section": "신청인 Applicant 국내주소 Domestic Address",
+   "kind": "address",
+   "std": false,
+   "key": "국내주소DomesticAddress"
   },
   {
    "t": "text",
@@ -144,7 +168,9 @@
    "hint": "한글 Korean",
    "group": "해외주소 Overseas Address",
    "row": true,
-   "section": "신청인 Applicant 해외주소 Overseas Address"
+   "section": "신청인 Applicant 해외주소 Overseas Address",
+   "key": "해외주소OverseasAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -159,7 +185,9 @@
    "hint": "영문 English",
    "group": "해외주소 Overseas Address",
    "row": true,
-   "section": "신청인 Applicant 해외주소 Overseas Address"
+   "section": "신청인 Applicant 해외주소 Overseas Address",
+   "key": "해외주소OverseasAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -174,7 +202,9 @@
    "hint": "(국가/지역번호 포함) 전화번호 Telephone No.",
    "group": "해외주소 Overseas Address",
    "row": true,
-   "section": "신청인 Applicant 해외주소 Overseas Address"
+   "section": "신청인 Applicant 해외주소 Overseas Address",
+   "key": "해외주소OverseasAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -189,7 +219,9 @@
    "hint": "입학 예정 교육기관명 또는 직장명 Institution",
    "group": "해외주소 Overseas Address",
    "row": true,
-   "section": "신청인 Applicant 해외주소 Overseas Address"
+   "section": "신청인 Applicant 해외주소 Overseas Address",
+   "key": "해외주소OverseasAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -204,7 +236,9 @@
    "hint": "Telephone No. Mobile phone No. □ □",
    "group": "국내주소 Domestic Address",
    "row": true,
-   "section": "신청인 Applicant 국내주소 Domestic Address"
+   "section": "신청인 Applicant 국내주소 Domestic Address",
+   "key": "국내주소DomesticAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -219,7 +253,9 @@
    "hint": "□ e-Mail",
    "group": "국내주소 Domestic Address",
    "row": true,
-   "section": "신청인 Applicant 국내주소 Domestic Address"
+   "section": "신청인 Applicant 국내주소 Domestic Address",
+   "key": "국내주소DomesticAddress_목록.{i}.여권유효기일DateofExpiry",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -231,7 +267,10 @@
     549.7,
     193.3
    ],
-   "section": "신청인 Applicant"
+   "section": "신청인 Applicant",
+   "kind": "text",
+   "std": false,
+   "key": "국적Nationality"
   },
   {
    "t": "text",
@@ -243,7 +282,10 @@
     549.7,
     220.1
    ],
-   "section": "신청인 Applicant"
+   "section": "신청인 Applicant",
+   "kind": "date",
+   "std": false,
+   "key": "여권유효기일DateofExpiry"
   },
   {
    "t": "text",
@@ -254,7 +296,10 @@
     376.8,
     382.3,
     403.6
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "개설신청은행/지점명OpeningBank/Branch"
   },
   {
    "t": "text",
@@ -265,7 +310,10 @@
     376.8,
     549.7,
     403.6
-   ]
+   ],
+   "kind": "currency",
+   "std": false,
+   "key": "개설통화Currency"
   },
   {
    "t": "text",
@@ -276,7 +324,10 @@
     520.3,
     246.3,
     568.5
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "접수은행/지점명Bank/Branch"
   },
   {
    "t": "text",
@@ -287,7 +338,9 @@
     705.3,
     297.6,
     722.3
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -298,7 +351,10 @@
     722.3,
     549.7,
     739.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "제출서류"
   },
   {
    "t": "text",
@@ -309,7 +365,9 @@
     705.3,
     549.7,
     722.3
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "check",
@@ -348,7 +406,8 @@
      ],
      "line": 27
     }
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -371,7 +430,8 @@
      ],
      "line": 104
     }
-   ]
+   ],
+   "key": "check.본인은위와같이예금계좌개"
   },
   {
    "t": "check",
@@ -394,7 +454,8 @@
      ],
      "line": 112
     }
-   ]
+   ],
+   "key": "check.현지국의법규및규제사항거"
   },
   {
    "t": "text",
@@ -405,7 +466,9 @@
     474.8,
     486.8,
     494.1
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "sign",
@@ -422,7 +485,9 @@
     523.9,
     546.1,
     537.3
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -434,7 +499,8 @@
     648.2,
     541.0,
     661.7
-   ]
+   ],
+   "who": "bank"
   },
   {
    "t": "sign",
@@ -451,7 +517,9 @@
     740.5,
     265.2,
     753.8
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   }
  ]
 }

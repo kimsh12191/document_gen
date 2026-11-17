@@ -35,7 +35,9 @@
     159.5,
     306.2,
     177.0
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -46,7 +48,9 @@
     177.0,
     306.2,
     194.6
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -63,7 +67,9 @@
     194.6,
     306.2,
     209.8
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -74,7 +80,10 @@
     209.8,
     131.7,
     227.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "이용자ID"
   },
   {
    "t": "text",
@@ -86,7 +95,9 @@
     550.4,
     177.0
    ],
-   "hint": "“생년월일”"
+   "hint": "“생년월일”",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -98,7 +109,9 @@
     542.6,
     194.6
    ],
-   "unit": ")"
+   "unit": ")",
+   "kind": "phone",
+   "key": "customer.home_phone"
   },
   {
    "t": "text",
@@ -109,7 +122,9 @@
     194.6,
     479.1,
     209.8
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -121,7 +136,10 @@
     348.3,
     414.6
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.은행명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -133,7 +151,10 @@
     348.3,
     443.0
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.은행명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -145,7 +166,10 @@
     454.1,
     414.6
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -157,7 +181,10 @@
     454.1,
     443.0
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -169,7 +196,10 @@
     493.9,
     414.6
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.폰뱅킹단축번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -181,7 +211,10 @@
     493.9,
     443.0
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.폰뱅킹단축번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -194,7 +227,10 @@
     414.6
    ],
    "hint": "인감/서명",
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.통장인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -207,7 +243,10 @@
     443.0
    ],
    "hint": "인감/서명",
-   "row": true
+   "row": true,
+   "group": "단축번호",
+   "key": "단축번호_목록.{i}.통장인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -219,7 +258,9 @@
     135.7,
     669.6
    ],
-   "section": "대리인 인적사항"
+   "section": "대리인 인적사항",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -230,7 +271,10 @@
     685.2,
     135.7,
     700.5
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "계"
   },
   {
    "t": "text",
@@ -242,7 +286,10 @@
     311.2,
     669.6
    ],
-   "section": "대리인 인적사항"
+   "section": "대리인 인적사항",
+   "kind": "text",
+   "std": false,
+   "key": "명"
   },
   {
    "t": "text",
@@ -254,7 +301,10 @@
     550.4,
     685.2
    ],
-   "section": "대리인 인적사항"
+   "section": "대리인 인적사항",
+   "kind": "skip",
+   "std": false,
+   "key": "소"
   },
   {
    "t": "text",
@@ -266,7 +316,9 @@
     550.4,
     700.5
    ],
-   "hint": "인감/서명"
+   "hint": "인감/서명",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "sign",
@@ -278,7 +330,8 @@
     745.2,
     553.3,
     753.2
-   ]
+   ],
+   "who": "bank"
   },
   {
    "t": "date",
@@ -303,7 +356,8 @@
      175.7,
      773.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -315,7 +369,10 @@
     433.7,
     126.2
    ],
-   "free": true
+   "free": true,
+   "kind": "branch",
+   "std": false,
+   "key": "지점장"
   },
   {
    "t": "text",
@@ -327,7 +384,10 @@
     269.3,
     256.5
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "\u0000자물쇠카드(일련번호"
   },
   {
    "t": "text",
@@ -339,7 +399,10 @@
     420.4,
     256.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": ")\u0000OTP(제조업체"
   },
   {
    "t": "text",
@@ -352,7 +415,10 @@
     529.5,
     256.5
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "일련번호"
   },
   {
    "t": "text",
@@ -364,7 +430,9 @@
     550.4,
     282.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -376,7 +444,10 @@
     175.8,
     386.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "구분"
   },
   {
    "t": "text",
@@ -388,7 +459,10 @@
     550.4,
     560.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "\u00003시간지연\u00004시간지연"
   },
   {
    "t": "text",
@@ -400,7 +474,10 @@
     550.3,
     647.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■위임장"
   },
   {
    "t": "text",
@@ -412,7 +489,10 @@
     552.3,
     616.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "실명확인증표사본"
   },
   {
    "t": "text",
@@ -423,7 +503,9 @@
     159.5,
     306.2,
     177.0
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -434,7 +516,9 @@
     177.0,
     306.2,
     194.6
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -451,7 +535,9 @@
     194.6,
     306.2,
     209.8
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -462,7 +548,10 @@
     209.8,
     131.7,
     227.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "이용자ID"
   },
   {
    "t": "text",
@@ -474,7 +563,9 @@
     550.3,
     177.0
    ],
-   "hint": "“생년월일”"
+   "hint": "“생년월일”",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -486,7 +577,9 @@
     542.6,
     194.6
    ],
-   "unit": ")"
+   "unit": ")",
+   "kind": "phone",
+   "key": "customer.home_phone"
   },
   {
    "t": "text",
@@ -497,7 +590,9 @@
     194.6,
     479.1,
     209.8
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -509,7 +604,10 @@
     348.3,
     414.6
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.은행명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -521,7 +619,10 @@
     348.3,
     443.0
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.은행명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -533,7 +634,10 @@
     454.1,
     414.6
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -545,7 +649,10 @@
     454.1,
     443.0
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -557,7 +664,10 @@
     493.9,
     414.6
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.폰뱅킹단축번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -569,7 +679,10 @@
     493.9,
     443.0
    ],
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.폰뱅킹단축번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -582,7 +695,10 @@
     414.6
    ],
    "hint": "인감/서명",
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.통장인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -595,7 +711,10 @@
     443.0
    ],
    "hint": "인감/서명",
-   "row": true
+   "row": true,
+   "group": "단축번호2",
+   "key": "단축번호2_목록.{i}.통장인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -607,7 +726,9 @@
     135.7,
     669.6
    ],
-   "section": "대리인 인적사항"
+   "section": "대리인 인적사항",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -618,7 +739,10 @@
     685.2,
     135.7,
     700.5
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "계"
   },
   {
    "t": "text",
@@ -630,7 +754,10 @@
     311.2,
     669.6
    ],
-   "section": "대리인 인적사항"
+   "section": "대리인 인적사항",
+   "kind": "text",
+   "std": false,
+   "key": "명"
   },
   {
    "t": "text",
@@ -642,7 +769,10 @@
     550.3,
     685.2
    ],
-   "section": "대리인 인적사항"
+   "section": "대리인 인적사항",
+   "kind": "skip",
+   "std": false,
+   "key": "소"
   },
   {
    "t": "text",
@@ -654,7 +784,9 @@
     550.3,
     700.5
    ],
-   "hint": "인감/서명"
+   "hint": "인감/서명",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "date",
@@ -679,7 +811,8 @@
      175.7,
      773.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -691,7 +824,10 @@
     269.3,
     256.5
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "\u0000자물쇠카드(일련번호"
   },
   {
    "t": "text",
@@ -703,7 +839,10 @@
     420.4,
     256.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": ")\u0000OTP(제조업체"
   },
   {
    "t": "text",
@@ -716,7 +855,10 @@
     529.5,
     256.5
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "일련번호"
   },
   {
    "t": "text",
@@ -728,7 +870,9 @@
     550.4,
     282.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -740,7 +884,10 @@
     175.8,
     386.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "구분"
   },
   {
    "t": "text",
@@ -752,7 +899,10 @@
     550.4,
     560.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "\u00003시간지연\u00004시간지연"
   },
   {
    "t": "text",
@@ -764,7 +914,10 @@
     550.3,
     647.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■위임장"
   }
  ]
 }

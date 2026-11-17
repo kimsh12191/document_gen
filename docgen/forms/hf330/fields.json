@@ -24,7 +24,10 @@
     298.0,
     339.8
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "이미신고된사항"
   },
   {
    "t": "text",
@@ -36,7 +39,9 @@
     553.1,
     186.7
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -48,7 +53,9 @@
     553.1,
     212.2
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -60,7 +67,9 @@
     553.1,
     237.7
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -72,7 +81,9 @@
     553.1,
     263.2
    ],
-   "section": "국 내 기 업"
+   "section": "국 내 기 업",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -83,7 +94,10 @@
     339.8,
     553.1,
     365.3
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "변경사유"
   },
   {
    "t": "text",
@@ -95,7 +109,10 @@
     553.1,
     339.8
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "변경하고자하는사항"
   },
   {
    "t": "text",
@@ -106,7 +123,10 @@
     553.8,
     553.1,
     579.3
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -117,7 +137,9 @@
     579.3,
     553.1,
     604.8
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -131,7 +153,10 @@
    ],
    "group": "외 국 기 업 국 내 지 사 변 경 신 고 서",
    "row": true,
-   "section": "외 국 기 업 국 내 지 사 변 경 신 고 서"
+   "section": "외 국 기 업 국 내 지 사 변 경 신 고 서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -156,7 +181,8 @@
      394.4,
      434.1
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -173,7 +199,9 @@
     447.7,
     405.3,
     461.1
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -185,7 +213,10 @@
     550.1,
     646.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "신고기관기획재정부장관"
   }
  ]
 }

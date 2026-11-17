@@ -58,7 +58,10 @@
     116.6,
     543.9,
     136.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "CustomerProfile"
   },
   {
    "t": "text",
@@ -70,7 +73,10 @@
     106.4,
     195.0
    ],
-   "row": true
+   "row": true,
+   "group": "Name",
+   "key": "Name_목록.{i}.value",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -81,7 +87,10 @@
     209.3,
     543.9,
     223.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "WhetherOverseasResidentorNot"
   },
   {
    "t": "text",
@@ -92,7 +101,10 @@
     385.5,
     543.9,
     397.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "IdentificationNumberetc"
   },
   {
    "t": "text",
@@ -104,7 +116,11 @@
     170.2,
     426.3
    ],
-   "row": true
+   "row": true,
+   "group": "Reportingcountry",
+   "kind": "text",
+   "std": false,
+   "key": "Reportingcountry"
   },
   {
    "t": "text",
@@ -116,7 +132,10 @@
     106.4,
     262.4
    ],
-   "row": true
+   "row": true,
+   "group": "Name",
+   "key": "Name_목록.{i}.value",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -128,7 +147,10 @@
     106.4,
     291.9
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA",
+   "key": "FATCA_목록.{i}.FATCA",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -140,7 +162,10 @@
     106.4,
     303.9
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA",
+   "key": "FATCA_목록.{i}.FATCA",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -152,7 +177,10 @@
     106.4,
     327.6
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA2",
+   "key": "FATCA2_목록.{i}.CRS",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -164,7 +192,10 @@
     106.4,
     339.6
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA2",
+   "key": "FATCA2_목록.{i}.CRS",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -176,7 +207,11 @@
     106.4,
     363.4
    ],
-   "row": true
+   "row": true,
+   "group": "CRS",
+   "kind": "text",
+   "std": false,
+   "key": "N/A"
   },
   {
    "t": "text",
@@ -190,7 +225,10 @@
    ],
    "group": "Name",
    "row": true,
-   "section": "Name"
+   "section": "Name",
+   "kind": "text",
+   "std": false,
+   "key": "Surname"
   },
   {
    "t": "text",
@@ -204,7 +242,10 @@
    ],
    "group": "(Capital Letter)*",
    "row": true,
-   "section": "(Capital Letter)*"
+   "section": "(Capital Letter)*",
+   "kind": "text",
+   "std": false,
+   "key": "Surname"
   },
   {
    "t": "text",
@@ -216,7 +257,11 @@
     184.4,
     195.0
    ],
-   "row": true
+   "row": true,
+   "group": "GivenName",
+   "kind": "text",
+   "std": false,
+   "key": "GivenName"
   },
   {
    "t": "check",
@@ -277,7 +322,8 @@
     244.5,
     304.9,
     291.9
-   ]
+   ],
+   "key": "check.UScitizen"
   },
   {
    "t": "check",
@@ -306,7 +352,8 @@
     291.9,
     304.9,
     327.6
-   ]
+   ],
+   "key": "check.Residentinac"
   },
   {
    "t": "check",
@@ -335,7 +382,8 @@
     327.6,
     304.9,
     363.4
-   ]
+   ],
+   "key": "check.AllN/A"
   },
   {
    "t": "text",
@@ -346,7 +394,10 @@
     426.3,
     170.2,
     467.7
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Jurisdictionof"
   },
   {
    "t": "text",
@@ -357,7 +408,10 @@
     496.6,
     170.2,
     537.5
-   ]
+   ],
+   "kind": "country",
+   "std": false,
+   "key": "Country"
   },
   {
    "t": "text",
@@ -369,7 +423,10 @@
     304.9,
     467.7
    ],
-   "row": true
+   "row": true,
+   "group": "표7",
+   "key": "표7_목록.{i}.value",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -380,7 +437,10 @@
     467.7,
     546.9,
     496.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "OverseaEnglishaddress"
   },
   {
    "t": "text",
@@ -392,7 +452,10 @@
     304.9,
     537.5
    ],
-   "row": true
+   "row": true,
+   "group": "표7",
+   "key": "표7_목록.{i}.value",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -403,7 +466,10 @@
     145.7,
     304.9,
     157.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Surname"
   },
   {
    "t": "text",
@@ -414,7 +480,10 @@
     174.6,
     304.9,
     186.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "GivenName"
   },
   {
    "t": "text",
@@ -428,7 +497,9 @@
    ],
    "group": "Name",
    "row": true,
-   "section": "Name"
+   "section": "Name",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -442,7 +513,9 @@
    ],
    "group": "(Capital Letter)*",
    "row": true,
-   "section": "(Capital Letter)*"
+   "section": "(Capital Letter)*",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -454,7 +527,10 @@
     411.2,
     195.0
    ],
-   "row": true
+   "row": true,
+   "group": "GivenName",
+   "key": "GivenName_목록.{i}.PhoneNo",
+   "kind": "phone"
   },
   {
    "t": "check",
@@ -515,7 +591,8 @@
     426.3,
     546.9,
     467.7
-   ]
+   ],
+   "key": "check.Non-issuingc"
   },
   {
    "t": "check",
@@ -576,7 +653,8 @@
     496.6,
     546.9,
     537.5
-   ]
+   ],
+   "key": "check.Non-issuingc"
   },
   {
    "t": "text",
@@ -588,7 +666,10 @@
     546.9,
     566.5
    ],
-   "row": true
+   "row": true,
+   "group": "GivenName",
+   "key": "GivenName_목록.{i}.PhoneNo",
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -599,7 +680,9 @@
     145.7,
     546.9,
     157.8
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -610,7 +693,10 @@
     174.6,
     546.9,
     186.6
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "PhoneNo"
   }
  ]
 }

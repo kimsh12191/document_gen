@@ -24,7 +24,10 @@
     553.1,
     188.9
    ],
-   "section": "지 급 수 단 등"
+   "section": "지 급 수 단 등",
+   "kind": "product",
+   "std": false,
+   "key": "종류"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     553.1,
     220.0
    ],
-   "section": "지 급 수 단 등"
+   "section": "지 급 수 단 등",
+   "kind": "count",
+   "std": false,
+   "key": "수량"
   },
   {
    "t": "text",
@@ -48,7 +54,10 @@
     553.1,
     251.2
    ],
-   "section": "지 급 수 단 등"
+   "section": "지 급 수 단 등",
+   "kind": "amount",
+   "std": false,
+   "key": "수출입금액"
   },
   {
    "t": "text",
@@ -60,7 +69,10 @@
     553.1,
     282.4
    ],
-   "section": "지 급 수 단 등"
+   "section": "지 급 수 단 등",
+   "kind": "text",
+   "std": false,
+   "key": "대가결제방법"
   },
   {
    "t": "text",
@@ -72,7 +84,9 @@
     553.1,
     313.6
    ],
-   "section": "상 대 처"
+   "section": "상 대 처",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -84,7 +98,9 @@
     553.1,
     344.8
    ],
-   "section": "상 대 처"
+   "section": "상 대 처",
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -96,7 +112,9 @@
     553.1,
     375.9
    ],
-   "section": "상 대 처"
+   "section": "상 대 처",
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -107,7 +125,10 @@
     375.9,
     553.1,
     407.1
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -118,7 +139,10 @@
     579.1,
     553.1,
     610.3
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -129,7 +153,10 @@
     610.3,
     553.1,
     641.5
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   },
   {
    "t": "text",
@@ -140,7 +167,9 @@
     641.5,
     553.1,
     672.7
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -151,7 +180,10 @@
     672.7,
     553.1,
     703.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -165,7 +197,10 @@
    ],
    "group": "지급수단등의 수출입(변경) 신고서",
    "row": true,
-   "section": "지급수단등의 수출입(변경) 신고서"
+   "section": "지급수단등의 수출입(변경) 신고서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -190,7 +225,8 @@
      525.1,
      460.0
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -201,7 +237,9 @@
     490.6,
     547.3,
     510.0
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -212,7 +250,9 @@
     506.6,
     547.3,
     526.0
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   }
  ]
 }

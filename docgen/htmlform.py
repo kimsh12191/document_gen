@@ -285,9 +285,10 @@ def make_generate(doc_id: str):
             if re.fullmatch(r"hf\d{3}", form["parent"]):
                 # 공식 PDF를 HTML로 옮긴 사본: 부모의 빈 칸도 값 선언에 남긴다.
                 # items의 value를 직접 쓰는 템플릿에서 null을 누락된 키로 오인하지 않게 한다.
-                for item in data.get("items", []):
+                cont = [c for t in data.get("extra_rows") or [] for r in t["rows"] for c in r["cells"]]   # 별지에 이어 적은 표 행
+                for item in [*data.get("items", []), *cont]:
                     key = item.get("key")
-                    if item.get("t") != "mark" and key and key.split(".")[0] not in {"items", "pages", "style", "class", "name", "doc_id", "no", "fonts"}:
+                    if item.get("t") != "mark" and key and key.split(".")[0] not in {"items", "pages", "style", "class", "name", "doc_id", "no", "fonts", "extra_rows"}:
                         _set(data, key, item.get("value"))
         return run_script(doc_id, fill(form, p, rng, data), p, rng)
     generate.__doc__ = f"화면에서 만든 html 서식 {doc_id} (docgen/htmlform.py)"
@@ -352,11 +353,11 @@ def _paths(v, prefix: str = "") -> set[str]:
     return out
 
 
-def run_script(doc_id: str, data: dict, p, rng: random.Random) -> dict:
+def run_script(doc_id: str, data: dict, p, rng: random.Random, path: Path | None = None) -> dict:
     """생성 스크립트가 있으면 adjust(d, p, rng) 를 불러 값을 다듬는다. 없으면 data 그대로.
     약속: 난수는 rng 만, 파일·네트워크·시간을 읽지 않는다, 키는 칸 목록이 정한 것만 고친다 (새 키는 검사 경고).
     스크립트마다 처음 한 번은 같은 입력·같은 난수로 한 번 더 돌려 결과가 같은지 본다 (다르면 검사 경고)."""
-    path = script_path(doc_id)
+    path = path or script_path(doc_id)   # overlay 서식은 realform 이 서식 폴더의 generate.py 를 넘긴다
     if path is None:
         return data
     import copy

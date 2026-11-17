@@ -1,19 +1,25 @@
-"""오래 걸리는 일(데이터셋 빌드, OCR prepare, 분석기 작업)을 백그라운드 프로세스로 돌리고 진행을 보여 준다.
+"""오래 걸리는 일(데이터셋 빌드, OCR 준비)을 백그라운드 프로세스로 돌리고 진행을 보여 준다.
 
-  <workspace_dir>/jobs/<작업ID>/job.json   종류, 명령, 상태(running/done/failed/cancelled), 시작·끝, 진행, 결과
+  <workspace_dir>/jobs/<작업ID>/job.json   종류, 명령, 상태(running/done/failed/cancelled/interrupted), 시작·끝, 진행, 결과
                                log.txt    명령의 출력 그대로
 
 - 명령은 명령줄과 똑같은 것(예: python -m docgen.bench build --recipe …)을 그대로 실행한다. 화면 없이도 같은 결과.
-- studio 를 다시 띄우면 돌던 작업은 "끊김"으로 표시된다. 생성이 끝난 데이터셋은 완료 파일을 확인해
-  ⑥ 목록 조회 때 자동 등록을 복구한다 (build_registration.py). 미완성 작업은 다시 실행해야 한다.
+- studio 를 다시 띄우면(코드를 바꾸면 저절로) 돌던 작업은 "끊김"(interrupted)으로 표시되지만 명령은 따로 떠 있어 계속 돈다.
+  studio 가 30초마다 확인해 완료 파일이 다 있으면 자동 등록하고, 프로세스가 끝났는데 완료 파일이 없으면 실패로 둔다
+  (build_registration.settle_interrupted). 실패한 작업은 새 이름으로 다시 만든다.
 - 진행: 명령이 stderr 에 쓰는 "\\r서류 3/40" 같은 줄에서 마지막 "a/b" 를 읽는다.
 - 끝나면 on_done(job) 을 부른다 (예: 만든 폴더를 데이터셋 등록부에 올리기).
+- 같은 출력 폴더(info.out)로 도는 작업이 있거나 그 폴더가 이미 있으면 시작하지 않는다 (Conflict → HTTP 409).
+- 시작하다 실패하면(명령을 못 띄움) 작업은 failed 로 남고 error 에 까닭을 적는다.
+- 깨진 job.json 은 건너뛴다 (경고만 찍는다).
 """
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
+import shutil
 import subprocess
 import sys
 import threading
@@ -22,6 +28,23 @@ import uuid
 from pathlib import Path
 
 _PROGRESS = re.compile(r"(\d+)\s*/\s*(\d+)")
+_LOG = logging.getLogger("studio.jobs")
+
+
+class Conflict(ValueError):
+    """같은 폴더로 도는 작업이 있거나 폴더가 이미 있다 (app.py guard 가 409 로 돌려준다)."""
+
+
+def _read(f: Path) -> dict | None:
+    """job.json 하나. 깨졌으면 경고만 찍고 None."""
+    try:
+        j = json.loads(f.read_text(encoding="utf-8"))
+        if not isinstance(j, dict):
+            raise ValueError("JSON 객체가 아님")
+        return j
+    except (OSError, ValueError) as e:
+        _LOG.warning("작업 기록을 읽지 못해 건너뜁니다: %s (%s)", f, e)
+        return None
 
 
 class Jobs:
@@ -29,13 +52,23 @@ class Jobs:
         self.root = Path(root) / "jobs"
         self.cwd = cwd
         self.live: dict[str, subprocess.Popen] = {}
+        self.busy: dict[str, str] = {}   # 작업 ID → 출력 폴더 (끝날 때까지 같은 폴더로 다른 작업을 못 띄움)
         self.lock = threading.Lock()
         self.root.mkdir(parents=True, exist_ok=True)
         for f in self.root.glob("*/job.json"):   # 지난번에 돌다 만 작업
-            j = json.loads(f.read_text(encoding="utf-8"))
-            if j.get("status") == "running":
+            j = _read(f)
+            if j is not None and j.get("status") == "running":
                 j["status"] = "interrupted"
                 f.write_text(json.dumps(j, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    def remove(self, job_id: str) -> None:
+        """작업 기록 폴더(job.json·log.txt)를 지운다. 돌고 있는지는 부르는 쪽이 본다 (build_registration.forget_job)."""
+        d = self.root / job_id
+        if not self._file(job_id).exists() or d.resolve().parent != self.root.resolve():
+            raise KeyError(job_id)
+        if job_id in self.live:
+            raise ValueError("돌고 있는 작업입니다")
+        shutil.rmtree(d)
 
     def _file(self, job_id: str) -> Path:
         return self.root / job_id / "job.json"
@@ -44,7 +77,9 @@ class Jobs:
         f = self._file(job_id)
         if not f.exists():
             raise KeyError(job_id)
-        j = json.loads(f.read_text(encoding="utf-8"))
+        j = _read(f)
+        if j is None:
+            raise ValueError(f"작업 기록이 깨졌습니다: {f}")
         log = f.parent / "log.txt"
         if log.exists():
             tail = log.read_bytes()[-6000:].decode("utf-8", "replace")
@@ -67,7 +102,10 @@ class Jobs:
     def list(self, kind: str | None = None) -> list[dict]:
         out = []
         for f in sorted(self.root.glob("*/job.json"), key=lambda p: p.stat().st_mtime, reverse=True):
-            j = self.get(f.parent.name)
+            try:
+                j = self.get(f.parent.name)
+            except (KeyError, ValueError):   # 깨진 기록·막 지워진 폴더는 목록에서 뺀다
+                continue
             if kind is None or j.get("kind") == kind:
                 j.pop("log_tail", None)
                 out.append(j)
@@ -86,17 +124,48 @@ class Jobs:
     def start(self, kind: str, title: str, cmd: list[str], on_done=None, info: dict | None = None,
               cwd: Path | None = None, env: dict | None = None) -> dict:
         job_id = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:4]
+        out = (info or {}).get("out")
+        with self.lock:   # 폴더 확인과 자리 잡기를 한 번에 (같은 이름을 두 번 눌러도 하나만)
+            if out:
+                key = str(Path(out).resolve())
+                if key in self.busy.values():
+                    raise Conflict(f"같은 폴더로 만드는 작업이 이미 돌고 있습니다: {out}")
+                if Path(out).exists() and any(Path(out).iterdir()):
+                    raise Conflict(f"이미 있는 폴더입니다: {out}. 다른 이름을 쓰세요 (만든 데이터셋은 덮어쓰지 않습니다)")
+                self.busy[job_id] = key
         j = {"id": job_id, "kind": kind, "title": title, "cmd": cmd, "status": "running", "started": time.strftime("%Y-%m-%d %H:%M:%S"),
              "info": info or {}}
-        self._save(j)
-        log = open(self.root / job_id / "log.txt", "wb")
-        full_env = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUNBUFFERED": "1", **(env or {})}
-        group = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP} if os.name == "nt" else {"start_new_session": True}
-        p = subprocess.Popen(cmd, cwd=str(cwd or self.cwd), stdout=log, stderr=subprocess.STDOUT, env=full_env, **group)
+        log = None
+        try:
+            self._save(j)
+            log = open(self.root / job_id / "log.txt", "wb")
+            full_env = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUNBUFFERED": "1", **(env or {})}
+            group = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP} if os.name == "nt" else {"start_new_session": True}
+            p = subprocess.Popen(cmd, cwd=str(cwd or self.cwd), stdout=log, stderr=subprocess.STDOUT, env=full_env, **group)
+        except Exception as e:   # 명령을 못 띄움: "돌고 있음"으로 남기지 않는다
+            if log is not None:
+                log.close()
+            with self.lock:
+                self.busy.pop(job_id, None)
+            j.update(status="failed", ended=time.strftime("%Y-%m-%d %H:%M:%S"), error=f"시작 실패: {type(e).__name__}: {e}")
+            try:
+                self._save(j)
+            except OSError:
+                pass
+            raise
         with self.lock:
             self.live[job_id] = p
+        j["pid"] = p.pid   # studio 가 다시 떠도 이 프로세스가 살아 있는지 볼 수 있게 (build_registration.settle_interrupted)
+        self._save(j)
 
         def wait():
+            try:
+                finish()
+            finally:
+                with self.lock:
+                    self.busy.pop(job_id, None)
+
+        def finish():
             code = p.wait()
             log.close()
             with self.lock:

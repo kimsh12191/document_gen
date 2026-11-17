@@ -23,7 +23,10 @@
     288.9,
     472.7,
     305.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "TO"
   },
   {
    "t": "text",
@@ -34,7 +37,10 @@
     657.0,
     472.7,
     673.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "TO"
   },
   {
    "t": "text",
@@ -46,7 +52,10 @@
     206.8,
     157.7
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "FOR"
   },
   {
    "t": "text",
@@ -58,7 +67,10 @@
     164.5,
     186.8
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "AT"
   },
   {
    "t": "text",
@@ -70,7 +82,10 @@
     578.2,
     285.6
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DATED"
   },
   {
    "t": "text",
@@ -82,7 +97,10 @@
     206.8,
     525.8
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "FOR"
   },
   {
    "t": "text",
@@ -94,7 +112,10 @@
     164.5,
     554.8
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "AT"
   },
   {
    "t": "text",
@@ -106,7 +127,10 @@
     578.2,
     653.7
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DATED"
   }
  ]
 }

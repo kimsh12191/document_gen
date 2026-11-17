@@ -1,4 +1,4 @@
-"""생성 라벨 → 사내 OCR 응답 형식 JSON (쪽 이미지마다 하나). 합성 OCR 벤치마크의 정답 (studio/DESIGN.md 9.2).
+"""생성 라벨 → 사내 OCR 응답 형식 JSON (쪽 이미지마다 하나). 합성 OCR 벤치마크의 정답 (archive/studio/DESIGN.md 9.2).
 
 사내 OCR 응답 형식 (OCR 준비 docgen.bench.ocr_data 의 기본 mapping 이 읽는 것)
   {"filename": "<이미지 파일 이름>", "success": "Y",

@@ -1,8 +1,7 @@
-"""guide/tasks.md: every task with a real example, its full question, answer and fields.
+"""guide/reference/tasks.md: every task with a real example, its full question, answer and fields.
 
 Reads a docgen benchmark folder (`python -m docgen.bench build`) and an OCR prepared folder
-(`python -m docgen.bench.ocr_prepare`), picks one example per task, per cross_check case and per review
-rule, copies the images it needs into guide/examples/img/ and writes guide/tasks.md.
+(`python -m docgen.bench.ocr_prepare`), picks one example per task, copies the images it needs into guide/examples/img/ and writes guide/reference/tasks.md.
 
   python guide/examples/make_catalog.py --bench <bench 폴더> --ocr <prepared 폴더> [--ocr-json <OCR JSON 폴더>]
 
@@ -22,18 +21,20 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "ocr"), str(ROOT / "bank")]
-OUT_MD = ROOT / "guide" / "tasks.md"
+OUT_MD = ROOT / "guide" / "reference" / "tasks.md"
 IMG = ROOT / "guide" / "examples" / "img"
 MAX_SIDE = 1000
 EXAMPLES: list[dict] = []  # what the slides show: one entry per example, the same data as tasks.md
 
 OCR_TASKS = ["crop_ocr", "bbox_ocr", "grounding", "region_ocr", "spotting", "relation", "marked_ocr", "marked_box"]
-BANK_TASKS = ["doc_check", "cross_check", "review", "kie", "marks", "classify", "ocr_page", "ocr_field"]
+BANK_TASKS = ["classify", "kie", "marks", "freetext", "form_qa", "ocr_page", "ocr_field",
+              "table", "table_read", "table_find", "table_qa"]
 TITLE = {"crop_ocr": "잘라낸 글자 읽기", "bbox_ocr": "박스 안 글자 읽기", "grounding": "글자 위치 찾기",
          "region_ocr": "영역 안 글자 전부 읽기", "spotting": "전체 글자 + 위치", "relation": "옆 글자 찾기",
          "marked_ocr": "그린 박스 안 글자 읽기", "marked_box": "그린 박스의 좌표",
-         "doc_check": "서류 구비 확인", "cross_check": "서류 대조", "review": "심사 질의", "kie": "정보 추출",
-         "marks": "체크박스·도장·서명", "classify": "서류 분류", "ocr_page": "전체 받아쓰기", "ocr_field": "값 칸 읽기"}
+         "kie": "정보 추출", "freetext": "기타 칸 정리", "form_qa": "서식 전용 질문",
+         "marks": "체크박스·도장·서명", "classify": "서류 분류", "ocr_page": "전체 받아쓰기", "ocr_field": "값 칸 읽기",
+         "table": "표 추출", "table_read": "표 그대로 옮기기", "table_find": "표 찾기", "table_qa": "표 질의"}
 
 # -- field dictionaries: every key that appears in an example must be described here ----------------
 OCR_ROW = {
@@ -55,7 +56,7 @@ OCR_ROW = {
     "size": "정답 박스 높이 구간 `small`(<12) / `medium`(<25) / `large` (0~1000 좌표 기준, 평가에서 나눠 봄)",
 }
 BANK_COMMON = {
-    "id": "문항 ID: `<과제>/<묶음 또는 서류 ID>/<구분>`. 두 번째 칸이 고객(묶음) 단위라서, 학습·평가의 고객 겹침 검사와 GRPO용 고객 분리에 쓰인다",
+    "id": "문항 ID: `<과제>/<서류ID>_<seed>[/<구분>]`. 두 번째 칸이 서류 한 건이라서 학습·평가의 겹침 검사에 쓰인다",
     "task": "과제 이름",
     "images": "질문 앞에 순서대로 넣는 이미지 (세트 폴더 기준 상대 경로). 여러 쪽 서류는 `_p1`, `_p2` …",
     "prompt": "질문 문장 (docgen/bench/prompts.py 의 틀에 값을 채운 것)",
@@ -64,54 +65,62 @@ BANK_COMMON = {
     "meta": "결과를 나눠 보는 기준 (채점에는 안 쓰임)",
 }
 META = {
-    "scenario": "업무 ID (예: `jeonse_loan`)", "task_name": "업무 이름 (질문에 들어가는 이름)",
-    "bundle": "고객 묶음 ID `<업무>_<seed>`", "customer": "고객 성명 (질문에 들어감)",
-    "n_missing": "필수 서류 중 뺀 개수 (0~2, 다른 고객 서류로 바꾼 것은 세지 않음)", "not_customer": "다른 고객 서류를 섞었는지",
-    "not_required": "업무와 상관없는 서류를 끼워 넣었는지", "n_docs": "질문에 보여 준 서류 수",
-    "case": "불일치 사례 ID", "category": "사례 분류: typo 오기 / other_person 타인 / amount 금액 / logic 관계 / format 표기만 다름",
-    "perturbed": "값을 바꾼 변조 문항인지 (false = 같은 서류 조합의 정상 문항)",
-    "rule": "심사 질의 규칙 ID (`case:<사례>` = 서류 대조 사례에서 만든 예/아니오 질문)",
-    "skill": "능력 분류: 계산(비율) / 계산(합계) / 날짜 계산 / 표 계산 / 서류 대조",
-    "doc_type": "서류 ID (guide/documents.md)", "doc_name": "서류 정식 명칭", "group": "서류 그룹",
+    "doc_type": "서식 ID (guide/reference/documents.md)", "doc_name": "서류 정식 명칭", "group": "서식 그룹",
     "condition": "촬영 조건: clean 원본 / scan 스캔 / photo 촬영 / fax 팩스", "writing": "글씨: print 인쇄체 / hand 손글씨",
-    "n_pages": "쪽 수", "key": "값 칸의 정답 키", "label": "값 칸의 항목명", "kind": "값 종류 (이름·금액·날짜 …)",
+    "n_pages": "쪽 수 (한 쪽만 물으면 1)", "view": "물은 범위: all 서류 전체 / page 여러 쪽 서류에서 한 쪽만 (레시피 page_view)",
+    "page": "(view page) 물은 쪽 번호, 1부터", "n_pages_doc": "(view page) 서류 전체 쪽 수",
+    "key": "값 칸의 정답 키", "label": "값 칸의 키 설명", "kind": "값 종류 (이름·금액·날짜 …)",
     "corrected": "손글씨 정정(두 줄 긋고 고쳐 씀)이 있는 칸인지", "length": "정답 글자 수 (공백 제외)",
+    "masked": "검은 상자로 가린 값 칸 수 (정답 null)", "table": "표 묶음 이름 (키의 행 번호 앞, `rows.0.x` → `rows`)",
+    "ref": "표를 가리킨 방법: title 제목 / header 머리글 / box 위치 / only 표가 하나뿐", "scope": "범위: all 모든 행 / page 한 쪽 / first 앞 30행",
+    "n_rows": "표의 행 수 (물은 범위)", "n_cols": "열 수 (섞은 없는 열 포함)", "absent": "없는 열을 섞었는지",
+    "n_tables": "서류의 표 수", "n_segments": "표 조각 수 (여러 쪽 표는 쪽마다)", "segments": "같은 표가 나뉜 쪽 수",
+    "level": "기타 칸 글의 꼴: short 짧은 말 / sentence 문장 / relative 상대 날짜 / approx 대략적인 값",
+    "question": "서식 전용 질문: `<서식ID>.<qa.py 함수 이름>`",
+    "task_group": "과제 묶음: ocr 글자 읽기 / doc 문서 이해 (점수를 묶어 보는 구분)",
+    "label_format": "정답 구조 (key_values, table_rows, scalar …) — 점수를 정답 꼴별로 나눠 볼 때",
+    "template_variant": "서식 레이아웃 변형 {id, name}",
 }
 EVAL = {
-    "required": "필수 서류 목록 (질문에 번호로 나열한 것)",
-    "names": "모델 답의 서류명을 대응시킬 후보: 필수 서류 + 끼워 넣은 서류",
-    "documents": "질문에 보여 준 서류명 (모델 답의 document 를 이 중 하나로 대응시킴)",
-    "answer_type": "`number` 숫자 / `yesno` 예·아니오", "tol": "숫자 답의 허용 오차 (질문에 적은 반올림 자릿수에 맞춤)",
-    "days": "유효기간 문항: 발급일부터 신청일까지 일수 (정답 계산 근거)",
+    "answer_type": "서식 전용 질문의 정답 꼴: `number` 숫자 / `yesno` 예·아니오 / `text` / `json`", "tol": "숫자 답의 허용 오차",
     "fields": "키마다 `type`(값 타입), `norm`(정규화 값: 날짜 YYYY-MM-DD, 금액 정수 …), `kind`(값 종류). 타입별로 표기 차이를 맞춰 비교",
     "types": "키마다 `checkbox` / `checkbox_multi` / `seal` / `signature`",
+    "absent": "섞은 없는 키·열 (서류에 없음, 정답 null)", "group": "표 묶음 이름",
+    "type": "표 질의: 물은 열의 값 타입", "key": "표 질의: 물은 열 키",
+    "aliases": "분류: 정답으로 인정하는 다른 서류명",
 }
 ANSWER = {
-    "doc_check": "`missing` 빠진 필수 서류 (타인 서류만 낸 것 포함), `not_required` 필수 목록에 없는 서류, `not_customer` 고객 본인 명의가 아닌 서류. 세 목록이 모두 맞아야 완전 일치",
-    "cross_check": "`consistent` 불일치가 없으면 true. `issues[]`: `document` 문제 서류, `field` 항목명, `value` 그 서류에 적힌 값, `expected` 다른 서류에 적힌(맞아야 할) 값, `alt_documents` 짝 서류(이 서류를 짚어도 정답 인정, 학습 레코드에서는 뺌)",
-    "review": "숫자(문자열) 또는 `예` / `아니오`",
-    "kie": "`{키: 문서에 적힌 값 또는 null}`. 빈 칸은 null",
+    "kie": "`[{\"key\", \"value\": 문서에 적힌 값, \"bbox_2d\", \"page\"}]`. 빈 칸·가린 칸·서류에 없는 항목은 `{\"key\", \"value\": null}`",
+    "table": "`{\"columns\": 질문의 열 키, \"rows\": [[값 …]], \"row_boxes\": [{\"bbox_2d\", \"page\"}]}`. 행은 보이는 순서, 빈 칸·없는 열은 null",
+    "table_read": "같은 꼴, `columns` 는 머리글 글자 그대로 (여러 줄 머리글은 `위 > 아래`), 합계 행은 그대로",
+    "table_find": "`[{\"columns\": 머리글, \"bbox_2d\", \"page\", \"n_rows\"}]` 표마다 (여러 쪽이면 쪽마다), 없으면 []",
+    "table_qa": "숫자 하나 또는 칸 값 (비었으면 null)",
     "marks": "체크박스: 체크된 보기 글자 (없으면 null) · 복수 선택: 목록 · 도장/서명: true / false",
     "classify": "서류 정식 명칭",
     "ocr_page": "서류에 채워 넣은 값들 (한 줄에 하나). 채점은 이 값들이 받아쓴 글에 들어 있는 비율",
     "ocr_field": "잘라낸 값 칸에 적힌 글자",
+    "freetext": "`{\"purpose\", \"reason\", \"amount\", \"date\", \"period_months\", \"request\", \"memo\", \"approx\"}` 중 글에 적힌 키만. 용도·사유·요청은 질문의 보기 중 하나, 금액은 원 단위 정수, 날짜 YYYY-MM-DD, approx 는 대략적인 값을 쓴 키 목록",
+    "form_qa": "서식 폴더 `qa.py` 의 함수가 돌려준 정답 그대로 (숫자·예/아니오·글·JSON)",
 }
 SCORE = {
-    "doc_check": "주 지표: 완전 일치. 함께: 세 목록 합친 F1, 목록별 일치. 서류명은 후보(eval.names) 중 비슷한 이름으로 대응",
-    "cross_check": "정상 문항: consistent=true 면 1. 변조 문항: consistent=false 이고 issues 에 문제 서류(또는 짝 서류)와 값·원래 값·항목명 중 하나를 맞게 짚으면 1. 함께: 탐지, 위치, 오탐률",
-    "review": "숫자: 단위(%, 배, 원 …)를 떼고 tol 안이면 정답. 예/아니오: 네·아니요도 인정",
-    "kie": "주 지표: F1 (값이 있는 칸 기준, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교",
+    "kie": "주 지표: 값+위치 F1 (값 F1·위치 F1 함께, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교",
+    "table": "주 지표: 칸 F1 (정답 행과 답한 행을 순서대로 짝지은 뒤). 함께: 행 완전 일치, 행 수 일치, 행 위치 F1, 없는 열 null 비율",
+    "table_read": "주 지표: 칸 F1 (머리글을 글자로 짝지은 뒤). 함께: 머리글 F1",
+    "table_find": "주 지표: 같은 쪽·IoU 0.5 짝 F1. 함께: 표 수 일치, 행 수 일치, 머리글 F1",
+    "table_qa": "숫자는 같은 수, 칸 값은 kie 와 같은 비교 (빈 칸이면 답도 비어야)",
     "marks": "항목별 정확도",
     "classify": "공백·문장부호를 뺀 뒤 정식 명칭과 같으면 정답",
     "ocr_page": "값 재현율 (공백 무시). recall_fuzzy 는 값 길이 20% 까지 틀려도 인정",
     "ocr_field": "완전 일치 (공백 정규화), CER 함께",
+    "freetext": "주 지표: 키 F1 (적히지 않은 키를 답하면 감점). 함께: approx 일치, 문서 완전 일치",
+    "form_qa": "eval.answer_type 으로: 숫자는 단위를 떼고 tol 안, 예/아니오는 네·아니요도 인정, 글은 띄어쓰기·문장부호를 맞춰 같은지, JSON 은 칸마다",
 }
 OCR_SCORE = {
-    "crop_ocr": "글자: CER·완전 일치. GRPO 보상 0.7×문자 유사도+0.3×숫자 유사도",
+    "crop_ocr": "글자: CER·완전 일치. 문항 점수 0.7×문자 유사도+0.3×숫자 유사도",
     "bbox_ocr": "글자: CER·완전 일치·숫자 일치",
-    "grounding": "박스: IoU 0.5 F1 등. 정답이 [] 이면 [] 일 때만 맞음. 보상 min(1, IoU/0.8) 짝별 soft F1",
+    "grounding": "박스: IoU 0.5 F1 등. 정답이 [] 이면 [] 일 때만 맞음. 문항 점수 min(1, IoU/0.8) 짝별 soft F1",
     "region_ocr": "글자: CER·완전 일치 + 순서 무관 단어 F1",
-    "spotting": "박스+글자: 위치+글자 F1. 보상 0.5×min(1,IoU/0.8)+0.5×글자 유사도",
+    "spotting": "박스+글자: 위치+글자 F1. 문항 점수 0.5×min(1,IoU/0.8)+0.5×글자 유사도",
     "relation": "박스+글자: 위치+글자 F1 (박스 하나)",
     "marked_ocr": "글자: CER·완전 일치",
     "marked_box": "박스+글자: IoU 0.75 F1 (그린 사각형이라 정답 좌표가 정확함)",
@@ -162,7 +171,7 @@ def copy_image(src: Path, tag: str = "") -> str:
             im = im.convert("RGB")
             im.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)
             im.save(dst, quality=82)
-    return f"examples/img/{name}"
+    return f"../examples/img/{name}"
 
 
 def overlay(src: Path, boxes: list[list[int]], query: list[int] | None, tag: str) -> str:
@@ -182,7 +191,7 @@ def overlay(src: Path, boxes: list[list[int]], query: list[int] | None, tag: str
                 d.rectangle(sc(b), outline=(20, 170, 60), width=lw)
             im.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)
             im.save(dst, quality=82)
-    return f"examples/img/{dst.name}"
+    return f"../examples/img/{dst.name}"
 
 
 def imgs_html(paths: list[str], width: int = 300) -> str:
@@ -196,7 +205,6 @@ def ocr_section(prep: Path, ocr_json: Path | None) -> str:
     rows = [json.loads(x) for x in (prep / "benchmark_tasks.jsonl").open(encoding="utf-8")]
     pages = [json.loads(x) for x in (prep / "pages.jsonl").open(encoding="utf-8")]
     sft = [json.loads(x) for x in (prep / "train_sft.jsonl").open(encoding="utf-8")]
-    grpo = [json.loads(x) for x in (prep / "train_grpo.jsonl").open(encoding="utf-8")]
     manifest_cfg = json.loads((prep / "config.snapshot.json").read_text(encoding="utf-8"))
     out = ["## OCR 과제\n",
            "실제 학습은 내부망 서류 이미지를 사내 OCR에 돌린 결과로 했습니다. 이 문서의 예시는 실제 이미지를 문서에 넣을 수 없어서, "
@@ -237,7 +245,7 @@ def ocr_section(prep: Path, ocr_json: Path | None) -> str:
     blocks.append((f"pages.jsonl 한 줄 (ocr {len(page['ocr'])}개 중 앞 {head}개)", jdump({**page, "ocr": page["ocr"][:head]}, width=150)))
     EXAMPLES.append({"part": "OCR", "no": "1-0", "title": "입력 데이터: 페이지 이미지 + 사내 OCR JSON → manifest → pages.jsonl",
                      "images": [copy_image(src_img)],
-                     "notes": [("전체 목록", "guide/tasks.md 1-0 에 이 페이지의 OCR 결과 JSON 과 pages.jsonl 전체가 있습니다")],
+                     "notes": [("전체 목록", "guide/reference/tasks.md 1-0 에 이 페이지의 OCR 결과 JSON 과 pages.jsonl 전체가 있습니다")],
                      "blocks": blocks})
     out.append("### 1-1. 문항 한 줄의 필드 (`*_tasks.jsonl`, 모든 OCR 과제 공통)\n")
     out.append(table(list(OCR_ROW.items())))
@@ -280,17 +288,12 @@ def ocr_section(prep: Path, ocr_json: Path | None) -> str:
 
     out.append(f"### 1-{len(OCR_TASKS) + 2}. SFT 학습 샘플 한 줄 (`train_sft.jsonl`)\n")
     s = max(sft, key=lambda x: len(x["messages"]))
-    g = next(x for x in grpo if x["task"] == "grounding")
-    EXAMPLES.append({"part": "OCR", "no": f"1-{len(OCR_TASKS) + 2}", "title": "SFT 학습 샘플 한 줄과 GRPO 문제 한 줄",
+    EXAMPLES.append({"part": "OCR", "no": f"1-{len(OCR_TASKS) + 2}", "title": "SFT 학습 샘플 한 줄",
                      "images": [copy_image(Path(s["images"][0]))],
-                     "notes": [("SFT", "같은 이미지 질문 최대 8개를 한 대화로. 이미지는 첫 질문에만"),
-                               ("GRPO", "질문만. 모델이 만든 답들을 target으로 채점해 보상")],
-                     "blocks": [("train_sft.jsonl 한 줄", jdump(s)), ("train_grpo.jsonl 한 줄", jdump(g))]})
+                     "notes": [("SFT", "같은 이미지 질문 최대 8개를 한 대화로. 이미지는 첫 질문에만")],
+                     "blocks": [("train_sft.jsonl 한 줄", jdump(s))]})
     out.append("같은 이미지에 대한 질문을 최대 8개까지 한 대화로 묶습니다. 이미지는 첫 질문에만 붙고, 답은 모두 학습합니다.\n")
     out.append(code(jdump(s), "json"))
-    out.append(f"### 1-{len(OCR_TASKS) + 3}. GRPO 문제 한 줄 (`train_grpo.jsonl`)\n")
-    out.append("질문만 있고 답은 없습니다. 모델이 답을 여러 개 만들면 `target`으로 보상을 계산합니다.\n")
-    out.append(code(jdump(next(g for g in grpo if g["task"] == "grounding")), "json"))
     text = "\n".join(out)
     roots = {str(prep): "<prepared>", str(Path(manifest_cfg["cache_dir"])): "<ocr_cache>"}
     if ocr_json:
@@ -362,21 +365,17 @@ def check_keys(it: dict):
 
 
 def bank_section(bench: Path) -> str:
-    from docgen.bench.cases import CASES
-    from docgen.bench.rules import RULES
-
     items = {t: [json.loads(x) for x in (bench / "tasks" / f"{t}.jsonl").open(encoding="utf-8")] for t in BANK_TASKS
              if (bench / "tasks" / f"{t}.jsonl").exists()}
     meta = json.loads((bench / "meta.json").read_text(encoding="utf-8"))
-    out = ["## 은행 업무 과제\n",
+    out = ["## 서류 한 건 과제\n",
            f"예시는 `python -m docgen.bench build` 로 만든 실제 평가 세트 형식 그대로입니다 (세트 버전 {meta.get('version')}, "
-           f"생성기 커밋 `{meta.get('generator_commit')}`). 학습 데이터(`--split train`)도 같은 형식이고, 고객만 다릅니다.\n"]
+           f"생성기 커밋 `{meta.get('generator_commit')}`). 학습 데이터(`--split train`)도 같은 형식이고, 가짜 고객(seed)만 다릅니다.\n"]
     out.append("### 2-0. 세트 폴더와 문항 한 줄의 필드\n")
     out.append(code("""<세트>/
   meta.json                 만든 설정, 생성기 커밋, 과제별 문항 수, split (test / train)
-  images/<서류ID>_<seed>.jpg               서류 한 건 과제의 이미지 (여러 쪽이면 _p1, _p2 …)
-  images/bundles/<묶음ID>/<서류ID>.png     업무 묶음의 서류 이미지
-  images/bundles/<묶음ID>/<서류ID>_<사례>.png   값을 바꾼 사본 (other_person 은 다른 고객 서류)
+  dataset.json              (레시피로 만들 때) 레시피, 생성기 커밋, 서식 파일 해시
+  images/<서류ID>_<seed>.jpg               서류 이미지 (여러 쪽이면 _p1, _p2 …)
   crops/                    값 칸을 잘라낸 이미지 (ocr_field)
   tasks/<과제>.jsonl        문항, 한 줄에 하나
   swift/all.jsonl           (학습 세트만) 같은 문항의 학습 레코드"""))
@@ -386,71 +385,34 @@ def bank_section(bench: Path) -> str:
     out.append("**eval 키**\n")
     out.append(table(list(EVAL.items())))
 
-    picks = {}
-    for t in BANK_TASKS:
-        cand = items.get(t) or []
-        if t == "doc_check":
-            cand = sorted(cand, key=lambda x: -(x["meta"]["n_missing"] > 0) - x["meta"]["not_customer"] - x["meta"]["not_required"])
-        if t == "cross_check":
-            cand = [x for x in cand if x["meta"]["case"] == "lease_owner" and x["meta"]["perturbed"]] or cand
-        if t == "review":
-            cand = [x for x in cand if x["meta"]["rule"] == "ltv"] or cand
-        if not cand:
-            raise SystemExit(f"no example for {t}")
-        picks[t] = cand[0]
     for i, t in enumerate(BANK_TASKS, 1):
-        it = picks[t]
-        check_keys(it)
+        heading = f"### 2-{i}. {t} — {TITLE[t]}"
         extra = f"**정답 형식:** {ANSWER[t]}\n\n**채점:** {SCORE[t]}"
-        out.append(bank_block(bench, it, f"### 2-{i}. {t} — {TITLE[t]}", extra))
-
-    # every cross_check case
-    out.append("## 3부. 서류 대조 사례 14종 (cross_check 문항 하나씩)\n")
-    out.append("사례마다 원본 서류에서 그 관계가 맞는지 먼저 확인하고, 50% 확률로 값 하나를 바꿔 다시 렌더링합니다(변조 문항). "
-               "나머지는 같은 서류 조합 그대로 냅니다(정상 문항). 아래는 사례마다 변조 문항 하나입니다(`format_only` 는 항상 정상 문항). "
-               "예/아니오로 물을 수 있는 사례는 같은 이미지로 심사 질의 문항(`review`, rule `case:<사례>`)도 만듭니다.\n")
-    cc = items["cross_check"]
-    for n, case in enumerate(CASES, 1):
-        cand = [x for x in cc if x["meta"]["case"] == case.id and (x["meta"]["perturbed"] or case.id == "format_only")]
-        if not cand:
-            out.append(f"### 3-{n}. {case.id} — {case.title}\n\n이 세트에는 이 사례의 변조 문항이 없습니다. 세트를 더 크게 만들면 나옵니다.\n")
+        if not items.get(t):
+            if t != "form_qa":
+                raise SystemExit(f"no example for {t}")
+            out.append(f"{heading}\n\n{extra}\n\n이 저장소의 서식에는 아직 `qa.py` 가 없어 예시가 없습니다. "
+                       "서식 폴더에 `qa.py` 를 두면 그 서식 문서마다 함수 하나 = 질문 하나가 나옵니다 (`docgen/forms/README.md`).\n")
             continue
-        it = cand[0]
+        it = items[t][0]
         check_keys(it)
-        extra = f"**분류:** `{case.category}` · **실제 사례 근거:** {case.basis}"
-        out.append(bank_block(bench, it, f"### 3-{n}. {case.id} — {case.title}", extra))
-
-    # every review rule
-    out.append("## 4부. 심사 질의 규칙 (review 문항 하나씩)\n")
-    out.append("정답은 서류의 정답 값으로 계산합니다. 질문에 반올림 자릿수·기준일·답 형식을 적어 정답이 하나로 정해집니다.\n")
-    rv = items["review"]
-    present = {x["meta"]["rule"] for x in rv}
-    # computed rules (rules.py, plus doc_valid which build.py adds with an aged copy), then the case questions
-    rule_ids = [r for r in [*RULES, "doc_valid"] if r in present] + [f"case:{c.id}" for c in CASES if f"case:{c.id}" in present]
-    rule_ids = list(dict.fromkeys(rule_ids))
-    missing = sorted(present - set(rule_ids))
-    if missing:
-        raise SystemExit(f"review rules not listed: {missing}")
-    for n, rid in enumerate(rule_ids, 1):
-        it = next(x for x in rv if x["meta"]["rule"] == rid)
-        check_keys(it)
-        out.append(bank_block(bench, it, f"### 4-{n}. {rid} ({it['meta']['skill']})"))
+        out.append(bank_block(bench, it, heading, extra))
     return "\n".join(out)
 
 
-HOWTO = """## 5부. 비슷한 문제를 새로 정의하려면
+HOWTO = """## 3부. 비슷한 문제를 새로 정의하려면
 
 | 바꾸고 싶은 것 | 고칠 곳 |
 |---|---|
-| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·studio 가 같이 씀. `guide/questions.md` 와 테스트도 같이 고침) |
-| 새 서류 대조 사례 | `docgen/bench/cases.py` 의 `CASES` 에 `Case(id, 제목, 분류, 근거, 함수)` 추가. 함수는 원본에서 관계가 맞는지 확인하고, 바꿀 서류·키·값과 짝 서류를 돌려줌 |
-| 새 심사 질의 규칙 | `docgen/bench/rules.py` 의 `RULES` 에 함수 추가. `{"question", "answer", "answer_type", "tol", "docs", "skill"}` 를 돌려줌 |
-| 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |
-| 문항 만드는 방식 (빼는 서류 수, 타인 서류 비율 등) | `docgen/bench/build.py` 의 `doc_check`, `cross_checks`, `single` |
-| 채점 | `docgen/bench/evaluate.py` (OCR 과제 포함, GRPO 보상도 같은 `evaluate.reward`: `train/reward_plugin.py`) |
+| 질문 문장 | 공통 `docgen/forms/_common/questions.json`, 서식마다 다르게는 그 서식 폴더의 `questions.json` (`guide/reference/questions.md`) |
+| 서식마다 묻는 칸·키 설명 | 칸의 `q` (`fields.json`) |
+| 서식 하나에만 묻는 질문 | 서식 폴더의 `qa.py` → 과제 `form_qa` (`docgen/forms/README.md`) |
+| 과제의 정답 만드는 방식·답 형식 | `docgen/bench/tasks/<과제>.py` (과제 하나 = 파일 하나: `make(doc)`, `ANSWER`·`EXAMPLE`·`NOTES`) |
+| 기타 칸 글의 문장 틀 | `docgen/forms/_common/freetext_templates.json` |
+| 채점 | `docgen/bench/evaluate.py` (OCR 과제 포함) |
 | OCR 과제 질문·만드는 방식 | `docgen/bench/ocr_tasks.py` (`PROMPTS`, 과제별 함수), 개수는 OCR 준비 설정의 `tasks_per_view` (`docgen/bench/ocr_config.example.json`) |
 
-실제 서류로 같은 형식의 문항을 만들면 코드 수정 없이 파이프라인에 연결됩니다. 위 `2-0` 의 폴더 구조와 필드를 그대로 따르면 됩니다.
+실서류로 같은 형식의 문항을 만들면 코드 수정 없이 학습·평가에 쓸 수 있습니다. 위 `2-0` 의 폴더 구조와 필드를 그대로 따르면 됩니다.
 """
 
 
@@ -472,11 +434,9 @@ def main():
 - 이미지는 문서 크기 때문에 긴 변 1000px 로 줄인 사본입니다(`guide/examples/img/`). 모델이 보는 크기는 학습 설정(긴 변 2300·짧은 변 1600, 문항당 이미지 합 12,000토큰)을 따릅니다.
 
 **목차**
-- [OCR 과제](#ocr-과제) — 입력 데이터, 문항 필드, 과제 8종, SFT·GRPO 행
-- [은행 업무 과제](#은행-업무-과제) — 세트 구조, 필드 사전, 과제 8종
-- [3부. 서류 대조 사례 14종](#3부-서류-대조-사례-14종-cross_check-문항-하나씩)
-- [4부. 심사 질의 규칙](#4부-심사-질의-규칙-review-문항-하나씩)
-- [5부. 비슷한 문제를 새로 정의하려면](#5부-비슷한-문제를-새로-정의하려면)
+- [OCR 과제](#ocr-과제) — 입력 데이터, 문항 필드, 과제 8종, SFT 행
+- [서류 한 건 과제](#서류-한-건-과제) — 세트 구조, 필드 사전, 과제 11종
+- [3부. 비슷한 문제를 새로 정의하려면](#3부-비슷한-문제를-새로-정의하려면)
 """
     text = "\n".join([head, ocr_section(a.ocr, a.ocr_json), bank_section(a.bench), HOWTO])
     OUT_MD.write_text(text, encoding="utf-8")

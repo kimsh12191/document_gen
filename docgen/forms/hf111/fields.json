@@ -24,7 +24,9 @@
     325.6,
     202.0
    ],
-   "section": "위임자"
+   "section": "위임자",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     325.6,
     225.0
    ],
-   "section": "위임자"
+   "section": "위임자",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     548.1,
     248.0
    ],
-   "section": "위임자"
+   "section": "위임자",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     325.6,
     270.9
    ],
-   "section": "국내 대리인"
+   "section": "국내 대리인",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     325.6,
     293.9
    ],
-   "section": "국내 대리인"
+   "section": "국내 대리인",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -84,7 +94,10 @@
     548.1,
     202.0
    ],
-   "section": "위임자"
+   "section": "위임자",
+   "kind": "number",
+   "std": false,
+   "key": "영주권번호"
   },
   {
    "t": "text",
@@ -96,7 +109,10 @@
     548.1,
     225.0
    ],
-   "section": "위임자"
+   "section": "위임자",
+   "kind": "passport",
+   "std": false,
+   "key": "여권번호"
   },
   {
    "t": "text",
@@ -108,7 +124,9 @@
     548.1,
     270.9
    ],
-   "section": "국내 대리인"
+   "section": "국내 대리인",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -120,7 +138,9 @@
     548.1,
     293.9
    ],
-   "section": "국내 대리인"
+   "section": "국내 대리인",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -131,7 +151,10 @@
     335.9,
     547.3,
     354.1
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "대출금용도"
   },
   {
    "t": "text",
@@ -142,7 +165,10 @@
     380.9,
     547.3,
     399.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "대출기간"
   },
   {
    "t": "text",
@@ -153,7 +179,9 @@
     440.9,
     546.8,
     459.1
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -164,7 +192,10 @@
     455.9,
     546.8,
     474.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "설정최고액"
   },
   {
    "t": "text",
@@ -175,7 +206,10 @@
     470.9,
     546.8,
     489.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "설정자"
   },
   {
    "t": "date",
@@ -200,7 +234,8 @@
      328.4,
      621.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -211,7 +246,9 @@
     641.5,
     547.3,
     659.7
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -222,7 +259,8 @@
     659.5,
     547.3,
     677.7
-   ]
+   ],
+   "kind": "seal"
   }
  ]
 }

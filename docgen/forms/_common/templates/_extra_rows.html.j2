@@ -1,0 +1,32 @@
+{#
+  별지(계속): 원본 서식의 표가 인쇄된 줄보다 길 때 남은 행을 이어 적는 쪽 (docgen/realform.py build_form 의 extra_rows).
+  _real_form.html.j2(원본 배경 서식)와 _official_base.html.j2(공식 대조 html 서식)가 쪽들 뒤에 넣는다.
+  .page.a4 라서 한 장을 넘치면 paginate.js 가 표를 줄 단위로 잘라 다음 쪽으로 넘기고 머리글 줄을 반복한다.
+  값은 f() 로 찍어 인쇄된 칸과 같은 키(<묶음>_목록.<행>.<항목명>)로 정답·위치가 잡힌다.
+#}
+{% if d.get("extra_rows") %}
+{% set pg0 = d.pages[0] %}
+<style>
+.page.xrows {padding:64px 60px 48px;font-family:'Malgun Gothic','Nanum Gothic',sans-serif;color:#111}
+.xrows h2 {margin:0 0 4px;font-size:20px;letter-spacing:6px;text-align:center}
+.xrows .xr-sub {margin:0 0 18px;font-size:12px;text-align:center;color:#444}
+.xrows .xr-t {margin:16px 0 6px;font-size:13px;font-weight:700}
+.xrows table.xr {width:100%;border-collapse:collapse;font-size:12px}
+.xrows table.xr th {background:#f1f1f1;font-weight:600;border:1px solid #555;padding:5px 4px}
+.xrows table.xr td {border:1px solid #555;height:26px;padding:0 6px;white-space:nowrap;
+  font-family:{{ (d.get('style') or {}).get('font', "'Malgun Gothic'")|safe }},sans-serif;color:{{ (d.get('style') or {}).get('ink', '#172b50') }}}
+.xrows table.xr td.no {width:38px;text-align:center;font-family:'Malgun Gothic',sans-serif;color:#111}
+.xrows table.xr td.right {text-align:right}
+</style>
+<div class="page a4 xrows" style="width:{{ pg0.w }}px;height:{{ pg0.h }}px" data-pg-cont="다음 쪽에 계속">
+<h2>별 지</h2>
+<p class="xr-sub">{{ d.get("name") or spec.name }} — 기재란이 모자라 이어 적음</p>
+{% for t in d.extra_rows %}
+<div class="xr-t">{{ (t.title or "표")|replace("_", " ") }} ({{ t.page + 1 }}쪽 표에서 계속)</div>
+<table class="xr"><thead><tr><th>번호</th>{% for c in t.columns %}<th>{{ c }}{% if t.units[loop.index0] %} ({{ t.units[loop.index0] }}){% endif %}</th>{% endfor %}</tr></thead>
+<tbody>
+{% for r in t.rows %}<tr><td class="no">{{ r.no }}</td>{% for c in r.cells %}<td class="{{ c.align }}">{{ f(c.key, value=c.value, label=c.label) }}</td>{% endfor %}</tr>
+{% endfor %}</tbody></table>
+{% endfor %}
+</div>
+{% endif %}

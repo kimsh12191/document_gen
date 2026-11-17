@@ -65,7 +65,9 @@
     297.9,
     218.5
    ],
-   "hint": "필수기재"
+   "hint": "필수기재",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -76,7 +78,9 @@
     218.5,
     297.9,
     252.5
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -89,7 +93,9 @@
     201.5
    ],
    "hint": "필수기재",
-   "section": "업체명"
+   "section": "업체명",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -102,7 +108,10 @@
     218.5
    ],
    "hint": "필수기재",
-   "section": "업체명"
+   "section": "업체명",
+   "kind": "date",
+   "std": false,
+   "key": "대표자/생년월일"
   },
   {
    "t": "text",
@@ -113,7 +122,9 @@
     218.5,
     549.6,
     252.5
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "check",
@@ -254,7 +265,8 @@
     311.2,
     549.6,
     444.4
-   ]
+   ],
+   "key": "check.신청내용"
   },
   {
    "t": "text",
@@ -265,7 +277,10 @@
     461.4,
     347.5,
     518.1
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "변경내용"
   },
   {
    "t": "text",
@@ -277,7 +292,10 @@
     549.6,
     294.2
    ],
-   "section": "약정정보"
+   "section": "약정정보",
+   "kind": "product",
+   "std": false,
+   "key": "약정상품명"
   },
   {
    "t": "text",
@@ -289,7 +307,10 @@
     549.6,
     311.2
    ],
-   "section": "약정정보"
+   "section": "약정정보",
+   "kind": "number",
+   "std": false,
+   "key": "약정번호"
   },
   {
    "t": "text",
@@ -301,7 +322,10 @@
     549.6,
     518.1
    ],
-   "row": true
+   "row": true,
+   "kind": "note",
+   "std": false,
+   "key": "변경후"
   },
   {
    "t": "text",
@@ -313,7 +337,9 @@
     546.6,
     630.6
    ],
-   "hint": "(인/서명)"
+   "hint": "(인/서명)",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -324,7 +350,9 @@
     542.8,
     297.9,
     559.8
-   ]
+   ],
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -335,7 +363,9 @@
     559.8,
     297.9,
     576.8
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -347,7 +377,10 @@
     549.6,
     593.8
    ],
-   "hint": "※ 위임하는 내용(범위)을 구체적으로 기재하셔야 합니다."
+   "hint": "※ 위임하는 내용(범위)을 구체적으로 기재하셔야 합니다.",
+   "kind": "note",
+   "std": false,
+   "key": "위임내용"
   },
   {
    "t": "text",
@@ -358,7 +391,9 @@
     542.8,
     549.6,
     559.8
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -369,7 +404,9 @@
     559.8,
     549.6,
     576.8
-   ]
+   ],
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "date",
@@ -395,7 +432,8 @@
      339.3,
      677.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -412,7 +450,9 @@
     695.5,
     552.8,
     707.6
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   }
  ]
 }

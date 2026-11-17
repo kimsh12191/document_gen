@@ -29,7 +29,9 @@
     502.3,
     547.3,
     521.6
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -40,7 +42,10 @@
     518.3,
     547.3,
     537.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Title"
   },
   {
    "t": "text",
@@ -51,7 +56,9 @@
     735.5,
     547.3,
     754.9
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -62,7 +69,10 @@
     751.6,
     547.3,
     770.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Title"
   },
   {
    "t": "text",
@@ -73,7 +83,9 @@
     767.6,
     547.3,
     786.9
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "sign",
@@ -90,7 +102,9 @@
     473.3,
     308.8,
     486.6
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -101,7 +115,9 @@
     486.2,
     547.3,
     505.5
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -112,7 +128,9 @@
     502.2,
     547.3,
     521.5
-   ]
+   ],
+   "kind": "text",
+   "key": "employer.position"
   },
   {
    "t": "sign",
@@ -129,7 +147,9 @@
     706.5,
     308.8,
     719.9
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -140,7 +160,9 @@
     719.5,
     547.3,
     738.9
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -151,7 +173,9 @@
     735.5,
     547.3,
     754.9
-   ]
+   ],
+   "kind": "text",
+   "key": "employer.position"
   },
   {
    "t": "text",
@@ -162,7 +186,9 @@
     751.5,
     547.3,
     770.9
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   }
  ]
 }

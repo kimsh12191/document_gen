@@ -23,7 +23,10 @@
     283.9,
     544.9,
     307.2
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "폐지사유"
   },
   {
    "t": "text",
@@ -34,7 +37,9 @@
     170.8,
     289.5,
     207.7
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -45,7 +50,9 @@
     207.7,
     547.9,
     244.5
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -56,7 +63,9 @@
     244.5,
     547.9,
     281.4
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "date",
@@ -81,7 +90,8 @@
      528.0,
      196.1
     ]
-   }
+   },
+   "key": "company.established"
   },
   {
    "t": "date",
@@ -106,7 +116,8 @@
      526.6,
      556.3
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

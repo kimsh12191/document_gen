@@ -1,38 +1,40 @@
 """studio 웹 서버 (FastAPI). 화면은 studio/static/ 의 HTML·JS 한 벌이다.
 
-여기에는 ① 서식·② 표시 요소·③ 시나리오 예시 실행 API 를 두고, 나머지 메뉴는 api_*.py 의 라우터를 붙인다.
+여기에는 ① 서식·② 표시 요소 API 를 두고, 나머지 메뉴(데이터셋)는 api_*.py 의 라우터를 붙인다.
+띄울 때 한 번: 옛 등록부 줄 고치기(datasets.Registry.migrate), 놓친 자동 등록 복구(build_registration.recover_completed).
+GET 요청은 파일을 쓰지 않는다 (미리보기 그림 캐시만 예외).
 
 API
-  GET  /api/info                      설정 요약, 브라우저 경로
-  GET  /api/groups                    서식 그룹
+  GET  /api/info                      설정 요약, 브라우저 경로, ocr_configured (사내 OCR 설정이 있는지 — 없으면 화면이 [사내 OCR 로 읽기]를 숨김)
   GET  /api/forms                     서식 목록
-  GET  /api/forms/{id}                서식 상세 (키 목록, 파일, 시나리오, 검수·배정·문제 표시)
-  POST /api/forms/{id}/render         미리보기 {seed, heavy, special, condition, force, draft?, extra?} → 라벨 + 이미지 주소
-  POST /api/forms/{id}/questions      ① 문항 Q/A: 그 미리보기로 실제 생성기(Builder.single)가 만드는 문항 (studio/questions.py)
+  GET  /api/forms/{id}                서식 상세 (키 목록, 파일, 검수·배정·문제 표시)
+  GET/POST /api/forms/{id}/card       서식 카드 FORM.md 보기 / 다시 만들기 (docgen/formcard.py)
+  GET  /api/forms/{id}/overview       ① 개요 › 요약: 과제마다 묻는 것 (kie 칸·표·체크·qa.py) + 질문 검사·카드 상태
+  POST /api/forms/{id}/render         미리보기 {seed, heavy, special, condition, force, draft?} → 라벨 + 이미지 주소
+  POST /api/forms/{id}/questions      ① 질문·답 › 실제 문항: 그 미리보기로 실제 생성기(Builder.single)가 만드는 문항 (studio/questions.py)
   GET  /api/question-formats          과제별 공통 질문·answer 형식 (docgen.bench.contracts)
-  POST /api/scenarios/run             ③ 처리 설정 예시 실행 {scenario, seed} (studio/scenario_processing.py)
   GET  /api/forms/{id}/layout        overlay 영역 편집기: 영역(자동/수정/추가/뺌), 사람 수정, 깨진 수정
   PUT  /api/forms/{id}/overrides      사람 수정 저장 {overrides}
   GET  /api/forms/{id}/bg/{page}      지우기 전 배경 그림
-  GET  /api/forms/{id}/cell-image?keys=a,b   칸 자리 그림 (seed 0 미리보기에서 그 칸 둘레를 잘라 빨간 테두리) — 키 사전에서 칸이 누구 것인지 볼 때
   GET  /api/forms/{id}/checks         검수 전 자동 검사 (경고)
   POST /api/forms/{id}/review         검수 완료 {done}
   POST /api/forms/{id}/meta           학습/평가 배정·메모 {split, note}
   POST /api/forms/{id}/issues         문제 표시 추가 · PATCH /api/forms/{id}/issues/{iid} 상태·메모·삭제
-  GET  /api/keys                      표준 키 사전 (docgen/keys.json)
   GET  /api/sources                   값 출처 목록 (프로필 경로와 예시, 규칙)
   GET  /api/marks                     표시 요소 설정·풀 · PUT /api/marks/settings · PUT /api/marks/pools/{풀}
   POST /api/marks/pools/{풀}/upload   풀 이미지 올리기 · POST /api/marks/pools/{풀}/font 글꼴 · POST /api/marks/seal-template
                                       · DELETE /api/marks/pools/{풀}/{id}
+  POST /api/forms/refresh             서식 다시 읽기 (서식 폴더 다시 훑기 + studio 쪽 캐시 비우기)
+  POST /api/forms/{id}/read-texts     그린 서식의 배경 글자를 사내 OCR 로 읽기 (studio/drawn.py)
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
-  (⑥⑦ 등록부·채점: api_datasets.py, ③⑥⑧ 레시피·빌드·작업·업무 묶음·학습 설정: api_bank.py,
-   키 사전: api_keys.py·api_dictionary.py, ④ 서류 넣기: api_intake.py, ④⑤ 이미지 묶음·OCR 검수: api_import.py, ④ 라벨 있는 데이터: api_labels.py, ④ 결과 폴더·⑤ 라벨 검수: api_review.py,
-   ① html 편집·복제·⑧ 분석기: api_html.py)
+  (데이터셋 등록부: api_datasets.py, 레시피·빌드·작업: api_bank.py).
+  html 서식은 화면에서 고치지 않는다 (코드로: docgen/manual/NEW_FORM_SPEC.md)
 """
 from __future__ import annotations
 
-import json
+import logging
 import os
+import threading
 from contextlib import asynccontextmanager
 from functools import lru_cache
 from pathlib import Path
@@ -47,9 +49,9 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_dictionary, api_form_draft, api_html, api_import, api_intake, api_keys, api_labels, api_review, api_real_benchmark, catalog, editor, marks_admin
+from . import api_bank, api_datasets, catalog, editor, marks_admin
 from . import datasets as DS
-from .jobs import Jobs
+from .jobs import Conflict, Jobs
 from .config import ROOT, load, resolve_path, setup_browser
 
 STATIC = Path(__file__).resolve().parent / "static"
@@ -72,6 +74,8 @@ def guard(fn, *args, **kw):
         return fn(*args, **kw)
     except HTTPException:
         raise
+    except Conflict as e:   # 같은 폴더로 도는 작업·이미 있는 폴더
+        raise HTTPException(409, str(e))
     except KeyError as e:
         raise HTTPException(404, f"찾을 수 없음: {e}")
     except ValueError as e:
@@ -80,11 +84,37 @@ def guard(fn, *args, **kw):
         raise HTTPException(500, f"{type(e).__name__}: {e}")
 
 
+def startup_once() -> None:
+    """띄울 때 한 번: 옛 등록부 줄을 고쳐 저장하고, 재시작으로 놓친 생성 완료 등록을 복구한다 (GET 에서는 하지 않는다)."""
+    from .build_registration import recover_completed
+
+    for step, fn in (("등록부 고치기", REGISTRY.migrate), ("자동 등록 복구", lambda: recover_completed(JOBS, REGISTRY))):
+        try:
+            fn()
+        except Exception as e:  # noqa: BLE001  하나가 실패해도 studio 는 뜬다
+            logging.getLogger("studio").warning("%s 실패: %s: %s", step, type(e).__name__, e)
+
+
+def _watch_interrupted(stop: threading.Event) -> None:
+    """끊긴 생성 작업을 30초마다 확인 (끝났으면 등록, 멈췄으면 실패로). 끊긴 작업이 없으면 파일을 읽기만 한다."""
+    from .build_registration import settle_interrupted
+
+    while not stop.wait(30):
+        try:
+            settle_interrupted(JOBS, REGISTRY)
+        except Exception as e:  # noqa: BLE001  확인이 실패해도 studio 는 돈다
+            logging.getLogger("studio").warning("끊긴 작업 확인 실패: %s: %s", type(e).__name__, e)
+
+
 @asynccontextmanager
 async def lifespan(_app):
+    startup_once()
+    stop = threading.Event()
+    threading.Thread(target=_watch_interrupted, args=(stop,), daemon=True, name="studio-interrupted").start()
     if BROWSER and not os.environ.get("STUDIO_NO_WARM"):
         previewer.warm()   # 첫 미리보기 전에 브라우저를 띄워 둔다
     yield
+    stop.set()
     previewer.close()
 
 
@@ -131,19 +161,8 @@ app.mount("/ocr-example-images", StaticFiles(directory=ROOT / "guide/examples/im
 app.mount("/marks-img", StaticFiles(directory=M.POOLS_DIR), name="marks-img")
 REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") or {})
 JOBS = Jobs(REGISTRY.ws, ROOT)
-app.include_router(api_datasets.make_router(REGISTRY, guard, JOBS))
+app.include_router(api_datasets.make_router(REGISTRY, guard))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
-# 실서류 검수 결과 (OCR 검수본 등). 설정이 없으면 작업 공간 안에 두고 화면에 경고한다
-REAL_ROOT = resolve_path(CFG.get("real_data_dir")) or REGISTRY.ws / "real_data"
-app.include_router(api_real_benchmark.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))
-app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT / "ocr_reviewed"))
-app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
-app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제·분석기
-app.include_router(api_review.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # 결과 폴더 검사, 라벨 검수
-app.include_router(api_intake.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # ④ 서류 넣기
-app.include_router(api_keys.make_router(guard))   # 키 사전 (키 규칙·값 종류)
-app.include_router(api_dictionary.make_router(guard))   # 키 사전 (당사자 계층·문서 분류·업무·합치기)
-app.include_router(api_form_draft.make_router(REGISTRY, JOBS, guard, CFG))   # 서식 초안 (예시 이미지 → html·키 추천)
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
@@ -154,18 +173,14 @@ def index():
 
 @app.get("/api/info")
 def info():
+    from .drawn import ocr_configured
+
     return {
-        "features": {"benchmark_units": True},
         "config_file": CFG["config_file"], "browser": BROWSER, "cache_dir": str(CACHE),
-        "paths": {k: CFG[k] for k in ("workspace_dir", "import_dir", "real_data_dir", "private_forms_dir")},
-        "ocr": CFG["ocr"], "providers": sorted(CFG["providers"]),
+        "paths": {k: CFG[k] for k in ("workspace_dir", "private_forms_dir")},
+        "ocr": CFG["ocr"], "ocr_configured": ocr_configured(CFG.get("ocr")),
         "conditions": CONDITIONS, "modes": MODES, "user": USER,
     }
-
-
-@app.get("/api/groups")
-def groups():
-    return catalog.groups()
 
 
 @app.get("/api/guide")
@@ -182,13 +197,6 @@ def ocr_examples():
     return guard(examples)
 
 
-@app.get("/api/guide/catalog")
-def guide_catalog():
-    from .guidebook import catalog as data_catalog
-
-    return guard(data_catalog)
-
-
 @app.get("/api/guide/document")
 def guide_document(name: str):
     from .guidebook import document
@@ -196,26 +204,45 @@ def guide_document(name: str):
     return {"name": name, "markdown": guard(document, name)}
 
 
-@app.get("/api/guide/forms/{doc_id}")
-def guide_form(doc_id: str):
-    from .guidebook import catalog as data_catalog
-
-    data = guard(data_catalog)
-    item = next((f for f in data["forms"] if f["id"] == doc_id), None)
-    if item is None:
-        raise HTTPException(404, "알 수 없는 서식")
-    return item
-
-
 @app.get("/api/forms")
 def forms():
     return catalog.list_forms()
 
 
+@app.get("/api/forms/{doc_id}/card")
+def form_card(doc_id: str):
+    """서식 카드 FORM.md: 이 서식의 항목·위치·정의한 곳·질문→답 예시·고치는 곳 (docgen/formcard.py)."""
+    return guard(catalog.card, doc_id)
+
+
+@app.get("/api/forms/{doc_id}/overview")
+def form_overview(doc_id: str):
+    """개요 탭: 과제마다 묻는 것 (kie 칸·표·체크·도장·qa.py·분류·받아쓰기) + 질문 검사·카드 상태."""
+    return guard(catalog.overview, doc_id)
+
+
+@app.post("/api/forms/{doc_id}/card")
+def form_card_make(doc_id: str):
+    """카드 다시 만들기 (python -m docgen.formdir card <ID>)."""
+    return guard(catalog.make_card, doc_id)
+
+
 @app.post("/api/forms/refresh")
 def forms_refresh():
-    """서식 폴더를 다시 훑는다 (① 서식 › 서식 다시 읽기): 새 폴더 등록, 이름·그룹 다시 읽기, 없어진 폴더 빼기. docgen/registry.refresh."""
+    """서식 폴더를 다시 훑는다 (① 서식 › 서식 다시 읽기): 새 폴더 등록, 이름·그룹 다시 읽기, 없어진 폴더 빼기. docgen/registry.refresh.
+    studio 쪽 캐시(키 목록·값 점검은 catalog.refresh, 값 출처 목록은 여기)도 비운다."""
+    _sources.cache_clear()
     return guard(catalog.refresh)
+
+
+@app.post("/api/forms/new-image")
+async def forms_new_image(form_id: str = Form(...), name: str = Form(...), real_data: bool = Form(True),
+                          files: list[UploadFile] = File(...)):
+    """새 서식 추가 › 그림 위에 그려서 만들기: 서식 그림(PNG·JPG·PDF) → 빈 overlay(image) 서식 img_* (OCR 없음). studio/drawn.py."""
+    from . import drawn
+
+    got = [(Path(f.filename or "file").name, await f.read()) for f in files]
+    return guard(drawn.create, got, form_id, name, real_data, os.environ.get("DOCGEN_PRIVATE_FORMS"))   # 설정 private_forms_dir (위에서 절대 경로로)
 
 
 def host_path(p: str | Path) -> str | None:
@@ -261,7 +288,6 @@ class RenderReq(BaseModel):
     condition: str = "clean"
     force: bool = False
     draft: dict | None = None     # 저장하지 않은 overlay 수정 (수정 전후 비교)
-    extra: dict | None = None     # 시나리오 예시의 고객 프로필 값
 
 
 @app.post("/api/forms/{doc_id}/render")
@@ -271,15 +297,9 @@ def render(doc_id: str, req: RenderReq):
                                  "studio 를 띄우거나 설정의 browser 를 지정하세요. 렌더링이 필요 없는 화면은 그대로 씁니다.")
     # 일반 def 라서 FastAPI 가 스레드에서 돌린다. 실제 렌더링은 Previewer 의 전용 스레드 하나에서 차례로 한다.
     try:
-        if req.draft is not None and set(req.draft) == {"html_regions"}:
-            from docgen import html_regions
-
-            html_regions.path(doc_id)
-            draft = {"html_regions": html_regions.validate(req.draft["html_regions"])}
-        else:
-            draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
+        draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
         # first: 1쪽이 나오면 바로 돌려주고 남은 쪽은 이어서 (그 쪽 그림은 /preview/ 가 다 될 때까지 기다려 준다)
-        label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft, extra=req.extra, first=True)
+        label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft, first=True)
     except KeyError as e:
         raise HTTPException(404, str(e))
     except ValueError as e:
@@ -287,29 +307,6 @@ def render(doc_id: str, req: RenderReq):
     except Exception as e:  # noqa: BLE001  렌더링 실패는 화면에 그대로 보여 준다
         raise HTTPException(500, f"{type(e).__name__}: {e}")
     return {**label, "image_urls": [f"/preview/{p}" for p in label["images"]]}
-
-
-class ScenarioRunReq(BaseModel):
-    scenario: dict
-    seed: int = Field(default=0, ge=0, le=2147483647)
-
-
-@app.post("/api/scenarios/run")
-def run_scenario(req: ScenarioRunReq):
-    from .scenario_processing import run
-
-    if not BROWSER:
-        raise HTTPException(503, "렌더링 브라우저가 없어 예시 고객의 문서를 만들 수 없습니다")
-    result = guard(run, req.scenario, req.seed, previewer.render)
-    result["labels"] = {did: {**label, "image_urls": [f"/preview/{p}" for p in label["images"]]}
-                        for did, label in result["labels"].items()}
-    return result
-
-
-@app.post("/api/scenarios/resolve")
-def resolve_scenario(req: ScenarioRunReq):
-    from docgen.roles import resolve
-    return {"selections":guard(resolve,req.scenario.get("docs"),req.scenario.get("sampling"),req.seed,req.scenario.get("id") or "draft")}
 
 
 @app.get("/api/question-formats")
@@ -335,33 +332,8 @@ def form_questions(doc_id: str, req: FormQuestionsReq):
 
 
 # ---------------------------------------------------------------------------
-# 2단계: overlay 영역 편집기, 검수·배정·문제 표시, 키 사전, 값 출처, 표시 요소
+# 2단계: overlay 영역 편집기, 검수·배정·문제 표시, 값 출처, 표시 요소
 # ---------------------------------------------------------------------------
-
-@app.get("/api/forms/{doc_id}/regions")
-def html_regions_get(doc_id: str, variant: str = "default"):
-    from docgen import html_regions
-
-    return guard(html_regions.load, doc_id, variant)
-
-
-class RegionsReq(BaseModel):
-    regions: list[dict]
-    seed: int = 0
-    template_variant: str = "default"
-
-
-@app.put("/api/forms/{doc_id}/regions")
-def html_regions_save(doc_id: str, req: RegionsReq):
-    from docgen import html_regions
-
-    value = guard(html_regions.validate, {"regions": req.regions})
-    guard(html_regions.path, doc_id, req.template_variant)
-    if not BROWSER:
-        raise HTTPException(503, "저장 전 이미지 검사를 위해 렌더링 브라우저가 필요합니다")
-    guard(previewer.render, doc_id, req.seed, draft={"html_regions": value}, extra={"template_variants":{doc_id:req.template_variant}})
-    return guard(html_regions.save, doc_id, value, req.template_variant)
-
 
 @app.get("/api/forms/{doc_id}/layout")
 def layout(doc_id: str):
@@ -382,38 +354,6 @@ def background(doc_id: str, page: int):
     from docgen.realform import raw_background
 
     return Response(guard(raw_background, doc_id, page), media_type="image/png")
-
-
-@app.get("/api/forms/{doc_id}/cell-image")
-def cell_image(doc_id: str, keys: str):
-    """칸(서식의 키 하나 이상)의 자리: seed 0 미리보기 그림에서 그 칸 둘레를 잘라 테두리를 그린다. 위치가 없으면 404."""
-    if not BROWSER:
-        raise HTTPException(503, "렌더링 브라우저가 없어 칸 그림을 만들 수 없습니다")
-    from io import BytesIO
-
-    from PIL import Image, ImageDraw
-
-    want = [k for k in keys.split(",") if k]
-    try:
-        label = previewer.render(doc_id, 0, "default", "default", "clean")
-    except KeyError as e:
-        raise HTTPException(404, str(e))
-    hits = [f for k in want for f in label["fields"] if f["key"] == k and f.get("bbox")]
-    if not hits:
-        raise HTTPException(404, "이 칸은 그림에 위치가 없습니다")
-    page = hits[0].get("page") or 0
-    bs = [f["bbox"] for f in hits if (f.get("page") or 0) == page]
-    box = [min(b[0] for b in bs), min(b[1] for b in bs), max(b[2] for b in bs), max(b[3] for b in bs)]
-    img = Image.open(PREVIEW_DIR / label["images"][page]).convert("RGB")
-    mx, my = 420, 170   # 둘레: 이름표·옆 칸이 보이게
-    crop = (max(0, int(box[0] - mx)), max(0, int(box[1] - my)), min(img.width, int(box[2] + mx)), min(img.height, int(box[3] + my)))
-    out = img.crop(crop)
-    ImageDraw.Draw(out).rectangle([box[0] - crop[0] - 4, box[1] - crop[1] - 4, box[2] - crop[0] + 4, box[3] - crop[1] + 4], outline=(220, 30, 30), width=4)
-    if out.width > 900:
-        out = out.resize((900, round(out.height * 900 / out.width)))
-    buf = BytesIO()
-    out.save(buf, "PNG")
-    return Response(buf.getvalue(), media_type="image/png", headers={"Cache-Control": "max-age=600"})
 
 
 @app.get("/api/forms/{doc_id}/checks")
@@ -469,30 +409,74 @@ def patch_issue(doc_id: str, issue_id: str, req: IssuePatch):
     return guard(catalog.set_issue, doc_id, issue_id, req.status, req.note, req.delete)
 
 
-@lru_cache(maxsize=2)
-def _keys(mtime: float) -> dict:
-    return json.loads((ROOT / "docgen" / "keys.json").read_text(encoding="utf-8"))
-
-
-@app.get("/api/keys")
-def keys():
-    p = ROOT / "docgen" / "keys.json"
-    if not p.exists():
-        return {"keys": [], "duplicates": [], "synonyms": {}, "missing": True}
-    return _keys(p.stat().st_mtime)
-
-
 @lru_cache(maxsize=1)
 def _sources() -> dict:
     from docgen import sources as SRC
     from docgen.entities import make_profile
 
-    return {"profile": SRC.profile_paths(make_profile(0)), "rules": SRC.RULE_KINDS, "special": SRC.SPECIAL_RULES}
+    from docgen.keyrules import CODE_KINDS
+
+    return {"profile": SRC.profile_paths(make_profile(0)), "rules": SRC.RULE_KINDS, "special": SRC.SPECIAL_RULES,
+            "rule_names": {k: CODE_KINDS.get(k, k) for k in SRC.RULE_KINDS}}   # 화면의 생성 방법 이름
 
 
 @app.get("/api/sources")
 def sources():
     return _sources()
+
+
+class ClassifyReq(BaseModel):
+    answer: str
+    aliases: list[str] = []
+
+
+@app.put("/api/forms/{doc_id}/classify")
+def form_classify(doc_id: str, req: ClassifyReq):
+    """문서 분류 정답(문서명)·다른 이름 (서식 questions.json 의 classify). 개요 탭에서."""
+    return guard(editor.set_classify, doc_id, req.answer, req.aliases)
+
+
+class TableTitleReq(BaseModel):
+    prefix: str
+    title: str = ""
+
+
+@app.put("/api/forms/{doc_id}/table-title")
+def table_title(doc_id: str, req: TableTitleReq):
+    """표 제목 (서식 questions.json 의 table.<표 키>.title). 영역 편집기의 표 칸에서."""
+    return guard(editor.set_table_title, doc_id, req.prefix, req.title)
+
+
+@app.post("/api/forms/{doc_id}/read-texts")
+def read_texts(doc_id: str, replace: bool = False):
+    """그린 서식의 배경 글자를 사내 OCR 로 읽는다 (studio/drawn.py read_texts) → 합성 OCR 세트에 들어갈 수 있다."""
+    from . import drawn
+
+    return guard(drawn.read_texts, doc_id, CFG.get("ocr"), replace)
+
+
+@app.post("/api/forms/{doc_id}/adjust-skeleton")
+def adjust_skeleton(doc_id: str):
+    """overlay 서식의 견본 generate.py (칸끼리 관계). 있으면 덮어쓰지 않는다. = python -m docgen.formdir adjust <ID> --new"""
+    from docgen import formdir
+    from docgen import realform as RF
+
+    d = formdir.folder(doc_id)
+    if d is None or RF.form_no(doc_id) is None and RF.image_form_dir(doc_id) is None:
+        raise HTTPException(400, "overlay(원본·그린) 서식만 됩니다")
+    p = d / "generate.py"
+    if p.exists():
+        raise HTTPException(400, f"이미 있습니다 (덮어쓰지 않음): {p}")
+    p.write_text(guard(RF.adjust_skeleton, doc_id), encoding="utf-8")
+    return {"path": str(p)}
+
+
+@app.get("/api/generators")
+def generators():
+    """영역 편집기의 생성 방법 고르기: 묶음별 이름·source·예시 값 + 새 생성 방법 만드는 곳 (studio/generators.py)."""
+    from . import generators as G
+
+    return G.catalog()
 
 
 @app.get("/api/marks")

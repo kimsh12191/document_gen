@@ -6,7 +6,6 @@ import pytest
 
 from docgen import ocr_export as X
 from docgen import ocr_set
-from studio import datasets as DS
 from studio import ocr_data
 
 

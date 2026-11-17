@@ -64,7 +64,10 @@
     159.3,
     542.0,
     178.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "가고객정보"
   },
   {
    "t": "text",
@@ -76,7 +79,10 @@
     105.8,
     214.9
    ],
-   "row": true
+   "row": true,
+   "group": "고객정보",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -88,7 +94,11 @@
     105.8,
     238.6
    ],
-   "row": true
+   "row": true,
+   "group": "법인명",
+   "kind": "text",
+   "std": false,
+   "key": "구분선택"
   },
   {
    "t": "text",
@@ -99,7 +109,9 @@
     179.9,
     343.3,
     203.2
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -111,7 +123,11 @@
     226.5,
     238.6
    ],
-   "row": true
+   "row": true,
+   "group": "법인명",
+   "kind": "text",
+   "std": false,
+   "key": "口국내법인"
   },
   {
    "t": "text",
@@ -122,7 +138,9 @@
     179.9,
     545.0,
     203.2
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -133,7 +151,9 @@
     203.2,
     545.0,
     226.4
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -144,7 +164,10 @@
     553.2,
     155.4,
     576.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "거주관할권"
   },
   {
    "t": "text",
@@ -156,7 +179,11 @@
     304.9,
     576.4
    ],
-   "row": true
+   "row": true,
+   "group": "납세자번호",
+   "kind": "number",
+   "std": false,
+   "key": "납세자번호"
   },
   {
    "t": "text",
@@ -167,7 +194,10 @@
     576.4,
     545.0,
     600.4
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "관할권주소"
   },
   {
    "t": "date",
@@ -192,7 +222,8 @@
      327.4,
      736.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -209,7 +240,9 @@
     747.1,
     419.1,
     757.1
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   },
   {
    "t": "text",
@@ -221,7 +254,10 @@
     550.1,
     259.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "나확인사항"
   },
   {
    "t": "text",
@@ -233,7 +269,10 @@
     548.1,
     427.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "口11공익적법인"
   },
   {
    "t": "text",
@@ -245,7 +284,11 @@
     84.5,
     336.0
    ],
-   "row": true
+   "row": true,
+   "group": "c",
+   "kind": "text",
+   "std": false,
+   "key": "c"
   },
   {
    "t": "text",
@@ -257,7 +300,11 @@
     84.5,
     368.2
    ],
-   "row": true
+   "row": true,
+   "group": "d",
+   "kind": "text",
+   "std": false,
+   "key": "d"
   },
   {
    "t": "text",
@@ -268,7 +315,10 @@
     357.1,
     547.2,
     368.2
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "口EIN口GIIN口기타"
   },
   {
    "t": "text",
@@ -280,7 +330,10 @@
     113.2,
     617.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.실질지배자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -292,7 +345,10 @@
     113.2,
     652.4
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.실질지배자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -304,7 +360,10 @@
     113.2,
     698.0
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.실질지배자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -316,7 +375,10 @@
     113.2,
     732.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.실질지배자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -328,7 +390,10 @@
     113.2,
     777.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.실질지배자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -340,7 +405,10 @@
     183.8,
     603.1
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.거주관할권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -352,7 +420,10 @@
     183.8,
     683.4
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.거주관할권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -364,7 +435,10 @@
     183.8,
     763.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.거주관할권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -375,7 +449,9 @@
     552.3,
     297.6,
     566.7
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -387,7 +463,10 @@
     297.6,
     603.1
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.납세자번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -398,7 +477,9 @@
     632.5,
     297.6,
     647.0
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -410,7 +491,10 @@
     297.6,
     683.4
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.납세자번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -421,7 +505,9 @@
     712.8,
     297.6,
     727.3
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -433,7 +519,10 @@
     297.6,
     763.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름",
+   "key": "이름_목록.{i}.납세자번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -444,7 +533,10 @@
     603.1,
     547.2,
     617.7
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "거주관할권주소"
   },
   {
    "t": "text",
@@ -455,7 +547,10 @@
     683.4,
     547.2,
     698.0
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "거주관할권주소"
   },
   {
    "t": "text",
@@ -466,7 +561,10 @@
     763.7,
     547.2,
     777.7
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "거주관할권주소"
   },
   {
    "t": "check",
@@ -511,7 +609,8 @@
     580.8,
     547.2,
     603.1
-   ]
+   ],
+   "key": "check.미발급국가"
   },
   {
    "t": "check",
@@ -556,7 +655,8 @@
     661.1,
     547.2,
     683.4
-   ]
+   ],
+   "key": "check.미발급국가"
   },
   {
    "t": "check",
@@ -601,7 +701,8 @@
     741.4,
     547.2,
     763.7
-   ]
+   ],
+   "key": "check.미발급국가"
   },
   {
    "t": "text",
@@ -612,7 +713,10 @@
     537.7,
     432.3,
     552.3
-   ]
+   ],
+   "kind": "percent",
+   "std": false,
+   "key": "지분율"
   },
   {
    "t": "text",
@@ -623,7 +727,10 @@
     552.3,
     432.3,
     566.7
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "성"
   },
   {
    "t": "text",
@@ -634,7 +741,10 @@
     617.7,
     432.3,
     632.5
-   ]
+   ],
+   "kind": "percent",
+   "std": false,
+   "key": "지분율"
   },
   {
    "t": "text",
@@ -645,7 +755,10 @@
     632.5,
     432.3,
     647.0
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "성"
   },
   {
    "t": "text",
@@ -656,7 +769,10 @@
     698.0,
     432.3,
     712.8
-   ]
+   ],
+   "kind": "percent",
+   "std": false,
+   "key": "지분율"
   },
   {
    "t": "text",
@@ -667,7 +783,10 @@
     712.8,
     432.3,
     727.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "성"
   },
   {
    "t": "text",
@@ -678,7 +797,9 @@
     552.3,
     547.2,
     566.7
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -689,7 +810,9 @@
     632.5,
     547.2,
     647.0
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -700,7 +823,9 @@
     712.8,
     547.2,
     727.3
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -712,7 +837,10 @@
     221.0,
     178.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "口01주권상장법인"
   },
   {
    "t": "text",
@@ -724,7 +852,10 @@
     221.0,
     199.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "口03미국정부기관등"
   },
   {
    "t": "text",
@@ -736,7 +867,10 @@
     426.4,
     496.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "口25별정우체국연금관리단"
   }
  ]
 }

@@ -1,4 +1,4 @@
-"""채점 — OCR 8과제(ocr_metrics)와 은행 업무 8과제 모두 여기서 (studio/DESIGN.md 17절). GRPO 보상도 reward() 하나.
+"""채점 — 쪽 OCR 8과제(ocr_metrics)와 서류 한 건 과제 11종 모두 여기서 (archive/studio/DESIGN.md 17절). 문항 하나의 0~1 점수는 reward().
 
   python -m docgen.bench eval --bench bench_out --pred preds/model_a [--pred preds/model_b ...]
 
@@ -10,32 +10,33 @@ from __future__ import annotations
 
 import difflib
 import json
+import re
 import sys
 from pathlib import Path
 
-from ..schema import similar_label
 from . import ocr_metrics as OM
 from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, strip_answer, substring_distance, to_number,
                       valid_box, value_match, yes_no)
 
 OCR_TASKS = list(OM.TASKS)   # 쪽 OCR (옛 1부): 문항마다가 아니라 과제 전체로 지표를 낸다 (CER = 틀린 글자 합 / 글자 합)
-TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "doc_check", "cross_check", "review"]
+TABLE_TASKS = ["table", "table_read", "table_find", "table_qa"]
+TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "form_qa", *TABLE_TASKS]
 TASK_TITLE = {"crop_ocr": "OCR - 칸 잘라 읽기", "bbox_ocr": "OCR - 좌표 → 글자", "region_ocr": "OCR - 영역 받아쓰기",
               "marked_ocr": "OCR - 그린 박스 → 글자", "grounding": "OCR - 글자 → 좌표", "spotting": "OCR - 글자 찾기(좌표+글자)",
               "relation": "OCR - 항목명 → 값(좌표+글자)", "marked_box": "OCR - 그린 박스 → 좌표",
               "ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
-              "kie": "정보 추출", "marks": "체크·도장·서명", "freetext": "기타 칸 정리", "doc_check": "서류 구비 확인",
-              "cross_check": "서류 간 대조", "review": "심사 질의"}
+              "kie": "정보 추출", "marks": "체크·도장·서명", "freetext": "기타 칸 정리", "form_qa": "서식 전용 질문",
+              "table": "표 추출", "table_read": "표 그대로 옮기기", "table_find": "표 찾기", "table_qa": "표 질의"}
 TASK_GROUP = {**{t: "ocr" for t in [*OCR_TASKS, "ocr_field", "ocr_page"]}, "classify": "doc", "kie": "doc", "marks": "doc",
-              "freetext": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
-GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
+              "freetext": "doc", "form_qa": "doc", **{t: "doc" for t in TABLE_TASKS}}
+GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해"}
 WORST = {"cer": 1.0, "false_alarm": 1.0, "extra_key": 1.0}
 LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
 # OCR 과제의 대표 지표는 옛 1부 비교표(REPORT_METRICS)와 같다
 MAIN = {"crop_ocr": "cer", "bbox_ocr": "em", "region_ocr": "cer", "marked_ocr": "em", "grounding": "f1_iou50",
         "spotting": "e2e_f1", "relation": "e2e_f1", "marked_box": "f1_iou75",
         "ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1", "freetext": "f1",
-        "doc_check": "exact", "cross_check": "score", "review": "acc"}
+        "form_qa": "acc", "table": "cell_f1", "table_read": "cell_f1", "table_find": "f1_iou50", "table_qa": "acc"}
 # 평가 세트 1.x 의 kie·marks 는 값만 답한다 → 주 지표가 값 점수 (f1 / acc). 2.0 부터 값+위치 (vl_f1).
 MAIN_V1 = {"kie": "f1", "marks": "acc"}
 
@@ -56,11 +57,15 @@ METRIC_TITLE = {"exact": "완전 일치", "cer": "CER(낮을수록 좋음)", "re
                 "precision_iou50": "위치 정밀도", "recall_iou50": "위치 재현율", "mean_iou_matched": "맞은 박스 평균 IoU",
                 "count_accuracy": "박스 수 일치", "negative_accuracy": "없음 정확도", "valid_json_rate": "형식 맞음",
                 "matched_label_cer": "맞은 박스 글자 CER", "extra_key": "지어낸 키 비율(낮을수록 좋음)",
-                "approx_acc": "대략 표시 일치"}
+                "approx_acc": "대략 표시 일치", "cell_f1": "칸 F1", "cell_precision": "칸 정밀도", "cell_recall": "칸 재현율",
+                "row_exact": "행 완전 일치", "count_acc": "행 수 일치", "header_f1": "머리글 F1", "rows_acc": "행 수 맞춤(찾은 표)",
+                "absent_null": "없는 열·칸 null 비율"}
 SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page": ["condition", "writing", "group"],
           "classify": ["group", "condition"], "kie": ["group", "condition", "writing", "@kind"],
-          "marks": ["group", "condition", "@type"], "freetext": ["group", "writing", "level", "@key"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
-          "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"],
+          "marks": ["group", "condition", "@type"], "freetext": ["group", "writing", "level", "@key"],
+          "form_qa": ["doc_type", "question"],
+          "table": ["group", "condition", "ref", "scope", "absent", "@kind"], "table_read": ["group", "condition", "ref", "scope"],
+          "table_find": ["group", "condition"], "table_qa": ["group", "kind"],
           **{t: ["view", "confidence", "size"] for t in OCR_TASKS}}
 
 
@@ -162,7 +167,44 @@ def _located(gts: list[dict], preds: list[dict], value_ok) -> dict:
             "loc_recall": len(pairs) / len(g) if g else None}
 
 
+def _no_loc(item, loc: dict) -> dict:
+    """서식의 답 틀(questions.json 의 answer)에 위치(bbox_2d)가 없는 문항은 위치 점수를 빼고 값 점수가 주 지표."""
+    names = (item.get("eval") or {}).get("answer_fields")
+    return {} if names and "bbox_2d" not in names else loc
+
+
+def _from_text(item, out):
+    """줄글 답 문항 (서식 questions.json 의 답 틀이 글자, eval.text): 정답은 eval.gold, 모델 답은 틀로 줄글에서 값을 찾아
+    [{"key", "value"}] 로 — 그다음은 JSON 답과 같은 채점 (위치 점수 없음)."""
+    from .. import formquestions as FQ
+
+    t = item["eval"]["text"]
+    pred = FQ.read_text(out or "", t["answer"], t["answer_empty"], t["labels"]) if out is not None else None
+    item = {**item, "answer": item["eval"]["gold"], "eval": {**item["eval"], "answer_fields": {"key": "key", "value": "value"}}}
+    return item, (None if pred is None else json.dumps(pred, ensure_ascii=False))
+
+
+def _canonical(item, out):
+    """서식의 답 틀이 칸 이름을 바꿨으면 (eval.answer_fields: {"key": "항목", …}) 정답·모델 답을 기본 이름으로 읽는다."""
+    names = (item.get("eval") or {}).get("answer_fields")
+    if not names:
+        return item, out
+    inv = {name: place for place, name in names.items()}
+
+    def ren(e):
+        return {inv.get(k, k): v for k, v in e.items()} if isinstance(e, dict) else e
+    if isinstance(item.get("answer"), list):
+        item = {**item, "answer": [ren(e) for e in item["answer"]]}
+    pred = parse_json(out)
+    if isinstance(pred, list):
+        out = json.dumps([ren(e) for e in pred], ensure_ascii=False)
+    return item, out
+
+
 def s_kie(item, out):
+    if (item.get("eval") or {}).get("text"):
+        return _s_kie2(*_from_text(item, out))
+    item, out = _canonical(item, out)
     if isinstance(item["answer"], list):
         return _s_kie2(item, out)
     pred = parse_json(out)
@@ -228,7 +270,7 @@ def _s_kie2(item, out):
     loc = _located(gts, [e for e in pe if e["key"] in info],
                    lambda a, b: value_match(a.get("value"), b["value"], info[b["key"]]["type"], info[b["key"]].get("norm"), b["key"]))
     return {"metrics": {"field_acc": sum(correct_all) / len(correct_all), "f1": f1, "precision": prec, "recall_f": rec,
-                        "doc_exact": float(all(correct_all)), **loc}, "parse_fail": fail, "sub": sub}
+                        "doc_exact": float(all(correct_all)), **_no_loc(item, loc)}, "parse_fail": fail, "sub": sub}
 
 
 def _bool(v):
@@ -240,6 +282,9 @@ def _bool(v):
 
 
 def s_marks(item, out):
+    if (item.get("eval") or {}).get("text"):
+        return _s_marks2(*_from_text(item, out))
+    item, out = _canonical(item, out)
     if isinstance(item["answer"], list):
         return _s_marks2(item, out)
     pred = parse_json(out)
@@ -297,68 +342,226 @@ def _s_marks2(item, out):
             return _bool(a.get("value")) is True
         return value_match(a.get("value"), b["value"])
     loc = _located(item["answer"], [e for e in pe if e["key"] in types], value_ok)
-    return {"metrics": {"acc": sum(oks) / len(oks), **loc}, "parse_fail": fail, "sub": sub}
+    return {"metrics": {"acc": sum(oks) / len(oks), **_no_loc(item, loc)}, "parse_fail": fail, "sub": sub}
 
 
-DOC_CHECK_KEYS = ("missing", "not_required", "not_customer")
+# ---------------------------------------------------------------------------
+# 표 (docgen/bench/tasks/table*.py): 답 {"columns", "rows": [[…]], "row_boxes": [{"bbox_2d", "page"}]}
+# ---------------------------------------------------------------------------
+
+def _table_pred(pred, columns: list[str]):
+    """모델 답 → (행 [[정답 열 순서의 값]], 행 상자 [dict]). 읽을 수 없으면 None.
+    받는 꼴: {"columns", "rows": [[…]]} (열 이름으로 맞춤), 행마다 객체 {"rows": [{열: 값}]} 또는 [{열: 값}] 목록."""
+    if isinstance(pred, list):
+        pred = {"rows": pred}
+    if not isinstance(pred, dict) or not isinstance(pred.get("rows"), list):
+        return None
+    norm = {re.sub(r"\s+", "", str(c)).lower(): c for c in columns}
+    cols = pred.get("columns")
+    order = [norm.get(re.sub(r"\s+", "", str(c)).lower()) for c in cols] if isinstance(cols, list) else None
+    rows, boxes = [], []
+    for r in pred["rows"]:
+        if isinstance(r, dict):
+            m = {norm.get(re.sub(r"\s+", "", str(k)).lower()): v for k, v in r.items()}
+            rows.append([m.get(c) for c in columns])
+            boxes.append({"bbox_2d": r.get("bbox_2d"), "page": r.get("page")})
+        elif isinstance(r, list):
+            if order is not None:
+                m = {c: v for c, v in zip(order, r) if c}
+                rows.append([m.get(c) for c in columns])
+            else:
+                rows.append([r[i] if i < len(r) else None for i in range(len(columns))])
+        else:
+            return None
+    rb = pred.get("row_boxes")
+    if isinstance(rb, list):
+        boxes = [b if isinstance(b, dict) else {} for b in rb]
+    return rows, boxes
 
 
-def s_doc_check(item, out):
+def _align_rows(gold: list[list], pred: list[list], same) -> list[tuple[int, int]]:
+    """정답 행과 답한 행을 순서대로 짝짓기 (빠지거나 더 들어간 행 허용): 맞은 칸 비율의 합이 가장 큰 짝들.
+    same(i, j, c) → 칸이 맞는지. 맞은 칸이 하나도 없는 짝은 짓지 않는다."""
+    m, n = len(gold), len(pred)
+    if not m or not n:
+        return []
+    sc = [[0.0] * n for _ in range(m)]
+    for i in range(m):
+        want = [c for c, v in enumerate(gold[i]) if v is not None] or list(range(len(gold[i])))
+        for j in range(n):
+            sc[i][j] = sum(same(i, j, c) for c in want) / len(want)
+    best = [[0.0] * (n + 1) for _ in range(m + 1)]
+    for i in range(m - 1, -1, -1):
+        for j in range(n - 1, -1, -1):
+            best[i][j] = max(best[i + 1][j], best[i][j + 1], (sc[i][j] + best[i + 1][j + 1]) if sc[i][j] > 0 else 0.0)
+    pairs, i, j = [], 0, 0
+    while i < m and j < n:
+        if sc[i][j] > 0 and abs(best[i][j] - (sc[i][j] + best[i + 1][j + 1])) < 1e-9:
+            pairs.append((i, j))
+            i, j = i + 1, j + 1
+        elif best[i][j] == best[i + 1][j]:
+            i += 1
+        else:
+            j += 1
+    return pairs
+
+
+def _row_loc(gb: list[dict], pb: list[dict], pairs) -> float:
+    """행 위치 F1: 짝지은 행끼리 같은 쪽·IoU 0.5 이상. 상자가 없는 정답 행은 세지 않는다."""
+    from .metrics import iou
+
+    g = sum(1 for b in gb if valid_box((b or {}).get("bbox_2d")))
+    p = sum(1 for b in pb if valid_box((b or {}).get("bbox_2d")))
+    hit = 0
+    for i, j in pairs:
+        a, b = (gb[i] if i < len(gb) else {}) or {}, (pb[j] if j < len(pb) else {}) or {}
+        if valid_box(a.get("bbox_2d")) and valid_box(b.get("bbox_2d")) and _page(a) == _page(b) and iou(a["bbox_2d"], b["bbox_2d"]) >= 0.5:
+            hit += 1
+    if not g:
+        return None
+    prec = hit / p if p else 0.0
+    rec = hit / g
+    return 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+
+
+def _cells(gold: list[list], pred: list[list], pairs, ok, kinds: list[str]):
+    """칸 단위 (tp, fp, fn, 행 완전 일치 수, sub). ok(i, j, c) → 그 칸이 맞는지 (정답 null 이면 답도 비어야 맞음)."""
+    tp = fp = fn = exact = 0
+    sub = []
+    got = {i: j for i, j in pairs}
+    used = set(got.values())
+    for i, grow in enumerate(gold):
+        j = got.get(i)
+        all_ok = j is not None
+        for c, g in enumerate(grow):
+            p = pred[j][c] if j is not None else None
+            good = ok(i, j, c) if j is not None else g is None
+            all_ok &= good
+            if g is not None:
+                tp += good
+                fn += not good
+                fp += (not good) and j is not None and not is_null(p)
+                sub.append(("kind", kinds[c], good))
+            elif j is not None and not is_null(p):
+                fp += 1
+                sub.append(("kind", kinds[c], False))
+        exact += all_ok
+    for j, prow in enumerate(pred):
+        if j not in used:
+            fp += sum(1 for v in prow if not is_null(v))
+    return tp, fp, fn, exact, sub
+
+
+def s_table(item, out):
+    """표 추출: 행을 순서대로 짝지은 뒤 칸 F1 (주 지표). 행 완전 일치, 행 수 일치, 행 위치 F1, 없는 열을 null 로 둔 비율."""
+    gold = item["answer"]
+    columns = gold["columns"]
+    info = item["eval"]["fields"]
+    parsed = _table_pred(parse_json(out), columns)
+    fail = parsed is None
+    prows, pboxes = parsed or ([], [])
+    grows = gold["rows"]
+
+    def ok(i, j, c):
+        k = columns[c]
+        return value_match(prows[j][c], grows[i][c], info[k]["type"], None, k)
+    pairs = _align_rows(grows, prows, lambda i, j, c: grows[i][c] is not None and ok(i, j, c))
+    tp, fp, fn, exact, sub = _cells(grows, prows, pairs, ok, [info[k].get("kind", "text") for k in columns])
+    prec = tp / (tp + fp) if tp + fp else 1.0
+    rec = tp / (tp + fn) if tp + fn else 1.0
+    m = {"cell_f1": 2 * prec * rec / (prec + rec) if prec + rec else 0.0, "cell_precision": prec, "cell_recall": rec,
+         "row_exact": exact / len(grows) if grows else float(not prows), "count_acc": float(len(prows) == len(grows))}
+    loc = _row_loc(gold.get("row_boxes") or [], pboxes, pairs)
+    if loc is not None:
+        m["loc_f1"] = loc
+    absent = (item.get("eval") or {}).get("absent") or []
+    if absent and prows:
+        idx = [columns.index(a) for a in absent if a in columns]
+        m["absent_null"] = sum(is_null(r[c]) for r in prows for c in idx) / (len(prows) * len(idx)) if idx else 1.0
+    return {"metrics": m, "parse_fail": fail, "sub": sub}
+
+
+def _head_key(h) -> str:
+    return norm_text(str(h or "")).replace(">", "")
+
+
+def s_table_read(item, out):
+    """표 그대로 옮기기: 머리글을 글자로 짝지은 뒤(같은 글자 → 비슷한 글자 → 같은 개수면 자리) table 과 같은 칸 F1. 머리글 F1 도."""
+    gold = item["answer"]
+    gcols = gold["columns"]
     pred = parse_json(out)
-    fail = not isinstance(pred, (dict, list))
-    if isinstance(pred, list):  # 목록만 답하면 missing 으로 본다
-        pred = {"missing": pred}
-    pred = pred if isinstance(pred, dict) else {}
-    names = item["eval"].get("names") or item["eval"]["required"]
-    tp = fp = fn = 0
-    exact = {}
-    for k in DOC_CHECK_KEYS:
-        gt = set(item["answer"].get(k, []))
-        lst = [x for x in (pred.get(k) or []) if not is_null(x)] if isinstance(pred.get(k) or [], list) else [pred.get(k)]
-        got = {m for m in (_name_match(str(x), names) for x in lst) if m}
-        unmatched = sum(1 for x in lst if _name_match(str(x), names) is None)
-        tp += len(got & gt)
-        fp += len(got - gt) + unmatched
-        fn += len(gt - got)
-        exact[k] = got == gt and not unmatched
-    f1 = 1.0 if not (tp + fp + fn) else 2 * tp / (2 * tp + fp + fn)
-    return {"metrics": {"exact": float(all(exact.values())), "set_f1": f1, "missing_exact": float(exact["missing"]),
-                        "not_required_exact": float(exact["not_required"]),
-                        "not_customer_exact": float(exact["not_customer"])}, "parse_fail": fail}
-
-
-def s_cross_check(item, out):
-    pred = parse_json(out)
-    fail = not isinstance(pred, dict)
-    pred = pred if isinstance(pred, dict) else {}
-    issues = [x for x in (pred.get("issues") or []) if isinstance(x, dict)]
-    cons = pred.get("consistent")
-    cons = _bool(cons) if cons is not None else (not issues if not fail else None)
-    gt = item["answer"]
-    detect = float(cons is not None and cons == gt["consistent"])
-    m = {"detect": detect}
-    if gt["consistent"]:
-        m["false_alarm"] = float(cons is False)
-        m["score"] = detect
+    pcols = pred.get("columns") if isinstance(pred, dict) and isinstance(pred.get("columns"), list) else None
+    names = [f"c{i}" for i in range(len(gcols))]
+    mapped = None
+    if pcols is not None:
+        gk = [_head_key(h) for h in gcols]
+        used, mapped = set(), []
+        for h in pcols:
+            k = _head_key(h)
+            j = next((j for j, x in enumerate(gk) if x == k and j not in used), None)
+            if j is None:
+                best = max(((difflib.SequenceMatcher(None, k, x).ratio(), j) for j, x in enumerate(gk) if j not in used), default=(0, None))
+                j = best[1] if best[0] >= 0.8 else None
+            if j is None and len(pcols) == len(gcols) and len(mapped) not in used:
+                j = len(mapped)
+            if j is not None:
+                used.add(j)
+            mapped.append(names[j] if j is not None else f"x{len(mapped)}")
+        pred = {**pred, "columns": mapped}
+        hit = len(used)
+        prec, rec = (hit / len(pcols) if pcols else 0.0), (hit / len(gcols) if gcols else 1.0)
+        head = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
     else:
-        want = gt["issues"][0]
-        ok_docs = {want["document"], *want.get("alt_documents", [])}
-        hit = False
-        for x in issues:
-            doc = _name_match(str(x.get("document") or ""), item["eval"]["documents"])
-            if doc not in ok_docs:
-                continue
-            if (value_match(x.get("value"), want["value"]) or value_match(x.get("expected"), want["value"])
-                    or value_match(x.get("value"), want["expected"])
-                    or similar_label(want["field"], str(x.get("field") or ""))):
-                hit = True
-                break
-        m["localize"] = float(hit and cons is False)
-        m["score"] = m["localize"]
+        head = 0.0
+    item2 = {**item, "answer": {**gold, "columns": names},
+             "eval": {"fields": {n: {"type": "text", "kind": "text"} for n in names}}}
+    r = s_table(item2, json.dumps(pred, ensure_ascii=False) if pred is not None else out)
+    r["metrics"]["header_f1"] = head
+    return r
+
+
+def s_table_find(item, out):
+    """표 찾기: 같은 쪽·IoU 0.5 이상 짝 F1 (주 지표), 표 수 일치, 짝지은 표의 행 수 일치, 머리글 F1(짝지은 표의 평균)."""
+    gold = item["answer"]
+    pred = parse_json(out)
+    fail = not isinstance(pred, list)
+    p = [x for x in (pred or []) if isinstance(x, dict) and valid_box(x.get("bbox_2d"))] if not fail else []
+    pairs = match(p, gold, lambda a, b, v: v >= 0.5 and _page(a) == _page(b))
+
+    def f1(hit):
+        prec = hit / len(p) if p else (1.0 if not gold else 0.0)
+        rec = hit / len(gold) if gold else (1.0 if not p else 0.0)
+        return 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+    rows_ok = [to_number(p[i].get("n_rows")) == gold[j]["n_rows"] for i, j, _ in pairs]
+    heads = []
+    for i, j, _ in pairs:
+        g = {_head_key(h) for h in gold[j].get("columns") or []}
+        q = {_head_key(h) for h in p[i].get("columns") or []} if isinstance(p[i].get("columns"), list) else set()
+        hit = len(g & q)
+        heads.append(2 * hit / (len(g) + len(q)) if g or q else 1.0)
+    m = {"f1_iou50": f1(len(pairs)), "count_acc": float(len(p) == len(gold)),
+         "rows_acc": sum(rows_ok) / len(rows_ok) if rows_ok else (1.0 if not gold and not p else 0.0)}
+    if heads:
+        m["header_f1"] = sum(heads) / len(heads)
     return {"metrics": m, "parse_fail": fail}
 
 
-def s_review(item, out):
+def s_table_qa(item, out):
+    """표 질의: 숫자는 같은 수, 칸 값은 kie 와 같은 비교 (정답이 빈 칸이면 답도 비어야). 주 지표 acc."""
+    ev = item["eval"]
+    if out is None:
+        return {"metrics": {"acc": 0.0}, "parse_fail": True}
+    a = strip_answer(out) if isinstance(out, str) else out
+    if ev["answer_type"] == "number":
+        n = to_number(a)
+        ok = n is not None and abs(n - float(item["answer"])) < 1e-6
+    else:
+        ok = value_match(a, item["answer"], ev.get("type"), None, ev.get("key") or "")
+    return {"metrics": {"acc": float(ok)}}
+
+
+def s_number_yesno(item, out):
+    """숫자 답 (단위 %·배·세·년·원을 떼고 eval.tol 안이면 정답) 또는 예/아니오 답 (네·아니요도 인정)."""
     ev, gt = item["eval"], item["answer"]
     a = strip_answer(out)
     if ev["answer_type"] == "yesno":
@@ -370,6 +573,42 @@ def s_review(item, out):
     ok = p is not None and abs(p - float(gt)) <= ev.get("tol", 0) + 1e-9
     return {"metrics": {"acc": float(ok)}, "parse_fail": p is None}
 
+
+def s_form_qa(item, out):
+    """서식 전용 질문 (서식 폴더 qa.py, docgen/formqa.py): 정답 꼴(eval.answer_type)로 기본 채점.
+    number·yesno 는 s_number_yesno, text 는 띄어쓰기·문장부호를 맞춰 같은지, json 은 칸(목록은 항목)마다 같은지."""
+    kind = item["eval"]["answer_type"]
+    if kind in ("number", "yesno"):
+        return s_number_yesno(item, out)
+    gt = item["answer"]
+    if kind == "json":
+        pred = parse_json(out)
+        if not isinstance(pred, (dict, list)):
+            return {"metrics": {"acc": 0.0}, "parse_fail": True}
+        if isinstance(gt, dict):
+            flat = pred if isinstance(pred, dict) else {}
+            oks = [_same_value(flat.get(k), v) for k, v in gt.items()]
+            extra = [k for k in flat if k not in gt]
+            return {"metrics": {"acc": sum(oks) / (len(oks) + len(extra)) if oks or extra else 1.0}}
+        ps = [json.dumps(x, ensure_ascii=False, sort_keys=True) for x in (pred if isinstance(pred, list) else [pred])]
+        gs = [json.dumps(x, ensure_ascii=False, sort_keys=True) for x in gt]
+        return {"metrics": {"acc": float(sorted(map(loose_text, ps)) == sorted(map(loose_text, gs)))}}
+    p = (out or "") if "\n" in str(gt) else strip_answer(out) if out is not None else ""
+    return {"metrics": {"acc": float(loose_text(p) == loose_text(str(gt)))}}
+
+
+def _same_value(p, g) -> bool:
+    """JSON 정답의 칸 하나: 숫자는 숫자로, 글은 띄어쓰기·문장부호를 맞춰, 그 밖(목록·객체)은 같은 꼴로."""
+    if isinstance(g, bool) or isinstance(p, bool):
+        return _bool(p) == _bool(g)
+    if isinstance(g, (int, float)):
+        n = to_number(p) if not isinstance(p, (int, float)) else p
+        return n is not None and abs(n - g) < 1e-9
+    if g is None:
+        return is_null(p)
+    if isinstance(g, (dict, list)):
+        return loose_text(json.dumps(p, ensure_ascii=False, sort_keys=True)) == loose_text(json.dumps(g, ensure_ascii=False, sort_keys=True))
+    return p is not None and loose_text(str(p)) == loose_text(str(g))
 
 
 def _freetext_ok(key: str, pred, gt) -> bool:
@@ -407,8 +646,8 @@ def s_freetext(item, out):
 
 
 SCORERS = {"classify": s_classify, "ocr_field": s_ocr_field, "ocr_page": s_ocr_page, "kie": s_kie, "marks": s_marks,
-           "freetext": s_freetext,
-           "doc_check": s_doc_check, "cross_check": s_cross_check, "review": s_review}
+           "freetext": s_freetext, "form_qa": s_form_qa, "table": s_table, "table_read": s_table_read,
+           "table_find": s_table_find, "table_qa": s_table_qa}
 
 
 # ---------------------------------------------------------------------------
@@ -450,7 +689,7 @@ def _ocr_slice(item: dict, name: str):
 
 
 def _score_ocr(task: str, items: list[dict], preds: dict[str, str]) -> dict:
-    """OCR 과제: 옛 1부와 같은 계산 (빈 답·없는 답은 빈 글자, 지표는 과제 전체로). 문항 점수는 GRPO 보상."""
+    """OCR 과제: 옛 1부와 같은 계산 (빈 답·없는 답은 빈 글자, 지표는 과제 전체로). 문항 점수는 ocr_metrics.reward (0~1)."""
     have = {it["id"]: OM.answer(preds[it["id"]]) for it in items if preds.get(it["id"])}
     rows = [{"id": it["id"], "task": task, "target": it["answer"]} for it in items]
     full = {r["id"]: have.get(r["id"], "") for r in rows}
@@ -545,13 +784,10 @@ def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:
 
 
 def reward(task: str, output: str | None, item: dict) -> float:
-    """GRPO 보상 [0, 1] — 모든 과제 하나 (train/reward_plugin.py). 답이 없거나 읽을 수 없으면 0.
+    """문항 점수 [0, 1] — 모든 과제 하나 (train/mix.py 의 정답 만점 검사). 답이 없거나 읽을 수 없으면 0.
 
     OCR 과제: 옛 1부 보상 그대로 (글자 유사도 + 숫자, 박스는 IoU 부드러운 F1).
-    업무 과제: 평가 채점기 그대로, 여러 부분 중 다 맞아야 하는 지표는 부분 점수를 준다:
-      doc_check    0.5 × 완전 일치 + 0.5 × 세 목록 F1
-      cross_check  정상 문항: 맞다고 하면 1 / 변조 문항: 0.5 × (다르다고 함) + 0.5 × (서류·값까지 맞힘)
-      ocr_field    1 − CER,  ocr_page 오차 20% 허용 재현율,  그 밖은 주 지표 (kie·marks 값+위치 F1, classify·review 정확도)
+    그 밖: ocr_field 1 − CER,  ocr_page 오차 20% 허용 재현율,  나머지는 주 지표 (kie·marks 값+위치 F1, classify 정확도)
     채점 함수를 붙인 문항(eval.scorer — swift .jsonl 학습 데이터): 그 함수의 주 지표 (낮을수록 좋은 지표는 1 − 값).
     """
     spec = (item.get("eval") or {}).get("scorer")
@@ -573,11 +809,7 @@ def reward(task: str, output: str | None, item: dict) -> float:
     if result.get("parse_fail"):
         return 0.0
     m = result["metrics"]
-    if task == "doc_check":
-        value = 0.5 * m["exact"] + 0.5 * m["set_f1"]
-    elif task == "cross_check":
-        value = m["score"] if item["answer"]["consistent"] else 0.5 * m["detect"] + 0.5 * m["score"]
-    elif task == "ocr_field":
+    if task == "ocr_field":
         value = 1.0 - m["cer"]
     elif task == "ocr_page":
         value = m.get("recall_fuzzy", m["recall"])

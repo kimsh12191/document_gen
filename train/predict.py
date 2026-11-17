@@ -1,5 +1,6 @@
-"""모델 답 내기 (옛 bank_ocr/inference.py): OpenAI 호환 내부 모델 서버, 서버 여러 개에 이미지별로 나눠 보내고, 끊기면 이어서.
-입력은 mix.py 의 benchmark_tasks.jsonl·GRPO 후보 ({id, messages, images(PNG)}), 출력은 {id, prediction, finish_reason} + .meta.json."""
+"""모델 답 내기: OpenAI 호환 모델 서버(여러 개면 그림별로 나눠 보냄)에 평가 질문을 보내고, 끊기면 이어서.
+입력은 준비한 평가 세트의 tasks.jsonl ({id, messages, images(PNG)}), 출력은 {id, prediction, finish_reason} 줄 + <출력>.meta.json.
+meta.json 은 질문 파일·그림·답 내기 설정의 지문: 다르면 이어 쓰지 않는다 (서버 주소는 상관없음)."""
 import base64
 import json
 import os
@@ -30,16 +31,9 @@ def validate_tasks(rows):
         raise ValueError("Tasks must be nonempty and have unique IDs")
 
 
-def load_image_items(tasks_path):
-    """Teacher OCR per prepared image (views/tiles), written next to the task files."""
-    path = Path(tasks_path).with_name("image_items.jsonl")
-    if not path.exists():
-        raise ValueError(f"--with-ocr needs {path} from the same prepared dataset")
-    return {r["image"]: r["items"] for r in read_jsonl(path)}
-
-
-def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout=180, max_tokens=2048,
-            temperature=0, enable_thinking=False, request_options=None, concurrency=1):
+def predict(tasks_path, output, endpoint, model="docgen", timeout=600, max_tokens=4096,
+            temperature=0, enable_thinking=False, request_options=None, concurrency=1, about=None):
+    """about: 답 파일에 남길 설명 (모델 경로 등, 지문에는 안 들어감)."""
     if type(concurrency) is not int or concurrency < 1:
         raise ValueError("concurrency must be a positive integer")
     request_options = dict(request_options or {})
@@ -60,14 +54,10 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
         raise ValueError("Provide the internal HTTP(S) model endpoint(s)")
     endpoint = endpoints[0] if len(endpoints) == 1 else endpoints
     meta_path = output.with_suffix(output.suffix + ".meta.json")
-    settings = {"tasks_sha256": digest(path.read_bytes()), "endpoint": endpoint, "model": model,
-                "run_id": run_id, "with_ocr": with_ocr, "temperature": temperature, "max_tokens": max_tokens,
-                "enable_thinking": enable_thinking,
-                "reference_type": rows[0].get("reference_type", "ocr_pseudo_unreviewed") if rows else "ocr_pseudo_unreviewed"}
+    settings = {"tasks_sha256": digest(path.read_bytes()), "temperature": temperature, "max_tokens": max_tokens,
+                "enable_thinking": enable_thinking}
     if request_options:
         settings["request_options"] = request_options
-    # A cache must never combine base/SFT/RL generations; use a unique checkpoint run_id.
-    context = load_image_items(path) if with_ocr else {}
     image_hashes = {}
     for row in rows:
         for image in row["images"]:
@@ -75,12 +65,13 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
                 image_hashes[image] = digest(Path(image).read_bytes())
     settings["images_sha256"] = digest(dumps(image_hashes).encode())
     if meta_path.exists():
-        if read_json(meta_path) != settings:
-            raise ValueError("Prediction run settings or input changed. Use a new output path.")
+        old = read_json(meta_path)
+        if {k: old.get(k) for k in settings} != settings:
+            raise ValueError(f"{output}: 질문·그림·답 내기 설정이 그 답 파일을 낼 때와 다릅니다. 새 파일에 내세요")
     elif output.exists():
-        raise ValueError("Prediction output exists without metadata; use a new path")
+        raise ValueError(f"{output}: meta.json 없는 답 파일이 있습니다; 새 파일에 내세요")
     else:
-        write_json(meta_path, settings)
+        write_json(meta_path, {**settings, **({"about": about} if about else {})})
     done = index_predictions(output) if output.exists() else {}
     if set(done) - {r["id"] for r in rows}:
         raise ValueError("Unknown IDs in prediction cache")
@@ -96,10 +87,6 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
 
     def infer(row):
         prompt = row["messages"][0]["content"].replace("<image>", "").strip()
-        if with_ocr:
-            # Explicit teacher-assisted baseline, never passed in vision-only runs.
-            # Coordinates are those of the full view (`context_image`), not of a crop/tile input.
-            prompt += "\nInternal OCR context (may contain errors):\n" + dumps(context[row["context_image"]])
         # Image(s) first, then the question: the same order as training ("<image>\n...") and a
         # shared prefix across questions on one image, which the server's prefix cache reuses.
         content = []
@@ -164,4 +151,4 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
                 for future in pending:
                     future.cancel()
                 raise
-    return {"predictions": len(rows), "output": str(output), "run_id": run_id, "teacher_context": with_ocr}
+    return {"predictions": len(rows), "output": str(output)}

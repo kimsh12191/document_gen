@@ -1,9 +1,9 @@
-// ① 서식: 목록, 상세(미리보기·예시·문항 Q/A·편집·검수·키 목록·파일), html 서식 복제.
-// 탭 중 문항 Q/A 는 questions.js, 영역 편집(overlay)은 editor.js, html 편집은 htmled.js 가 그린다.
-// 서버: studio/app.py (/api/forms…), studio/catalog.py, 복제는 studio/api_html.py
+// ① 서식: 목록, 상세(개요·미리보기·예시·문항·검수·영역 편집·파일).
+// 탭 중 문항은 questions.js, 영역 편집(overlay 서식)은 editor.js 가 그린다. html 서식은 화면에서 고치지 않고 코드로 고친다
+// (docgen/manual/NEW_FORM_SPEC.md, docgen/forms/README.md). 서버: studio/app.py (/api/forms…), studio/catalog.py
 "use strict";
 
-addRoute(/^#\/forms\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewForm(decodeURIComponent(id), tab || "preview"), "forms");
+addRoute(/^#\/forms\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewForm(decodeURIComponent(id), tab || "overview"), "forms");
 addRoute(/^#\/forms$/, () => viewForms(), "forms");
 
 const REVIEW_TAG = {
@@ -35,7 +35,7 @@ async function viewForms() {
       <select id="f-review">${[["", "검수 전체"], ["no", "미검수"], ["yes", "검수 완료"]].map(([v, n]) =>
         `<option value="${v}" ${f.review === v ? "selected" : ""}>${n}</option>`).join("")}</select>
       <label><input type="checkbox" id="f-korean" ${f.korean ? "checked" : ""}> 한글 키 있음</label>
-      <label><input type="checkbox" id="f-scenario" ${f.scenario ? "checked" : ""}> 업무 시나리오에 쓰임</label>
+      <label title="행 수가 서류마다 달라지는 반복 묶음 (rows[].kind) — 표 과제 table·table_read·table_find·table_qa 가 묻는다"><input type="checkbox" id="f-tables" ${f.tables ? "checked" : ""}> 표 있음</label>
       <label><input type="checkbox" id="f-issues" ${f.issues ? "checked" : ""}> 문제 표시 있음</label>
       <label><input type="checkbox" id="f-edited" ${f.edited ? "checked" : ""}> 사람 수정 있음</label>
       <span class="muted" id="f-count"></span>
@@ -65,11 +65,11 @@ async function viewForms() {
   });
   state.showRefreshed = false;   // 다시 읽기 결과는 누른 직후에만 (목록을 가리지 않게)
   $("#f-refreshed").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#f-refreshed").innerHTML = ""; });
-  const ids = ["#f-q", "#f-group", "#f-kind", "#f-review", "#f-korean", "#f-scenario", "#f-issues", "#f-edited"];
+  const ids = ["#f-q", "#f-group", "#f-kind", "#f-review", "#f-korean", "#f-tables", "#f-issues", "#f-edited"];
   const update = () => {
     Object.assign(f, {
       q: $("#f-q").value.trim(), group: $("#f-group").value, kind: $("#f-kind").value, review: $("#f-review").value,
-      korean: $("#f-korean").checked, scenario: $("#f-scenario").checked, issues: $("#f-issues").checked,
+      korean: $("#f-korean").checked, tables: $("#f-tables").checked, issues: $("#f-issues").checked,
       edited: $("#f-edited").checked,
     });
     store.set("filter", f);
@@ -86,9 +86,11 @@ function refreshNote(r) {
   const probs = r.problems.length ? `<div class="kr"><b>문제 ${r.problems.length}</b> (등록하지 않음)<ul>${r.problems.map(p =>
     `<li><span class="mono">${esc(p.id)}</span> — ${esc(p.reason)}</li>`).join("")}</ul></div>` : "";
   const none = !r.added.length && !r.updated.length && !r.removed.length && !r.problems.length;
+  const cards = (r.stale_cards || []).length ? `<div><b>카드가 없거나 오래됨 ${r.stale_cards.length}</b> <span class="muted">(서식 파일·질문을 고친 뒤 FORM.md 를 안 다시 만듦 — 서식의 카드 탭 또는 <span class="mono">python -m docgen.formdir card --all --stale --workers 4</span>)</span>
+    ${r.stale_cards.slice(0, 20).map(x => `<a class="mono" href="#/forms/${encodeURIComponent(x)}/card">${esc(x)}</a>`).join(" ")}${r.stale_cards.length > 20 ? " …" : ""}</div>` : "";
   return `<div class="box"><button data-close style="float:right" title="닫기">✕</button>${none ? `<span class="muted">서식 다시 읽기: 바뀐 것 없음</span>` :
     ids(r.added, "새로") + ids(r.updated, "이름·그룹 바뀜") +
-    `${(r.with_script || []).length ? `<div class="kr"><b>생성 스크립트 있음 ${r.with_script.length}</b> ${r.with_script.map(esc).join(" ")} <span class="muted">(값을 만든 뒤 실행되는 코드입니다. 사람이 내용을 읽고 넣었는지 확인하세요 — 파일 탭)</span></div>` : ""}` + `${r.removed.length ? `<div><b>빠짐 ${r.removed.length}</b> <span class="mono">${r.removed.map(esc).join(" ")}</span> <span class="muted">(폴더가 없어짐. 검수 기록은 남아 있어 폴더를 되돌리면 다시 나옵니다)</span></div>` : ""}` + probs}</div>`;
+    `${(r.with_script || []).length ? `<div class="kr"><b>생성 스크립트 있음 ${r.with_script.length}</b> ${r.with_script.map(esc).join(" ")} <span class="muted">(값을 만든 뒤 실행되는 코드입니다. 사람이 내용을 읽고 넣었는지 확인하세요 — 파일 탭)</span></div>` : ""}` + `${r.removed.length ? `<div><b>빠짐 ${r.removed.length}</b> <span class="mono">${r.removed.map(esc).join(" ")}</span> <span class="muted">(폴더가 없어짐. 검수 기록은 남아 있어 폴더를 되돌리면 다시 나옵니다)</span></div>` : ""}` + probs}${cards}</div>`;
 }
 
 function drawFormTable() {
@@ -98,7 +100,7 @@ function drawFormTable() {
       (x.official_source && ("공식대조 HTML " + x.official_source.publisher).toLowerCase().includes(q))) &&
     (!f.group || x.group === f.group) && (!f.kind || x.kind === f.kind) &&
     (!f.review || (f.review === "yes") === !!x.reviewed) &&
-    (!f.korean || x.n_korean_keys > 0) && (!f.scenario || x.scenarios.length > 0) &&
+    (!f.korean || x.n_korean_keys > 0) && (!f.tables || x.tables.length > 0) &&
     (!f.issues || x.open_issues > 0) && (!f.edited || x.edited));
   const { key, dir } = state.sort;
   rows = rows.slice().sort((a, b) => {
@@ -107,8 +109,8 @@ function drawFormTable() {
   });
   $("#f-count").textContent = `${rows.length}종`;
   const cols = [["id", "ID"], ["name", "서식명"], ["group_name", "그룹"], ["kind", "종류"], ["n_keys", "키", 1],
-    ["n_korean_keys", "한글 키", 1], ["n_empty", "값 없는 칸", 1], ["n_marks", "체크·도장·서명", 1],
-    ["scenarios", "시나리오"], ["split", "배정"], ["open_issues", "문제", 1], ["reviewed", "검수"]];
+    ["n_korean_keys", "한글 키", 1], ["n_empty", "값 없는 칸", 1], ["n_marks", "체크·도장·서명", 1], ["tables", "표", 1],
+    ["split", "배정"], ["open_issues", "문제", 1], ["reviewed", "검수"]];
   $("#f-table").innerHTML = `<table><thead><tr>${cols.map(([k, n, num]) =>
     `<th data-k="${k}" class="${num ? "num" : ""}">${n}${state.sort.key === k ? (dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}
     </tr></thead><tbody>${rows.map(x => `
@@ -119,7 +121,7 @@ function drawFormTable() {
       <td class="num">${x.n_keys}</td>
       <td class="num ${x.n_korean_keys ? "kr" : ""}">${x.n_korean_keys || ""}</td>
       <td class="num">${x.n_empty || ""}</td><td class="num">${x.n_marks || ""}</td>
-      <td>${x.scenarios.map(s => `<span class="tag">${esc(s)}</span>`).join("")}</td>
+      <td class="num" title="${esc(x.tables.join(", "))}">${x.tables.length || ""}</td>
       <td class="nw">${x.split === "unassigned" ? `<span class="muted">-</span>` : esc(SPLIT_NAME[x.split] || x.split)}</td>
       <td class="num ${x.open_issues ? "kr" : ""}">${x.open_issues || ""}</td>
       <td class="nw">${x.reviewed ? `<span class="tag ok">완료</span>` : `<span class="muted">미검수</span>`}</td>
@@ -146,15 +148,28 @@ async function formDetail(id, force = false) {
   return formCache[id];
 }
 
+// 서식 상세는 할 일 넷으로 나눈다: 무엇을 하나(개요) · 만들어 보면 어떤가(생성 사례·검수) · 어떻게 묻고 답하나(질문·답) · 고치기.
+// 아래 줄은 그 일 안의 화면. 주소는 화면 이름 그대로 (#/forms/<ID>/card 등) 라 다른 화면의 링크가 그대로 맞다.
+function formTabs(d) {
+  const editable = d.kind === "overlay";
+  const open = d.issues.filter(x => x.status === "open").length;
+  return [
+    ["개요", "이 서식이 무엇을 묻는지와 상태", [["overview", "요약"], ["card", "카드 원문"]]],
+    ["생성 사례", "가짜 고객으로 만들어 본 서류와 정답 — 눈으로 보고 검수", [["preview", "미리보기"], ["examples", "여러 장 보기"],
+      ["review", `검수${open ? ` · 문제 ${open}` : ""}`]]],
+    ["질문·답", "과제마다 실제 질문·정답·채점", [["questions", "실제 문항"]]],
+    ["고치기", editable ? "값·위치·모양·칸 설정" : "html 서식은 코드로 고침 — 어느 자리에 어떤 키가 나오는지와 파일",
+      [...(editable ? [["edit", "영역 편집"]] : [["spots", "영역·키 보기"]]), ["files", "파일"]]],
+  ];
+}
+
 async function viewForm(id, tab) {
   const d = await formDetail(id, tab === "review");
   const editable = d.kind === "overlay";
-  const tabs = [["preview", "미리보기"], ["guide", "추출·시나리오"], ["examples", "예시"], ["questions", "문항 Q/A"],
-    ["edit", "영역 편집"],
-    ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
-    ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
-    ["review", `검수${d.issues.filter(x => x.status === "open").length ? ` · 문제 ${d.issues.filter(x => x.status === "open").length}` : ""}`],
-    ["keys", `키 (${d.keys.length})`], ["files", "파일"]];
+  const groups = formTabs(d);
+  const group = groups.find(g => g[2].some(([t]) => t === tab)) || groups[0];
+  if (!group[2].some(([t]) => t === tab)) tab = group[2][0][0];
+  const href = t => `#/forms/${encodeURIComponent(id)}/${t}`;
   main().innerHTML = `
     <div class="muted"><a href="#/forms">서식</a> › ${esc(d.group_name)}</div>
     <h1>${esc(d.name)} <span class="mono muted">${esc(d.id)}</span></h1>
@@ -166,55 +181,139 @@ async function viewForm(id, tab) {
       <span class="tag">배정: ${esc(SPLIT_NAME[d.split] || d.split)}</span>
       ${d.edited ? `<span class="tag ok">사람 수정 있음</span>` : ""}
       ${d.n_korean_keys ? `<span class="tag warn">한글 키 ${d.n_korean_keys}</span>` : ""}
-      ${d.scenario_names.map(s => `<span class="tag">시나리오: ${esc(s.name)}</span>`).join("")}
-      ${d.kind === "html" ? `<button id="f-clone" title="템플릿을 사본으로 만들어 html 편집기에서 고칩니다 (값은 부모 생성 함수 + form.json)">복제</button>` : ""}
     </div>
     ${d.description ? `<div class="sub" style="margin-top:6px">${esc(d.description)}</div>` : ""}
-    ${d.document_role ? `<div class="sub">제출 역할: <b>${esc(d.document_role.name)}</b> · 같은 역할 서식 ${d.document_role.forms.length}종
-      ${d.document_role.forms.filter(x => x !== d.id).map(x => `<a href="#/forms/${encodeURIComponent(x)}">${esc(x)}</a>`).join(' · ')}</div>` : ""}
-    ${d.value_audit ? `<details class="panel"><summary>이미지 값 점검 · ${d.value_audit.checked_at} · seed ${d.value_audit.seed}
-      · 채운 값 ${d.value_audit.filled}/${d.value_audit.text_fields}${d.value_audit.stale ? ' · 수정 후 다시 검사 필요' : ''}</summary>
-      <p>자동 이미지 검사입니다. 사람 검수 완료와 별개입니다. 빈 값에는 미사용 행·기재 대상이 아닌 칸·출처가 없는 칸이 포함됩니다.</p>
-      <p>${esc(d.value_audit.coverage_note || '')}</p><p>쪽 넘침: ${d.value_audit.overflow ? '있음':'없음'} · 값 위치 누락 ${d.value_audit.missing_positions?.length || 0} · 페이지 밖 ${d.value_audit.offpage?.length || 0}</p>
-      <div>${(d.value_audit.empty || []).map(f=>`<span class="tag">${esc(f.label || f.key)} · ${esc(f.key)}</span>`).join('')}</div>
-      <a href="#/forms/${encodeURIComponent(d.id)}/edit">영역·값 출처 편집</a></details>` : ''}
     ${d.official_source ? `<div class="sub">${esc(d.official_source.publisher)} · ${esc(d.official_source.revision || "")} · <a href="${esc(d.official_source.url)}" target="_blank" rel="noopener noreferrer">공식 원문 보기</a></div>` : ""}
-    <div class="tabs">${tabs.map(([t, n]) =>
-      `<a href="#/forms/${encodeURIComponent(id)}/${t}" class="${t === tab ? "on" : ""}">${n}</a>`).join("")}</div>
+    <div class="tabs">${groups.map(g =>
+      `<a href="${href(g[2][0][0])}" class="${g === group ? "on" : ""}" title="${esc(g[1])}">${esc(g[0])}</a>`).join("")}</div>
+    ${group[2].length > 1 ? `<div class="subtabs">${group[2].map(([t, n]) =>
+      `<a href="${href(t)}" class="${t === tab ? "on" : ""}">${esc(n)}</a>`).join("")}</div>` : ""}
     <div id="tab"></div>`;
-  if ($("#f-clone")) $("#f-clone").onclick = async () => {
-    const nid = (prompt("새 서식 ID (영어 소문자·숫자·밑줄)", `${d.id}_copy`) || "").trim();
-    if (!nid) return;
-    const name = (prompt("새 서식 이름", `${d.name} (복제)`) || "").trim();
-    try {
-      await api(`/api/forms/${encodeURIComponent(d.id)}/clone`, { new_id: nid, name });
-      state.forms = null; toast("복제했습니다. html 편집기로 갑니다");
-      location.hash = `#/forms/${encodeURIComponent(nid)}/html`;
-    } catch (e) { toast(e.message, true); }
-  };
+  if (tab === "overview") return tabOverview(d);
   if (tab === "preview") return tabPreview(d);
-  if (tab === "guide") return tabGuide(d);
+  if (tab === "spots") return tabPreview(d, { spots: true });
+  if (tab === "card") return tabCard(d);
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);
   if (tab === "edit" && editable) return viewEditor(d);
-  if (tab === "edit") return viewHtmlRegions(d);
-  if (tab === "templates") return viewTemplateVariants(d);
-  if (tab === "html" && typeof viewHtmlEditor === "function") return viewHtmlEditor(d);
   if (tab === "review") return tabReview(d);
-  if (tab === "keys") return tabKeys(d);
   return tabFiles(d);
 }
 
-// 미리보기 탭 ---------------------------------------------------------------
-function tabPreview(d) {
-  const view = { label: null, page: 0, sel: -1, zoom: false, issueMode: false, cells: {} };
-  const loadCells = async () => {   // 서식의 키 → 칸 (최종 키 · 누구의 · 무엇, 키 사전)
-    await kpLoad();
-    const r = await api(`/api/dictionary/cells?form=${encodeURIComponent(d.id)}&limit=3000`);
-    view.cells = Object.fromEntries(r.rows.flatMap(c => c.raw.map(k => [k, c])));
+// 개요 › 요약: 상태 한 줄 + 과제마다 무엇을 묻는지 (GET /api/forms/{id}/overview, studio/catalog.py overview) ----------
+async function tabOverview(d) {
+  const box = $("#tab"), id = encodeURIComponent(d.id);
+  const open = d.issues.filter(x => x.status === "open").length;
+  const a = d.value_audit;
+  box.innerHTML = `<div class="ov-status">
+      <div><span class="muted">검수</span> ${REVIEW_TAG[d.review_state] || ""} <a href="#/forms/${id}/review">검수 화면</a></div>
+      <div><span class="muted">문제 표시</span> ${open ? `<a class="kr" href="#/forms/${id}/review">남은 ${open}개</a>` : "없음"}</div>
+      <div><span class="muted">배정</span> ${esc(SPLIT_NAME[d.split] || d.split)}</div>
+      <div><span class="muted">질문 검사</span> <span id="ov-check" class="muted">…</span></div>
+      <div><span class="muted">카드</span> <span id="ov-card" class="muted">…</span></div>
+    </div>
+    ${a ? `<details class="panel"><summary>이미지 값 점검 · ${a.checked_at} · seed ${a.seed}
+      · 채운 값 ${a.filled}/${a.text_fields}${a.stale ? ' · 수정 후 다시 검사 필요' : ''}</summary>
+      <p>자동 이미지 검사입니다. 사람 검수 완료와 별개입니다. 빈 값에는 미사용 행·기재 대상이 아닌 칸·출처가 없는 칸이 포함됩니다.</p>
+      <p>${esc(a.coverage_note || '')}</p><p>쪽 넘침: ${a.overflow ? '있음' : '없음'} · 값 위치 누락 ${a.missing_positions?.length || 0} · 페이지 밖 ${a.offpage?.length || 0}</p>
+      <div>${(a.empty || []).map(f => `<span class="tag">${esc(f.label || f.key)} · ${esc(f.key)}</span>`).join('')}</div>
+      ${d.kind === "overlay" ? `<a href="#/forms/${id}/edit">영역·생성 방법 편집</a>` : ""}</details>` : ''}
+    <h2>이 서식이 묻는 것</h2>
+    <div class="sub">이 서식으로 데이터를 만들면 아래 과제마다 문항이 생깁니다. 고객 여러 명으로 그려 본 칸으로 셉니다 (카드와 같은 계산).
+      행 번호가 있는 칸(<span class="mono">rows.*.kind</span>)은 표로 묶여 kie 가 아니라 표 과제가 묻습니다.
+      파일로 고치는 곳: 저장소 <span class="mono">docgen/forms/README.md</span> (서식 폴더 설명서)</div>
+    <div id="ov-tasks"><p class="spin">그려 보며 세는 중…</p></div>`;
+  let o, formats;
+  try { [o, formats] = await Promise.all([api(`/api/forms/${id}/overview`), loadQuestionFormats()]); }
+  catch (e) { if (box.isConnected) $("#ov-tasks").innerHTML = `<p class="kr">${esc(e.message)}</p>`; return; }
+  if (!box.isConnected || !$("#ov-tasks")) return;
+  $("#ov-check").innerHTML = o.problems.length ? `<span class="kr">문제 ${o.problems.length} (아래)</span>` : `<span class="tag ok">통과</span>`;
+  $("#ov-card").innerHTML = !o.card_exists ? `<a class="kr" href="#/forms/${id}/card">없음</a>`
+    : o.card_stale ? `<a class="kr" href="#/forms/${id}/card" title="서식 파일·질문·공통 설정이 카드를 만든 뒤 바뀜">오래됨</a>` : `<a href="#/forms/${id}/card">최신</a>`;
+  const name = t => formats[t]?.name || t;
+  const seen = it => it.seen < it.of ? ` <span class="muted" title="그려 본 ${it.of}장 중 이 칸이 나온 장 수">${it.seen}/${it.of}장</span>` : "";
+  const label = it => esc(it.q_label || it.label || (it.labels || []).filter(Boolean).join(" / ") || "-");
+  const keyList = items => `<table class="ov-keys"><thead><tr><th>키</th><th>키 설명 (질문에 쓰는 이름)</th><th></th></tr></thead><tbody>${items.map(it =>
+    `<tr class="${it.ask === false ? "muted" : ""}"><td class="mono">${esc(it.column || it.key)}</td><td>${label(it)}${it.note ? ` <span class="muted">(${esc(it.note)})</span>` : ""}${seen(it)}</td>
+      <td>${it.ask === false ? `<span class="tag">묻지 않음</span>` : ""}${(it.changed || []).length ? ` <span class="tag warn" title="fields.json 그 칸의 q">바꿈: ${esc(it.changed.join(", "))}</span>` : ""}</td></tr>`).join("")}</tbody></table>`;
+  const asked = items => items.filter(it => it.ask !== false).length;
+  const go = (tasks, text = "실제 문항") => `<a href="#/forms/${id}/questions" data-task="${tasks[0]}">${text}</a>`;
+  const changed = t => (o.changed[t] || []).length ? ` <span class="tag warn" title="questions.json 에서 바꿈">바꿈: ${esc(o.changed[t].join(", "))}</span>` : "";
+  const rows = [
+    [name("classify") + changed("classify"), `무슨 서류인가 → 정답 <b>${esc(o.classify.answer)}</b>${o.classify.aliases?.length ? ` <span class="muted">(다른 이름 ${o.classify.aliases.map(esc).join(", ")})</span>` : ""}
+      <button type="button" id="ov-cls-edit" style="margin-left:6px">바꾸기</button>
+      <div id="ov-cls-form" hidden style="margin-top:6px">
+        <label class="fld">분류 정답 (문서명) <input type="text" id="ov-cls-answer" value="${esc(o.classify.answer)}" placeholder="${esc(d.name)}"></label>
+        <label class="fld">다른 이름도 정답 <span class="muted" style="font-size:12px">(쉼표로. 같은 서류를 부르는 다른 이름)</span>
+          <input type="text" id="ov-cls-aliases" value="${esc((o.classify.aliases || []).join(", "))}"></label>
+        <div class="bar"><button type="button" class="primary" id="ov-cls-save">저장</button><button type="button" id="ov-cls-cancel">취소</button>
+          <span class="muted" style="font-size:12px">서식 폴더 questions.json 의 classify 에 저장. 서식 이름(${esc(d.name)})과 같으면 기본으로 되돌립니다.</span></div></div>`,
+      go(["classify"]), "<span class=mono>questions.json</span> 의 classify"],
+    [`${name("ocr_page")} · ${name("ocr_field")}${changed("ocr_page")}`, `보이는 글자 전체 받아쓰기 · 값 칸 하나 읽기${o.ocr_off.length ? ` <span class="muted">— 뺀 칸 ${o.ocr_off.length}: ${o.ocr_off.map(esc).join(", ")}</span>` : ""}`,
+      go(["ocr_page"]), "뺄 칸: <span class=mono>fields.json</span> 그 칸 <code>q.ocr</code>"],
+    [name("kie") + changed("kie"), `<details><summary>칸 <b>${asked(o.kie)}</b>개의 값·위치${o.kie.length - asked(o.kie) ? ` <span class="muted">(묻지 않음 ${o.kie.length - asked(o.kie)})</span>` : ""}</summary>${keyList(o.kie)}</details>`,
+      go(["kie"]), "묻는 칸·키 설명: <span class=mono>fields.json</span> 그 칸 <code>q</code> · 문장·답 틀: <span class=mono>questions.json</span>"],
+    ...o.tables.map(t => [`표 <span class="mono">${esc(t.group)}</span>${t.title ? ` '${esc(t.title)}'` : ""}`,
+      `<details><summary>열 <b>${asked(t.columns)}</b>개, 행 수는 서류마다 다름 · ${["table", "table_read", "table_find", "table_qa"].map(name).join(" · ")}${t.seen < o.docs ? ` <span class="muted">· ${o.docs}장 중 ${t.seen}장에 행 있음</span>` : ""}</summary>${keyList(t.columns)}</details>`,
+      go(["table"]), "제목·표 아님: <span class=mono>questions.json</span> 의 <code>table</code> · 열: <span class=mono>fields.json</span> <code>q</code> · 행 순서: 값 만드는 곳"]),
+    ...(o.nested.length ? [["겹친 목록", `<details><summary>칸 ${o.nested.length}개 — 목록 안의 목록이라 표로도 kie 로도 묻지 않음</summary>${keyList(o.nested)}</details>`, "", "키를 <span class=mono>&lt;묶음&gt;.N.&lt;열&gt;</span> 꼴로"]] : []),
+    [name("marks") + changed("marks"), o.marks.length ? `<details><summary>칸 <b>${asked(o.marks)}</b>개 (체크박스·도장·서명)</summary>${keyList(o.marks)}</details>` : `<span class="muted">없음</span>`,
+      o.marks.length ? go(["marks"]) : "", "kie 와 같음"],
+    [name("form_qa"), o.form_qa.length ? o.form_qa.map(r => `<span class="tag" title="${esc(r.kind || "")}">${esc(r.name)}</span>${r.asked < r.of ? ` <span class="muted">${r.asked}/${r.of}장</span>` : ""}`).join(" ")
+      : `<span class="muted">없음 — 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span></span>`,
+      o.form_qa.length ? go(["form_qa"]) : "", "<span class=mono>qa.py</span> (함수 하나 = 질문 하나)"],
+  ];
+  $("#ov-tasks").innerHTML = `<table class="ov-tasks"><thead><tr><th>과제</th><th>묻는 것</th><th></th><th>고치는 곳</th></tr></thead><tbody>${rows.map(([t, w, l, f]) =>
+      `<tr><td class="nw">${t}</td><td>${w}</td><td class="nw">${l}</td><td class="muted">${f}</td></tr>`).join("")}</tbody></table>
+    ${o.problems.length ? `<h3 id="ov-problems" class="kr">질문 검사 문제 ${o.problems.length}</h3><ul>${o.problems.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+    ${o.notes.length ? `<details><summary class="muted">참고 ${o.notes.length}</summary><ul>${o.notes.map(p => `<li>${esc(p)}</li>`).join("")}</ul></details>` : ""}
+    <div class="sub">질문 검사는 질문 설정(questions.json·칸의 q·qa.py)만 봅니다. 칸·생성 방법·박스까지 보려면 <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span>.</div>`;
+  $("#ov-tasks").onclick = e => { const t = e.target.closest("[data-task]")?.dataset.task; if (t) state.qaTask = t; };
+  const clsForm = $("#ov-cls-form");
+  $("#ov-cls-edit").onclick = () => { clsForm.hidden = false; $("#ov-cls-edit").hidden = true; $("#ov-cls-answer").focus(); };
+  $("#ov-cls-cancel").onclick = () => { clsForm.hidden = true; $("#ov-cls-edit").hidden = false; };
+  $("#ov-cls-save").onclick = async () => {
+    try {
+      await api(`/api/forms/${id}/classify`, { answer: $("#ov-cls-answer").value,
+        aliases: $("#ov-cls-aliases").value.split(",").map(s => s.trim()).filter(Boolean) }, "PUT");
+      toast("분류 정답을 저장했습니다");
+      await formDetail(d.id, true);
+      if (box.isConnected) viewForm(d.id, "overview");
+    } catch (e) { toast(e.message, true); }
   };
-  const cellsReady = loadCells().catch(() => {});
-  $("#tab").innerHTML = `
+}
+
+// 카드 탭: 서식 폴더의 FORM.md (docgen/formcard.py) — 항목·위치·정의한 곳·질문→답 예시·고치는 곳 ----------
+async function tabCard(d) {
+  const box = $("#tab");
+  const draw = c => {
+    if (!box.isConnected) return;
+    const md = (c.markdown || "").split("\n").filter(l => !l.startsWith("<!--")).join("\n");
+    box.innerHTML = `<div class="bar">
+        <span class="mono muted">${esc(c.path)}</span>
+        ${c.markdown == null ? `<span class="tag warn">카드 없음</span>` : c.stale ? `<span class="tag warn" title="이 서식의 파일·questions.json·공통 질문이 카드를 만든 뒤 바뀌었습니다">오래됨</span>` : `<span class="tag ok">최신</span>`}
+        <button id="cd-make">${c.markdown == null ? "카드 만들기" : "카드 다시 만들기"}</button><span id="cd-status" class="muted" role="status"></span></div>
+      <div class="sub">이 서식 폴더만 보고 무엇을 어디서 뽑고, 어떻게 묻고, 답이 어떤 모양인지 알 수 있게 자동으로 만든 문서입니다. 직접 고치지 않고 아래 "고치려면" 표의 파일을 고칩니다.
+        명령줄: <span class="mono">python -m docgen.formdir card ${esc(d.id)}</span></div>
+      <div class="panel">${md ? guideMarkdown(md, "docgen/forms/" + d.id + "/FORM.md", []) : `<p class="muted">아직 카드가 없습니다.</p>`}</div>`;
+    $("#cd-make").onclick = async () => {
+      $("#cd-make").disabled = true; $("#cd-status").textContent = "그림을 그려 카드를 만드는 중…";
+      try { draw(await api(`/api/forms/${encodeURIComponent(d.id)}/card`, {})); toast("카드를 다시 만들었습니다"); }
+      catch (e) { toast(e.message, true); if (box.isConnected) { $("#cd-make").disabled = false; $("#cd-status").textContent = ""; } }
+    };
+  };
+  box.innerHTML = `<p class="muted">읽는 중…</p>`;
+  try { draw(await api(`/api/forms/${encodeURIComponent(d.id)}/card`)); } catch (e) { box.innerHTML = `<p class="kr">${esc(e.message)}</p>`; }
+}
+
+// 미리보기 탭 ---------------------------------------------------------------
+function tabPreview(d, opt = {}) {
+  const view = { label: null, page: 0, sel: -1, zoom: false, issueMode: false };
+  if (opt.spots) { state.layers.keyname = true; state.layers.value = true; }   // 영역·키 보기: 키 이름을 켜고 시작 (저장은 안 함)
+  $("#tab").innerHTML = `${opt.spots ? `<div class="sub">html 서식은 화면에서 고치지 않습니다. 아래는 가짜 고객 한 명으로 그린 그림에 <b>값이 나오는 자리와 그 키</b>를 겹친 것입니다
+      (seed 를 바꾸면 값·표 행 수·선택 칸이 달라집니다). 자리는 서식 폴더 <span class="mono">look/template.html.j2</span> 의 <span class="mono">f('키')</span> 가 정하고,
+      값은 <span class="mono">generate.py</span>·칸 목록 <span class="mono">fields.json</span> 이 정합니다 — <a href="#/forms/${encodeURIComponent(d.id)}/files">파일</a>,
+      파일 꼴 <span class="mono">docgen/manual/NEW_FORM_SPEC.md</span>.</div>` : ""}
     <div class="bar">${optionBar(true)}
       <button class="primary" id="o-go">렌더링</button>
       <button id="o-prev" title="이전 seed">◀</button><button id="o-next" title="다음 seed">▶</button>
@@ -243,11 +342,9 @@ function tabPreview(d) {
   };
   const drawSide = () => {
     const L = view.label, f = L.fields[view.sel];
-    const cell = f && view.cells[f.key];
     const detail = f ? `<div class="detail-box panel">
-        <div>${cell ? kpKeyCell({ common: !!(cell.keys || []).find(k => k.raw === f.key)?.common, key: finalKey(f.key) }) : `<b class="mono">${esc(f.key)}</b>`}</div>
-        ${cell && finalKey(f.key) !== f.key ? `<div class="muted" style="font-size:12px">서식의 키 <span class="mono">${esc(f.key)}</span></div>` : ""}
-        ${cell ? "" : `<div>이름표: ${esc(f.label ?? "")}</div>`}<div>타입: ${esc(f.type)}</div>
+        <div><b class="mono">${esc(f.key)}</b></div>
+        <div>키 설명: ${esc(f.label ?? "")}</div><div>타입: ${esc(f.type)}</div>
         <div>값: ${esc(valueText(f))}</div>
         ${f.norm !== undefined && f.norm !== f.value ? `<div>정규화 값: <span class="mono">${esc(JSON.stringify(f.norm))}</span></div>` : ""}
         ${f.options ? `<div>보기: ${f.options.map(o => `${o.checked ? "■" : "□"} ${esc(o.text)}`).join(" ")}</div>` : ""}
@@ -255,40 +352,38 @@ function tabPreview(d) {
         ${f.render ? `<div>풀 항목: ${esc(f.render)}</div>` : ""}
         ${f.corrected_from ? `<div>정정 전 값: ${esc(f.corrected_from)}</div>` : ""}
         <div>쪽: ${(f.page || 0) + 1} · 위치: ${f.bbox ? `<span class="mono">${f.bbox.map(Math.round).join(", ")}</span>` : "없음"}</div>
-        ${cell ? `<div id="v-kp"></div>` : ""}
       </div>` : "";
     $("#v-side").innerHTML = `${detail}
       <div class="muted" style="margin-bottom:4px">항목 ${L.fields.length}개 · ${L.pages.length}쪽${L.overflow ? " · <b class=kr>쪽 넘침</b>" : ""}</div>
       <table><thead><tr><th>쪽</th><th>키</th><th>값</th></tr></thead><tbody>${L.fields.map((x, i) => `
         <tr class="click ${i === view.sel ? "sel" : ""}" data-i="${i}">
-          <td>${(x.page || 0) + 1}</td><td class="mono ${/[^\x00-\x7f]/.test(finalKey(x.key)) ? "kr" : ""}">${(view.cells[x.key]?.keys || []).find(k => k.raw === x.key)?.common ? `<span class="tag ok">공통</span> ` : ""}${esc(finalKey(x.key))}</td>
+          <td>${(x.page || 0) + 1}</td><td class="mono ${/[^\x00-\x7f]/.test(x.key) ? "kr" : ""}">${esc(x.key)}</td>
           <td>${esc(valueText(x))}${x.bbox ? "" : ` <span class="muted">(위치 없음)</span>`}</td></tr>`).join("")}
       </tbody></table>`;
     scrollRowIntoView($("#v-side"), $("#v-side tr.sel"));
-    if (cell) kpPanel($("#v-kp"), d.id, cell, async () => { await loadCells(); drawSide(); }, { image: false });
   };
-  // 그 칸의 최종 키 (공통 키로 정했으면 공통 키). 서명 칸은 이름·서명·도장 키마다 따로
-  const finalKey = raw => (view.cells[raw]?.keys || []).find(k => k.raw === raw)?.key || raw;
   const select = i => {
     view.sel = i;
     const f = view.label.fields[i];
     if (f && (f.page || 0) !== view.page) view.page = f.page || 0;
     draw(true);
   };
+  let req = 0;
   const go = async (force = false) => {
-    const o = readOptions(true);
-    $("#o-stat").textContent = "렌더링 중…";
+    const o = readOptions(true), stat = $("#o-stat"), my = ++req;
+    const stale = () => my !== req || !stat.isConnected;   // 그 사이 다시 눌렀거나 다른 화면으로 넘어감
+    stat.textContent = "렌더링 중…";
     try {
       const t = performance.now();
-      view.label = await renderOne(d.id, o, force);
-      await cellsReady;
-      if (!$("#o-stat")) return;   // 렌더링하는 사이 다른 화면으로 넘어감
-      view.page = Math.min(view.page, view.label.pages.length - 1);
+      const L = await renderOne(d.id, o, force);
+      if (stale()) return;
+      view.label = L;
+      view.page = Math.min(view.page, L.pages.length - 1);
       view.sel = -1;
-      $("#o-stat").textContent = `seed ${o.seed} · ${((performance.now() - t) / 1000).toFixed(1)}초`;
+      stat.textContent = `seed ${o.seed} · ${((performance.now() - t) / 1000).toFixed(1)}초`;
       draw();
     } catch (e) {
-      $("#o-stat").innerHTML = `<span class="err">${esc(e.message)}</span>`;
+      if (!stale()) stat.innerHTML = `<span class="err">${esc(e.message)}</span>`;
     }
   };
   const markIssue = async (i, p) => {
@@ -305,7 +400,7 @@ function tabPreview(d) {
       const fresh = await formDetail(d.id, true);
       d.issues = fresh.issues;
       toast("문제를 남겼습니다 (검수 탭에서 봅니다)");
-      draw();
+      if (stageEl.isConnected) draw();
     } catch (e) { toast(e.message, true); }
   };
   $("#o-go").onclick = () => go();
@@ -319,7 +414,8 @@ function tabPreview(d) {
     $("#o-issue").textContent = view.issueMode ? "문제 표시 중 (끄기)" : "문제 표시";
   };
   $("#v-pages").onclick = e => { const p = e.target.dataset.p; if (p !== undefined) { view.page = +p; draw(); } };
-  const stage = bindStage($("#v-stage"), () => view.label, () => view.page, (i, p) => {
+  const stageEl = $("#v-stage");
+  const stage = bindStage(stageEl, () => view.label, () => view.page, (i, p) => {
     if (view.issueMode) return markIssue(i, p);
     view.sel = i; draw();
   });
@@ -370,8 +466,10 @@ function tabExamples(d) {
     <div class="bar">${layerBar()}</div>
     <div class="sub">같은 seed 는 늘 같은 고객·같은 값입니다. 카드를 누르면 그 seed 로 미리보기를 엽니다.</div>
     <div class="grid" id="ex-grid"></div>`;
-  let labels = [];
+  let labels = [], run = 0;
+  const grid = $("#ex-grid");
   const drawCards = () => {
+    if (!grid.isConnected) return;
     $("#ex-grid").innerHTML = labels.map((L, k) => L && !L.error ? `
       <div class="card" data-seed="${L.seed}">
         <div class="stage">${stageHTML(L, 0, -1)}</div>
@@ -381,13 +479,16 @@ function tabExamples(d) {
   const go = async () => {
     const s = Math.max(0, parseInt($("#ex-start").value || "0", 10)), n = Math.min(48, Math.max(1, parseInt($("#ex-count").value || "8", 10)));
     store.set("ex.start", s); store.set("ex.count", n);
-    const o = readOptions(false);
+    const o = readOptions(false), my = ++run;
     labels = new Array(n).fill(null);
     drawCards();
     $("#ex-go").disabled = true;
     for (let k = 0; k < n; k++) {   // 렌더러가 하나라 차례로 만든다. 다 된 것부터 보인다.
       $("#ex-stat").textContent = `${k + 1}/${n}`;
-      try { labels[k] = await renderOne(d.id, { ...o, seed: s + k }); } catch (e) { labels[k] = { error: e.message }; }
+      let L;
+      try { L = await renderOne(d.id, { ...o, seed: s + k }); } catch (e) { L = { error: e.message }; }
+      if (my !== run || !grid.isConnected) return;   // 다른 화면으로 넘어가면 그만 만든다
+      labels[k] = L;
       drawCards();
     }
     $("#ex-stat").textContent = `${n}장`;
@@ -427,7 +528,7 @@ async function tabReview(d) {
         <h2>배정</h2>
         <select id="rv-split">${Object.entries(SPLIT_NAME).map(([k, n]) =>
           `<option value="${k}" ${d.split === k ? "selected" : ""}>${n}</option>`).join("")}</select>
-        <div class="muted" style="font-size:12px;margin-top:4px">평가 전용: 학습 데이터(<span class="mono">--split train</span>)를 만들 때 이 서식을 뺍니다.</div>
+        <div class="muted" style="font-size:12px;margin-top:4px">평가 전용: 학습 데이터를 만들 때 이 서식을 빼고 평가 세트에만 씁니다 (모델이 처음 보는 서식으로 재 보기).</div>
         <h2>메모</h2>
         <textarea id="rv-note" rows="4" style="width:100%">${esc(d.note || "")}</textarea>
         <div class="bar"><button id="rv-save">배정·메모 저장</button></div>
@@ -463,8 +564,12 @@ async function tabReview(d) {
       viewForm(d.id, "review");
     } catch (err) { toast(err.message, true); }
   };
+  // 배정·메모를 고친 채 [검수 완료]를 눌러도 적은 것이 사라지지 않게 먼저 저장한다
+  const split0 = $("#rv-split").value, note0 = $("#rv-note").value;
+  const saveMeta = () => api(`/api/forms/${encodeURIComponent(d.id)}/meta`, { split: $("#rv-split").value, note: $("#rv-note").value });
   const setReview = async done => {
     try {
+      if ($("#rv-split").value !== split0 || $("#rv-note").value !== note0) await saveMeta();
       await api(`/api/forms/${encodeURIComponent(d.id)}/review`, { done });
       state.forms = null;
       toast(done ? "검수 완료로 표시했습니다" : "검수를 취소했습니다");
@@ -475,7 +580,7 @@ async function tabReview(d) {
   if ($("#rv-undo")) $("#rv-undo").onclick = () => setReview(false);
   $("#rv-save").onclick = async () => {
     try {
-      await api(`/api/forms/${encodeURIComponent(d.id)}/meta`, { split: $("#rv-split").value, note: $("#rv-note").value });
+      await saveMeta();
       state.forms = null;
       toast("저장했습니다");
       viewForm(d.id, "review");
@@ -492,37 +597,14 @@ async function tabReview(d) {
   } catch (e) { $("#rv-checks").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
 }
 
-// 키 탭: 칸마다 이름표 · 누구의 · 무엇 · 키 (키 사전 keys.js 의 cellsView)
-function tabKeys(d) {
-  $("#tab").innerHTML = `<div class="sub">칸마다 키가 하나 있습니다. 칸이 <b>누구의 · 무엇</b>인지 정하면, 그 둘이 공통 키일 때 공통 키로 묻고 답합니다.
-    나머지는 문서별 키(서식의 키 그대로)입니다. 미리보기에서 칸을 눌러도 같은 것을 정합니다.</div><div id="k-cells"></div>`;
-  return cellsView($("#k-cells"), { form: d.id });
-}
-
-// 예전 키 목록 (30번 렌더링해 모은 키·채움률) -----------------------------------
-function tabKeysSampled(d) {
-  $("#tab").innerHTML = `
-    <div class="sub">서식마다 고객 30명으로 렌더링해 모은 키입니다 (<span class="mono">guide/fields/fields.json</span>).
-      채움률은 30번 중 그 키가 나온 비율, 예시가 비어 있으면 값이 한 번도 안 채워진 칸입니다.
-      <span class="kr">주황색</span>은 한글 키(영어 표준 키로 바꿀 대상)입니다.</div>
-    <div class="bar"><input type="text" id="k-q" placeholder="키·항목명 검색" style="width:240px"></div>
-    <div id="k-table"></div>`;
-  const draw = () => {
-    const q = $("#k-q").value.trim().toLowerCase();
-    const rows = d.keys.filter(k => !q || k.key.toLowerCase().includes(q) || (k.label || "").toLowerCase().includes(q));
-    $("#k-table").innerHTML = rows.length ? `<table><thead><tr><th>키</th><th>항목명</th><th>타입</th><th class="num">채움률</th><th>예시</th></tr></thead>
-      <tbody>${rows.map(k => `<tr><td class="mono ${/[^\x00-\x7f]/.test(k.key) ? "kr" : ""}">${esc(k.key)}</td>
-        <td>${esc(k.label ?? "")}</td><td>${esc(k.type)}</td><td class="num">${Math.round((k.fill_rate ?? 0) * 100)}%</td>
-        <td>${k.example ? esc(k.example) : `<span class="muted">(값 없음)</span>`}</td></tr>`).join("")}</tbody></table>`
-      : `<p class="muted">키 목록이 없습니다. <span class="mono">python docgen/scripts/build_schema.py</span>로 만듭니다.</p>`;
-  };
-  $("#k-q").oninput = draw;
-  draw();
-}
-
 function tabFiles(d) {
   $("#tab").innerHTML = `
-    <div class="sub">이 서식의 결과를 정하는 파일입니다 (저장소 기준 경로). 영역 편집기·html 편집기에서 고친 것도 이 파일들에 저장됩니다.</div>
+    <div class="sub">이 서식의 결과를 정하는 파일입니다 (저장소 기준 경로).${d.kind === "overlay" ? " 영역 편집기에서 고친 것도 이 파일들에 저장됩니다." : ""}</div>
+    ${d.kind === "html" ? `<div class="panel"><b>html 서식은 화면에서 고치지 않고 이 파일들을 코드로 고칩니다.</b>
+      고칠 곳은 <span class="mono">docgen/forms/README.md</span> 0절 표 → 이 서식 카드 <span class="mono">docgen/forms/${esc(d.id)}/FORM.md</span>,
+      파일 꼴은 <span class="mono">docgen/manual/NEW_FORM_SPEC.md</span>, 모양만은 <span class="mono">docgen/manual/FORM_SHELL_GUIDE.md</span>.
+      새 html 서식은 <span class="mono">docgen/forms/&lt;새 ID&gt;/</span> 폴더를 같은 꼴로 만들고 <b>서식 다시 읽기</b>.
+      고친 뒤 <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> 와 미리보기로 확인합니다.</div>` : ""}
     <table><thead><tr><th>역할</th><th>경로</th></tr></thead><tbody>${d.files.map(f =>
       `<tr><td>${esc(f.role)}</td><td class="mono">${esc(f.path)}</td></tr>`).join("")}</tbody></table>
     ${d.script ? `<h3>생성 스크립트 <span class="mono muted">${esc(d.script.path)}</span></h3>

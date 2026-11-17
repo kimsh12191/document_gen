@@ -23,7 +23,9 @@
     117.4,
     345.6,
     140.1
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -34,7 +36,9 @@
     141.1,
     545.3,
     167.5
-   ]
+   ],
+   "kind": "number",
+   "key": "customer.zipcode"
   },
   {
    "t": "text",
@@ -46,7 +50,9 @@
     345.6,
     191.2
    ],
-   "section": "업 체 담 당 자"
+   "section": "업 체 담 당 자",
+   "kind": "text",
+   "key": "employer.department"
   },
   {
    "t": "text",
@@ -58,7 +64,10 @@
     345.6,
     213.8
    ],
-   "section": "업 체 담 당 자"
+   "section": "업 체 담 당 자",
+   "kind": "text",
+   "std": false,
+   "key": "TEL"
   },
   {
    "t": "text",
@@ -69,7 +78,9 @@
     117.4,
     548.3,
     140.1
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -81,7 +92,9 @@
     548.3,
     191.2
    ],
-   "section": "업 체 담 당 자"
+   "section": "업 체 담 당 자",
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -93,7 +106,10 @@
     548.3,
     213.8
    ],
-   "section": "업 체 담 당 자"
+   "section": "업 체 담 당 자",
+   "kind": "phone",
+   "std": false,
+   "key": "FAX"
   },
   {
    "t": "text",
@@ -105,7 +121,9 @@
     272.3,
     284.7
    ],
-   "row": true
+   "row": true,
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -117,7 +135,9 @@
     439.5,
     284.7
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -129,7 +149,10 @@
     548.3,
     284.7
    ],
-   "row": true
+   "row": true,
+   "kind": "note",
+   "std": false,
+   "key": "비고"
   },
   {
    "t": "date",
@@ -154,7 +177,8 @@
      542.0,
      747.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -171,7 +195,9 @@
     768.8,
     551.8,
     780.9
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   }
  ]
 }

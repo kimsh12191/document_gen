@@ -61,7 +61,10 @@
     99.9,
     164.2,
     112.0
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "ReceiptNumber"
   },
   {
    "t": "text",
@@ -72,7 +75,10 @@
     99.9,
     290.3,
     112.0
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "DateofReceipt"
   },
   {
    "t": "text",
@@ -83,7 +89,9 @@
     117.2,
     414.0,
     140.7
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -94,7 +102,10 @@
     329.8,
     544.2,
     356.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Capital"
   },
   {
    "t": "text",
@@ -105,7 +116,10 @@
     162.5,
     414.0,
     183.2
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -116,7 +130,10 @@
     185.2,
     414.0,
     205.9
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -127,7 +144,10 @@
     207.9,
     544.2,
     220.0
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "SPCYesNo"
   },
   {
    "t": "text",
@@ -139,7 +159,10 @@
     544.2,
     248.4
    ],
-   "hint": "(Phone Number: , FAX: )"
+   "hint": "(Phone Number: , FAX: )",
+   "kind": "text",
+   "std": false,
+   "key": "Headquarters"
   },
   {
    "t": "text",
@@ -151,7 +174,10 @@
     544.2,
     276.7
    ],
-   "hint": "(Phone Number: , FAX: )"
+   "hint": "(Phone Number: , FAX: )",
+   "kind": "text",
+   "std": false,
+   "key": "MainFactory"
   },
   {
    "t": "text",
@@ -162,7 +188,10 @@
     278.7,
     339.9,
     299.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Homepage"
   },
   {
    "t": "text",
@@ -173,7 +202,9 @@
     527.0,
     414.0,
     559.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -184,7 +215,9 @@
     561.0,
     414.0,
     593.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -195,7 +228,9 @@
     278.7,
     544.2,
     299.4
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -206,7 +241,9 @@
     117.2,
     544.2,
     140.7
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -217,7 +254,9 @@
     527.0,
     544.2,
     559.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -228,7 +267,9 @@
     561.0,
     544.2,
     593.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -241,7 +282,10 @@
     413.8
    ],
    "unit": "%",
-   "section": "Foreign- Invested Enterprise"
+   "section": "Foreign- Invested Enterprise",
+   "kind": "percent",
+   "std": false,
+   "key": "AcquisitionPricewon"
   },
   {
    "t": "text",
@@ -252,7 +296,10 @@
     381.3,
     529.5,
     399.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "InvestmentandParValueofStocks"
   },
   {
    "t": "text",
@@ -264,7 +311,10 @@
     414.2,
     112.0
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "DateofCompletion"
   },
   {
    "t": "text",
@@ -276,7 +326,10 @@
     151.7,
     157.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Investor"
   },
   {
    "t": "text",
@@ -288,7 +341,9 @@
     421.6,
     160.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -300,7 +355,10 @@
     153.7,
     288.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Foreign-"
   },
   {
    "t": "text",
@@ -312,7 +370,10 @@
     153.7,
     299.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Invested"
   },
   {
    "t": "text",
@@ -324,7 +385,10 @@
     153.7,
     558.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Changeof"
   },
   {
    "t": "check",
@@ -363,7 +427,8 @@
      ],
      "line": 28
     }
-   ]
+   ],
+   "key": "check.agrees"
   }
  ]
 }

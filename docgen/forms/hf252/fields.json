@@ -24,7 +24,11 @@
     524.6,
     138.1
    ],
-   "row": true
+   "row": true,
+   "group": "반출입구분",
+   "kind": "text",
+   "std": false,
+   "key": "반출입구분"
   },
   {
    "t": "text",
@@ -38,7 +42,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.통화종류CodeofCurrency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -52,7 +58,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.통화종류CodeofCurrency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -63,7 +71,10 @@
     349.1,
     174.0,
     378.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "송금"
   },
   {
    "t": "text",
@@ -74,7 +85,10 @@
     378.4,
     174.0,
     420.9
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -88,7 +102,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.형태Form",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -102,7 +118,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.형태Form",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -114,7 +132,10 @@
     219.8,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.형태Form",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -126,7 +147,10 @@
     219.8,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.형태Form",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -140,7 +164,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.통화별금액AmountineachCurrency",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -154,7 +180,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.통화별금액AmountineachCurrency",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -166,7 +194,10 @@
     290.7,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.통화별금액AmountineachCurrency",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -178,7 +209,10 @@
     290.7,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.통화별금액AmountineachCurrency",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -192,7 +226,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.합계Sum",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -206,7 +242,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.합계Sum",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -218,7 +256,10 @@
     368.7,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.합계Sum",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -230,7 +271,10 @@
     368.7,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.합계Sum",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -244,7 +288,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.반출입용도Use",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -258,7 +304,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.반출입용도Use",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -270,7 +318,10 @@
     418.3,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.반출입용도Use",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -282,7 +333,10 @@
     418.3,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.반출입용도Use",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -296,7 +350,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -310,7 +366,9 @@
    ],
    "group": "휴 대 (Carried)",
    "row": true,
-   "section": "휴 대 (Carried)"
+   "section": "휴 대 (Carried)",
+   "key": "휴대_목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -322,7 +380,10 @@
     524.6,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -334,7 +395,10 @@
     524.6,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency",
+   "key": "Currency_목록.{i}.비고",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -346,7 +410,10 @@
     524.6,
     196.7
    ],
-   "section": "성 명 Name Last Fi r st Middle Initial"
+   "section": "성 명 Name Last Fi r st Middle Initial",
+   "kind": "text",
+   "std": false,
+   "key": "국적Nationality"
   },
   {
    "t": "text",
@@ -358,7 +425,10 @@
     104.1,
     598.5
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "key": "Date_목록.{i}.일자Date",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -370,7 +440,10 @@
     152.9,
     598.5
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "key": "Date_목록.{i}.금액Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -382,7 +455,11 @@
     524.6,
     598.5
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "kind": "text",
+   "std": false,
+   "key": "확인ResponsibleOfficial"
   },
   {
    "t": "text",
@@ -394,7 +471,10 @@
     109.7,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "key": "Date_목록.{i}.일자Date",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -406,7 +486,11 @@
     167.1,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "kind": "currency",
+   "std": false,
+   "key": "통화종류CodeofCurrency"
   },
   {
    "t": "text",
@@ -418,7 +502,10 @@
     259.6,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "key": "Date_목록.{i}.금액Amount",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -430,7 +517,11 @@
     400.8,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "kind": "text",
+   "std": false,
+   "key": "확인기관ConfirmationOffice"
   },
   {
    "t": "text",
@@ -442,7 +533,11 @@
     524.6,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date",
+   "kind": "text",
+   "std": false,
+   "key": "확인자Signature"
   },
   {
    "t": "sign",
@@ -454,7 +549,8 @@
     442.7,
     342.2,
     452.7
-   ]
+   ],
+   "who": "customer"
   },
   {
    "t": "text",
@@ -466,7 +562,9 @@
     349.4,
     166.2
    ],
-   "free": true
+   "free": true,
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -478,7 +576,9 @@
     349.4,
     179.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -490,7 +590,10 @@
     349.4,
     192.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Initial"
   },
   {
    "t": "text",
@@ -502,7 +605,9 @@
     276.2,
     218.8
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "key": "customer.rrn"
   },
   {
    "t": "text",
@@ -514,7 +619,10 @@
     276.2,
     229.2
    ],
-   "free": true
+   "free": true,
+   "kind": "passport",
+   "std": false,
+   "key": "PassportNo"
   },
   {
    "t": "text",
@@ -526,7 +634,10 @@
     521.6,
     229.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "ExpectedTermofStayTo"
   }
  ]
 }
