@@ -14,6 +14,8 @@ from pathlib import Path
 
 from docgen.bench import evaluate as E
 from docgen.bench.metrics import parse_json
+
+from .score import headline, metric_label
 from docgen.bench.ocr_data import read_jsonl
 
 LIMIT = 4000   # 질문·답 글자 수 (넘으면 자른다)
@@ -59,9 +61,11 @@ def build(models, out, title="", base_label=None, per_task=30, take_all=False, s
         by_task = {}
         for it in items:
             by_task.setdefault(it["task"], []).append(it)
-        for task, its in by_task.items():
-            metric = owner["scores"][sid]["tasks"][task]["main"]
-            per = {m["label"]: m["scores"][sid]["per_item"].get(task, {}) for m in same}
+        # 값·위치를 따로 내는 과제(kie·marks)는 지표마다 묶음 하나 (고르기 창에서 고름)
+        pairs = [(task, metric) for task in by_task for metric in headline(task, owner["scores"][sid]["tasks"][task])]
+        for task, metric in pairs:
+            its = by_task[task]
+            per = {m["label"]: m["scores"][sid]["per_item"].get(task, {}).get(metric, {}) for m in same}
             its = sorted(its, key=lambda it: it["id"])
             g = len(groups)
             # 전체 문항의 모델별 점수 (A·B 를 골랐을 때 좋아진·나빠진 수를 세려고): [[모델마다 점수], ...]
@@ -78,6 +82,7 @@ def build(models, out, title="", base_label=None, per_task=30, take_all=False, s
                 half = (per_task + 1) // 2
                 chosen = split[:half] + (flat + split[half:])[:per_task - min(half, len(split))]
             groups.append({"set": sid, "task": task, "metric": metric, "lower": metric in E.LOWER_IS_BETTER,
+                           "label": metric_label(task, metric, owner["scores"][sid]["tasks"][task]),
                            "n": len(its), "shown": len(chosen)})
             for it in sorted(chosen, key=lambda it: it["id"]):
                 row = rows[it["id"]]
@@ -142,7 +147,7 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 $('t').textContent = (D.title ? D.title + ' · ' : '') + '문항별 모델 답';
 $('d').innerHTML = '모델 A 와 B 를 골라 문항마다 견줍니다. 카드는 평가 세트·과제마다 ' + (D.per_task ? '표본 ' + D.per_task + '개 (모델끼리 점수가 갈린 문항을 절반까지 먼저)' : '모든 문항')
   + ', 아래 숫자(좋아진·나빠진 문항 수)는 전체 문항 기준. 점수는 그 과제의 주 지표를 문항 하나로 잰 값 (%, ↓ 는 낮을수록 좋음).';
-D.groups.forEach((g, i) => $('g').add(new Option((g.set ? g.set + ' · ' : '') + g.task + ' — ' + g.metric + (g.lower ? ' ↓' : '') + ' (전체 ' + g.n + ', 카드 ' + g.shown + ')', i)));
+D.groups.forEach((g, i) => $('g').add(new Option((g.set ? g.set + ' · ' : '') + g.task + ' — ' + (g.label || g.metric) + (g.lower ? ' ↓' : '') + ' (전체 ' + g.n + ', 카드 ' + g.shown + ')', i)));
 D.models.forEach((m, i) => { $('a').add(new Option(m, i)); $('b').add(new Option(m, i)); });
 $('a').value = Math.max(0, D.models.indexOf(D.base));
 $('b').value = D.models.length > 1 ? (+$('a').value === D.models.length - 1 ? 0 : D.models.length - 1) : 0;
@@ -174,7 +179,7 @@ function show() {
       + '<details><summary>질문 · 그림 ' + c.images.length + '장</summary><div class="imgs">'
       + c.images.map(p => '<a href="' + esc(p) + '" target="_blank"><img loading="lazy" src="' + esc(p) + '" alt=""></a>').join('')
       + '</div><pre>' + esc(c.prompt) + '</pre></details>'
-      + '<div class="wrap"><table><tr><th>모델</th><th>' + esc(H.metric) + (H.lower ? ' ↓' : '') + '</th><th>답</th></tr>'
+      + '<div class="wrap"><table><tr><th>모델</th><th>' + esc(H.label || H.metric) + (H.lower ? ' ↓' : '') + '</th><th>답</th></tr>'
       + '<tr class="ref"><th>정답</th><td></td><td><pre>' + esc(c.ref) + '</pre></td></tr>' + rows + '</table></div></div>';
   }).join('');
 }

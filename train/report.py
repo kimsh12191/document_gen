@@ -18,9 +18,11 @@ from docgen.bench import evaluate as E
 from docgen.bench.ocr_data import read_json, read_jsonl, write_json
 from docgen.bench.tracking import DIMENSIONS
 
+from .score import headline, metric_label
+
 LOWER = E.LOWER_IS_BETTER
 DIMS = ("doc_type", "source_dataset", "label_format", "view")   # 구분별 표 (그룹이 둘 이상일 때만)
-SCORE_VERSION = 2   # 2: 잘못된 이스케이프(\N 등)가 든 JSON 답도 읽음 — 예전 점수 캐시는 다시 채점
+SCORE_VERSION = 3   # 2: 잘못된 이스케이프(\N 등)가 든 JSON 답도 읽음. 3: 문항별 점수를 지표마다 (값·위치 따로) — 예전 캐시는 다시 채점
 
 
 def _pct(v):
@@ -29,10 +31,10 @@ def _pct(v):
 
 # -- 채점 (캐시) ---------------------------------------------------------------------------------
 def scored(entry, rescore=False):
-    """세트 하나의 답 → 점수 (score.score + 문항별 주 지표). <답>.scores.json 에 둔다 (문항·답이 같으면 다시 쓰지 않음)."""
+    """세트 하나의 답 → 점수 (score.score + 문항별 앞 지표: per_item[과제][지표][문항 id]). <답>.scores.json 에 둔다 (문항·답이 같으면 다시 쓰지 않음)."""
     from .mix import task_rows
     from .predict import index_predictions
-    from .score import items_digest, score
+    from .score import headline, items_digest, score
 
     answers = Path(entry["answers"])
     rows, items = task_rows(entry["dir"], {r["id"] for r in read_jsonl(entry["tasks"])})
@@ -49,8 +51,8 @@ def scored(entry, rescore=False):
     res = score(items, preds)
     per = {}
     for task, its in _by_task(items).items():
-        main = res["tasks"][task]["main"]
-        per[task] = {p["id"]: p.get(main) for p in E.score_task(task, its, preds)["per_item"]}
+        rows = E.score_task(task, its, preds)["per_item"]
+        per[task] = {metric: {p["id"]: p.get(metric) for p in rows} for metric in headline(task, res["tasks"][task])}
     res["per_item"] = per
     res["answered"] = sum(1 for it in items if it["id"] in preds)
     res["complete"] = Path(str(answers) + ".done").exists()
@@ -178,15 +180,17 @@ def write(results, out_dir, rescore=False, per_task=30, take_all=False):
     parts.append("</table></div>")
     # 한눈에 보기
     order = list(sets)
-    parts.append(f"<h2>한눈에 보기</h2><p>평가 세트·과제마다 주 지표.</p><div class='wrap'><table><tr><th class='l'>과제</th><th class='l'>지표</th><th>문항 수</th>{head}</tr>")
+    parts.append(f"<h2>한눈에 보기</h2><p>평가 세트·과제마다 주 지표. 위치까지 답하는 과제(kie·marks)는 <b>값</b>(글자를 맞게 읽었나)과 "
+                 f"<b>위치</b>(박스 IoU 0.5)를 따로 냅니다 — 둘 다 맞아야 하는 값+위치(vl_f1)는 세트별 자세히에.</p>"
+                 f"<div class='wrap'><table><tr><th class='l'>과제</th><th class='l'>지표</th><th>문항 수</th>{head}</tr>")
     for sid in order:
         parts.append(f"<tr class='g'><td colspan='{3 + len(models)}'>{e(sets[sid]['name'])} · {e(sid)}"
                      + (f" <span class='muted'>({e(sets[sid]['group'])})</span>" if sets[sid]['group'] not in ("", "ungrouped") else "") + "</td></tr>")
         ref = next((m["scores"][sid] for m in ([base] if base else []) + models if sid in m["scores"]), None)
         for task, t in ref["tasks"].items():
-            metric = t["main"]
-            parts.append(f"<tr><td class='l'>{e(task)}</td><td class='l'>{e(metric)}{' ↓' if metric in LOWER else ''}</td><td>{t['n']}</td>"
-                         + cells(sid, task, metric, n=t["n"]) + "</tr>")
+            for metric in headline(task, t):
+                parts.append(f"<tr><td class='l'>{e(task)}</td><td class='l'>{e(metric_label(task, metric, t))}{' ↓' if metric in LOWER else ''}</td>"
+                             f"<td>{t['n']}</td>" + cells(sid, task, metric, n=t["n"]) + "</tr>")
     parts.append("</table></div>")
     # 평가 세트별 자세히
     parts.append("<h2>평가 세트별 자세히</h2><p>모든 지표, 답 형식 오류(못 읽은 답, 0점 처리), 구분별 점수.</p>")

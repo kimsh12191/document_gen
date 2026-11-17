@@ -287,3 +287,13 @@ def test_port_that_never_frees_is_reported():
         with pytest.raises(RuntimeError, match="still not free"), contextlib.redirect_stdout(io.StringIO()):
             serve.wait_port_free(port, limit=1)
     assert serve.port_bindable(port)
+
+
+def test_headline_splits_value_and_location():
+    """위치까지 답하는 과제(주 지표 vl_f1)는 보고서·답 비교에서 값과 위치를 따로."""
+    from train.score import headline, metric_label
+
+    kie = {"main": "vl_f1", "metrics": {"f1": 1.0, "loc_f1": 0.0, "vl_f1": 0.0}}
+    assert headline("kie", kie) == ["f1", "loc_f1"] and metric_label("kie", "loc_f1", kie) == "위치 · loc_f1"
+    assert headline("kie", {"main": "f1", "metrics": {"f1": 1.0}}) == ["f1"]   # 위치 정답이 없는 세트 (실서류 kie_list_scorer)
+    assert headline("ocr_field", {"main": "exact", "metrics": {"exact": 1.0}}) == ["exact"]
