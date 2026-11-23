@@ -19,6 +19,7 @@ python -m train sweep --config train/configs/sweep.json --status   # 진행 상�
 | 칸 | 뜻 |
 |---|---|
 | `model`, `model_type`, `gpus` | 출발 모델 폴더, ms-swift model_type (기본 `qwen3_5`), GPU |
+| `template` | ms-swift `--template` (기본 `model_type` 과 같은 이름). 학습·합치기·평가 서버에 늘 붙임 — 없으면 swift 가 모델 폴더 이름(`9b` 등)으로 고르다 `Multiple possible types found` 로 멈춤 |
 | `data.benchmark` | **평가 세트** (2절). 모든 모델이 이것으로 평가 |
 | `data.train` | 학습 데이터 목록 (3절) |
 | `data.task_mix` · `sft_max_examples` | 과제 비율 · SFT 문항 수. 적힌 과제는 그 비율, 0 이면 뺌, 안 적힌 과제는 있는 만큼 다 |
@@ -38,7 +39,7 @@ python -m train sweep --config train/configs/sweep.json --status   # 진행 상�
           {"label": "a4", "about": "다른 출발 모델", "model": "/share/…/qwen3-vl-8b", "model_type": "qwen3_vl"}]}
 ```
 
-- 모델마다 바꿀 수 있는 칸: `model` · `model_type` · `train` · `data`(섞기 칸) · `sft` · `gpus` · `deploy`(평가 서버 명령) · `set`(그 밖의 칸). 안 적은 칸은 base.
+- 모델마다 바꿀 수 있는 칸: `model` · `model_type` · `template` · `train` · `data`(섞기 칸) · `sft` · `gpus` · `deploy`(평가 서버 명령) · `set`(그 밖의 칸). 안 적은 칸은 base.
 - 평가 세트(`data.benchmark`)·`eval.inference_config` 는 모델마다 못 바꿉니다 (비교가 안 되므로).
 - `label` 은 영문 소문자·숫자·`-`, 모델 이름이자 폴더 이름(`<root>/<label>/`). `name`·`about` 과 모델마다 `about` 은 꼭 적습니다.
 - `gpu_groups` 를 적으면 비는 GPU 묶음에 다음 모델을 넣어 동시에 돌립니다. 없으면 하나씩.
@@ -139,4 +140,5 @@ python -m train sweep --config train/configs/sweep.json --status   # 진행 상�
 | `학습 문항 … 평가 세트와 같은 문서·그림` | 학습 데이터에서 평가 문서를 빼거나 따로 만듭니다 |
 | `Port … is already in use` · 서버가 안 뜸 | 남은 서버를 끄거나 `eval.port_base` 를 바꿉니다. 서버 로그 `<root>/<label>/logs/server-*.log` |
 | `다른 실행이 만드는 중이라 끝나기를 기다립니다` | 같은 평가 세트·답을 다른 실행이 만드는 중. 그 실행이 없는데 계속이면 말한 `.lock` 파일을 지웁니다 |
+| `Failed to automatically match template_type … Multiple possible types found` | ms-swift 가 template 을 못 고름 (4.6 부터 `qwen3_5` 에 `qwen3_5`·`qwen3_8`). 지금 코드는 `--template <model_type>` 을 늘 붙입니다 — 그래도 나면 설정에 `"template"` 을 적습니다 |
 | SFT 메모리 부족 | `sft.config` 를 `sft_a100_40g_x2.yaml` 로, 또는 `data.max_image_tokens_per_sample`·`sft_max_length` 를 줄입니다 |

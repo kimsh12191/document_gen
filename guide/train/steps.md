@@ -35,7 +35,7 @@ python -m train --config train/configs/pipeline.json --from eval_sft     # SFT �
 
 ```jsonc
 {"name": "E03-real-po", "about": "실서류 매입추심에서 모델 비교", "root": "../runs/E03-real-po",
- "base": "pipeline.json",                                  // (선택) 평가 세트·gpus·model_type·eval·cache_dir 를 물려받음
+ "base": "pipeline.json",                                  // (선택) 평가 세트·gpus·model_type·template·eval·cache_dir 를 물려받음
  "baseline": "출발 모델",
  "models": [{"sweep": "../runs/E02-tune"},                 // 그 묶음의 출발 모델·모델들 전부 (label 그대로)
             {"label": "other", "path": "/share/…/merged/sft-v0-…-checkpoint-800"},

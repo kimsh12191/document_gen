@@ -14,6 +14,7 @@
             {"label": "a4-vl", "about": "다른 출발 모델", "model": "/share/…/qwen3-vl-8b", "model_type": "qwen3_vl"}]}
 - 모델마다 적지 않은 칸은 base 값. 바꿀 수 있는 칸 (RUN_KEYS):
   model · model_type   출발 모델 (다르면 그 출발 모델도 평가 — 같은 출발 모델은 캐시로 한 번만)
+  template             ms-swift --template (기본 model_type; 모델 폴더 이름으로 못 고를 때)
   train                학습 데이터 목록 (= data.train)
   data                 섞기 칸: task_mix · sft_max_examples · image_max_size · max_image_tokens_per_sample · sft_max_length · seed …
   sft                  "config"(yaml 파일) + yaml 안의 ms-swift 옵션을 칸 하나씩 (learning_rate, lora_rank …)
@@ -44,7 +45,7 @@ from .settings import load_settings, log, merged
 
 ROOT = Path(__file__).resolve().parents[1]
 LABEL = re.compile(r"[a-z0-9][a-z0-9-]*")
-RUN_KEYS = {"label", "about", "model", "model_type", "train", "data", "sft", "gpus", "deploy", "set"}
+RUN_KEYS = {"label", "about", "model", "model_type", "template", "train", "data", "sft", "gpus", "deploy", "set"}
 SWEEP_KEYS = {"name", "about", "record", "base", "root", "baseline", "gpu_groups", "runs"}
 GONE = {"part": "GRPO 는 이 브랜치에서 뺐습니다 (SFT 까지만)", "from_sft": "GRPO 는 이 브랜치에서 뺐습니다",
         "grpo": "GRPO 는 이 브랜치에서 뺐습니다", "start_from": "필요 없음: 같은 출발 모델·평가 세트의 답은 cache_dir 에서 그대로 씀"}
@@ -125,7 +126,9 @@ def run_config(sw, run, base=None, sets=None):
     cfg = merged(base, run.get("set") or {})
     if run.get("model"):
         cfg["model"] = run["model"] if Path(run["model"]).is_absolute() else str((here / run["model"]).resolve())
-    for k in ("model_type", "gpus"):
+    if "model_type" in run and "template" not in run:
+        cfg.pop("template", None)   # 다른 모델 종류에 base 의 template 을 물려주지 않는다
+    for k in ("model_type", "template", "gpus"):
         if k in run:
             cfg[k] = run[k]
     if run.get("deploy"):
@@ -337,7 +340,7 @@ def changes(r):
             out.append(f"{prefix}={v if not isinstance(v, (list, dict)) else json.dumps(v, ensure_ascii=False)}")
     if r.get("model"):
         out.append(f"출발 모델 {short(r['model'])}")
-    for k in ("model_type", "gpus"):
+    for k in ("model_type", "template", "gpus"):
         if k in r:
             out.append(f"{k}={r[k]}")
     for k in ("data", "sft", "set"):

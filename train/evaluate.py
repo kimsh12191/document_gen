@@ -4,8 +4,8 @@
 
 평가 설정 (상대 경로는 이 파일 기준):
   {"name": "E03-po", "about": "실서류 매입추심에서 a2·a5 비교", "root": "../runs/E03-po",
-   "base": "pipeline.json",                       (선택) 이 학습 설정의 평가 세트·gpus·model_type·eval·그림 예산·cache_dir 를 물려받음
-   "gpus": [0, 1], "model_type": "qwen3_5", "baseline": "a2",
+   "base": "pipeline.json",                       (선택) 이 학습 설정의 평가 세트·gpus·model_type·template·eval·그림 예산·cache_dir 를 물려받음
+   "gpus": [0, 1], "model_type": "qwen3_5", "baseline": "a2",   template: ms-swift --template (기본 model_type)
    "models": [{"label": "base", "path": "/share/cv_share/qwen3.5/9b"},
               {"label": "a2", "path": "../runs/E02-tune/a2/merged/sft-v0-…-checkpoint-500", "about": "…"},
               {"label": "a5-ckpt", "path": "../runs/E02-tune/a5/sft/v0-…/checkpoint-300"},   LoRA 체크포인트면 합쳐서 평가
@@ -26,7 +26,7 @@ from docgen.bench.ocr_data import read_json, write_json
 
 from .settings import load_settings, log, pixel_factor
 
-KEYS = {"name", "about", "record", "root", "base", "gpus", "model_type", "baseline", "models", "benchmark", "cache_dir",
+KEYS = {"name", "about", "record", "root", "base", "gpus", "model_type", "template", "baseline", "models", "benchmark", "cache_dir",
         "image_max_size", "max_image_tokens_per_sample", "eval", "smoke"}
 
 
@@ -52,12 +52,14 @@ def load(path):
 
         b = resolve_pipeline({**drop_removed(b), "workdir": b.get("workdir") or "."}, bpath.parent)
         cfg.update({k: b[k] for k in ("gpus", "model_type", "eval")})
+        if b.get("template"):
+            cfg["template"] = b["template"]
         cfg["benchmark"] = b["data"]["benchmark"]
         cfg["image_max_size"] = b["data"].get("image_max_size")
         cfg["max_image_tokens_per_sample"] = b["data"].get("max_image_tokens_per_sample")
         if load_settings(bpath).get("cache_dir"):
             cfg["cache_dir"] = b["cache_dir"]
-    for k in ("name", "about", "record", "gpus", "model_type", "baseline", "image_max_size", "max_image_tokens_per_sample"):
+    for k in ("name", "about", "record", "gpus", "model_type", "template", "baseline", "image_max_size", "max_image_tokens_per_sample"):
         if raw.get(k) is not None:
             cfg[k] = raw[k]
     if raw.get("eval"):
@@ -72,7 +74,7 @@ def load(path):
     cfg["benchmark"] = normalize(cfg["benchmark"])
     cfg["root"] = str((here / raw["root"]).resolve())
     cfg["cache_dir"] = str((here / raw["cache_dir"]).resolve()) if raw.get("cache_dir") else cfg.get("cache_dir") or str(Path(cfg["root"]).parent / "_cache")
-    cfg["models"] = models_of(raw["models"], here, cfg["model_type"])
+    cfg["models"] = models_of(raw["models"], here, cfg["model_type"], cfg.get("template"))
     labels = [m["label"] for m in cfg["models"]]
     dup = sorted({x for x in labels if labels.count(x) > 1})
     if dup:
@@ -82,7 +84,7 @@ def load(path):
     return cfg
 
 
-def models_of(entries, here: Path, model_type):
+def models_of(entries, here: Path, model_type, template=None):
     out = []
     for e in entries:
         if not isinstance(e, dict):
@@ -94,13 +96,14 @@ def models_of(entries, here: Path, model_type):
             res = read_json(folder / "results.json")
             for m in res["models"]:
                 out.append({"label": m["label"], "path": m["model"], "about": f"{res['name']}: {m.get('about') or ''}".strip(": "),
-                            "model_type": model_type, "checkpoint": m.get("checkpoint"), "changes": m.get("changes"),
+                            "model_type": model_type, "template": template, "checkpoint": m.get("checkpoint"), "changes": m.get("changes"),
                             "train": m.get("train")})
             continue
         if not e.get("label") or not e.get("path"):
             raise ValueError(f"models 의 칸에 label·path 가 있어야 합니다: {e}")
         p = Path(e["path"]) if Path(e["path"]).is_absolute() else (here / e["path"]).resolve()
         out.append({"label": e["label"], "path": str(p), "about": e.get("about") or "", "model_type": e.get("model_type") or model_type,
+                    "template": e.get("template") or (template if not e.get("model_type") else None),
                     **({"base_model": e["base_model"]} if e.get("base_model") else {})})
     return out
 
@@ -129,7 +132,7 @@ def model_dir(m, cfg, ev):
     if not base or not (Path(base) / "config.json").is_file():
         raise SystemExit(f"{m['label']}: LoRA 체크포인트의 출발 모델을 찾지 못했습니다 ({base}). 모델 칸에 \"base_model\" 을 적으세요")
     root = Path(cfg["root"])
-    return ev.merge(base, m["model_type"], str(p), root / "merged" / m["label"], root / "logs" / f"merge-{m['label']}.log")
+    return ev.merge(base, m["model_type"], str(p), root / "merged" / m["label"], root / "logs" / f"merge-{m['label']}.log", m.get("template"))
 
 
 def run(path, smoke=False, dry=False):
@@ -160,7 +163,7 @@ def run(path, smoke=False, dry=False):
         log(f"=== {m['label']} ({m['path']})")
         try:
             path_ = model_dir(m, cfg, ev)
-            plan = ev.answer(path_, m["model_type"], sets, m["label"])
+            plan = ev.answer(path_, m["model_type"], sets, m["label"], m.get("template"))
         except (RuntimeError, OSError, ValueError) as exc:   # 모델 하나가 실패해도 다음 모델로
             log(f"WARNING: {m['label']}: 평가하지 못했습니다 ({type(exc).__name__}: {exc}); 다음 모델로")
             res.setdefault("notes", []).append(f"{m['label']}: 평가하지 못함 ({exc})")

@@ -58,6 +58,7 @@ def test_command_is_the_eval_deploy_command(tmp_path):
     d = _model(tmp_path)
     r = M.command(str(d), [3], 8123)
     want = [p.format(model=str(d), model_type=M.PIPE["model_type"], port=8123) for p in M.PIPE["eval"]["deploy_command"]]
+    want += ["--template", M.PIPE["model_type"]]   # 평가처럼 --template 을 붙임 (train/serve.py swift_command)
     import shlex
     parts = shlex.split(r["command"].replace("\\\n", " "))
     env = dict(p.split("=", 1) for p in parts[:4])

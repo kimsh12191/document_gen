@@ -11,7 +11,7 @@
 평가는 GPU 마다 vLLM 서버 하나를 띄우고 요청을 나눠 보낸다 (같은 그림의 질문은 같은 서버로). 여러 모델은 python -m train sweep.
 
 설정 (상대 경로는 설정 파일 기준):
-  workdir, cache_dir(기본 <workdir 의 부모>/_cache), model, model_type, gpus,
+  workdir, cache_dir(기본 <workdir 의 부모>/_cache), model, model_type, template(ms-swift --template, 기본 model_type), gpus,
   data: train · benchmark · output_dir(기본 <workdir>/data) · task_mix · sft_max_examples · image_max_size ·
         max_image_tokens_per_sample · sft_max_length · val_count · pack_turns · seed  (train/mix.py)
   sft:  config(yaml) + yaml 위에 덮어쓸 ms-swift 옵션 (learning_rate, lora_rank …)
@@ -186,7 +186,7 @@ class Run:
         log("섞기: " + json.dumps(result, ensure_ascii=False))
 
     def stage_eval_start(self):
-        plan = self.ev.answer(self.model, self.cfg["model_type"], self.sets(), "출발 모델")
+        plan = self.ev.answer(self.model, self.cfg["model_type"], self.sets(), "출발 모델", self.cfg.get("template"))
         self.state["models"]["start"] = {"label": "출발 모델", "model": self.model, "sets": plan}
 
     def stage_sft(self):
@@ -196,6 +196,8 @@ class Run:
             options.setdefault("max_length", self.cfg["data"]["sft_max_length"])
         cmd = [sys.executable, "-m", "train.launch", "--config", self.cfg["sft"]["config"], "--gpus", ",".join(map(str, self.cfg["gpus"])),
                "--model", self.model, "--model-type", self.cfg["model_type"], "--data", str(self.data), "--output", str(output), "--execute"]
+        if self.cfg.get("template"):
+            cmd += ["--template", self.cfg["template"]]
         if options:
             cmd += ["--options", json.dumps(options, ensure_ascii=False)]
         if self.smoke:
@@ -209,8 +211,8 @@ class Run:
         ckpt = self.state["sft_checkpoint"]
         tag = f"{Path(ckpt).parent.name}-{Path(ckpt).name}"   # ms-swift: <output>/<version>/checkpoint-N
         model = self.ev.merge(self.model, self.cfg["model_type"], ckpt, self.workdir / "merged" / f"sft-{tag}",
-                              self.workdir / "logs" / "merge-sft.log")
-        plan = self.ev.answer(model, self.cfg["model_type"], self.sets(), "SFT")
+                              self.workdir / "logs" / "merge-sft.log", self.cfg.get("template"))
+        plan = self.ev.answer(model, self.cfg["model_type"], self.sets(), "SFT", self.cfg.get("template"))
         self.state["models"]["sft"] = {"label": "SFT", "model": model, "checkpoint": ckpt, "sets": plan}
 
     def results(self):

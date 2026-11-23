@@ -297,3 +297,17 @@ def test_headline_splits_value_and_location():
     assert headline("kie", kie) == ["f1", "loc_f1"] and metric_label("kie", "loc_f1", kie) == "위치 · loc_f1"
     assert headline("kie", {"main": "f1", "metrics": {"f1": 1.0}}) == ["f1"]   # 위치 정답이 없는 세트 (실서류 kie_list_scorer)
     assert headline("ocr_field", {"main": "exact", "metrics": {"exact": 1.0}}) == ["exact"]
+
+
+def test_swift_command_adds_template():
+    """swift 명령에는 --template 을 붙인다 (없으면 model_type) — 폴더 이름으로 template 을 못 고르는 ms-swift 4.6 대비."""
+    from train.serve import EVAL_DEFAULTS, swift_command
+
+    cmd = swift_command(EVAL_DEFAULTS["deploy_command"], model="/m/9b", model_type="qwen3_5", port=8000)
+    assert cmd[cmd.index("--template") + 1] == "qwen3_5" and cmd.count("--template") == 1
+    assert '{"image": 16}' in cmd
+    cmd = swift_command(EVAL_DEFAULTS["merge_command"], "qwen3_vl", model="/m", model_type="qwen3_5", adapter="/a", output="/o")
+    assert cmd[cmd.index("--template") + 1] == "qwen3_vl"
+    own = ["swift", "deploy", "--model", "{model}", "--template", "x"]          # 틀에 적은 것은 그대로
+    assert swift_command(own, model="/m", model_type="qwen3_5").count("--template") == 1
+    assert swift_command(["cp", "-r", "{adapter}", "{output}"], adapter="a", output="o", model_type="qwen3_5") == ["cp", "-r", "a", "o"]

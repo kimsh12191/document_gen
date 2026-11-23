@@ -1,7 +1,8 @@
 """평가 서버와 모델 답: GPU 마다 vLLM 서버(swift deploy)를 하나씩 띄우고 평가 세트마다 답을 낸다. LoRA 합치기도.
 
 모델 답은 <cache_dir>/answers/<평가 세트 폴더 이름>/<모델 이름>-<지문>.jsonl 에 둔다.
-지문 = 모델 폴더(경로·config.json 시각)·model_type·평가 서버 명령·답 내기 설정(inference.json)·질문 파일.
+지문 = 모델 폴더(경로·config.json 시각)·model_type·평가 서버 명령·답 내기 설정(inference.json)·질문 파일
+(template 은 model_type 과 다를 때만 — 같으면 --template 을 붙이기 전의 답을 그대로 씀).
 같으면 다른 실행·실험·평가만 하기도 그 답을 그대로 쓴다 (출발 모델은 한 번만 평가). 다 낸 답은 <답>.done 이 있다.
 같은 답을 다른 실행이 내는 중이면 잠금(<답>.lock)이 풀리기를 기다렸다가 그 답을 쓴다.
 """
@@ -43,6 +44,20 @@ EVAL_DEFAULTS = {
 }
 INFERENCE_DEFAULTS = {"model": "docgen", "timeout": 600, "max_tokens": 4096, "temperature": 0, "enable_thinking": False,
                       "request_options": {}}
+
+
+def swift_command(parts, template=None, **values):
+    """명령 틀(deploy_command · merge_command)을 채운다. swift 명령인데 --template 이 없으면 붙인다 (template 이 없으면 model_type;
+    다른 명령은 틀에 {template} 을 적어 쓴다).
+    ms-swift 는 --template 이 없으면 모델 폴더 이름을 공식 이름(Qwen3.5-9B …)과 맞춰 template 을 고르는데, 폴더 이름이 다르고
+    같은 model_type 에 template 이 여럿이면 못 고르고 멈춘다 (4.6: qwen3_5 에 qwen3_5 · qwen3_8)."""
+    template = template or values.get("model_type")
+    cmd = [part.format(template=template, **values) for part in parts]
+    if template and cmd and Path(cmd[0]).name == "swift" and "--template" not in cmd:
+        cmd += ["--template", template]
+    return cmd
+
+
 # swift deploy 는 --port 에 bind 가 안 되면 말없이 다음 포트로 뜬다 (ms-swift find_free_port).
 # 앞 서버를 끈 직후에는 그 포트의 연결이 TIME_WAIT(리눅스 60초)로 남아 bind 가 안 되므로, 비기를 기다렸다 띄운다.
 PORT_FREE_WAIT = 180   # 초
@@ -157,11 +172,13 @@ class Evaluator:
         tmp.replace(out)
         return out
 
-    def answers_path(self, model, model_type, tasks: Path):
+    def answers_path(self, model, model_type, tasks: Path, template=None):
         cfg = Path(model) / "config.json"
         sig = {"model": str(Path(model).resolve()), "config": cfg.stat().st_mtime_ns if cfg.exists() else None,
                "model_type": model_type, "deploy": self.ev["deploy_command"], "inference": self.inference,
                "tasks": hashlib.sha256(tasks.read_bytes()).hexdigest() if tasks.exists() else str(tasks)}
+        if template and template != model_type:
+            sig["template"] = template
         key = hashlib.sha256(json.dumps(sig, sort_keys=True).encode()).hexdigest()[:12]
         return self.cache / "answers" / tasks.parent.name / f"{_slug(model)}-{key}{'' if tasks.name == 'tasks.jsonl' else '.' + tasks.stem}.jsonl"
 
@@ -176,7 +193,7 @@ class Evaluator:
             return max(image_tokens_for(s, 32) for s in sizes)
 
     @contextmanager
-    def serve(self, model, model_type, name, tokens):
+    def serve(self, model, model_type, name, tokens, template=None):
         ev = self.ev
         procs, endpoints = [], []
         for i, gpu in enumerate(self.gpus):
@@ -186,7 +203,7 @@ class Evaluator:
                     raise RuntimeError(f"Port {port} is already in use; stop the old server so the wrong model is not evaluated")
             if not self.dry:
                 wait_port_free(port)   # 안 그러면 swift 가 다른 포트로 띄우고, 여기서는 이 포트만 기다리게 된다
-            cmd = [part.format(model=model, model_type=model_type, port=port) for part in ev["deploy_command"]]
+            cmd = swift_command(ev["deploy_command"], template, model=model, model_type=model_type, port=port)
             env = {**os.environ, "CUDA_VISIBLE_DEVICES": gpu, "IMAGE_MAX_TOKEN_NUM": str(tokens),
                    "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}
             env.pop("NPROC_PER_NODE", None)
@@ -238,12 +255,12 @@ class Evaluator:
                 out.close()
 
     # -- 답 ----------------------------------------------------------------------------------
-    def answer(self, model, model_type, sets: dict, name: str) -> dict:
+    def answer(self, model, model_type, sets: dict, name: str, template=None) -> dict:
         """평가 세트마다 모델 답 → {세트 id: {"dir", "tasks", "answers"}}. 캐시에 다 낸 답이 있으면 서버를 띄우지 않는다."""
         plan = {}
         for sid, d in sets.items():
             tasks = self.tasks_file(d) if not self.dry or (Path(d) / "tasks.jsonl").exists() else Path(d) / "tasks.jsonl"
-            plan[sid] = {"dir": str(d), "tasks": str(tasks), "answers": str(self.answers_path(model, model_type, Path(tasks)))}
+            plan[sid] = {"dir": str(d), "tasks": str(tasks), "answers": str(self.answers_path(model, model_type, Path(tasks), template))}
 
         def todo():
             return [s for s in plan if not Path(plan[s]["answers"] + ".done").exists()]
@@ -263,7 +280,7 @@ class Evaluator:
             from .predict import predict
 
             tokens = self.image_token_budget(model, {s: plan[s]["dir"] for s in left})
-            with self.serve(model, model_type, _slug(model), tokens) as endpoints:
+            with self.serve(model, model_type, _slug(model), tokens, template) as endpoints:
                 for s in left:
                     p = plan[s]
                     started = time.monotonic()
@@ -276,11 +293,11 @@ class Evaluator:
         return plan
 
     # -- LoRA 합치기 --------------------------------------------------------------------------
-    def merge(self, base_model, model_type, adapter, output, log_file):
+    def merge(self, base_model, model_type, adapter, output, log_file, template=None):
         output = Path(output)
         if (output / "config.json").exists():
             return str(output)
-        cmd = [p.format(model=base_model, model_type=model_type, adapter=adapter, output=output) for p in self.ev["merge_command"]]
+        cmd = swift_command(self.ev["merge_command"], template, model=base_model, model_type=model_type, adapter=adapter, output=output)
         log("$ " + " ".join(cmd) + f"   (log: {log_file})")
         if self.dry:
             return str(output)

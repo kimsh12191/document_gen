@@ -20,7 +20,7 @@ from urllib.request import Request, urlopen
 
 from train import fill_weights as FW
 from train.pipeline import DEFAULTS
-from train.serve import EVAL_DEFAULTS
+from train.serve import EVAL_DEFAULTS, swift_command
 from train.settings import image_tokens, image_tokens_for
 
 from .images import IMAGE_MAX_SIZE
@@ -135,8 +135,8 @@ def command(path: str, gpus: list[int], port: int, model_type: str | None = None
     if info["kind"] == "adapter":   # LoRA 체크포인트: 평가와 같이 먼저 합친다 (새 폴더, 있으면 그대로 씀)
         model = info["merged"]
         if not info["merged_ready"]:
-            merge = [p.format(model=info.get("base") or "<출발 모델 경로>", model_type=model_type, adapter=info["path"], output=model)
-                     for p in PIPE["eval"]["merge_command"]]
+            merge = swift_command(PIPE["eval"]["merge_command"], model=info.get("base") or "<출발 모델 경로>", model_type=model_type,
+                                  adapter=info["path"], output=model)
             fill = [sys.executable, "-m", "train.fill_weights", info.get("base") or "<출발 모델 경로>", model, "--in-place"]
             # 평가처럼 GPU 하나로 합치고, 빠진 가중치를 채운다 (채우기가 실패해도 띄움)
             pre = (f"CUDA_VISIBLE_DEVICES={gpus[0]} {_lines(merge)} &&\n"
@@ -150,7 +150,7 @@ def command(path: str, gpus: list[int], port: int, model_type: str | None = None
     env = {"CUDA_VISIBLE_DEVICES": ",".join(str(g) for g in gpus), "IMAGE_MAX_TOKEN_NUM": str(tokens),
            "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}
     if engine == "swift":
-        cmd = [p.format(model=model, model_type=model_type, port=port) for p in PIPE["eval"]["deploy_command"]]
+        cmd = swift_command(PIPE["eval"]["deploy_command"], model=model, model_type=model_type, port=port)
         if len(gpus) > 1:
             cmd += ["--vllm_tensor_parallel_size", str(len(gpus))]
     else:

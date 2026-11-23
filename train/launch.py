@@ -42,6 +42,7 @@ def main():
     p.add_argument("--model", required=True, help="Local Qwen3.5-9B directory")
     p.add_argument("--model-type", "--model_type", dest="model_type",
                    help="MS-SWIFT model type; overrides config, default qwen3_5")
+    p.add_argument("--template", help="MS-SWIFT template; overrides config, default the model type (same name for Qwen)")
     p.add_argument("--data", required=True, help="Prepared dataset directory with DONE.json")
     p.add_argument("--output", required=True)
     p.add_argument("--max-steps", type=int, default=None, help="Use 5 for first GPU smoke test")
@@ -91,6 +92,11 @@ def main():
         options["model_type"] = a.model_type
     elif options.get("model_type") is None:
         options["model_type"] = "qwen3_5"
+    # 없으면 ms-swift 가 모델 폴더 이름으로 고르다 멈출 수 있다 (train/serve.py swift_command)
+    if a.template is not None:
+        options["template"] = a.template
+    elif options.get("template") is None:
+        options["template"] = options["model_type"]
     if a.max_steps is not None:
         options["max_steps"] = a.max_steps
     if a.deepspeed is not None:

@@ -36,7 +36,7 @@ python -m train report <결과 폴더>             report.py     저장된 답�
 <cache_dir>/images/                       학습 그림의 줄인 사본
 ```
 
-- 세트 지문: 세트 칸 + 원본 파일 크기·시각 + 채점 함수 파일 + 그림 예산. 답 지문: 모델 폴더(경로·`config.json` 시각)·model_type·평가 서버 명령·`inference.json`·질문 파일.
+- 세트 지문: 세트 칸 + 원본 파일 크기·시각 + 채점 함수 파일 + 그림 예산. 답 지문: 모델 폴더(경로·`config.json` 시각)·model_type·평가 서버 명령·`inference.json`·질문 파일 (`template` 은 model_type 과 다를 때만).
 - 같은 것을 두 실행이 동시에 만들면 `<대상>.lock` 으로 한쪽이 기다립니다.
 - 지워도 됩니다 (다음 실행이 다시 만듦). 이미 끝난 결과 폴더의 `results.json` 이 그 답 파일을 가리키므로, 지운 뒤에는 그 결과의 보고서를 다시 만들 수 없습니다.
 
