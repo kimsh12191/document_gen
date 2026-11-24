@@ -1,0 +1,319 @@
+{
+ "name": "예금(신탁) 잔액증명 의뢰서",
+ "group": "bank_form",
+ "category": "internal",
+ "page": "a4",
+ "origin": "analyzer",
+ "parent": null,
+ "source_image": "source.png",
+ "fields": {
+  "bank.branch": {
+   "label": "지점(부)",
+   "type": "text",
+   "source": "rule:branch"
+  },
+  "apply_type": {
+   "label": "신청구분",
+   "type": "checkbox",
+   "source": "rule:choice",
+   "choices": [
+    "등록",
+    "변경",
+    "해제"
+   ]
+  },
+  "base_date": {
+   "label": "발급기준일",
+   "type": "date",
+   "source": "rule:date"
+  },
+  "target_scope": {
+   "label": "대상계좌",
+   "type": "checkbox",
+   "source": "rule:choice",
+   "choices": [
+    "지정계좌",
+    "전체계좌"
+   ]
+  },
+  "copies.kor": {
+   "label": "신청부수 국문",
+   "type": "number",
+   "source": "rule:choice",
+   "choices": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  "copies.eng": {
+   "label": "신청부수 영문",
+   "type": "number",
+   "source": "rule:choice",
+   "choices": [
+    "1",
+    "2"
+   ]
+  },
+  "currency": {
+   "label": "통화코드",
+   "type": "text",
+   "source": "rule:currency"
+  },
+  "account_mask": {
+   "label": "계좌마스킹",
+   "type": "checkbox",
+   "source": "rule:choice",
+   "choices": [
+    "계좌마스킹(계좌번호 일부숨김)"
+   ]
+  },
+  "purpose": {
+   "label": "발급용도",
+   "type": "text",
+   "source": "rule:choice",
+   "choices": [
+    "대출신청용",
+    "입찰참가용",
+    "비자발급용",
+    "관공서 제출용"
+   ]
+  },
+  "fee_account": {
+   "label": "수수료 출금계좌",
+   "type": "text",
+   "source": "rule:account"
+  },
+  "receive_method": {
+   "label": "수령방법",
+   "type": "checkbox",
+   "source": "rule:choice",
+   "choices": [
+    "창구수령",
+    "카카오톡(문자)",
+    "E-mail"
+   ]
+  },
+  "receive_email": {
+   "label": "E-mail",
+   "type": "text",
+   "source": "profile.person.email",
+   "q": {
+    "label": "수령 E-mail"
+   }
+  },
+  "periodic.day": {
+   "label": "기준일자 매월",
+   "type": "text",
+   "source": "rule:choice",
+   "choices": [
+    "1",
+    "5",
+    "10",
+    "15",
+    "20",
+    "25"
+   ],
+   "q": {
+    "label": "정기발급 기준일자(매월 며칠)"
+   }
+  },
+  "periodic.receive_method": {
+   "label": "정기발급 수령방법",
+   "type": "checkbox",
+   "source": "rule:choice",
+   "choices": [
+    "우편수령",
+    "창구수령",
+    "E-mail"
+   ]
+  },
+  "periodic.email": {
+   "label": "정기발급 E-mail",
+   "type": "text",
+   "source": "profile.person.email"
+  },
+  "periodic.start_y": {
+   "label": "유효기간 시작 년",
+   "type": "number",
+   "source": "rule:date",
+   "part": 0,
+   "format": "number"
+  },
+  "periodic.start_m": {
+   "label": "유효기간 시작 월",
+   "type": "number",
+   "source": "rule:date",
+   "part": 1,
+   "format": "number"
+  },
+  "periodic.start_d": {
+   "label": "유효기간 시작 일",
+   "type": "number",
+   "source": "rule:date",
+   "part": 2,
+   "format": "number"
+  },
+  "periodic.end_y": {
+   "label": "유효기간 끝 년",
+   "type": "number",
+   "source": "rule:date",
+   "part": 0,
+   "format": "number"
+  },
+  "periodic.end_m": {
+   "label": "유효기간 끝 월",
+   "type": "number",
+   "source": "rule:date",
+   "part": 1,
+   "format": "number"
+  },
+  "periodic.end_d": {
+   "label": "유효기간 끝 일",
+   "type": "number",
+   "source": "rule:date",
+   "part": 2,
+   "format": "number"
+  },
+  "pickup_agent.name": {
+   "label": "창구수령대리인 성명",
+   "type": "text",
+   "source": "rule:other_person"
+  },
+  "pickup_agent.birth": {
+   "label": "창구수령대리인 생년월일",
+   "type": "date",
+   "source": "rule:date"
+  },
+  "pickup_agent.relation": {
+   "label": "창구수령대리인 관계",
+   "type": "text",
+   "source": "rule:choice",
+   "choices": [
+    "배우자",
+    "자녀",
+    "부모",
+    "직원"
+   ]
+  },
+  "mail_agent.name": {
+   "label": "우편수령대리인 성명",
+   "type": "text",
+   "source": "rule:other_person"
+  },
+  "apply_y": {
+   "label": "신청일 년",
+   "type": "number",
+   "source": "profile.issue_date",
+   "part": 0,
+   "format": "number"
+  },
+  "apply_m": {
+   "label": "신청일 월",
+   "type": "number",
+   "source": "profile.issue_date",
+   "part": 1,
+   "format": "number"
+  },
+  "apply_d": {
+   "label": "신청일 일",
+   "type": "number",
+   "source": "profile.issue_date",
+   "part": 2,
+   "format": "number"
+  },
+  "customer.name": {
+   "label": "성명(상호명)",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "customer.birth": {
+   "label": "생년월일(사업자번호)",
+   "type": "date",
+   "source": "profile.person.birth"
+  },
+  "customer.name_en": {
+   "label": "영문명",
+   "type": "text",
+   "source": "profile.person.name_en"
+  },
+  "customer.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "profile.person.mobile"
+  },
+  "customer.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "profile.person.address.road_short"
+  },
+  "agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "rule:other_person"
+  },
+  "agent.birth": {
+   "label": "생년월일",
+   "type": "date",
+   "source": "rule:date",
+   "q": {
+    "label": "대리인 생년월일"
+   }
+  },
+  "agent.relation": {
+   "label": "본인과의 관계",
+   "type": "text",
+   "source": "rule:choice",
+   "choices": [
+    "배우자",
+    "자녀",
+    "부모",
+    "직원"
+   ]
+  },
+  "agent.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "rule:pattern",
+   "q": {
+    "label": "대리인 연락처"
+   },
+   "pattern": "010-####-####"
+  },
+  "agent.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "rule:address",
+   "q": {
+    "label": "대리인 주소"
+   }
+  },
+  "delegation_scope": {
+   "label": "위임 범위",
+   "type": "checkbox",
+   "source": "rule:choice",
+   "choices": [
+    "잔액증명서 발급",
+    "정기발급 신청"
+   ]
+  },
+  "delegator.name": {
+   "label": "위임인",
+   "type": "text",
+   "source": "profile.person.name"
+  }
+ },
+ "lists": {
+  "accounts": {
+   "min": 1,
+   "max": 6,
+   "fields": {
+    "number": {
+     "label": "계좌번호",
+     "type": "text",
+     "source": "rule:account"
+    }
+   }
+  }
+ }
+}
