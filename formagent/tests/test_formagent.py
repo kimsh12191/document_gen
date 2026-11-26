@@ -52,7 +52,8 @@ def ws(tmp_path, monkeypatch):
 
 def draft_files(form_id):
     d = f"out/form_drafts/{form_id}"
-    return {f"{d}/fields.md": "# 칸", f"{d}/template.html.j2": "{% extends '_base.html.j2' %}", f"{d}/form.json": "{}"}
+    return {f"{d}/source_text.md": "## 1쪽", f"{d}/fields.md": "# 칸", f"{d}/template.html.j2": "{% extends '_base.html.j2' %}",
+            f"{d}/form.json": "{}"}
 
 
 def test_start_makes_draft_with_sources_and_package_marks(ws):
@@ -89,11 +90,28 @@ def test_rounds_until_report(ws):
     assert report["status"] == "done" and report["report_md"] and report["outside_changes"] == []
 
 
+def test_three_kinds_of_rounds(ws):
+    """1 글자 옮기기(그림만, 스킬 안 읽음) → 2 만들기(원본 그림 다시, source_text.md 기준) → 3 고치기(비교 그림) → 끝."""
+    d = "out/form_drafts/k1"
+    files = draft_files("k1")
+    ws["plan"].write_text(json.dumps([{"write": {f"{d}/source_text.md": "## 1쪽\n고객번호 | ( )"}, "exit": 0},
+                                      {"write": {k: v for k, v in files.items() if "source_text" not in k}, "exit": 0},
+                                      {"write": {f"{d}/report.md": "## 보고"}, "exit": 0}]))
+    runner.start([ws["img"]], "k1", "real", "결재란은 빼", {"relab": ws["relab"], "max_fix_rounds": 3})
+    st = runner.go("k1", log=lambda *a: None)
+    assert st["status"] == "done" and [r["kind"] for r in st["rounds"]] == ["read", "build", "fix"]
+    r1, r2, r3 = (r["request"] for r in ws["requests"]())
+    assert r1.startswith(f"@{d}/source.png") and "source_text.md" in r1 and f"{d}/source_text" not in r1 and "SKILL.md" not in r1
+    assert "(값)" in r1 and "짐작" in r1
+    assert r2.startswith(f"@{d}/source.png") and "source_text.md" in r2 and "SKILL.md" in r2 and "결재란은 빼" in r2
+    assert f"@{d}/check_2/side_0.jpg" in r3 and "3회차" in r3
+
+
 def test_round_limit(ws):
     ws["plan"].write_text(json.dumps([{"write": draft_files("f2"), "exit": 0}, {"exit": 0}, {"exit": 0}]))
     runner.start([ws["img"]], "f2", "sample", None, {"relab": ws["relab"], "max_fix_rounds": 2})
     st = runner.go("f2", log=lambda *a: None)
-    assert st["status"] == "done" and len(st["rounds"]) == 3 and st.get("note_end")
+    assert st["status"] == "done" and len(st["rounds"]) == 4 and st.get("note_end")      # 글자 옮기기·만들기 + 고치기 2
 
 
 def test_question_then_continue(ws):

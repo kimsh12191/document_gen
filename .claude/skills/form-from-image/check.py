@@ -6,10 +6,11 @@
 하는 일:
   1. 미리보기 5번: --rows min · --rows max · seed 1~3  (python -m docgen.preview --dir …)
   2. 통과 판정 (problems — 하나라도 있으면 통과 못 함):
-     필요한 파일(fields.md · template.html.j2 · form.json), 명령 오류, checks, overflow,
+     필요한 파일(source_text.md · fields.md · template.html.j2 · form.json), 명령 오류, checks, overflow,
      쪽 수(min 렌더 = 원본 그림 수), 템플릿에서 값을 {{ d.… }} 로 직접 찍은 곳
   3. 정답 값 경고 (warnings — 통과는 막지 않음, 사람·모델이 판단):
-     다른 칸에 같은 사람 값(대리인 전화 = 고객 전화 …), 한 서류 안 날짜·금액 표기 섞임, 빈 값이 절반 넘음
+     다른 칸에 같은 사람 값(대리인 전화 = 고객 전화 …), 한 서류 안 날짜·금액 표기 섞임, 빈 값이 절반 넘음,
+     원본 글자 대조: 템플릿 글자 중 source_text.md 에 없는 것(지어냈을 수 있음) · source_text.md 글자 중 템플릿에 없는 것(빠짐)
   4. 그림: side_<쪽>.jpg (왼쪽 원본 · 오른쪽 min 렌더), renders.jpg (min·max·seed 1·2 첫 쪽 모음). 한 장 2MB 이하
   5. <out>/check.json, 마지막 줄에 요약 JSON. 통과면 종료 코드 0, 아니면 1
 
@@ -23,6 +24,7 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -34,7 +36,7 @@ ROOT = HERE.parents[2]                      # 저장소 맨 위 (document_gen/)
 sys.path.insert(0, str(HERE))
 import compare  # noqa: E402  (같은 폴더의 비교 그림 도구)
 
-REQUIRED = ("fields.md", "template.html.j2", "form.json")
+REQUIRED = ("source_text.md", "fields.md", "template.html.j2", "form.json")
 DIRECT = re.compile(r"\{\{-?\s*d\.[\w.\[\]'\"]+")          # {{ d.x }} — 그림엔 나오지만 정답에서 빠짐
 PERSON_PARTS = {"name", "phone", "mobile", "address", "email", "birth", "rrn"}
 DATE_STYLES = (("dot", re.compile(r"^\d{4}\.\d{1,2}\.\d{1,2}$")), ("dash", re.compile(r"^\d{4}-\d{1,2}-\d{1,2}$")),
@@ -128,6 +130,92 @@ def value_warnings(info: dict) -> dict[str, str]:
     return out
 
 
+# ---------------------------------------------------------------- 원본 글자 대조 (source_text.md ↔ 템플릿)
+
+JINJA = re.compile(r"\{\{.*?\}\}|\{%.*?%\}|\{#.*?#\}", re.S)
+STRINGS = re.compile(r"\"([^\"]*)\"|'([^']*)'")
+MARK = re.compile(r"^\((값|안 ?보임|로고|바코드|도장|서명|그림|빈 ?칸)[^)]*\)$")
+SPLIT = re.compile(r"\s*\|\s*|\s{3,}|\s+/\s+")
+
+
+def norm(s: str) -> str:
+    """대조용: 글자·숫자만, 대문자로 (띄어쓰기·기호·괄호 차이는 무시)."""
+    s = unicodedata.normalize("NFKC", s).upper()
+    return "".join(ch for ch in s if ch.isalnum())
+
+
+def printed_text(template: str) -> list[str]:
+    """템플릿에서 그림에 인쇄되는 글자 덩어리: 태그·jinja 밖 글자 + m.title 글자 + 체크 보기 글자."""
+    chunks = []
+    body = re.sub(r"<style.*?</style>|<script.*?</script>|<!--.*?-->|\{%-?\s*block\s+(style|head)\s*-?%\}.*?\{%-?\s*endblock",
+                  " ", template, flags=re.S | re.I)
+    for block in re.findall(r"\{\{(.*?)\}\}", body, re.S):
+        if re.match(r"\s*m\.title\(", block):
+            chunks += [a or b for a, b in STRINGS.findall(block)]
+        elif re.match(r"\s*m\.(choice|agree)\(", block):
+            for lst in re.findall(r"\[(.*?)\]", block, re.S):
+                chunks += [a or b for a, b in STRINGS.findall(lst)]
+    text = JINJA.sub("\n", body)
+    text = re.sub(r"<[^>]+>", "\n", text)
+    text = re.sub(r"&nbsp;|&#160;", " ", text)
+    text = re.sub(r"&[a-z]+;|&#\d+;", "", text)
+    chunks += [c.strip() for c in text.splitlines()]
+    return [c for c in chunks if len(norm(c)) >= 2]
+
+
+def source_items(md: str) -> list[str]:
+    """source_text.md 의 칸 글자: 제목줄(#) 빼고, 줄을 | 로 나눈 것. (값)·(안 보임 …)·(로고 …) 표시는 뺀다."""
+    items = []
+    for line in md.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        line = re.sub(r"^[-*>]\s+", "", line)
+        for part in SPLIT.split(line):
+            part = re.sub(r"\((값|안 ?보임|로고|바코드|도장|서명|그림)[^)]*\)", " ", part).strip()
+            if len(norm(part)) >= 2 and not MARK.match(part):
+                items.append(part)
+    return items
+
+
+def covered(piece: str, whole: str, whole_bigrams: set) -> bool:
+    """piece 가 whole 에 있나. 짧으면 그대로 들어 있어야, 길면(문장) 두 글자 묶음 80% 이상."""
+    p = norm(piece)
+    if p in whole:
+        return True
+    if len(p) < 8:                     # 짧은 것: 띄어 쓴 낱말(두 글자 이상)이 모두 있으면 (사이에 값이 끼는 "년 월 일" 같은 줄)
+        words = [w for w in (norm(x) for x in piece.split()) if len(w) >= 2]
+        return all(w in whole for w in words) and (len(words) > 1 or not words)
+    grams = [p[i:i + 2] for i in range(len(p) - 1)]
+    return sum(g in whole_bigrams for g in grams) / len(grams) >= 0.8
+
+
+def text_warnings(draft: Path) -> list[str]:
+    """원본 글자(source_text.md)와 템플릿 글자를 맞대 본다. 경고 글 목록."""
+    src_file, tpl_file = draft / "source_text.md", draft / "template.html.j2"
+    if not (src_file.exists() and tpl_file.exists()):
+        return []
+    md = src_file.read_text(encoding="utf-8")
+    src_items = source_items(md)
+    tpl_items = printed_text(tpl_file.read_text(encoding="utf-8"))
+    heads = [line.lstrip("#").strip() for line in md.splitlines() if line.startswith("###")]   # 덩어리 이름도 원본 글자일 수 있다
+    src_all, tpl_all = norm(" ".join(src_items + heads)), norm(" ".join(tpl_items))
+    bigrams = lambda s: {s[i:i + 2] for i in range(len(s) - 1)}  # noqa: E731
+    src_bi, tpl_bi = bigrams(src_all), bigrams(tpl_all)
+    extra = list(dict.fromkeys(c for c in tpl_items if not covered(c, src_all, src_bi)))
+    missing = list(dict.fromkeys(c for c in src_items if not covered(c, tpl_all, tpl_bi)))
+    out = []
+    if extra:
+        out.append(f"원본 글자(source_text.md)에 없는 글자가 템플릿에 {len(extra)}곳: "
+                   + ", ".join(repr(c[:30]) for c in extra[:10])
+                   + " — 그림에 정말 있으면 source_text.md 에 더하고, 없으면 템플릿에서 뺀다 (지어낸 항목명)")
+    if missing:
+        out.append(f"원본 글자 중 템플릿에 없는 것 {len(missing)}곳: "
+                   + ", ".join(repr(c[:30]) for c in missing[:10])
+                   + " — 템플릿에 옮긴다 (항목명·안내문 빠짐)")
+    return out
+
+
 def pictures(srcs: list[Path], renders: dict, out: Path) -> dict:
     """side_<쪽>.jpg (원본|min 렌더), renders.jpg (렌더 첫 쪽 모음)."""
     made = {"side": [], "renders": None}
@@ -196,6 +284,7 @@ def run(draft: Path | str, out: Path | str | None = None, seeds: tuple[int, ...]
         mn = renders.get("min", {})
         if "pages" in mn and srcs and mn["pages"] != len(srcs):
             problems.append(f"쪽 수: 원본 {len(srcs)}쪽인데 --rows min 렌더 {mn['pages']}쪽")
+    warnings += text_warnings(draft)
     images = pictures(srcs, renders, out) if renders.get("min", {}).get("image_paths") and srcs else {"side": [], "renders": None}
     problems = list(dict.fromkeys(problems))
     result = {

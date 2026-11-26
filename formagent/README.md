@@ -45,6 +45,7 @@ python -m formagent register --id loan_application --to public                # 
 |---|---|---|
 | `source.png`, `source_2.png` … | 진행기 | 원본 (2MB 이하로 줄임) |
 | `fields.md` · `template.html.j2` · `form.json` · `generate.py` | 모델 | 서식 초안 (스킬 1~3단계) |
+| `source_text.md` | 모델 | 글자 옮기기 회차: 그림에 인쇄된 글자 그대로 (원본과 대 보면 모델이 그림을 읽었는지 보임) |
 | `review.md` · `report.md` | 모델 | 회차별 비교 8문항, 마지막 보고 (스킬 5·6단계) |
 | `run.json` | 진행기 | 상태 `running`·`waiting`·`done`·`stopped`·`failed`, 회차마다 요청 문장·종료 코드·검사 요약 |
 | `relab_<n>.log` | 진행기 | n회차 ReLab 출력 그대로 (모델의 말 `●`, 한 일 `⎿`) |
@@ -54,10 +55,14 @@ python -m formagent register --id loan_application --to public                # 
 
 ## 회차
 
-1. **1회차:** 요청 = 원본 그림(`@source.png`) + "SKILL.md 를 읽고 따라라, 0~4단계, 검사 명령 통과". 모델이 칸 표 → 템플릿·form.json(·generate.py) → `python -m pytest .claude/skills/form-from-image/test_draft.py --draft <초안> -q` 통과까지.
-2. 진행기가 `check.py` 로 검사해 `check_1/` 에 비교 그림을 만든다.
-3. **2회차~:** 요청 = 비교 그림(`@side_0.jpg`, `@renders.jpg`) + 앞 회차 파일 안내 + 검사의 문제·경고 (+ 사람의 지시). 모델이 `review.md` 8문항 → 고침 → 검사 통과 → `report.md`.
-4. `report.md` 를 쓰고 검사를 통과하면 끝. 아니면 `--rounds` 만큼 (기본 3) 고치기 회차.
+진행기는 초안 폴더에 무엇이 있는지로 회차의 일을 고른다.
+
+1. **글자 옮기기** (`source_text.md` 가 없을 때, 보통 1회차): 요청 = 원본 그림(`@source.png`) + "그림의 인쇄 글자를 위에서 아래로 그대로 `source_text.md` 에".
+   스킬 문서는 읽히지 않는다 — 문서를 잔뜩 읽은 뒤 그림을 보면 약한 모델은 그림 대신 짐작으로 항목명을 쓰기 때문 (PLAN.md 15절).
+2. **만들기** (템플릿이 없을 때, 보통 2회차): 요청 = 원본 그림 다시 + "SKILL.md 를 따라, 글자는 `source_text.md` 에서". 칸 표 → 템플릿·form.json(·generate.py) → 검사 명령 통과.
+3. 진행기가 `check.py` 로 검사해 `check_<n>/` 에 비교 그림을 만든다. 검사는 템플릿 글자를 `source_text.md` 와 맞대 **지어낸 글자·빠진 글자**를 경고한다.
+4. **고치기** (3회차부터): 요청 = 비교 그림(`@side_0.jpg`, `@renders.jpg`) + 앞 회차 파일 안내 + 검사의 문제·경고 (+ 사람의 지시). 모델이 `review.md` 8문항 → 고침 → 검사 통과 → `report.md`.
+5. 고치기 회차에서 `report.md` 를 쓰고 검사를 통과하면 끝. 아니면 `--rounds` 만큼 (기본 3) 고치기 회차.
 
 ReLab 은 `-p`(비대화 실행)에서 `-c`(이어 하기)를 보지 않아 **회차마다 새 대화**다. 앞 회차는 초안 폴더의 파일과 요청 문장으로 넘긴다.
 

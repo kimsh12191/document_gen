@@ -208,7 +208,7 @@ async function faProgress(d) {
     <div class="fa-steps">${faSteps(d)}</div>
     ${rounds.map(r => `
       <div class="panel fa-round" data-n="${r.n}">
-        <div class="bar"><b>${r.n}회차</b>
+        <div class="bar"><b>${r.n}회차</b>${r.kind ? ` <span class="muted">${esc(FA_KIND[r.kind] || r.kind)}</span>` : ""}
           ${r.ended == null ? `<span class="tag">도는 중</span>`
             : `<span class="tag ${r.exit === 0 ? "ok" : "warn"}">ReLab: ${esc(r.exit === null ? "멈춤·시간 넘음" : FA_EXIT[r.exit] || `종료 코드 ${r.exit}`)}</span>`}
           ${r.check ? (r.check.passed ? `<span class="tag ok">검사 통과</span>` : `<span class="tag warn">검사 문제 ${r.check.problems.length}</span>`) : ""}
@@ -231,12 +231,14 @@ async function faProgress(d) {
   }
 }
 
+const FA_KIND = { read: "글자 옮기기 (source_text.md)", build: "만들기 (칸 표 → 템플릿 → 검사)", fix: "비교 그림 보고 고치기" };
+
 function faSteps(d) {
-  // 화면 위 줄: ReLab 준비 → 1회차(칸 표·템플릿·검사) → 비교·고치기 회차 → 끝 (지금 자리 강조)
-  const n = d.rounds.length, s = d.status;
-  const steps = [["ReLab 준비", s === "installing" ? "now" : (n || d.relab) ? "done" : ""],
-    ["1회차: 칸 표 → 템플릿 → 검사", n === 1 && FA_LIVE.has(s) ? "now" : n >= 1 ? "done" : ""],
-    ["비교 그림 보고 고치기", n >= 2 && FA_LIVE.has(s) ? "now" : n >= 2 ? "done" : ""],
+  // 화면 위 줄: ReLab 준비 → 글자 옮기기 → 만들기 → 비교·고치기 회차 → 끝 (지금 자리 강조)
+  const s = d.status, kinds = d.rounds.map(r => r.kind || "build"), last = kinds[kinds.length - 1];
+  const at = k => kinds.includes(k) ? (last === k && FA_LIVE.has(s) ? "now" : "done") : "";
+  const steps = [["ReLab 준비", s === "installing" ? "now" : (kinds.length || d.relab) ? "done" : ""],
+    ["글자 옮기기", at("read")], ["칸 표 → 템플릿 → 검사", at("build")], ["비교 그림 보고 고치기", at("fix")],
     [s === "waiting" ? "질문 대기" : s === "stopped" ? "멈춤" : s === "failed" ? "실패" : "끝 · 사람이 확인", ["done", "waiting", "stopped", "failed", "interrupted"].includes(s) ? "now" : ""]];
   return steps.map(([t, c], i) => `<span class="fa-step ${c}">${i + 1}. ${esc(t)}</span>`).join(`<span class="muted">→</span>`);
 }
@@ -327,7 +329,7 @@ function faResultBody(d, box) {
       ${im.renders ? `<div class="muted">렌더 모음 (min · max · seed 1 · seed 2 첫 쪽) — 서류마다 값·행 수가 바뀌는지</div>
         <a href="${esc(im.renders)}" target="_blank"><img class="fa-renders" src="${esc(im.renders)}" alt=""></a>` : ""}` : `<p class="muted">그림이 없습니다.</p>`;
   };
-  if ($("#fa-round").options.length) draw(); else $("#fa-imgs").innerHTML = `<p class="muted">아직 그림이 없습니다 (1회차가 끝나면 생깁니다).</p>`;
+  if ($("#fa-round").options.length) draw(); else $("#fa-imgs").innerHTML = `<p class="muted">아직 그림이 없습니다 (만들기 회차가 끝나면 생깁니다).</p>`;
   $("#fa-round").onchange = draw;
 }
 
@@ -344,6 +346,7 @@ function faFiles(d) {
     $$(".subtabs a", box).forEach(a => a.classList.toggle("on", a.dataset.f === n));
     const text = d.files[n] || "";
     const head = n === "generate.py" ? `<div class="panel fa-warn"><b>실행되는 코드입니다.</b> 미리보기·생성 때 돌아갑니다. 등록 전에 읽어 주세요 (docgen.formkit 과 표준 라이브러리만, 칸 목록의 키만 고쳐야 함).</div>`
+      : n === "source_text.md" ? `<div class="muted">1회차에 모델이 그림에서 옮겨 적은 인쇄 글자 — 원본과 대 보면 모델이 그림을 제대로 읽었는지 바로 보입니다. 템플릿 글자는 이것을 기준으로 검사합니다.</div>`
       : n === "fields.md" ? `<div class="muted">뽑을 키와 항목 설명 — 사람이 가장 먼저 검토할 곳입니다 (데이터셋을 만든 뒤에는 키를 바꾸지 않음). 확신 "낮음"·"판단이 안 선 것"을 보세요.</div>` : "";
     $("#fa-file").innerHTML = head + (n.endsWith(".md") ? faMarkdown(text) : `<pre class="ans mono">${esc(text)}</pre>`);
   };
