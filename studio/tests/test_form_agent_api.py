@@ -1,6 +1,7 @@
 """이미지로 서식 만들기 탭 API (studio/api_form_agent.py). 작업은 띄우지 않고 띄우려는 명령을 본다."""
 import io
 import json
+import os
 
 import pytest
 from PIL import Image
@@ -111,3 +112,24 @@ def test_register_calls_runner_and_refreshes(env, monkeypatch):
     assert r.status_code == 200 and seen == {"id": "f_one", "to": "public"} and refreshed == [1]
     monkeypatch.setattr(runner, "register", lambda *a, **k: (_ for _ in ()).throw(runner.AgentError("검사를 통과하지 못해")))
     assert TestClient(app).post("/api/form-agent/f_one/register", json={"to": "public"}).status_code == 400
+
+
+def test_delete_draft(env):
+    """초안 폴더를 지운다. 이 서식의 작업이 돌고 있으면 거절, 없는 것은 404."""
+    c, jobs, root = env
+    c.post("/api/form-agent", data={"id": "f_del", "kind": "blank"}, files=[("images", ("a.png", png(), "image/png"))])
+    d = root / "out/form_drafts/f_del"
+    assert d.is_dir()
+    jobs.list = lambda kind=None: [{"id": "j1", "status": "running", "info": {"form_id": "f_del"}, "title": "x"}]
+    assert c.delete("/api/form-agent/f_del").status_code == 409 and d.is_dir()
+    st = runner.load("f_del")
+    st.update(status="running", runner_pid=os.getpid())            # 작업 기록 없이도 진행기가 살아 있으면 거절
+    jobs.list = lambda kind=None: []
+    runner.save(st)
+    assert c.delete("/api/form-agent/f_del").status_code == 409 and d.is_dir()
+    st.update(status="stopped", runner_pid=None)
+    runner.save(st)
+    r = c.delete("/api/form-agent/f_del")
+    assert r.status_code == 200 and r.json()["deleted"] == "out/form_drafts/f_del" and not d.exists()
+    assert c.delete("/api/form-agent/f_del").status_code == 404
+    assert c.delete("/api/form-agent/Bad..id").status_code in (404, 409)

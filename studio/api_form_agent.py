@@ -238,6 +238,17 @@ def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
             refresh()                                   # 서식 다시 읽기 (서식 목록에 나오게)
         return {k: out[k] for k in ("id", "to", "path", "files", "card", "formdir_check", "warnings")}
 
+    @r.delete("/api/form-agent/{form_id}")
+    def delete(form_id: str):
+        """초안 폴더를 지운다. 등록한 서식은 남는다. 이 서식의 작업이 돌고 있으면 거절."""
+        job = running_job()
+        if job and (job.get("info") or {}).get("form_id") == form_id:
+            raise HTTPException(409, "이 서식을 만드는 작업이 돌고 있습니다. 멈춘 뒤에 지우세요")
+        try:
+            return runner.delete(form_id)
+        except runner.AgentError as e:
+            raise HTTPException(404 if "작업이 없습니다" in str(e) else 409, str(e))
+
     @r.post("/api/form-agent/{form_id}/stop")
     def stop(form_id: str):
         """STOP 표시를 남기고 relab 을 끝낸다. 진행기(작업)가 이를 보고 "멈춤"으로 정리하고 끝난다."""

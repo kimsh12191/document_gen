@@ -21,6 +21,7 @@ import importlib.util
 import json
 import os
 import re
+import shutil
 import signal
 import subprocess
 import sys
@@ -344,6 +345,30 @@ def stop(form_id: str) -> dict:
             except (ProcessLookupError, PermissionError):
                 pass
     return state
+
+
+def _alive(pid) -> bool:
+    if not pid:
+        return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except (OSError, ValueError):
+        return False
+
+
+def delete(form_id: str) -> dict:
+    """초안 폴더를 통째로 지운다 (원본 그림·회차 기록·검사 그림). 등록한 서식 폴더는 건드리지 않는다. 도는 중이면 거절."""
+    if not ID_RX.fullmatch(form_id or ""):
+        raise AgentError(f"서식 ID 꼴이 아닙니다: {form_id!r}")
+    d = draft_dir(form_id)
+    state = load(form_id)
+    if state.get("status") in ("running", "installing") and (_alive(state.get("runner_pid")) or _alive(state.get("relab_pid"))):
+        raise AgentError("도는 중입니다. 멈춘 뒤에 지우세요")
+    if d.resolve().parent != DRAFTS.resolve():
+        raise AgentError(f"초안 폴더가 아닙니다: {d}")
+    shutil.rmtree(d)
+    return {"id": form_id, "deleted": rel(d), "registered": state.get("registered")}
 
 
 def go(form_id: str, message: str | None = None, max_rounds: int | None = None, log=print) -> dict:

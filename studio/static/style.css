@@ -31,6 +31,8 @@ input[type=number] { width: 80px; }
 button { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 5px 12px; cursor: pointer; }
 button:hover { border-color: var(--accent); }
 button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+button.danger { color: var(--bad); border-color: var(--bad); }
+button.danger:hover { background: var(--bad); color: #fff; }
 button:disabled { opacity: .5; cursor: default; }
 
 table { border-collapse: collapse; width: 100%; background: var(--panel); }

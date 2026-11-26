@@ -17,7 +17,7 @@
 ## studio 화면
 
 studio 왼쪽 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `studio/static/js/form-agent.js`): 그림·ID·원본 종류·추가 요청 → **[시작]**
-(ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 등) → **이어서 지시** · **[멈추기]**
+(ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 등) → **이어서 지시** · **[멈추기]** · **[삭제]**(초안 폴더만, 등록한 서식은 남음)
 → 결과 탭 **[등록]** (공개/비공개 고르고 확인 세 가지에 체크 → 검사·옮기기·카드·formdir check → 서식 다시 읽기 → 서식 › 미리보기/검수).
 화면이 띄우는 것도 아래 명령이다 (`go` · `continue`). 모델 설정은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab"}`.
 화면 설명은 [guide/studio/studio.md](../guide/studio/studio.md#이미지로-서식-만들기). 그림: [화면 흐름](docs/screens.png) · [동작 시나리오](docs/scenario.png) (가짜 모델로 돌린 실제 화면).

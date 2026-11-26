@@ -164,7 +164,7 @@ async function viewFormAgentOne(id, tab, given) {
       ${d.relab ? `<span class="muted mono">ReLab ${esc(d.relab_version || "")}</span>` : ""}
       ${d.registered ? `<span class="tag ok">등록됨 · ${d.registered.to === "private" ? "비공개" : "공개"}</span>
         <a href="#/forms/${encodeURIComponent(d.id)}">서식 화면 열기 (미리보기·검수)</a>` : ""}
-      ${live ? `<button id="fa-stop">멈추기</button>` : ""}
+      ${live ? `<button id="fa-stop">멈추기</button>` : `<button id="fa-del" class="danger">삭제</button>`}
     </div>
     ${d.note ? `<div class="sub">추가 요청: ${esc(d.note)}</div>` : ""}
     ${d.error && d.status !== "done" ? `<p class="err">${esc(d.error)}</p>` : ""}
@@ -185,6 +185,14 @@ async function viewFormAgentOne(id, tab, given) {
     await api(`/api/form-agent/${encodeURIComponent(id)}/stop`, {});
     toast("멈춤 표시를 남겼습니다");
     setTimeout(() => { if (location.hash.startsWith(faBase(id))) viewFormAgentOne(id, faTab()); }, 1500);
+  };
+  if ($("#fa-del")) $("#fa-del").onclick = async () => {
+    const reg = d.registered ? `\n\n등록한 서식(${d.registered.to === "private" ? "비공개" : "공개"} ${d.registered.path || ""})은 지우지 않습니다.` : "";
+    if (!confirm(`${id} 초안을 지울까요?\n\n초안 폴더 out/form_drafts/${id}/ 를 통째로 지웁니다 — 원본 그림, source_text.md·fields.md·템플릿, 회차 기록, 검사 그림. 되돌릴 수 없습니다.${reg}`)) return;
+    try { await api(`/api/form-agent/${encodeURIComponent(id)}`, undefined, "DELETE"); }
+    catch (e) { toast(e.message, true); return; }
+    toast(`${id} 초안을 지웠습니다`);
+    location.hash = "#/form-agent";
   };
   $("#fa-cont").onclick = async () => {
     const message = $("#fa-msg").value.trim();
