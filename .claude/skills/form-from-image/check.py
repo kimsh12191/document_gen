@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -49,17 +50,43 @@ def sources(draft: Path) -> list[Path]:
     return ([first] if first.exists() else []) + rest
 
 
+ENV_FILE = ROOT / "out" / "form_drafts" / ".formagent_env.json"     # formagent 진행기가 ReLab 을 돌리기 전에 남긴 환경
+BROWSER_ROOTS = ("/opt/ms-playwright", "/opt/pw-browsers", "~/.cache/ms-playwright")
+BROWSER_HINT = (" — 렌더링 브라우저를 못 찾음. 설치(playwright install·pip)하지 말고 멈추고 보고한다 "
+                "(에이전트 도구가 환경 변수 PLAYWRIGHT_BROWSERS_PATH 를 넘기지 않았을 수 있음: out/form_drafts/.formagent_env.json)")
+
+
+def child_env() -> dict:
+    """미리보기에 넘길 환경. ReLab 같은 에이전트는 검사 명령에 환경 변수를 몇 개만 넘겨 브라우저 위치(PLAYWRIGHT_BROWSERS_PATH)가
+    빠진다. 진행기가 남긴 .formagent_env.json 으로 채우고, 그래도 없으면 흔한 설치 자리를 찾는다."""
+    env = dict(os.environ)
+    try:
+        for k, v in json.loads(ENV_FILE.read_text(encoding="utf-8")).items():
+            if v and not env.get(k):
+                env[k] = v
+    except (OSError, ValueError):
+        pass
+    if not env.get("PLAYWRIGHT_BROWSERS_PATH"):
+        for root in BROWSER_ROOTS:
+            r = Path(root).expanduser()
+            if r.is_dir() and any(r.glob("chromium*")):
+                env["PLAYWRIGHT_BROWSERS_PATH"] = str(r)
+                break
+    return env
+
+
 def preview(draft: Path, out: Path, args: list[str]) -> dict:
     """미리보기 한 번. 마지막 줄 JSON + label.json."""
     cmd = [sys.executable, "-m", "docgen.preview", "--dir", str(draft), *args, "--out", str(out)]
     try:
-        p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=TIMEOUT)
+        p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=TIMEOUT, env=child_env())
     except subprocess.TimeoutExpired:
         return {"error": f"{TIMEOUT}초 안에 끝나지 않음", "args": args}
     lines = [line for line in p.stdout.strip().splitlines() if line.startswith("{")]
     if p.returncode != 0 or not lines:
         tail = "\n".join((p.stderr or p.stdout).strip().splitlines()[-8:])
-        return {"error": f"종료 코드 {p.returncode}: {tail}", "args": args}
+        hint = BROWSER_HINT if re.search(r"Executable doesn't exist|playwright install|BrowserType\.launch", p.stderr + p.stdout) else ""
+        return {"error": f"종료 코드 {p.returncode}: {tail}{hint}", "args": args}
     info = json.loads(lines[-1])
     labels = sorted(out.rglob("label.json"), key=lambda f: f.stat().st_mtime)
     if labels:

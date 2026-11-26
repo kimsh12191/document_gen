@@ -200,3 +200,24 @@ def test_runner_register_records_and_refuses_twice(ws, monkeypatch):
     assert out["path"] == "/x/f6" and runner.load("f6")["registered"]["to"] == "private"
     with pytest.raises(runner.AgentError):
         runner.register("f6", "private", log=lambda *a: None)
+
+
+def test_browser_env_survives_stripped_environment(tmp_path, monkeypatch):
+    """ReLab 은 검사 명령에 환경 변수를 몇 개만 넘긴다: 진행기가 남긴 파일로 check.py 가 브라우저 위치를 채운다."""
+    import importlib.util
+    monkeypatch.setattr(runner, "DRAFTS", tmp_path / "out" / "form_drafts")
+    monkeypatch.setenv("PLAYWRIGHT_BROWSERS_PATH", "/opt/ms-playwright-test")
+    runner.save_env()
+    saved = json.loads((tmp_path / "out/form_drafts/.formagent_env.json").read_text())
+    assert saved["PLAYWRIGHT_BROWSERS_PATH"] == "/opt/ms-playwright-test"
+    spec = importlib.util.spec_from_file_location("form_check_t", Path(__file__).resolve().parents[2] / ".claude/skills/form-from-image/check.py")
+    chk = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(chk)
+    monkeypatch.setattr(chk, "ENV_FILE", tmp_path / "out/form_drafts/.formagent_env.json")
+    monkeypatch.delenv("PLAYWRIGHT_BROWSERS_PATH")                      # ReLab 이 버린 상태
+    assert chk.child_env()["PLAYWRIGHT_BROWSERS_PATH"] == "/opt/ms-playwright-test"
+    monkeypatch.setattr(chk, "ENV_FILE", tmp_path / "없음.json")          # 파일도 없으면 흔한 자리를 찾음
+    found = tmp_path / "pw"
+    (found / "chromium-1").mkdir(parents=True)
+    monkeypatch.setattr(chk, "BROWSER_ROOTS", (str(found),))
+    assert chk.child_env()["PLAYWRIGHT_BROWSERS_PATH"] == str(found)

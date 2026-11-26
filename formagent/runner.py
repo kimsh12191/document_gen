@@ -100,6 +100,17 @@ def package_marks(d: Path) -> None:
                             encoding="utf-8")
 
 
+ENV_KEYS = ("PLAYWRIGHT_BROWSERS_PATH", "CHROMIUM_PATH", "DOCGEN_PRIVATE_FORMS")
+
+
+def save_env() -> None:
+    """ReLab 은 검사 명령에 환경 변수를 몇 개(PATH·HOME …)만 넘긴다. 미리보기가 브라우저를 찾도록 지금 환경의 위치를
+    out/form_drafts/.formagent_env.json 에 남기고, 스킬 check.py 가 읽어 채운다."""
+    DRAFTS.mkdir(parents=True, exist_ok=True)
+    env = {k: os.environ[k] for k in ENV_KEYS if os.environ.get(k)}
+    (DRAFTS / ".formagent_env.json").write_text(json.dumps(env, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def save_image(src: Path, dest: Path) -> None:
     """원본을 png 로, 2MB 아래로 줄여 저장."""
     im = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
@@ -260,6 +271,7 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
     fix_rounds = max_rounds if max_rounds is not None else int(st.get("max_fix_rounds", 3))
     (d / "STOP").unlink(missing_ok=True)
     package_marks(d)
+    save_env()
     if not R.find(st.get("relab")) and not st.get("relab"):     # 없으면 묶음으로 설치 (화면에 "ReLab 설치 중")
         state.update(status="installing", runner_pid=os.getpid())
         save(state)
