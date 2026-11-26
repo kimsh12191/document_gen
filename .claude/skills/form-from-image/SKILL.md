@@ -41,7 +41,7 @@ description: 서식 이미지(빈 서식·견본·실서류 사진)를 직접 �
 **그림을 먼저 본다.** 문서를 잔뜩 읽은 뒤 그림을 보면 그림 대신 짐작으로 항목명을 쓰게 된다. 1-1단계(글자 옮기기)는 아래 1·2의 읽기 **전에** 한다.
 
 1. 읽는다 (1-1단계 뒤, 1-2단계 전): `docgen/manual/NEW_FORM_SPEC.md` 2·3·4·11절, `guide/studio/keys.md` 3~5절.
-   `docgen/forms/_common/values.md`(값 만드는 법 목록)는 통째로 읽지 않고, 필요한 종류를 검색해서 본다.
+   `docgen/forms/_common/values.md`(값 만드는 법 목록)는 **1~106줄(특별한 것 · 값 종류 표 · 생성기 · 표기)을 읽는다**. 그 뒤 고객 프로필 목록은 검색으로 찾는다.
 2. **완성 예시**: `.claude/skills/form-from-image/example/` 의 `fields.md`·`template.html.j2` (은행 신청서 한 장을 이 순서대로 만든 것).
    **파일 꼴만 참고한다.** 항목·칸·배치는 예시가 아니라 지금 원본(그림과 `source_text.md`)에서 가져온다.
    발급 서류(표·반복 행·발급기관 직인) 견본은 `docgen/forms/bank_statement/look/template.html.j2`.
@@ -133,7 +133,12 @@ html 을 쓰다가 칸이 바뀌면 `fields.md` 를 먼저 고치고 html 을 �
 - 고객 본인·본인 회사 값 → `profile.…` (`profile.person.name`·`.birth`·`.rrn`·`.mobile`·`.email`·`.name_en`·`.address.road_short`, `profile.business.biz_no`, `profile.issue_date` …).
 - 그 밖 → `rule:<종류>` (`date` `amount` `account` `currency` `bank` `branch` `company` `number` `count` `percent` `rate` `note` …).
 - 보기 `rule:choice` + `choices`(원본 글자 그대로), 늘 같은 글자 `rule:fixed` + `text`, 틀 `rule:pattern` + `pattern`(`#` 숫자), 반복 행 날짜 `rule:date_seq`, 짧은 자유 글 `rule:free_text`, 늘 빈 칸 `rule:empty`.
-- 모르겠으면 `rule:note` 로 두고 "판단이 안 선 것"에 적는다. 키·위치가 맞으면 source 는 나중에 고칠 수 있다.
+- **칸마다 값 종류 표에서 가장 가까운 것을 고른다**: HS 코드 `rule:hs_code`, 가격 조건 `rule:incoterms`, 항구 `rule:port`, SWIFT `rule:swift`, 외화 금액 `rule:fx_amount`,
+  통화 `rule:currency`, 국가 `rule:country`, 은행 `rule:bank`, 품목 `rule:goods`, 회사 `rule:company`, 개수 `rule:count` …
+  표에 없으면 그 칸에 올 만한 값 몇 개를 `rule:choice` 로(예: 기간 조건 `["AT SIGHT", "30 DAYS AFTER SIGHT", "90 DAYS AFTER B/L DATE"]`), 꼴이 정해진 번호·코드는 `rule:pattern`.
+- `rule:note`·`rule:free_text`·`rule:reason` 은 "해당 없음", "본인 요청", "계좌 정리" 같은 **메모 글**을 낸다 → 비고·사유·메모 칸에만. 기간·장소·조건·코드 칸에 쓰면 엉뚱한 값이 된다.
+  `rule:account`·`rule:number` 는 계좌번호 꼴(`343-882701-43380`)이라 은행 코드·고객번호 같은 짧은 코드 칸에는 `rule:pattern`(`####`, `###-##-######`)이 낫다.
+- 정말 모르겠으면 `rule:choice` 로 그럴듯한 보기 두세 개를 두고 "판단이 안 선 것"에 적는다. 키·위치가 맞으면 source 는 나중에 고칠 수 있다.
 
 **값이 이상하게 나오는 함정** (실제로 겪은 것):
 - `rule:phone`·`rule:address`·`rule:email` 은 **고객 본인 값**을 낸다. `rule:person` 도 자주 고객 이름이다.
@@ -256,7 +261,7 @@ python .claude/skills/form-from-image/check.py out/form_drafts/<ID>             
 4단계 검사가 만든 `check/side_<쪽>.jpg`(왼쪽 원본 · 오른쪽 렌더)와 `check/renders.jpg` 를 본다 (에이전트 진행기면 요청에 붙어 온다).
 값 박스 자리까지 보려면 `python .claude/skills/form-from-image/compare.py --source <초안>/source.png --render <초안>/check/render_min --out <초안>/compare`
 의 `overlay_<쪽>.png`(회색 원본 위에 빨강 렌더, 파랑 값 박스와 키).
-아래를 쪽마다 예/아니오로 `review.md` 에 회차별로 적고, "아니오"마다 어디가 어떻게 다른지 한 줄. 꼴:
+아래 9문항을 쪽마다 예/아니오로 `review.md` 에 회차별로 적고, "아니오"마다 어디가 어떻게 다른지 한 줄. 꼴:
 
 ```markdown
 ## 2회차
@@ -276,6 +281,9 @@ python .claude/skills/form-from-image/check.py out/form_drafts/<ID>             
 6. 체크 보기·도장·서명 자리가 원본과 같다
 7. 원본에 적혀 있던 실제 값(실서류)이 렌더에 고정 글자로 남지 않았다
 8. 쪽 수가 같다
+9. **값이 칸의 뜻에 맞다** — 렌더와 요청의 "렌더 값 예시"를 칸마다 본다. 기간 칸에 기간(`AT SIGHT`, `90 DAYS`), 장소 칸에 장소, 코드 칸에 코드 꼴,
+   개수 칸에 작은 수. "주소 변경"·"확인 완료" 같은 엉뚱한 글이면 그 칸의 source 를 바꾼다
+   (`rule:choice` + 그 칸에 올 만한 보기, `rule:pattern`, `rule:fixed` …; `rule:note`·`rule:free_text` 는 메모 칸에만)
 
 "아니오"를 고치고 4단계부터 다시. 3회 뒤에도 남은 것은 보고에 적는다. 글꼴·글자 크기·선 굵기의 작은 차이는 고치지 않는다.
 
@@ -287,7 +295,7 @@ python .claude/skills/form-from-image/check.py out/form_drafts/<ID>             
 | 순서 | `source_text.md` → `fields.md` → html 순서로 썼는지 (아니면 왜) |
 | 칸 | 값 자리 수, 반복 표(행 min~max), 도장·서명, `generate.py` 유무와 맞춘 관계 |
 | 검사 | `--rows min`·`max` 마지막 줄 JSON |
-| 비교 | 마지막 회차 8문항, `compare_<회차>/side_*.png` 경로 |
+| 비교 | 마지막 회차 9문항, `compare_<회차>/side_*.png` 경로 |
 | 판단이 안 선 것 | `fields.md` 의 확신 낮음·애매한 칸, 남은 "아니오" |
 | 사람이 볼 것 | `fields.md` 의 키·설명 (데이터셋을 만든 뒤에는 키를 못 바꿈), 비교 그림 |
 

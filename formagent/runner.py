@@ -269,12 +269,33 @@ def next_request(state: dict, n: int, check: dict, message: str | None = None) -
              f"- 직전 검사: {'통과' if check.get('passed') else '통과 못 함'}"]
     lines += [f"  · 문제: {p}" for p in probs[:12]]
     lines += [f"  · 경고: {w}" for w in warns[:12]]
+    sample = sample_values(check)
+    if sample:
+        lines.append("- 렌더 값 예시 (키: seed 1 값 / seed 2 값) — 값이 칸의 뜻에 맞는지 본다 (스킬 5단계 9번):")
+        lines += [f"  · {line}" for line in sample]
     if message:
         lines.append(f"- 사람의 지시 (가장 먼저 반영): {message}")
-    lines.append(f"- 할 일: 스킬 5단계대로 원본과 렌더를 비교해 review.md 에 '{n}회차' 8문항을 더하고, 문제·경고·\"아니오\"를 고친 뒤 검사 명령을 통과시킨다. "
+    lines.append(f"- 할 일: 스킬 5단계대로 원본과 렌더를 비교해 review.md 에 '{n}회차' 9문항을 더하고, 문제·경고·\"아니오\"를 고친 뒤 검사 명령을 통과시킨다. "
                  "원본 글자 대조 경고(지어낸 글자·빠진 글자)는 그림을 보고 판단해 고친다. "
                  "고칠 것이 없으면 review.md 에 그렇게 적는다. 끝나면 스킬 6단계 보고를 초안 폴더의 report.md 로 쓴다 (있으면 고쳐 쓴다).")
     return "\n".join(lines)
+
+
+def sample_values(check: dict, limit: int = 70) -> list[str]:
+    """검사 렌더의 키→값 두 벌 (seed 1·2). 반복 표는 첫 행만. 요청에 직접 넣어 모델이 파일을 안 읽어도 보게."""
+    vals = check.get("values") or {}
+    a, b = vals.get("s1") or vals.get("min") or {}, vals.get("s2") or {}
+    out = []
+    for key, v in a.items():
+        parts = key.split(".")
+        if any(p.isdigit() and p != "0" for p in parts):
+            continue
+        w = b.get(key)
+        cut = lambda x: (str(x)[:40] + "…") if x is not None and len(str(x)) > 40 else ("(빈 칸)" if x in (None, "") else str(x))  # noqa: E731
+        out.append(f"{key}: {cut(v)}" + (f" / {cut(w)}" if key in b else ""))
+        if len(out) >= limit:
+            break
+    return out
 
 
 def round_request(state: dict, n: int, check: dict | None, message: str | None = None) -> str:
@@ -383,6 +404,7 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
         last_check = run_check(d, d / f"check_{n}")
         rnd["check"] = {k2: last_check[k2] for k2 in ("passed", "problems", "warnings")}
         rnd["check_full"] = {k2: last_check[k2] for k2 in ("passed", "problems", "warnings", "images")}
+        rnd["check_full"]["values"] = {s: v for s, v in (last_check.get("values") or {}).items() if s in ("s1", "s2")}
         log(f"[{form_id}] {n}회차 끝: 종료 코드 {code}, 검사 {'통과' if last_check['passed'] else '통과 못 함'}")
         if code == 3:
             state.update(status="waiting", question=tail(d / rnd["log"], 25))
