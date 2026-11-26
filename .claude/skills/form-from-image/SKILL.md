@@ -241,6 +241,8 @@ python -m pytest .claude/skills/form-from-image/test_draft.py --draft out/form_d
 python .claude/skills/form-from-image/check.py out/form_drafts/<ID>                              # 같은 검사, 결과를 글로 보기
 ```
 
+**경고는 통과해도 나온다** — pytest 출력 맨 아래 `warnings summary` 의 `DraftWarning: 경고: …` 줄. 통과했어도 경고를 하나씩 읽고 고치거나, 그대로 두는 까닭을 `fields.md` "판단이 안 선 것"에 적는다.
+
 미리보기 5번(`--rows min` · `--rows max` · seed 1~3)을 그리고 `<초안>/check/` 에 결과를 쓴다:
 `check.json`(문제·경고·렌더별 pages/fields/empty·seed 별 키→값), `side_<쪽>.jpg`(왼쪽 원본 · 오른쪽 min 렌더), `renders.jpg`(min·max·seed1·seed2 모음).
 

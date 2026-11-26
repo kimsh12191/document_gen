@@ -199,6 +199,7 @@ def text_warnings(draft: Path) -> list[str]:
     src_items = source_items(md)
     tpl_items = printed_text(tpl_file.read_text(encoding="utf-8"))
     heads = [line.lstrip("#").strip() for line in md.splitlines() if line.startswith("###")]   # 덩어리 이름도 원본 글자일 수 있다
+    heads += re.findall(r"\(로고:\s*([^)]*)\)", md)                                            # 로고 자리에 쓴 기관명 글자
     src_all, tpl_all = norm(" ".join(src_items + heads)), norm(" ".join(tpl_items))
     bigrams = lambda s: {s[i:i + 2] for i in range(len(s) - 1)}  # noqa: E731
     src_bi, tpl_bi = bigrams(src_all), bigrams(tpl_all)
