@@ -239,3 +239,14 @@ def test_browser_env_survives_stripped_environment(tmp_path, monkeypatch):
     (found / "chromium-1").mkdir(parents=True)
     monkeypatch.setattr(chk, "BROWSER_ROOTS", (str(found),))
     assert chk.child_env()["PLAYWRIGHT_BROWSERS_PATH"] == str(found)
+
+
+def test_fix_request_shows_sample_values(ws):
+    """고치기 요청에 렌더 키→값 두 벌 (반복 표는 첫 행만) — 모델이 값이 칸의 뜻에 맞는지 보게."""
+    st = runner.start([ws["img"]], "sv1", "blank", None, {"relab": ws["relab"]})
+    for name, text in draft_files("sv1").items():
+        (ws["root"] / name).write_text(text)
+    check = {"passed": True, "problems": [], "warnings": [], "images": {"side": [], "renders": None},
+             "values": {"s1": {"bill.tenor": "주소 변경", "docs.0.bl": "3", "docs.1.bl": "2"}, "s2": {"bill.tenor": "본인 요청"}}}
+    req = runner.round_request(runner.load("sv1"), 3, check)
+    assert "bill.tenor: 주소 변경 / 본인 요청" in req and "docs.0.bl: 3" in req and "docs.1.bl" not in req and "9문항" in req
