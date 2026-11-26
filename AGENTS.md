@@ -12,7 +12,7 @@
 | 데이터셋 만들기 (평가 세트·학습 데이터, `docker/remote_build.py`) | [guide/studio/data.md](guide/studio/data.md) |
 | 새 서식 추가: 그림 위에 칸 그리기 (studio, overlay) | [guide/studio/new-forms.md](guide/studio/new-forms.md), 키 [keys.md](guide/studio/keys.md), 값 [generators.md](guide/studio/generators.md) |
 | **서식 하나 고치기** (값·위치·모양·칸·질문·답·채점) | [docgen/forms/README.md](docgen/forms/README.md) 0절 표 → 그 서식의 카드 `docgen/forms/<ID>/FORM.md` |
-| 서식 이미지로 서식 하나 추가 (뽑을 키·항목 설명 → template·fields·form·generate, 원본과 비교) | 스킬 [.claude/skills/form-from-image/SKILL.md](.claude/skills/form-from-image/SKILL.md) |
+| 서식 이미지로 서식 하나 추가 (뽑을 키·항목 설명 → template·fields·form·generate, 원본과 비교) | 스킬 [.claude/skills/form-from-image/SKILL.md](.claude/skills/form-from-image/SKILL.md) · 사내 모델로 돌리기 [formagent/README.md](formagent/README.md) |
 | html 서식 고치기·새로 추가 (**코드로만**) | [docgen/forms/README.md](docgen/forms/README.md) 0절, 파일 꼴 [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md) |
 | 학습·평가 (실험 묶음, 결과 읽기) | [guide/train/sweep.md](guide/train/sweep.md) |
 | 단계 하나씩, 학습 없이 평가만, 보고서·채점 다시 | [guide/train/steps.md](guide/train/steps.md) |

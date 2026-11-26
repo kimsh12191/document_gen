@@ -1,6 +1,6 @@
 # formagent 진행 계획: 서식 이미지 → 서식 추가 에이전트 (ReLab + studio 탭)
 
-상태: **계획** (코드 없음). 이 폴더에 실행기·테스트·설명서를 만든다.
+상태: **진행기·검사 완료, studio 탭 전** — `python -m formagent` (사용법 [README.md](README.md)), 스킬 `check.py`·`test_draft.py`. 남은 것: studio 탭(11절 4), 등록 버튼(5), 내부망 실제 모델 시험(6).
 
 ## 1. 목적
 
@@ -191,9 +191,9 @@ studio/
 
 | # | 만드는 것 | 확인 (개발 환경) |
 |---|---|---|
-| 1 | `check.py` | 기존 시험 초안 3개(`out/form_drafts/…`)에 돌려 JSON·그림 확인, 일부러 틀린 초안(값 직접 찍기·다른 사람 칸·표기 섞임·넘침)이 잡히는지 pytest |
-| 2 | `SKILL.md` 손질 | Haiku 에게 다시 시켜 순서·검사 건너뛰기·그림 장수가 나아졌는지 이전과 비교 |
-| 3 | `formagent` 진행기 | 가짜 relab 로 회차 진행·종료 코드 3·멈추기·동시 실행 막기·초안 밖 변경 경고 pytest |
+| 1 ✓ | `check.py` | 기존 시험 초안 3개(`out/form_drafts/…`)에 돌려 JSON·그림 확인, 일부러 틀린 초안(값 직접 찍기·다른 사람 칸·표기 섞임·넘침)이 잡히는지 pytest |
+| 2 ✓ | `SKILL.md` 손질 | (문서) ReLab 회차·검사 명령·체크 묶음·나뉜 날짜·review 꼴 반영. Haiku 재시험은 아직 |
+| 3 ✓ | `formagent` 진행기 | 가짜 relab 로 회차 진행·종료 코드 3·멈추기·동시 실행 막기·초안 밖 변경 경고 pytest |
 | 4 | studio API·탭 | 가짜 relab 로 띄워 화면 캡처 |
 | 5 | (2차) `register.py`·[등록] | 임시 비공개 폴더로 등록 → `card`·미리보기 |
 | 6 | 내부망 | ReLab 설치, 실제 DeepSeek 로 공개 서식 3장(예금잔액증명 의뢰서 hf011, 일괄처리(지급) 요청서 hf021, 금융거래 정보제공 요구(동의)서 hf024) — Haiku 결과와 비교 |
@@ -227,6 +227,9 @@ studio/
 | `.md` 만 바꾼 회차 | ✓ 바로 완료, 종료 코드 0 |
 | `-c -p` | ✗ 앞 대화가 비어 있음 (`earlier_in_this_conversation: []`). 코드상 `-p` 에서는 `-c` 를 안 봄 → 회차를 파일로 잇기 |
 | 기록 위치 | `RELAB_PRIVATE_HOME`(또는 `~/.relab`) 아래 `workspaces/…/coding_loops` — 작업 폴더에는 안 남음 |
+| **프로젝트 폴더** | ✗ ReLab 은 요청에 적힌 폴더(`out/form_drafts/<ID>`)나 쓴 파일들의 맨 위 폴더(`out`)를 "프로젝트"로 잡고, 그 밖 코드의 import(`generate.py` 의 `docgen.formkit`)를 거부하고 명령을 그 안에서 돌림(검사 명령의 경로가 어긋나 pytest 옵션 오류). 그 폴더가 맨 위까지 파이썬 패키지면 작업 공간 전체를 프로젝트로 봄(`project_scope.project_of`) → 진행기가 `out/`·`out/form_drafts/`·초안 폴더에 빈 `__init__.py` 를 둠 → ✓ `project_folder: null`, import·검사 통과 |
+| **처음부터 끝까지** (`python -m formagent run`, ReLab 없는 상태에서) | ✓ 묶음으로 설치 → 1회차: SKILL.md 읽기·칸 표·템플릿·form.json·generate.py·검사(pytest) 통과 → **종료 코드 0(완료)** → 진행기 검사·비교 그림 → 2회차 요청에 그림 2장 첨부 → review.md·report.md → 끝남. 초안 밖 변경 없음 (약 30초) |
+| 요청에 적힌 파일 | 그 회차에서 읽지 않으면 `finish` 를 한 번 거절 ("the request names …"). 2회차 요청은 SKILL.md·초안 파일을 먼저 읽으라고 적는다 |
 
 ## 14. 열린 질문
 

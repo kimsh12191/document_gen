@@ -28,6 +28,11 @@ description: 서식 이미지(빈 서식·견본·실서류 사진)를 직접 �
 
 명령은 저장소 맨 위 폴더(`document_gen/`)에서 실행한다. 파일 꼴의 원문은 `docgen/manual/NEW_FORM_SPEC.md` 이고, 이 문서와 다르면 그쪽을 따른다.
 
+**에이전트 진행기(`python -m formagent`, ReLab)로 돌 때:** 요청에 서식 ID·초안 폴더·원본 종류가 적혀 오고, 원본은 이미 초안 폴더에 있다 (0단계 3~5는 하지 않는다).
+일은 회차로 나뉜다 — 1회차는 0~4단계, 2회차부터 5단계. 회차 안에서는 그림 파일을 열어 볼 수 없고, **원본과 렌더를 나란히 놓은 그림은 다음 회차 요청에 붙어 온다.**
+회차마다 새 대화라 앞 회차의 대화는 없다: 초안 폴더의 `fields.md`·`review.md` 를 먼저 읽는다. 초안 폴더의 `__init__.py`·`run.json`·`relab_*.log`·`check_*` 는 진행기 것이니 건드리지 않는다.
+셸 문법(`for`, `|`, heredoc)은 쓸 수 없다 — 아래의 검사 명령 하나로 확인한다.
+
 ## 0. 준비
 
 1. 읽는다: `docgen/manual/NEW_FORM_SPEC.md` 2·3·4·9·11절, `guide/studio/keys.md` 3~6절.
@@ -102,6 +107,15 @@ html 을 쓰다가 칸이 바뀌면 `fields.md` 를 먼저 고치고 html 을 �
   `generate.py` 에서 `put(d, 키, amount_like(to_amount(값), "1,000"))` (반복 표는 `for r in rows(d, "<표 키>")` 로 행마다). 합계도 같은 꼴로.
 - 표기(`"fmt"`)는 html 서식에 적용되지 않는다. 날짜·금액 표기를 바꾸려면 `generate.py` 의 `date_like`·`amount_like`.
 
+**체크 칸 나누기**
+- 보기 중 **하나만** 고르는 묶음(□등록 □변경 □해제) → 키 하나, `type: checkbox`, `rule:choice` + `choices`, 템플릿 `m.choice`.
+- **여러 개를 같이** 고를 수 있는 묶음(□입금내역 □출금내역 □대출이자 …) → 보기마다 키 하나(`detail.deposit`, `detail.withdraw` …),
+  각각 `choices: ["<보기 글자>"]` 하나짜리 + `generate.py` 에서 가끔 `None` (보기 하나짜리는 늘 체크되므로). 템플릿은 보기마다 `m.choice("<키>", ["<보기 글자>"])`.
+- 원본이 어느 쪽인지 모르겠으면 "판단이 안 선 것"에 적고 하나만 고르는 쪽으로.
+
+**나뉜 날짜 칸의 꼴 (`part`·`format`)**: 한 값을 숫자 묶음으로 나눠 칸마다 넣는다. `"part": 0` 첫 숫자 묶음(년), `1` 둘째(월), `2` 셋째(일),
+`"format": "number"` 숫자만 남김. 예: `"apply_y": {"label": "신청일 년", "type": "number", "source": "profile.issue_date", "part": 0, "format": "number"}`.
+
 **질문 설명 `q`**: kie 질문의 항목 줄은 `- 키: 항목명 (괄호 설명)` 이다. 항목명만으로 헷갈리는 칸에만 넣는다:
 같은 항목명이 두 군데(신청인 성명·대리인 성명 → `"q": {"label": "대리인 성명"}`), 항목명이 없거나 "금액"처럼 막연함(`"q": {"note": "이체 금액"}`).
 반복 표 열에는 `q.note` 를 넣지 않는다 (자동 "몇 번째 행" 설명이 사라짐).
@@ -130,6 +144,8 @@ html 을 쓰다가 칸이 바뀌면 `fields.md` 를 먼저 고치고 html 을 �
 - 체크 보기가 좁은 칸에 있으면, **체크된 보기는 값 글자로 크게 찍혀** 안 찍힌 보기보다 길어진다. 칸을 넘지 않게 그 칸의 글자를 줄이거나(`font-size`) 보기마다 줄을 나눈다.
   원본에서 작게 인쇄된 괄호 글자("(수수료차감 후 입금)")가 있는 보기도 보기 글자 전체가 `choices` 값이므로 같은 크기로 찍힌다는 것을 감안한다.
 - 보기 사이에 설명이 낀 줄("□ 대체(계좌출금) : 지급건별로 처리됩니다. □ 대체 □ 현금")은 `m.choice` 로 보기를 한데 묶고 설명은 묶음 뒤에 둔다. 순서가 달라진 것은 "판단이 안 선 것"에 적는다.
+- 체크와 날짜 칸이 섞인 줄("□ ____년 __월 __일 ~ ____년 __월 __일 / □ 최근 3개월 □ 최근 6개월")은 고르는 쪽을 키 하나(`period.kind`, 보기: `기간 지정`·`최근 3개월`…)로 두고,
+  날짜 칸은 `f()` 로 그린 뒤 `generate.py` 에서 `period.kind` 가 `기간 지정` 이 아닐 때 날짜를 `None` 으로. "기간 지정"의 □ 는 `{% if val("period.kind") == "기간 지정" %}■{% else %}□{% endif %}` 처럼 그린다.
 - `rowspan`·`colspan` 은 세기 쉽게 틀린다. 왼쪽 세로 머리(예: "신청 사항")의 `rowspan` = 그 덩어리의 `<tr>` 수. 틀리면 아래 덩어리가 통째로 밀린다 (5단계에서 보임).
 - 긴 항목명이 좁은 칸에서 두 줄로 넘치면 그 `<th>` 에 `white-space: nowrap` 과 작은 글자.
 - 서명·날인 자리 "(서명 또는 인)": `{{ m.sigspot("customer", val("customer.name"), label="신청인") }}` → 정답 키 `seal.customer`·`sign.customer`.
@@ -171,40 +187,43 @@ def adjust(d, p, rng):
     return d
 ```
 
-## 4. 그려 보기·검사
+## 4. 그려 보기·검사 (명령 하나)
 
 ```bash
-D=out/form_drafts/<ID>
-python -m docgen.preview --dir $D --rows min --out $D/render_min
-python -m docgen.preview --dir $D --rows max --out $D/render_max
-for s in 1 2 3; do python -m docgen.preview --dir $D --seed $s --out $D/render_s$s; done
+python -m pytest .claude/skills/form-from-image/test_draft.py --draft out/form_drafts/<ID> -q     # 에이전트·사람 모두 (통과해야 끝)
+python .claude/skills/form-from-image/check.py out/form_drafts/<ID>                              # 같은 검사, 결과를 글로 보기
 ```
 
-| 볼 것 | 통과 |
-|---|---|
-| 명령 | 오류 없이 끝남 (템플릿 문법·키 오류가 여기서 나옴) |
-| 마지막 줄 `checks` | `[]` |
-| `overflow` | `false` |
-| `pages` (`--rows min`) | 원본 쪽 수와 같음 (`max` 는 늘어나도 됨) |
-| `fields` | 칸 표의 값 자리 수와 맞음 |
-| 그림 (min·max·seed 1~3 을 **열어 본다**) | 값이 칸 밖으로 넘치거나 겹치지 않음 (**체크된 보기 글자**, 긴 금액·주소, 도장·서명이 옆 칸·글자를 덮지 않음), 작은 글자가 이상하게 줄바꿈되지 않음, 빈 값이 이상하게 많지 않음, 날짜·금액 표기가 한 서류 안에서 같은 꼴 |
+미리보기 5번(`--rows min` · `--rows max` · seed 1~3)을 그리고 `<초안>/check/` 에 결과를 쓴다:
+`check.json`(문제·경고·렌더별 pages/fields/empty·seed 별 키→값), `side_<쪽>.jpg`(왼쪽 원본 · 오른쪽 min 렌더), `renders.jpg`(min·max·seed1·seed2 모음).
 
-`grep -n "{{ *d\." $D/template.html.j2` 로 값을 직접 찍은 곳이 없는지도 본다.
+| 검사가 보는 것 | 통과 못 함 (problems) | 경고 (warnings — 읽고 판단해 고친다) |
+|---|---|---|
+| 파일 | `fields.md`·`template.html.j2`·`form.json` 이 없음 | |
+| 미리보기 | 명령 오류 (템플릿 문법·키 오류), `checks` 가 비지 않음, `overflow` | |
+| 쪽 수 | `--rows min` 렌더 쪽 수 ≠ 원본 그림 수 | |
+| 템플릿 | 값을 `{{ d.… }}` 로 직접 찍음 (정답에서 빠짐) | |
+| 정답 값 | | 다른 칸에 같은 사람 값(대리인 전화 = 고객 전화 …), 한 서류 안 날짜·금액 표기 섞임, 빈 값이 절반 넘음 |
 
-값과 관계는 정답 파일로 확인한다 (그림만 보면 놓침). seed 마다 키→값을 늘어놓고 `generate.py` 로 맞춘 관계가 지켜지는지, 다른 사람 칸이 고객 값과 같지 않은지 본다:
-
-```bash
-for f in $D/render_*/*/*/label.json; do python -c "import json,sys; d=json.load(open(sys.argv[1])); print(sys.argv[1].split('/')[3], {x['key']: x['value'] for x in d['fields']})" $f; done
-```
+경고의 "다른 칸에 같은 값"은 정말 같은 사람(위임인 = 예금주)이면 그대로 둔다. 그림은 사람(또는 다음 회차의 나)이 보고, 넘치는 값·겹치는 글자·이상한 줄바꿈을 찾는다
+(**체크된 보기 글자**, 긴 금액·주소, 도장·서명이 옆 칸·글자를 덮지 않는지). `fields` 수가 칸 표의 값 자리 수와 맞는지도 본다.
 
 ## 5. 원본과 비교하며 고치기 (최대 3회)
 
-```bash
-python .claude/skills/form-from-image/compare.py --source $D/source.png [$D/source_2.png …] --render $D/render_min --out $D/compare_<회차>
-```
+4단계 검사가 만든 `check/side_<쪽>.jpg`(왼쪽 원본 · 오른쪽 렌더)와 `check/renders.jpg` 를 본다 (에이전트 진행기면 요청에 붙어 온다).
+값 박스 자리까지 보려면 `python .claude/skills/form-from-image/compare.py --source <초안>/source.png --render <초안>/check/render_min --out <초안>/compare`
+의 `overlay_<쪽>.png`(회색 원본 위에 빨강 렌더, 파랑 값 박스와 키).
+아래를 쪽마다 예/아니오로 `review.md` 에 회차별로 적고, "아니오"마다 어디가 어떻게 다른지 한 줄. 꼴:
 
-`side_<쪽>.png`(왼쪽 원본 · 오른쪽 렌더)를 열어 본다. `overlay_<쪽>.png`(회색 원본 위에 빨강 렌더, 파랑 값 박스와 키)는 위치가 크게 어긋난 곳·값 박스 자리를 볼 때 쓴다.
-아래를 쪽마다 예/아니오로 `review.md` 에 회차별로 적고, "아니오"마다 어디가 어떻게 다른지 한 줄.
+```markdown
+## 2회차
+| # | 1쪽 | 다른 곳 |
+|---|---|---|
+| 1 | 예 | |
+| 3 | 아니오 | 계좌번호 칸이 원본은 3칸(□전체 · 계좌1 · 계좌2), 렌더는 1칸 |
+…
+고친 것: 계좌번호 칸을 3칸으로 · 고칠 것 없음이면 그렇게
+```
 
 1. 원본의 제목·항목명·안내문이 렌더에 모두 있다 (빠진 것 없음)
 2. 원본에 없는 항목명·문구를 지어내지 않았다
@@ -229,12 +248,15 @@ python .claude/skills/form-from-image/compare.py --source $D/source.png [$D/sour
 | 판단이 안 선 것 | `fields.md` 의 확신 낮음·애매한 칸, 남은 "아니오" |
 | 사람이 볼 것 | `fields.md` 의 키·설명 (데이터셋을 만든 뒤에는 키를 못 바꿈), 비교 그림 |
 
-## 7. 등록 (사용자가 하라고 할 때만)
+에이전트 진행기로 돌면 이 보고를 초안 폴더의 `report.md` 로 쓴다.
+
+## 7. 등록 (사용자가 하라고 할 때만 — 에이전트 회차에서는 하지 않는다)
 
 - 어디에: 빈 서식·공개 견본 → `docgen/forms/<ID>/`, **실서류에서 만든 것 → `$DOCGEN_PRIVATE_FORMS/<ID>/`**. 폴더가 이미 있으면 멈추고 보고 (덮어쓰지 않음).
 - 옮기기 (NEW_FORM_SPEC 6절). `T` 는 등록 폴더 (`docgen/forms/<ID>` 또는 `$DOCGEN_PRIVATE_FORMS/<ID>`), 없는 것을 확인한 뒤:
 
 ```bash
+D=out/form_drafts/<ID>; T=docgen/forms/<ID>
 mkdir -p $T/look && python - $D $T <<'EOF'
 import json, shutil, sys
 from pathlib import Path
@@ -249,7 +271,7 @@ for name in ("source.png", "generate.py"):
         shutil.copy(D / name, T / name)
 EOF
 ```
-  `fields.md`·`review.md`·`render_*`·`compare_*` 는 옮기지 않는다.
+  그 밖의 것(`fields.md`·`review.md`·`report.md`·`check*`·`compare*`·`__init__.py`·`run.json`·`relab_*.log`)은 옮기지 않는다.
 - 확인: `python -m docgen.formdir check <ID>` · `python -m docgen.formdir card <ID>` (카드의 질문→답 예시가 말이 되는지) · `python -m docgen.preview <ID> --rows max --out out/<ID>`.
   `generate.py` 가 있는 html 서식은 지금 `formdir check` 가 `KeyError: 'items'` 로 멈춘다 (엔진 문제). 그때는 `card`·`preview`·아래 시험 생성으로 확인하고 보고에 적는다.
 - 사용자에게: studio 서식 › **서식 다시 읽기** → 목록에 나옴 → **생성 사례 › 미리보기/검수** 에서 원본과 비교해 검수 완료.
