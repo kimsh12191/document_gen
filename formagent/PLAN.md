@@ -1,6 +1,6 @@
 # formagent 진행 계획: 서식 이미지 → 서식 추가 에이전트 (ReLab + studio 탭)
 
-상태: **진행기·검사·studio 탭 완료** — `python -m formagent` (사용법 [README.md](README.md)), 스킬 `check.py`·`test_draft.py`, studio 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `static/js/form-agent.js`). 남은 것: 등록 버튼(11절 5), 내부망 실제 모델 시험(6).
+상태: **진행기·검사·studio 탭 완료** — `python -m formagent` (사용법 [README.md](README.md)), 스킬 `check.py`·`test_draft.py`, studio 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `static/js/form-agent.js`). 등록: 결과 탭 [등록] · `python -m formagent register` · 스킬 `register.py`. 남은 것: 내부망 실제 모델 시험(11절 6).
 
 ## 1. 목적
 
@@ -195,7 +195,7 @@ studio/
 | 2 ✓ | `SKILL.md` 손질 | (문서) ReLab 회차·검사 명령·체크 묶음·나뉜 날짜·review 꼴 반영. Haiku 재시험은 아직 |
 | 3 ✓ | `formagent` 진행기 | 가짜 relab 로 회차 진행·종료 코드 3·멈추기·동시 실행 막기·초안 밖 변경 경고 pytest |
 | 4 ✓ | studio API·탭 | API pytest(`studio/tests/test_form_agent_api.py`) + 실제 ReLab·가짜 모델로 studio 를 띄워 시작(ReLab 자동 설치)→1·2회차→끝까지 화면 확인 |
-| 5 | (2차) `register.py`·[등록] | 임시 비공개 폴더로 등록 → `card`·미리보기 |
+| 5 ✓ | `register.py`·[등록] | 예시 초안을 임시 비공개 폴더로 등록(pytest) + studio 화면에서 [등록] → 서식 목록에 미검수로 나옴, 카드·formdir check 통과 |
 | 6 | 내부망 | ReLab 설치, 실제 DeepSeek 로 공개 서식 3장(예금잔액증명 의뢰서 hf011, 일괄처리(지급) 요청서 hf021, 금융거래 정보제공 요구(동의)서 hf024) — Haiku 결과와 비교 |
 
 각 단계가 끝나면 바뀐 파일만 zip 으로 내부망에 옮긴다.
@@ -234,6 +234,5 @@ studio/
 
 ## 14. 열린 질문
 
-- [등록] 을 첫 판에 넣을지 (지금 계획: 2차).
 - ReLab 설치 위치: studio 도커 이미지에 넣을지(`docker/`), 서버에 따로 설치하고 경로만 적을지.
-- `generate.py` 가 있는 html 서식에서 `python -m docgen.formdir check` 가 `KeyError: 'items'` 로 멈추는 엔진 문제를 고칠지 (등록 확인에 필요).
+- (고침) `generate.py` 가 있는 html 서식에서 `formdir check` 가 overlay 로 보고 `KeyError: 'items'` 로 멈추던 것 — overlay 일 때만 그 검사 (`docgen/formdir.py check_form`).

@@ -45,6 +45,9 @@ def main(argv=None):
     s.add_argument("--id", required=True)
     t = sub.add_parser("stop", help="멈추기")
     t.add_argument("--id", required=True)
+    rg = sub.add_parser("register", help="초안을 등록 폴더로 (사람이 확인한 뒤): public=docgen/forms, private=$DOCGEN_PRIVATE_FORMS")
+    rg.add_argument("--id", required=True)
+    rg.add_argument("--to", required=True, choices=["public", "private"])
     i = sub.add_parser("install", help="ReLab 이 없으면 묶음으로 설치하고 경로를 보여 준다")
     i.add_argument("--relab")
     a = ap.parse_args(argv)
@@ -69,6 +72,10 @@ def main(argv=None):
             print(json.dumps({k: st.get(k) for k in ("id", "status", "kind", "draft", "error", "question", "outside_changes")}
                              | {"rounds": [{k: r.get(k) for k in ("n", "exit", "seconds", "check")} for r in st["rounds"]]},
                              ensure_ascii=False, indent=1))
+        elif a.cmd == "register":
+            out = runner.register(a.id, a.to)
+            print(out["formdir_check"]["out"])
+            print(json.dumps({k: out[k] for k in ("id", "to", "path", "files")}, ensure_ascii=False))
         elif a.cmd == "stop":
             runner.stop(a.id)
             print("멈춤 표시를 남겼습니다")

@@ -163,7 +163,7 @@ REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") o
 JOBS = Jobs(REGISTRY.ws, ROOT)
 app.include_router(api_datasets.make_router(REGISTRY, guard))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
-app.include_router(api_form_agent.make_router(JOBS, guard, CFG))
+app.include_router(api_form_agent.make_router(JOBS, guard, CFG, refresh=lambda: forms_refresh()))
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 

@@ -97,3 +97,17 @@ def test_continue_and_stop(env):
     assert c.post("/api/form-agent/f_one/stop").json()["stopped"] is True
     assert (root / "out/form_drafts/f_one/STOP").exists()
     assert c.get("/api/form-agent/nobody").status_code == 404
+
+
+def test_register_calls_runner_and_refreshes(env, monkeypatch):
+    c, jobs, _ = env
+    seen = {}
+    monkeypatch.setattr(runner, "register", lambda form_id, to, log=None: seen.update(id=form_id, to=to) or
+                        {"id": form_id, "to": to, "path": "/p", "files": [], "card": {"ok": True}, "formdir_check": {"ok": True, "out": "ok"}, "warnings": []})
+    refreshed = []
+    app = FastAPI()
+    app.include_router(api_form_agent.make_router(jobs, guard, {}, refresh=lambda: refreshed.append(1)))
+    r = TestClient(app).post("/api/form-agent/f_one/register", json={"to": "public"})
+    assert r.status_code == 200 and seen == {"id": "f_one", "to": "public"} and refreshed == [1]
+    monkeypatch.setattr(runner, "register", lambda *a, **k: (_ for _ in ()).throw(runner.AgentError("검사를 통과하지 못해")))
+    assert TestClient(app).post("/api/form-agent/f_one/register", json={"to": "public"}).status_code == 400

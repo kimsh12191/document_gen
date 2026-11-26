@@ -651,12 +651,14 @@ def check_form(doc_id: str, seeds: int = 4) -> dict:
         why = bad_source(d.get("source"))
         if why:
             problems.append(f"fields.json '{k}': source {d.get('source')!r} — {why}")
+    from . import htmlform as HF
     from . import realform as RF
+    from .registry import load_all
 
-    if RF.script_path(doc_id) is not None:   # overlay 의 칸끼리 관계 generate.py: 오류·같은 seed 두 번·새 키 (guide/studio/generators.md)
+    overlay = load_all()[doc_id].template == "_real_form.html.j2"
+    script = RF.script_path(doc_id) is not None
+    if overlay and script:   # overlay 의 칸끼리 관계 generate.py: 오류·같은 seed 두 번·새 키 (guide/studio/generators.md)
         import random
-
-        from . import htmlform as HF
 
         for s in range(min(seeds, 3)):
             try:
@@ -674,6 +676,8 @@ def check_form(doc_id: str, seeds: int = 4) -> dict:
     except ValueError as e:   # 생성 스크립트·생성기 오류 (몇 번째 줄인지 담겨 있음)
         problems.append(str(e))
         return {"problems": problems, "notes": notes}
+    if script and not overlay:   # html 서식의 generate.py (adjust): 값을 만들 때 돈 스크립트의 "칸 목록에 없는 키" 경고
+        problems += [w for w in HF.script_warnings(doc_id) if "칸 목록에 없는 키" in w]
     from .fieldinfo import pattern
 
     drawn = {pattern(f["key"]) for fs in docs for f in fs}

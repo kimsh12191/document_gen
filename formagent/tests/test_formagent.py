@@ -144,3 +144,59 @@ def test_project_relab_settings():
     cfg = json.loads((Path(__file__).resolve().parents[2] / ".relab" / "config.json").read_text())
     assert cfg["defaultRules"] is False and cfg["planFirst"] is False
     assert os.environ.get("RELAB_BIN") is None or True
+
+
+def _register_module():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("form_register_t", Path(__file__).resolve().parents[2] / ".claude/skills/form-from-image/register.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_register_example_into_private_dir(tmp_path, monkeypatch):
+    """완성 예시 초안을 임시 비공개 폴더로 등록: 파일 꼴 · 카드 · formdir check (렌더링 검사는 통과로 둔다)."""
+    import shutil
+    reg = _register_module()
+    example = Path(__file__).resolve().parents[2] / ".claude/skills/form-from-image/example"
+    draft = tmp_path / "drafts" / "zz_reg_example"
+    shutil.copytree(example, draft)
+    Image.new("RGB", (595, 842), "white").save(draft / "source.png")
+    private = tmp_path / "private"
+    monkeypatch.setenv("DOCGEN_PRIVATE_FORMS", str(private))
+    monkeypatch.setattr(reg.check, "run", lambda d, out: {"passed": True, "problems": [], "warnings": []})
+    with pytest.raises(reg.RegisterError):
+        reg.register(draft, "public", real=True, log=lambda *a: None)          # 실서류는 공개 폴더 거부
+    out = reg.register(draft, "private", log=lambda *a: None)
+    dest = private / "zz_reg_example"
+    assert out["path"] == str(dest) and sorted(p.name for p in dest.iterdir() if p.name != "__pycache__") == \
+        ["FORM.md", "fields.json", "form.json", "generate.py", "look", "source.png"]
+    body = json.loads((dest / "fields.json").read_text())
+    form = json.loads((dest / "form.json").read_text())
+    assert body["engine"] == "html" and "customer.name" in body["fields"] and "accounts" in body["lists"]
+    assert "fields" not in form and form["origin"] == "analyzer" and form["source_image"] == "source.png"
+    assert not (dest / "fields.md").exists() and out["card"]["ok"]
+    assert out["formdir_check"]["ok"], out["formdir_check"]["out"]
+    with pytest.raises(reg.RegisterError):
+        reg.register(draft, "private", log=lambda *a: None)                    # 이미 있으면 덮어쓰지 않음
+
+
+def test_runner_register_records_and_refuses_twice(ws, monkeypatch):
+    ws["plan"].write_text(json.dumps([{"write": draft_files("f6"), "exit": 0}, {"write": {"out/form_drafts/f6/report.md": "#"}, "exit": 0}]))
+    runner.start([ws["img"]], "f6", "real", None, {"relab": ws["relab"]})
+    runner.go("f6", log=lambda *a: None)
+
+    class Fake:
+        class RegisterError(Exception):
+            pass
+
+        @staticmethod
+        def register(draft, to, form_id, real=False, log=print):
+            assert real is True and form_id == "f6"
+            return {"path": f"/x/{form_id}", "files": ["form.json"], "card": {"ok": True}, "formdir_check": {"ok": True, "out": ""}}
+
+    monkeypatch.setattr(runner, "_skill", lambda name: Fake)
+    out = runner.register("f6", "private", log=lambda *a: None)
+    assert out["path"] == "/x/f6" and runner.load("f6")["registered"]["to"] == "private"
+    with pytest.raises(runner.AgentError):
+        runner.register("f6", "private", log=lambda *a: None)

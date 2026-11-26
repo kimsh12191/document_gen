@@ -16,6 +16,8 @@ API
   GET  /api/form-agent/{id}/file/{path}    초안 폴더의 파일 (그림 등)
   POST /api/form-agent/{id}/continue       {message} 이어서 지시 (질문에 대한 답도)
   POST /api/form-agent/{id}/stop           멈추기
+  POST /api/form-agent/{id}/register       {to: public|private} 등록 (스킬 register.py: 검사 통과·ID 비어 있음 확인 → 옮기기 → 카드·formdir check)
+                                           → 서식 다시 읽기. 실서류는 비공개 폴더만
 """
 from __future__ import annotations
 
@@ -41,6 +43,10 @@ MAX_TEXT = 300_000
 
 class ContinueReq(BaseModel):
     message: str
+
+
+class RegisterReq(BaseModel):
+    to: str
 
 
 def _alive(pid) -> bool:
@@ -90,11 +96,12 @@ def summary(st: dict) -> dict:
             "rounds": len(st.get("rounds") or []), "created": st.get("created"), "ended": st.get("ended"),
             "passed": (last or {}).get("passed"), "problems": len((last or {}).get("problems") or []),
             "warnings": len((last or {}).get("warnings") or []), "outside": len(st.get("outside_changes") or []),
+            "registered": (st.get("registered") or {}).get("to"),
             "thumb": _url(form_id, d / "source.png"),
             "side": (_images(form_id, last)["side"] or [None])[0]}
 
 
-def make_router(jobs, guard, cfg: dict) -> APIRouter:
+def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
     r = APIRouter()
     agent_cfg = dict(cfg.get("form_agent") or {})
 
@@ -180,6 +187,7 @@ def make_router(jobs, guard, cfg: dict) -> APIRouter:
                 "final_images": _images(form_id, final) if final else None,
                 "outside_changes": st.get("outside_changes") or [], "files": files,
                 "relab": st.get("relab"), "relab_version": st.get("relab_version"), "settings": st.get("settings"),
+                "registered": st.get("registered"), "private_dir": os.environ.get("DOCGEN_PRIVATE_FORMS"),
                 "job": job and {k: job.get(k) for k in ("id", "status", "started", "ended", "cmd")}}
 
     @r.get("/api/form-agent/{form_id}/log/{n}")
@@ -217,6 +225,18 @@ def make_router(jobs, guard, cfg: dict) -> APIRouter:
         job = guard(launch, form_id, f"서식 만들기 {form_id} (이어서)",
                     [python(), "-m", "formagent", "continue", "--id", form_id, "--message", req.message.strip()])
         return {"id": form_id, "job": job["id"]}
+
+    @r.post("/api/form-agent/{form_id}/register")
+    def register(form_id: str, req: RegisterReq):
+        if running_job():
+            raise HTTPException(409, "도는 작업이 있습니다. 끝난 뒤에 등록하세요")
+        try:
+            out = runner.register(form_id, req.to, log=lambda *a: None)
+        except runner.AgentError as e:
+            raise HTTPException(400, str(e))
+        if refresh:
+            refresh()                                   # 서식 다시 읽기 (서식 목록에 나오게)
+        return {k: out[k] for k in ("id", "to", "path", "files", "card", "formdir_check", "warnings")}
 
     @r.post("/api/form-agent/{form_id}/stop")
     def stop(form_id: str):

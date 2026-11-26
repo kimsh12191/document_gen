@@ -136,12 +136,35 @@ def outside_changes(before: dict, after: dict) -> list[str]:
     return sorted(out)
 
 
-def run_check(draft: Path, out: Path) -> dict:
-    """스킬의 check.py 로 검사."""
-    spec = importlib.util.spec_from_file_location("form_check", ROOT / SKILL / "check.py")
+def _skill(name: str):
+    """스킬 폴더의 스크립트를 모듈로 (check.py · register.py)."""
+    spec = importlib.util.spec_from_file_location(f"form_{name}", ROOT / SKILL / f"{name}.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod.run(draft, out)
+    return mod
+
+
+def register(form_id: str, to: str, log=print) -> dict:
+    """초안을 등록 폴더로 (스킬 register.py). 실서류는 비공개 폴더만. run.json 에 registered 를 남긴다."""
+    state = load(form_id)
+    if state.get("registered"):
+        raise AgentError(f"이미 등록했습니다: {state['registered']['path']}")
+    if state.get("status") in ("running", "installing"):
+        raise AgentError("아직 돌고 있습니다")
+    mod = _skill("register")
+    try:
+        out = mod.register(draft_dir(form_id), to, form_id, real=state.get("kind") == "real", log=log)
+    except mod.RegisterError as e:
+        raise AgentError(str(e))
+    state["registered"] = {"to": to, "path": out["path"], "at": now(), "files": out["files"],
+                           "card_ok": out["card"]["ok"], "check_ok": out["formdir_check"]["ok"]}
+    save(state)
+    return out
+
+
+def run_check(draft: Path, out: Path) -> dict:
+    """스킬의 check.py 로 검사."""
+    return _skill("check").run(draft, out)
 
 
 # ---------------------------------------------------------------- 요청 문장

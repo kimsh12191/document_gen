@@ -99,6 +99,7 @@ async function drawFaOverview() {
           ${it.passed === true ? `<span class="tag ok">검사 통과</span>` : it.passed === false ? `<span class="tag warn">문제 ${it.problems}</span>` : ""}
           ${it.warnings ? `<span class="tag warn">경고 ${it.warnings}</span>` : ""}
           ${it.outside ? `<span class="tag warn">초안 밖 변경 ${it.outside}</span>` : ""}
+          ${it.registered ? `<span class="tag ok">등록됨</span>` : ""}
           <br><span class="muted">${esc(it.created || "")}</span></div></a>`).join("")}</div>`
     : `<p class="muted">아직 없습니다.</p>`;
   if (ov.items.some(it => FA_LIVE.has(it.status)) || ov.busy)
@@ -118,6 +119,8 @@ async function viewFormAgentOne(id, tab) {
     <div class="bar">
       <span class="muted">${esc((d.kind && { blank: "빈 서식", sample: "견본", real: "실서류" }[d.kind]) || "")} · ${d.rounds.length}회차 · ${esc(d.created || "")}${d.ended ? ` → ${esc(d.ended)}` : ""}</span>
       ${d.relab ? `<span class="muted mono">ReLab ${esc(d.relab_version || "")}</span>` : ""}
+      ${d.registered ? `<span class="tag ok">등록됨 · ${d.registered.to === "private" ? "비공개" : "공개"}</span>
+        <a href="#/forms/${encodeURIComponent(d.id)}">서식 화면 열기 (미리보기·검수)</a>` : ""}
       ${live ? `<button id="fa-stop">멈추기</button>` : ""}
     </div>
     ${d.note ? `<div class="sub">추가 요청: ${esc(d.note)}</div>` : ""}
@@ -197,6 +200,66 @@ function faSteps(d) {
 
 function faResult(d) {
   const box = $("#fa-tab");
+  box.innerHTML = `<div id="fa-reg-box"></div><div id="fa-res"></div>`;
+  faRegister(d);
+  faResultBody(d, $("#fa-res"));
+}
+
+// 등록: 초안 → docgen/forms/<ID> (공개) 또는 비공개 서식 폴더. 서버가 검사 통과·ID 비어 있음을 다시 확인한다 (스킬 register.py)
+function faRegister(d) {
+  const box = $("#fa-reg-box");
+  if (d.registered) {
+    const r = d.registered;
+    box.innerHTML = `<div class="panel fa-reg"><b>등록됨</b> <span class="tag ok">${r.to === "private" ? "비공개" : "공개"}</span>
+      <span class="mono">${esc(r.path)}</span> <span class="muted">${esc(r.at)}</span>
+      ${r.card_ok ? "" : `<span class="tag warn">카드 만들기 실패</span>`} ${r.check_ok ? `<span class="tag ok">formdir check 통과</span>` : `<span class="tag warn">formdir check 문제</span>`}
+      <div class="bar"><a href="#/forms/${encodeURIComponent(d.id)}">서식 화면 열기</a>
+        <span class="muted">→ 생성 사례 › 미리보기/검수 에서 원본과 비교해 <b>검수 완료</b>. 등록은 검수가 아닙니다.</span></div></div>`;
+    return;
+  }
+  if (FA_LIVE.has(d.status) || d.status === "ready") { box.innerHTML = ""; return; }
+  const real = d.kind === "real", hasGen = "generate.py" in d.files;
+  const passed = d.final ? d.final.passed : null;
+  box.innerHTML = `<div class="panel fa-reg"><b>등록</b> <span class="muted">— 초안을 서식 폴더로 옮겨 서식 목록에 올립니다. 그다음 서식 › 미리보기/검수.</span>
+    ${passed === false ? `<div class="err">마지막 검사를 통과하지 못해 등록할 수 없습니다. 이어서 지시로 고치세요.</div>` : ""}
+    <div class="fa-reg-to">
+      <label><input type="radio" name="fa-to" value="public" ${real ? "disabled" : "checked"}> 공개 <span class="mono">docgen/forms/${esc(d.id)}/</span>
+        ${real ? `<span class="muted">(실서류는 공개 폴더에 넣지 않음)</span>` : `<span class="muted">(빈 서식·공개 견본)</span>`}</label>
+      <label><input type="radio" name="fa-to" value="private" ${d.private_dir ? (real ? "checked" : "") : "disabled"}> 비공개
+        <span class="mono">${esc(d.private_dir || "(studio 설정 private_forms_dir 이 없음)")}/${esc(d.id)}/</span> <span class="muted">(실서류에서 만든 것)</span></label>
+    </div>
+    <div class="fa-reg-check">
+      <label><input type="checkbox" class="fa-ok"> <b>파일</b> 탭의 fields.md 키·항목 설명을 확인했다 (데이터셋을 만든 뒤에는 키를 못 바꿈)</label>
+      <label><input type="checkbox" class="fa-ok"> 원본·렌더 나란히 그림에서 같은 서류로 보인다</label>
+      ${hasGen ? `<label><input type="checkbox" class="fa-ok"> generate.py 를 읽었다 (미리보기·생성 때 실행되는 코드)</label>` : ""}
+    </div>
+    <div class="bar"><button class="primary" id="fa-reg" disabled>등록</button><span class="muted" id="fa-reg-msg"></span></div>
+    <div id="fa-reg-out"></div></div>`;
+  const ready = () => {
+    const to = $("input[name=fa-to]:checked", box);
+    $("#fa-reg").disabled = !to || passed === false || $$(".fa-ok", box).some(c => !c.checked);
+  };
+  $$("input", box).forEach(i => i.onchange = ready);
+  ready();
+  $("#fa-reg").onclick = async () => {
+    const to = $("input[name=fa-to]:checked", box).value;
+    if (!confirm(`${to === "private" ? "비공개" : "공개"} 서식 폴더에 ${d.id} 를 등록할까요? (이미 있으면 덮어쓰지 않고 멈춥니다)`)) return;
+    $("#fa-reg").disabled = true;
+    $("#fa-reg-msg").textContent = "검사하고 옮기는 중… (수십 초)";
+    try {
+      const r = await api(`/api/form-agent/${encodeURIComponent(d.id)}/register`, { to });
+      toast(`등록했습니다: ${r.path}`);
+      $("#fa-reg-out").innerHTML = `<pre class="ans mono">${esc(r.formdir_check.out)}</pre>`;
+      setTimeout(() => viewFormAgentOne(d.id, "result"), 800);
+    } catch (e) {
+      $("#fa-reg-msg").textContent = "";
+      $("#fa-reg-out").innerHTML = `<p class="err">${esc(e.message)}</p>`;
+      ready();
+    }
+  };
+}
+
+function faResultBody(d, box) {
   const withImg = d.rounds.filter(r => r.images && r.images.side.length);
   const fin = d.final;
   const pick = withImg.length ? withImg[withImg.length - 1].n : null;

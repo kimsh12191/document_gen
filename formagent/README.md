@@ -17,7 +17,8 @@
 ## studio 화면
 
 studio 왼쪽 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `studio/static/js/form-agent.js`): 그림·ID·원본 종류·추가 요청 → **[시작]**
-(ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 등) → **이어서 지시** · **[멈추기]**.
+(ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 등) → **이어서 지시** · **[멈추기]**
+→ 결과 탭 **[등록]** (공개/비공개 고르고 확인 세 가지에 체크 → 검사·옮기기·카드·formdir check → 서식 다시 읽기 → 서식 › 미리보기/검수).
 화면이 띄우는 것도 아래 명령이다 (`go` · `continue`). 모델 설정은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab"}`.
 화면 설명은 [guide/studio/studio.md](../guide/studio/studio.md#이미지로-서식-만들기). 그림: [화면 흐름](docs/screens.png) · [동작 시나리오](docs/scenario.png) (가짜 모델로 돌린 실제 화면).
 
@@ -31,6 +32,7 @@ python -m formagent go       --id loan_application                            # 
 python -m formagent status   --id loan_application                            # 상태·회차·검사 요약
 python -m formagent continue --id loan_application --message "계좌번호 칸을 세 칸으로"   # 이어서 지시 (질문에 대한 답도 이것으로)
 python -m formagent stop     --id loan_application                            # 멈추기 (다른 터미널에서)
+python -m formagent register --id loan_application --to public                # 등록 (사람이 확인한 뒤): public=docgen/forms, private=$DOCGEN_PRIVATE_FORMS
 ```
 
 - `--kind`: `blank` 빈 서식 · `sample` 견본 · `real` 실서류 (실제 값을 어느 파일에도 옮기지 않게 요청에 적음).
@@ -63,7 +65,7 @@ ReLab 은 `-p`(비대화 실행)에서 `-c`(이어 하기)를 보지 않아 **�
 
 - `fields.md` 의 키·설명 (데이터셋을 만든 뒤에는 키를 못 바꿈), `check_final/side_*.jpg`, `report.json` 의 `warnings`·`outside_changes`.
 - `generate.py` 는 미리보기 때 **실행되는 코드**다. 등록 전에 읽는다.
-- 괜찮으면 스킬 7단계대로 등록 → studio 서식 › 서식 다시 읽기 → 생성 사례 › 미리보기/검수.
+- 괜찮으면 **[등록]** (또는 `python -m formagent register`) → studio 서식 › 생성 사례 › 미리보기/검수 → 검수 완료. 실서류에서 만든 것은 비공개 폴더에만 (공개는 거부).
 
 ## 시험
 

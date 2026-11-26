@@ -253,26 +253,15 @@ python .claude/skills/form-from-image/check.py out/form_drafts/<ID>             
 ## 7. 등록 (사용자가 하라고 할 때만 — 에이전트 회차에서는 하지 않는다)
 
 - 어디에: 빈 서식·공개 견본 → `docgen/forms/<ID>/`, **실서류에서 만든 것 → `$DOCGEN_PRIVATE_FORMS/<ID>/`**. 폴더가 이미 있으면 멈추고 보고 (덮어쓰지 않음).
-- 옮기기 (NEW_FORM_SPEC 6절). `T` 는 등록 폴더 (`docgen/forms/<ID>` 또는 `$DOCGEN_PRIVATE_FORMS/<ID>`), 없는 것을 확인한 뒤:
+- 옮기기 (NEW_FORM_SPEC 6절) — 명령 하나. 검사 통과·ID·폴더가 비었는지 확인하고, 하나라도 안 되면 아무것도 옮기지 않는다:
 
 ```bash
-D=out/form_drafts/<ID>; T=docgen/forms/<ID>
-mkdir -p $T/look && python - $D $T <<'EOF'
-import json, shutil, sys
-from pathlib import Path
-D, T = Path(sys.argv[1]), Path(sys.argv[2])
-f = json.loads((D / "form.json").read_text(encoding="utf-8"))
-body = {"engine": "html", "unit": "px", "fields": f.pop("fields"), "lists": f.pop("lists", {})}
-(T / "fields.json").write_text(json.dumps(body, ensure_ascii=False, indent=1), encoding="utf-8")
-(T / "form.json").write_text(json.dumps(f, ensure_ascii=False, indent=1), encoding="utf-8")
-shutil.copy(D / "template.html.j2", T / "look/template.html.j2")
-for name in ("source.png", "generate.py"):
-    if (D / name).exists():
-        shutil.copy(D / name, T / name)
-EOF
+python .claude/skills/form-from-image/register.py out/form_drafts/<ID> --to public          # docgen/forms/<ID>/
+python .claude/skills/form-from-image/register.py out/form_drafts/<ID> --to private --real  # $DOCGEN_PRIVATE_FORMS/<ID>/ (실서류)
 ```
-  그 밖의 것(`fields.md`·`review.md`·`report.md`·`check*`·`compare*`·`__init__.py`·`run.json`·`relab_*.log`)은 옮기지 않는다.
-- 확인: `python -m docgen.formdir check <ID>` · `python -m docgen.formdir card <ID>` (카드의 질문→답 예시가 말이 되는지) · `python -m docgen.preview <ID> --rows max --out out/<ID>`.
-  `generate.py` 가 있는 html 서식은 지금 `formdir check` 가 `KeyError: 'items'` 로 멈춘다 (엔진 문제). 그때는 `card`·`preview`·아래 시험 생성으로 확인하고 보고에 적는다.
+  `template.html.j2` → `look/template.html.j2`, `form.json` 의 `fields`·`lists` → `fields.json`, 나머지 → `form.json`, `source*.png`, `generate.py` 를 옮기고
+  카드(`formdir card`)와 `formdir check` 를 돌린다. 작업 파일(`fields.md`·`review.md`·`report.md`·`check*`·`run.json`·`relab_*.log` …)은 옮기지 않는다.
+  studio 는 **이미지로 서식 만들기 › 결과 › [등록]**, 명령줄은 `python -m formagent register --id <ID> --to public|private` 가 같은 것을 부른다.
+- 더 확인: `python -m docgen.formdir card <ID>` 의 질문→답 예시가 말이 되는지 · `python -m docgen.preview <ID> --rows max --out out/<ID>`.
 - 사용자에게: studio 서식 › **서식 다시 읽기** → 목록에 나옴 → **생성 사례 › 미리보기/검수** 에서 원본과 비교해 검수 완료.
   시험 생성: `python -m docgen.bench build --types <ID> --per-doc 2 --out out/try_<ID>`.

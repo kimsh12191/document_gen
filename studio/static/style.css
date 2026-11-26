@@ -274,3 +274,5 @@ button.link:hover { color: var(--bad); }
 .fa-md pre { max-height: 360px; overflow: auto; white-space: pre-wrap; }
 .fa-mdview table.fa-md-table { font-size: 12px; }
 .fa-mdview tr.fa-low td { background: var(--warn-soft); }
+.fa-reg { margin-bottom: 14px; border-left: 4px solid var(--accent); }
+.fa-reg-to, .fa-reg-check { display: grid; gap: 4px; margin: 8px 0; font-size: 14px; }
