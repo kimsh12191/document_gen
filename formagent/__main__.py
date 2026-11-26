@@ -39,6 +39,8 @@ def main(argv=None):
     c.add_argument("--id", required=True)
     c.add_argument("--message", required=True)
     model_options(c)
+    g = sub.add_parser("go", help="start 로 만든 초안의 회차를 돈다 (studio 가 쓴다: 화면에서 검사한 뒤 작업으로)")
+    g.add_argument("--id", required=True)
     s = sub.add_parser("status", help="상태 (run.json)")
     s.add_argument("--id", required=True)
     t = sub.add_parser("stop", help="멈추기")
@@ -51,6 +53,9 @@ def main(argv=None):
             print(R.ensure(a.relab))
         elif a.cmd == "run":
             runner.start(a.image, a.id, a.kind, a.note, settings(a))
+            state = runner.go(a.id)
+            sys.exit(0 if state["status"] == "done" else 3 if state["status"] == "waiting" else 1)
+        elif a.cmd == "go":
             state = runner.go(a.id)
             sys.exit(0 if state["status"] == "done" else 3 if state["status"] == "waiting" else 1)
         elif a.cmd == "continue":

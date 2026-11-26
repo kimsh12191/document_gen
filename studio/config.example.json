@@ -11,5 +11,12 @@
   },
   "workspace_dir": "studio_workspace",
   "private_forms_dir": null,
-  "path_map": {}
+  "path_map": {},
+  "form_agent": {
+    "provider": "vllm",
+    "endpoint": "http://<vLLM 서버>:<port>/v1",
+    "model": "<served model 이름>",
+    "max_fix_rounds": 3,
+    "round_minutes": 60
+  }
 }

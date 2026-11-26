@@ -9,6 +9,7 @@
     report.json                    끝날 때 진행기의 마지막 검사·초안 밖 변경·회차 요약
 
 ReLab 의 `-p` 는 `-c` 를 보지 않아 회차마다 새 대화다. 앞 회차는 초안 폴더의 파일과 요청 문장으로 넘긴다 (PLAN.md 2·13절).
+요청에 경로("폴더/파일")로 적은 파일은 그 회차에 읽어야 ReLab 이 끝내기를 받는다. 그래서 읽을 필요 없는 파일은 경로 없이 이름만 적는다.
 """
 from __future__ import annotations
 
@@ -148,7 +149,7 @@ def run_check(draft: Path, out: Path) -> dict:
 def _head(state: dict, n: int) -> list[str]:
     d = state["draft"]
     return [f"- 서식 ID: {state['id']} · 초안 폴더: {d}/ · 원본 종류: {KINDS[state['kind']]}",
-            f"- 검사 명령: python -m pytest {SKILL}/test_draft.py --draft {d} -q  (통과해야 끝난다. 결과는 {d}/check/check.json)",
+            f"- 검사 명령: python -m pytest {SKILL}/test_draft.py --draft {d} -q  (통과해야 끝난다. 문제·경고는 명령 출력에 나온다)",
             "- 초안 폴더 밖의 파일은 만들거나 고치지 않는다. 등록(스킬 7단계)은 하지 않는다."]
 
 
@@ -160,7 +161,8 @@ def first_request(state: dict) -> str:
              *_head(state, 1),
              f"- 원본 그림은 초안 폴더에 이미 있다: {', '.join(state['sources'])} (0단계의 복사는 하지 않는다).",
              "- 이번 회차: 0~4단계. fields.md 를 먼저 끝까지 쓰고, template.html.j2 · form.json (칸끼리 관계가 있으면 generate.py) 을 쓴 뒤 검사 명령을 통과시킨다.",
-             "- 원본과 렌더를 나란히 놓은 그림은 다음 회차 요청에 붙여 준다 (회차 안에서는 그림 파일을 열어 볼 수 없다)."]
+             "- 원본과 렌더를 나란히 놓은 그림은 다음 회차 요청에 붙여 준다 (회차 안에서는 그림 파일을 열어 볼 수 없다).",
+             "- 원본 비교(5단계)는 진행기가 다음 회차로 넘긴다. 검사 명령이 통과하면 끝내고, 그것을 \"Not done\"에 적지 않는다."]
     if state.get("note"):
         lines.append(f"- 사람의 추가 요청: {state['note']}")
     return "\n".join(lines)
@@ -186,7 +188,7 @@ def next_request(state: dict, n: int, check: dict, message: str | None = None) -
     if message:
         lines.append(f"- 사람의 지시 (가장 먼저 반영): {message}")
     lines.append(f"- 할 일: 스킬 5단계대로 원본과 렌더를 비교해 review.md 에 '{n}회차' 8문항을 더하고, 문제·경고·\"아니오\"를 고친 뒤 검사 명령을 통과시킨다. "
-                 f"고칠 것이 없으면 review.md 에 그렇게 적는다. 끝나면 스킬 6단계 보고를 {d}/report.md 로 쓴다 (고쳤으면 고쳐 쓴다).")
+                 "고칠 것이 없으면 review.md 에 그렇게 적는다. 끝나면 스킬 6단계 보고를 초안 폴더의 report.md 로 쓴다 (있으면 고쳐 쓴다).")
     return "\n".join(lines)
 
 
@@ -235,7 +237,15 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
     fix_rounds = max_rounds if max_rounds is not None else int(st.get("max_fix_rounds", 3))
     (d / "STOP").unlink(missing_ok=True)
     package_marks(d)
-    relab = R.ensure(st.get("relab"), log=log)
+    if not R.find(st.get("relab")) and not st.get("relab"):     # 없으면 묶음으로 설치 (화면에 "ReLab 설치 중")
+        state.update(status="installing", runner_pid=os.getpid())
+        save(state)
+    try:
+        relab = R.ensure(st.get("relab"), log=log)
+    except R.RelabError as e:
+        state.update(status="failed", error=str(e))
+        save(state)
+        raise
     state.update(status="running", runner_pid=os.getpid(), relab=relab, relab_version=R.VERSION)
     save(state)
     stopped = lambda: (d / "STOP").exists()  # noqa: E731
@@ -244,6 +254,9 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
     before = snapshot()
     last_check = state["rounds"][-1].get("check_full") if state["rounds"] else None
     for k in range(planned):
+        if stopped():
+            state.update(status="stopped", error="멈춤")
+            break
         n = len(state["rounds"]) + 1
         if first and k == 0:
             request = first_request(state)
@@ -288,14 +301,14 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
         state["status"] = "done"
         state["note_end"] = "고치기 회차 한도까지 돌았다"
     changes = outside_changes(before, snapshot())
-    state["outside_changes"] = changes
-    state["ended"] = now()
-    save(state)
     final = run_check(d, d / "check_final") if (d / "template.html.j2").exists() else {"passed": False, "problems": ["초안이 없습니다"], "warnings": [], "images": {}}
     (d / "report.json").write_text(json.dumps({
         "id": form_id, "status": state["status"], "rounds": [{k2: r.get(k2) for k2 in ("n", "exit", "seconds", "check")} for r in state["rounds"]],
         "final_check": {k2: final.get(k2) for k2 in ("passed", "problems", "warnings", "renders", "images")},
         "outside_changes": changes, "report_md": (d / "report.md").exists()}, ensure_ascii=False, indent=1), encoding="utf-8")
+    state["outside_changes"] = changes       # 마지막 검사·report.json 을 쓴 뒤에 상태를 끝으로 (화면이 끝남을 보면 결과가 다 있게)
+    state["ended"] = now()
+    save(state)
     if changes:
         log(f"[{form_id}] 경고: 초안 폴더 밖에서 바뀐 파일 {len(changes)}개 — report.json 의 outside_changes")
     log(f"[{form_id}] {state['status']} · 마지막 검사 {'통과' if final.get('passed') else '통과 못 함'} · {rel(d / 'report.json')}")

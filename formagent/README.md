@@ -14,12 +14,20 @@
 | 프로젝트 설정 | 저장소의 `.relab/config.json` (`defaultRules: false` — ReLab 이 `docs/` 문서를 만들지 않게, `planFirst: false` — 새 `.py` 를 계획 승인 없이 쓰게). 커밋되어 있음 |
 | 미리보기 | `python -m docgen.preview` 가 되는 곳 (Playwright Chromium. studio 이미지에는 있음) |
 
+## studio 화면
+
+studio 왼쪽 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `studio/static/js/form-agent.js`): 그림·ID·원본 종류·추가 요청 → **[시작]**
+(ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 등) → **이어서 지시** · **[멈추기]**.
+화면이 띄우는 것도 아래 명령이다 (`go` · `continue`). 모델 설정은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab"}`.
+화면 설명은 [guide/studio/studio.md](../guide/studio/studio.md#이미지로-서식-만들기). 그림: [화면 흐름](docs/screens.png) · [동작 시나리오](docs/scenario.png) (가짜 모델로 돌린 실제 화면).
+
 ## 명령 (저장소 맨 위에서)
 
 ```bash
 python -m formagent install                                                   # ReLab 확인·설치, 경로 출력
 python -m formagent run --image a.png [b.png] --id loan_application --kind blank [--note "현금 행은 계좌 비워"]
                        [--provider vllm --endpoint http://<host>:<port>/v1 --model <name>] [--rounds 3] [--round-minutes 60]
+python -m formagent go       --id loan_application                            # (studio 가 씀) 초안을 만든 뒤 회차 돌기
 python -m formagent status   --id loan_application                            # 상태·회차·검사 요약
 python -m formagent continue --id loan_application --message "계좌번호 칸을 세 칸으로"   # 이어서 지시 (질문에 대한 답도 이것으로)
 python -m formagent stop     --id loan_application                            # 멈추기 (다른 터미널에서)

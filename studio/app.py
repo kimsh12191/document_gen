@@ -27,7 +27,7 @@ API
   POST /api/forms/refresh             서식 다시 읽기 (서식 폴더 다시 훑기 + studio 쪽 캐시 비우기)
   POST /api/forms/{id}/read-texts     그린 서식의 배경 글자를 사내 OCR 로 읽기 (studio/drawn.py)
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
-  (데이터셋 등록부: api_datasets.py, 레시피·빌드·작업: api_bank.py).
+  (데이터셋 등록부: api_datasets.py, 레시피·빌드·작업: api_bank.py, 이미지로 서식 만들기: api_form_agent.py).
   html 서식은 화면에서 고치지 않는다 (코드로: docgen/manual/NEW_FORM_SPEC.md)
 """
 from __future__ import annotations
@@ -49,7 +49,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_form_agent, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Conflict, Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -163,6 +163,7 @@ REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") o
 JOBS = Jobs(REGISTRY.ws, ROOT)
 app.include_router(api_datasets.make_router(REGISTRY, guard))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
+app.include_router(api_form_agent.make_router(JOBS, guard, CFG))
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 

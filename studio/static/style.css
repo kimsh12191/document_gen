@@ -244,3 +244,33 @@ p.warn { color: var(--warn); }
 /* 글자처럼 보이는 작은 버튼 (목록의 등록 해제·기록 지우기) */
 button.link { background: none; border: none; padding: 0 2px; color: var(--accent); cursor: pointer; font-size: 12px; text-decoration: underline; }
 button.link:hover { color: var(--bad); }
+
+/* 이미지로 서식 만들기 (form-agent.js) */
+.fa-env { flex-wrap: wrap; gap: 14px; font-size: 13px; }
+.fa-new { margin: 10px 0 16px; }
+.fa-form { display: grid; gap: 8px; max-width: 760px; margin-top: 8px; }
+.fa-form textarea, .fa-cont textarea { width: 100%; }
+.fa-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+.fa-thumbs figure { margin: 0; width: 120px; font-size: 11px; color: var(--muted); }
+.fa-thumbs img { width: 120px; border: 1px solid var(--line); }
+.fa-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.fa-card { display: flex; gap: 10px; color: inherit; text-decoration: none; padding: 8px; }
+.fa-thumb img { width: 110px; height: 110px; object-fit: cover; object-position: top; border: 1px solid var(--line); }
+.fa-card .cap { display: block; padding: 0; font-size: 13px; line-height: 1.6; min-width: 0; }
+.fa-card .fa-thumb { flex: 0 0 auto; }
+.fa-steps { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0 12px; font-size: 13px; }
+.fa-step { padding: 3px 10px; border-radius: 12px; background: #eef1f5; color: var(--muted); }
+.fa-step.done { background: #e3f5ea; color: var(--ok); }
+.fa-step.now { background: var(--accent); color: #fff; font-weight: 600; }
+.fa-round { margin-bottom: 12px; }
+.fa-log { max-height: 320px; overflow: auto; font-size: 12px; }
+.fa-issues { margin-top: 6px; font-size: 13px; }
+.fa-w { color: var(--warn); }
+.fa-q, .fa-warn { border-left: 4px solid var(--warn); background: var(--warn-soft); margin: 8px 0; }
+.fa-cont { margin-top: 16px; }
+.fa-side { max-width: 100%; border: 1px solid var(--line); margin: 6px 0; }
+.fa-renders { max-width: 70%; border: 1px solid var(--line); margin: 6px 0; }
+.fa-md { grid-template-columns: 1fr 1fr; gap: 12px; }
+.fa-md pre { max-height: 360px; overflow: auto; white-space: pre-wrap; }
+.fa-mdview table.fa-md-table { font-size: 12px; }
+.fa-mdview tr.fa-low td { background: var(--warn-soft); }

@@ -40,6 +40,13 @@ def find(given: str | None = None) -> str | None:
     return None
 
 
+def status(given: str | None = None) -> dict:
+    """화면용: 쓸 relab 이 있는지, 없으면 시작할 때 어디에 설치하는지."""
+    found = find(given)
+    return {"installed": bool(found), "path": found, "version": VERSION, "install_to": str(DEFAULT_HOME),
+            "bundle": (BUNDLE / "wheels").is_dir()}
+
+
 def install(home: Path = DEFAULT_HOME, log=print) -> str:
     """묶음으로 설치하고 relab 경로를 돌려준다."""
     if not (3, 10) <= sys.version_info[:2] <= (3, 13):
@@ -102,4 +109,7 @@ def run(cmd: list[str], log_file: Path, cwd: Path, timeout_minutes: float = 60, 
                 out.write(f"\n[formagent] relab 을 끝냄: {why}\n")
                 return None
             time.sleep(1)
+        if stopped():                      # 밖에서 relab 을 끝낸 경우 (formagent stop)
+            out.write("\n[formagent] relab 을 끝냄: 멈춤\n")
+            return None
         return proc.returncode

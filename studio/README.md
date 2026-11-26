@@ -27,6 +27,7 @@ sh docker/studio.sh --data /database/docgen_studio   # 내부망 도커 (처음 
 |---|---|---|
 | 서식 | `forms.js` (목록·상세 탭), `questions.js`, `editor.js` (영역 편집, overlay 만) | `catalog.py`, `editor.py`, `questions.py` |
 | 새 서식 추가 | `new-forms.js` (그림 위에 그리기, overlay 만) | `drawn.py` (`POST /api/forms/new-image`), `generators.py` (생성 방법 고르기 창) |
+| 이미지로 서식 만들기 | `form-agent.js` (목록·새로 만들기·진행·결과·파일·이어서 지시) | `api_form_agent.py` → 작업 `python -m formagent go\|continue` ([formagent/README.md](../formagent/README.md)) |
 | 데이터셋 | `datasets.js`, `recipes.js`, `dataset-builds.js` (생성 현황), `dataset-tracking.js`, `jobs.js` (작업) | `datasets.py`·`api_datasets.py`, `bank_data.py`·`api_bank.py`, `ocr_data.py`, `build_registration.py`, `jobs.py` |
 | 표시 요소 | `marks.js` | `marks_admin.py` |
 | 사용 가이드 · OCR 예시 | `guide.js` · `ocr-examples.js` | `guidebook.py` (문서 목록 `DOCUMENTS`) · `ocr_examples.py` |
@@ -76,6 +77,7 @@ studio/
   guidebook.py    사용 가이드 화면의 문서 목록 (python -m studio.guidebook)
   editor.py       overlay 영역 편집기: 레이아웃 보기, 사람 수정 검사·저장, 검수 전 자동 검사
   drawn.py        새 서식 추가: 그림을 올려 빈 overlay 서식 img_* 만들기, 배경 글자 사내 OCR 로 읽기
+  api_form_agent.py 이미지로 서식 만들기: 초안 시작·목록·상세·로그·파일·이어서·멈추기 (formagent 진행기를 작업으로, 한 번에 한 건)
   generators.py   영역 편집기의 생성 방법 고르기 목록·예시 값
   marks_admin.py  표시 요소 확률·풀 읽고 쓰기 (풀 이미지·글꼴 파일 경로는 서버가 정함, 지울 때 폴더 밖은 안 지움)
   datasets.py     데이터셋 등록부·옛 줄 고치기(migrate), 문항 보기, 설명서 (api_datasets.py 가 API)
