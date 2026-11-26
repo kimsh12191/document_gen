@@ -47,6 +47,7 @@
 | `studio/` | 웹 화면 ([개발 문서](studio/README.md)) |
 | `train/` | 학습·평가 (`python -m train`), 채점 함수 견본 `train/scorers/` ([코드 지도](train/README.md)) |
 | `playground/` | 학습한 모델을 띄워 그림 한 장에 물어 보는 화면 ([README](playground/README.md)) |
+| `formagent/` | (계획) 서식 이미지 → 서식 추가 에이전트: ReLab 을 스킬 `form-from-image` 로 돌리고 studio 탭에서 보기 ([진행 계획](formagent/PLAN.md)) |
 | `guide/` | 사용 설명서 — `studio/`, `train/`, `reference/` |
 
 ## 알아 둘 점
