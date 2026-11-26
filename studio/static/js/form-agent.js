@@ -102,15 +102,58 @@ async function drawFaOverview() {
           ${it.registered ? `<span class="tag ok">등록됨</span>` : ""}
           <br><span class="muted">${esc(it.created || "")}</span></div></a>`).join("")}</div>`
     : `<p class="muted">아직 없습니다.</p>`;
+  clearTimeout(state.faListTimer);
   if (ov.items.some(it => FA_LIVE.has(it.status)) || ov.busy)
-    setTimeout(() => { if (location.hash === "#/form-agent") drawFaOverview(); }, 3000);
+    state.faListTimer = setTimeout(() => { if (location.hash === "#/form-agent") drawFaOverview(); }, 3000);
   return ov;
 }
 
 // --------------------------------------------------------------------- 하나
 
-async function viewFormAgentOne(id, tab) {
-  const d = await api(`/api/form-agent/${encodeURIComponent(id)}`);
+// 도는 중 새로 고침: 타이머는 하나. 상태·회차·검사가 바뀌면 지금 주소의 탭을 스크롤 그대로 다시 그리고,
+// 아니면 도는 회차의 로그 글자만 바꾼다 (탭이 저절로 바뀌거나 펼친 것·스크롤이 풀리지 않게)
+const faTab = () => (location.hash.match(/\/(progress|result|files)$/) || [null, "progress"])[1];
+const faSig = d => { const r = d.rounds[d.rounds.length - 1] || {};
+  return [d.status, d.rounds.length, r.ended, r.check ? JSON.stringify(r.check) : "", d.registered ? 1 : 0].join("|"); };
+
+function faPoll(id) {
+  clearTimeout(state.faTimer);
+  state.faTimer = setTimeout(async () => {
+    if (!location.hash.startsWith(faBase(id))) return;
+    let d;
+    try { d = await api(`/api/form-agent/${encodeURIComponent(id)}`); } catch { faPoll(id); return; }
+    if (!location.hash.startsWith(faBase(id))) return;
+    if (faSig(d) !== state.faSig) {
+      const y = main().scrollTop, typed = $("#fa-msg") ? $("#fa-msg").value : "";
+      const opened = $$(".fa-round").filter(r => $("details", r) && $("details", r).open).map(r => r.dataset.n);
+      await viewFormAgentOne(id, faTab(), d);
+      if (typed && $("#fa-msg")) $("#fa-msg").value = typed;
+      for (const n of opened) { const det = $(`.fa-round[data-n="${n}"] details`); if (det) det.open = true; }
+      main().scrollTop = y;
+      return;
+    }
+    if (faTab() === "progress") await faRefreshLogs(d);
+    if (FA_LIVE.has(d.status)) faPoll(id);
+  }, 4000);
+}
+
+async function faRefreshLogs(d) {
+  for (const pre of $$("pre.fa-log")) {
+    const r = d.rounds.find(x => String(x.n) === pre.dataset.n);
+    if (r && r.ended != null && pre.dataset.done) continue;          // 끝난 회차는 한 번 읽으면 됨
+    const t = await fetch(`/api/form-agent/${encodeURIComponent(d.id)}/log/${pre.dataset.n}`).then(x => x.ok ? x.text() : "").catch(() => "");
+    if (!t || t === pre.textContent) continue;
+    const atEnd = pre.scrollTop + pre.clientHeight >= pre.scrollHeight - 20;
+    pre.textContent = t;
+    if (atEnd) pre.scrollTop = pre.scrollHeight;
+    if (r && r.ended != null) pre.dataset.done = "1";
+  }
+}
+
+async function viewFormAgentOne(id, tab, given) {
+  clearTimeout(state.faTimer);
+  const d = given || await api(`/api/form-agent/${encodeURIComponent(id)}`);
+  state.faSig = faSig(d);
   const live = FA_LIVE.has(d.status);
   const tabs = [["progress", "진행"], ["result", "결과"], ["files", "파일"]];
   main().innerHTML = `
@@ -141,7 +184,7 @@ async function viewFormAgentOne(id, tab) {
     if (!confirm("멈출까요? 지금 회차의 ReLab 을 끝내고 그때까지 만든 초안은 남겨 둡니다.")) return;
     await api(`/api/form-agent/${encodeURIComponent(id)}/stop`, {});
     toast("멈춤 표시를 남겼습니다");
-    setTimeout(() => viewFormAgentOne(id, tab), 1500);
+    setTimeout(() => { if (location.hash.startsWith(faBase(id))) viewFormAgentOne(id, faTab()); }, 1500);
   };
   $("#fa-cont").onclick = async () => {
     const message = $("#fa-msg").value.trim();
@@ -154,9 +197,7 @@ async function viewFormAgentOne(id, tab) {
   if (tab === "progress") await faProgress(d);
   else if (tab === "result") faResult(d);
   else faFiles(d);
-  if (live) setTimeout(() => {
-    if (location.hash.startsWith(faBase(id)) && !($("#fa-msg") && $("#fa-msg").value)) viewFormAgentOne(id, tab);
-  }, 4000);
+  if (live) faPoll(id);
 }
 
 async function faProgress(d) {
@@ -166,7 +207,7 @@ async function faProgress(d) {
   box.innerHTML = `
     <div class="fa-steps">${faSteps(d)}</div>
     ${rounds.map(r => `
-      <div class="panel fa-round">
+      <div class="panel fa-round" data-n="${r.n}">
         <div class="bar"><b>${r.n}회차</b>
           ${r.ended == null ? `<span class="tag">도는 중</span>`
             : `<span class="tag ${r.exit === 0 ? "ok" : "warn"}">ReLab: ${esc(r.exit === null ? "멈춤·시간 넘음" : FA_EXIT[r.exit] || `종료 코드 ${r.exit}`)}</span>`}
@@ -185,6 +226,8 @@ async function faProgress(d) {
     const t = await fetch(`/api/form-agent/${encodeURIComponent(d.id)}/log/${pre.dataset.n}`).then(r => r.ok ? r.text() : "").catch(() => "");
     pre.textContent = t || "(아직 출력 없음)";
     pre.scrollTop = pre.scrollHeight;
+    const r = d.rounds.find(x => String(x.n) === pre.dataset.n);
+    if (r && r.ended != null) pre.dataset.done = "1";
   }
 }
 
