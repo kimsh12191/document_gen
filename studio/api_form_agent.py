@@ -170,7 +170,7 @@ def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
         rounds = []
         for rnd in st.get("rounds") or []:
             check = rnd.get("check_full")
-            rounds.append({k: rnd.get(k) for k in ("n", "started", "ended", "seconds", "exit", "request")}
+            rounds.append({k: rnd.get(k) for k in ("n", "kind", "read", "started", "ended", "seconds", "exit", "request")}
                           | {"check": {k: (check or {}).get(k) for k in ("passed", "problems", "warnings")} if check else None,
                              "images": _images(form_id, check)})
         report = _read_json(d / "report.json")

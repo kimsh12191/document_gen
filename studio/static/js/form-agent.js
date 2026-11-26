@@ -8,6 +8,8 @@ addRoute(/^#\/form-agent\/([^/]+)(?:\/(progress|result|files))?$/, (id, tab) => 
 const FA_STATUS = { ready: "준비", installing: "ReLab 설치 중", running: "도는 중", waiting: "질문 대기", done: "끝남",
   stopped: "멈춤", failed: "실패", interrupted: "끊김" };
 const FA_LIVE = new Set(["installing", "running"]);
+// 새로 고침을 계속할 때: 도는 중, 또는 막 시작해 아직 "준비"인데 작업이 돌고 있을 때 (진행기가 상태를 running 으로 바꾸기 전)
+const faPollable = d => FA_LIVE.has(d.status) || (d.status === "ready" && (!d.job || d.job.status === "running"));
 const FA_EXIT = { 0: "완료", 1: "미완료 (ReLab 판정: 검사 미통과나 남은 일)", 2: "시작 못 함", 3: "모델이 질문함" };
 const faTag = s => `<span class="tag ${s === "done" ? "ok" : FA_LIVE.has(s) || s === "ready" ? "" : "warn"}">${esc(FA_STATUS[s] || s)}</span>`;
 const faBase = id => `#/form-agent/${encodeURIComponent(id)}`;
@@ -133,7 +135,7 @@ function faPoll(id) {
       return;
     }
     if (faTab() === "progress") await faRefreshLogs(d);
-    if (FA_LIVE.has(d.status)) faPoll(id);
+    if (faPollable(d)) faPoll(id);
   }, 4000);
 }
 
@@ -154,7 +156,7 @@ async function viewFormAgentOne(id, tab, given) {
   clearTimeout(state.faTimer);
   const d = given || await api(`/api/form-agent/${encodeURIComponent(id)}`);
   state.faSig = faSig(d);
-  const live = FA_LIVE.has(d.status);
+  const live = faPollable(d);
   const tabs = [["progress", "진행"], ["result", "결과"], ["files", "파일"]];
   main().innerHTML = `
     <div class="muted"><a href="#/form-agent">이미지로 서식 만들기</a></div>
@@ -219,6 +221,7 @@ async function faProgress(d) {
         <div class="bar"><b>${r.n}회차</b>${r.kind ? ` <span class="muted">${esc(FA_KIND[r.kind] || r.kind)}</span>` : ""}
           ${r.ended == null ? `<span class="tag">도는 중</span>`
             : `<span class="tag ${r.exit === 0 ? "ok" : "warn"}">ReLab: ${esc(r.exit === null ? "멈춤·시간 넘음" : FA_EXIT[r.exit] || `종료 코드 ${r.exit}`)}</span>`}
+          ${r.read ? (r.read.source_text ? `<span class="tag ok">source_text.md 씀</span> <a href="${faBase(d.id)}/files">파일 탭에서 원본과 대 보기</a>` : `<span class="tag warn">source_text.md 없음</span>`) : ""}
           ${r.check ? (r.check.passed ? `<span class="tag ok">검사 통과</span>` : `<span class="tag warn">검사 문제 ${r.check.problems.length}</span>`) : ""}
           ${r.check && r.check.warnings.length ? `<span class="tag warn">경고 ${r.check.warnings.length}</span>` : ""}
           <span class="muted">${esc(r.started || "")}${r.seconds !== undefined && r.seconds !== null ? ` · ${r.seconds}초` : ""}</span></div>
@@ -243,7 +246,7 @@ const FA_KIND = { read: "글자 옮기기 (source_text.md)", build: "만들기 (
 
 function faSteps(d) {
   // 화면 위 줄: ReLab 준비 → 글자 옮기기 → 만들기 → 비교·고치기 회차 → 끝 (지금 자리 강조)
-  const s = d.status, kinds = d.rounds.map(r => r.kind || "build"), last = kinds[kinds.length - 1];
+  const s = d.status, kinds = d.rounds.map(r => r.kind || (r.n === 1 ? "build" : "fix")), last = kinds[kinds.length - 1];   // kind 없는 예전 기록: 1회차 만들기, 뒤는 고치기
   const at = k => kinds.includes(k) ? (last === k && FA_LIVE.has(s) ? "now" : "done") : "";
   const steps = [["ReLab 준비", s === "installing" ? "now" : (kinds.length || d.relab) ? "done" : ""],
     ["글자 옮기기", at("read")], ["칸 표 → 템플릿 → 검사", at("build")], ["비교 그림 보고 고치기", at("fix")],

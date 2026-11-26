@@ -133,3 +133,13 @@ def test_delete_draft(env):
     assert r.status_code == 200 and r.json()["deleted"] == "out/form_drafts/f_del" and not d.exists()
     assert c.delete("/api/form-agent/f_del").status_code == 404
     assert c.delete("/api/form-agent/Bad..id").status_code in (404, 409)
+
+
+def test_detail_rounds_carry_kind(env):
+    """화면 위 단계 줄(글자 옮기기 → 만들기 → 고치기)이 회차를 따라가려면 회차마다 kind 가 나가야 한다."""
+    c, jobs, root = env
+    c.post("/api/form-agent", data={"id": "f_kind", "kind": "blank"}, files=[("images", ("a.png", png(), "image/png"))])
+    st = runner.load("f_kind")
+    st["rounds"] = [{"n": 1, "kind": "read", "request": "r", "started": "t"}, {"n": 2, "kind": "build", "request": "b", "started": "t"}]
+    runner.save(st)
+    assert [r["kind"] for r in c.get("/api/form-agent/f_kind").json()["rounds"]] == ["read", "build"]

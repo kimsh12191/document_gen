@@ -426,16 +426,22 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
         if code == 2:
             state.update(status="failed", error="ReLab 이 시작하지 못함 (종료 코드 2) — " + tail(d / rnd["log"]))
             break
-        last_check = run_check(d, d / f"check_{n}")
-        rnd["check"] = {k2: last_check[k2] for k2 in ("passed", "problems", "warnings")}
-        rnd["check_full"] = {k2: last_check[k2] for k2 in ("passed", "problems", "warnings", "images")}
-        rnd["check_full"]["values"] = {s: v for s, v in (last_check.get("values") or {}).items() if s in ("s1", "s2")}
-        log(f"[{form_id}] {n}회차 끝: 종료 코드 {code}, 검사 {'통과' if last_check['passed'] else '통과 못 함'}")
+        if kind == "read":                  # 글자 옮기기 뒤에는 서식 검사가 할 게 없다 (템플릿이 아직 없는 게 정상)
+            last_check = None
+            got = (d / "source_text.md").exists()
+            rnd["read"] = {"source_text": got}
+            log(f"[{form_id}] {n}회차 끝: 종료 코드 {code}, source_text.md {'있음' if got else '없음 — 다음 회차에 다시 옮긴다'}")
+        else:
+            last_check = run_check(d, d / f"check_{n}")
+            rnd["check"] = {k2: last_check[k2] for k2 in ("passed", "problems", "warnings")}
+            rnd["check_full"] = {k2: last_check[k2] for k2 in ("passed", "problems", "warnings", "images")}
+            rnd["check_full"]["values"] = {s: v for s, v in (last_check.get("values") or {}).items() if s in ("s1", "s2")}
+            log(f"[{form_id}] {n}회차 끝: 종료 코드 {code}, 검사 {'통과' if last_check['passed'] else '통과 못 함'}")
         if code == 3:
             state.update(status="waiting", question=tail(d / rnd["log"], 25))
             break
         report = d / "report.md"
-        if kind == "fix" and last_check["passed"] and report.exists() and report.stat().st_mtime >= t0:
+        if kind == "fix" and last_check and last_check["passed"] and report.exists() and report.stat().st_mtime >= t0:
             state["status"] = "done"
             break
         save(state)
