@@ -309,9 +309,13 @@ def build(draft: Path) -> dict:
                              f'width:{max(abs(x1 - x0), 1)}px;height:{max(abs(y1 - y0), 1)}px"></div>')
             elif ex.get("box"):
                 parts.append(block_html(b, f"X{i}", ex["box"], ex, ex.get("size")))
+        hidden = [bl["box"] for bl in g["blocks"] if bl["id"] in skip or (bl["id"] in blocks and blocks[bl["id"]] is None)]
         for ln in g.get("lines") or []:
             if f"L{ln['pos']}" in skip:
                 continue
+            a = (ln["from"], ln["pos"], ln["to"], ln["pos"]) if ln["dir"] == "h" else (ln["pos"], ln["from"], ln["pos"], ln["to"])
+            if any(b[0] - 4 <= a[0] and a[2] <= b[2] + 4 and b[1] - 4 <= a[1] and a[3] <= b[3] + 4 for b in hidden):
+                continue                                   # 그리지 않기로 한 덩어리(로고 등) 안의 획
             if ln["dir"] == "h":
                 parts.append(f'<div class="ln" style="left:{ln["from"]}px;top:{ln["pos"]}px;width:{ln["to"] - ln["from"]}px;height:1px"></div>')
             else:
