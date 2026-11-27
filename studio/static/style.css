@@ -250,6 +250,11 @@ button.link:hover { color: var(--bad); }
 /* 이미지로 서식 만들기 (form-agent.js) */
 .fa-env { flex-wrap: wrap; gap: 14px; font-size: 13px; }
 .fa-new { margin: 10px 0 16px; }
+.fa-set { margin: 10px 0; }
+.fa-set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px 16px; margin: 8px 0; }
+.fa-set-grid label { display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
+.fa-set-grid input, .fa-set-grid select { width: 100%; }
+#fs-out div { margin: 4px 0; font-size: 13px; }
 .fa-form { display: grid; gap: 8px; max-width: 760px; margin-top: 8px; }
 .fa-form textarea, .fa-cont textarea { width: 100%; }
 .fa-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }

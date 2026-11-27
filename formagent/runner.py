@@ -83,7 +83,91 @@ def now() -> str:
 
 # ---------------------------------------------------------------- 준비
 
+SETTINGS_KEYS = ("provider", "endpoint", "model", "python", "max_fix_rounds", "round_minutes")
+RESERVED_IDS = {"settings", "check_id"}
+
+
+def settings_file() -> Path:
+    """studio 화면에서 정한 설정 (studio config.json 의 form_agent 보다 앞선다). 초안 폴더들 옆."""
+    return DRAFTS / ".formagent_settings.json"
+
+
+def load_settings() -> dict:
+    try:
+        data = json.loads(settings_file().read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {k: v for k, v in data.items() if k in SETTINGS_KEYS and v not in (None, "")}
+
+
+def save_settings(values: dict) -> dict:
+    """빈 칸은 지운다 (studio config → ReLab 설정으로 돌아감). 주소·숫자·python 경로를 확인한다."""
+    out = {}
+    for k in SETTINGS_KEYS:
+        v = values.get(k)
+        if isinstance(v, str):
+            v = v.strip()
+        if v in (None, ""):
+            continue
+        if k == "endpoint" and not re.match(r"^https?://[^\s/]+", v):
+            raise AgentError("모델 주소는 http://<host>:<port>/v1 꼴")
+        if k == "provider" and v not in ("vllm", "openai", "ollama", "openrouter"):
+            raise AgentError("서버 종류는 vllm · openai · ollama · openrouter")
+        if k in ("max_fix_rounds", "round_minutes"):
+            try:
+                v = int(v) if k == "max_fix_rounds" else float(v)
+            except (TypeError, ValueError):
+                raise AgentError(f"{k} 는 숫자") from None
+            if v <= 0 or (k == "max_fix_rounds" and v > 10):
+                raise AgentError("고치기 회차는 1~10, 회차 시간은 0보다 커야 합니다")
+        if k == "python" and not Path(v).expanduser().is_file():
+            raise AgentError(f"python 이 없습니다: {v}")
+        out[k] = v
+    DRAFTS.mkdir(parents=True, exist_ok=True)
+    settings_file().write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return out
+
+
+def relab_user_config() -> dict:
+    """ReLab 사용자 설정(~/.relab/config.json)에서 모델 쪽 값 — 화면에 '비우면 이것' 으로 보여 준다."""
+    try:
+        c = json.loads((Path.home() / ".relab" / "config.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    prov = c.get("codingProvider") or c.get("provider")
+    ep = c.get("vllmEndpoint") if prov in (None, "vllm") else c.get(f"{prov}Endpoint") or c.get("vllmEndpoint")
+    return {k: v for k, v in {"provider": prov, "endpoint": ep, "model": c.get("codingModel") or c.get("model")}.items() if v}
+
+
+def check_python(py: str) -> dict:
+    """그 python 으로 검사 도구가 쓰는 패키지를 불러 볼 수 있나."""
+    code = ("import importlib.util as u, json, sys; m = ['jinja2', 'playwright', 'PIL', 'fitz']; "
+            "print(json.dumps({'version': sys.version.split()[0], 'missing': [x for x in m if u.find_spec(x) is None]}))")
+    try:
+        p = subprocess.run([py, "-c", code], capture_output=True, text=True, timeout=30)
+        info = json.loads(p.stdout.strip().splitlines()[-1])
+        return {"ok": not info["missing"], **info}
+    except (OSError, ValueError, IndexError, subprocess.TimeoutExpired) as e:
+        return {"ok": False, "error": str(e)[:200]}
+
+
+def list_models(endpoint: str) -> dict:
+    """모델 서버의 /models (vLLM·OpenAI 꼴). 키는 환경 변수 VLLM_API_KEY 가 있으면."""
+    from urllib.request import Request, urlopen
+    url = endpoint.rstrip("/") + "/models"
+    headers = {"Authorization": f"Bearer {os.environ['VLLM_API_KEY']}"} if os.environ.get("VLLM_API_KEY") else {}
+    try:
+        with urlopen(Request(url, headers=headers), timeout=8) as r:
+            data = json.loads(r.read())
+        models = [m.get("id") for m in data.get("data") or [] if m.get("id")]
+        return {"ok": True, "models": models, "context": {m.get("id"): m.get("max_model_len") for m in data.get("data") or [] if m.get("max_model_len")}}
+    except Exception as e:                       # noqa: BLE001 — 연결 확인은 무엇이 틀렸는지 글로 돌려준다
+        return {"ok": False, "error": f"{url}: {e}"[:300]}
+
+
 def check_id(form_id: str) -> None:
+    if form_id in RESERVED_IDS:
+        raise AgentError(f"쓸 수 없는 이름입니다: {form_id}")
     if not ID_RX.fullmatch(form_id):
         raise AgentError("서식 ID 는 영어 소문자로 시작, 소문자·숫자·밑줄 3~51자")
     if any(w in form_id for w in BAD_WORDS):
@@ -525,7 +609,7 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
     """회차를 돈다. 처음이면 1회차부터, 이어서면 사람의 지시로 한 회차 + 고치기."""
     state = load(form_id)
     d = draft_dir(form_id)
-    st = state["settings"]
+    state["settings"] = st = {**state.get("settings", {}), **load_settings()}     # 화면에서 바꾼 설정이 앞선다
     fix_rounds = max_rounds if max_rounds is not None else int(st.get("max_fix_rounds", 3))
     (d / "STOP").unlink(missing_ok=True)
     package_marks(d)

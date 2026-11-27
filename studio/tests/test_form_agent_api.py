@@ -143,3 +143,27 @@ def test_detail_rounds_carry_kind(env):
     st["rounds"] = [{"n": 1, "kind": "read", "request": "r", "started": "t"}, {"n": 2, "kind": "build", "request": "b", "started": "t"}]
     runner.save(st)
     assert [r["kind"] for r in c.get("/api/form-agent/f_kind").json()["rounds"]] == ["read", "build"]
+
+
+def test_settings_saved_from_screen_override_config(env, monkeypatch):
+    """화면 설정: 주소·모델·python 저장 → 새로 만들 때 쓰임, 빈 칸은 config 로 돌아감, 틀린 값은 거절. 연결 확인."""
+    import sys
+    c, jobs, root = env
+    s = c.get("/api/form-agent/settings").json()
+    assert s["saved"] == {} and s["config"]["model"] == "m" and s["effective"]["endpoint"] == "http://h:1/v1"
+    r = c.put("/api/form-agent/settings", json={"endpoint": "http://vllm.internal:8000/v1", "model": "deepseek-x", "python": sys.executable,
+                                                "max_fix_rounds": "2", "provider": ""})
+    assert r.status_code == 200 and r.json()["saved"] == {"endpoint": "http://vllm.internal:8000/v1", "model": "deepseek-x",
+                                                          "python": sys.executable, "max_fix_rounds": 2}
+    eff = c.get("/api/form-agent").json()["settings"]
+    assert eff["model"] == "deepseek-x" and eff["provider"] == "vllm" and eff["python"] == sys.executable
+    assert c.put("/api/form-agent/settings", json={"endpoint": "vllm:8000"}).status_code == 400
+    assert c.put("/api/form-agent/settings", json={"python": "/없는/bin/python"}).status_code == 400
+    c.post("/api/form-agent", data={"id": "set_app", "kind": "blank"}, files=[("images", ("a.png", png(), "image/png"))])
+    assert runner.load("set_app")["settings"]["model"] == "deepseek-x"
+    monkeypatch.setattr(runner, "list_models", lambda ep: {"ok": True, "models": ["deepseek-x"], "context": {}})
+    chk = c.post("/api/form-agent/settings/check", json={}).json()
+    assert chk["endpoint"]["ok"] and chk["endpoint"]["url"] == "http://vllm.internal:8000/v1" and chk["python"]["path"] == sys.executable
+    assert "missing" in chk["python"]
+    c.put("/api/form-agent/settings", json={})                       # 다 비우면 config 로
+    assert c.get("/api/form-agent").json()["settings"]["model"] == "m"

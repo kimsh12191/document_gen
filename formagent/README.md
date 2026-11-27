@@ -19,7 +19,12 @@
 studio 왼쪽 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `studio/static/js/form-agent.js`): 그림·ID·원본 종류·추가 요청 → **[시작]**
 (ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 · layout.json · grid.txt 등) → **이어서 지시** · **[멈추기]** · **[삭제]**(초안 폴더만, 등록한 서식은 남음)
 → 결과 탭 **[등록]** (공개/비공개 고르고 확인 세 가지에 체크 → 검사·옮기기·카드·formdir check → 서식 다시 읽기 → 서식 › 미리보기/검수).
-화면이 띄우는 것도 아래 명령이다 (`go` · `continue`). 모델 설정은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab", "python"}`.
+화면이 띄우는 것도 아래 명령이다 (`go` · `continue`).
+
+**설정**: 탭 위 **설정** 칸에서 서버 종류 · 모델 서버 주소 · 모델 이름 · 명령 python(가상환경) · 고치기 회차 · 회차 시간을 정하고 **[연결 확인]**(서버의 `/models` 목록·컨텍스트 길이,
+python 의 패키지)·**[저장]**. 저장은 `out/form_drafts/.formagent_settings.json` 이고, 다음 시작·이어서부터 쓴다.
+빈 칸은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab", "python"}` → 그래도 비면 ReLab 설정(`~/.relab/config.json`).
+API 키가 필요한 서버면 studio 를 띄우는 환경에 `VLLM_API_KEY` (화면에 적지 않음).
 
 **모델이 돌리는 python**: 모델의 명령(검사·`view.py`·`build.py` …)은 `"python"` 에 적은 인터프리터로 돈다 — 가상환경이면 그 `bin/python` 을 적는다
 (ReLab `RELAB_EXECUTION_PYTHON`: 그 가상환경을 켠 것처럼 `PATH`·`VIRTUAL_ENV` 도 맞춘다). 비우면 진행기(studio)를 돌리는 python.

@@ -16,6 +16,9 @@ API
   GET  /api/form-agent/{id}/file/{path}    초안 폴더의 파일 (그림 등)
   POST /api/form-agent/{id}/continue       {message} 이어서 지시 (질문에 대한 답도)
   POST /api/form-agent/{id}/stop           멈추기
+  GET  /api/form-agent/settings           화면 설정 · studio config · ReLab 설정(~/.relab/config.json) · 실제로 쓸 값
+  PUT  /api/form-agent/settings           {provider, endpoint, model, python, max_fix_rounds, round_minutes} 저장 (빈 칸 = 지움)
+  POST /api/form-agent/settings/check     {endpoint, python} 모델 서버 /models · python 패키지 확인
   POST /api/form-agent-relab/{pid}/stop    끝나지 않고 남은 relab 실행 하나 끄기 (진행기가 끊긴 것만)
   POST /api/form-agent/{id}/register       {to: public|private} 등록 (스킬 register.py: 검사 통과·ID 비어 있음 확인 → 옮기기 → 카드·formdir check)
                                            → 서식 다시 읽기. 실서류는 비공개 폴더만
@@ -48,6 +51,15 @@ class ContinueReq(BaseModel):
 
 class RegisterReq(BaseModel):
     to: str
+
+
+class SettingsReq(BaseModel):
+    provider: str | None = None
+    endpoint: str | None = None
+    model: str | None = None
+    python: str | None = None
+    max_fix_rounds: int | str | None = None
+    round_minutes: float | str | None = None
 
 
 def _alive(pid) -> bool:
@@ -107,8 +119,10 @@ def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
     agent_cfg = dict(cfg.get("form_agent") or {})
 
     def settings() -> dict:
-        s = {k: agent_cfg.get(k) for k in ("relab", "provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "python")}
-        return {k: v for k, v in s.items() if v not in (None, "")}
+        """실제로 쓸 설정: 화면에서 저장한 것 > studio config.json 의 form_agent. (모델 칸이 다 비면 ReLab 설정을 따름)"""
+        s = {k: agent_cfg.get(k) for k in ("relab", *runner.SETTINGS_KEYS)}
+        s = {k: v for k, v in s.items() if v not in (None, "")}
+        return {**s, **runner.load_settings()}
 
     def running_job() -> dict | None:
         return next((j for j in jobs.list(KIND) if j.get("status") == "running"), None)
@@ -130,6 +144,29 @@ def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
         return {"relab": R.status(agent_cfg.get("relab")), "settings": settings(), "busy": running_job(),
                 "python": {"path": py, "exists": Path(py).is_file(), "configured": bool(settings().get("python"))},
                 "leftovers": runner.leftovers(), "kinds": runner.KINDS, "max_pages": runner.MAX_PAGES, "items": items}
+
+    @r.get("/api/form-agent/settings")
+    def get_settings():
+        cfg_part = {k: agent_cfg.get(k) for k in runner.SETTINGS_KEYS if agent_cfg.get(k) not in (None, "")}
+        return {"saved": runner.load_settings(), "config": cfg_part, "relab_config": runner.relab_user_config(),
+                "effective": settings(), "default_python": runner.execution_python({})}
+
+    @r.put("/api/form-agent/settings")
+    def put_settings(req: SettingsReq):
+        try:
+            saved = runner.save_settings(req.model_dump())
+        except runner.AgentError as e:
+            raise HTTPException(400, str(e))
+        return {"saved": saved, "effective": settings()}
+
+    @r.post("/api/form-agent/settings/check")
+    def check_settings(req: SettingsReq):
+        eff = settings()
+        endpoint = (req.endpoint or "").strip() or eff.get("endpoint") or runner.relab_user_config().get("endpoint")
+        py = runner.execution_python({"python": (req.python or "").strip() or eff.get("python")})
+        out = {"python": {"path": py, **(runner.check_python(py) if Path(py).is_file() else {"ok": False, "error": "파일이 없습니다"})}}
+        out["endpoint"] = {"url": endpoint, **runner.list_models(endpoint)} if endpoint else {"ok": False, "error": "주소가 없습니다"}
+        return out
 
     @r.post("/api/form-agent-relab/{pid}/stop")
     def stop_leftover(pid: int):

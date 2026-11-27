@@ -24,6 +24,7 @@ async function viewFormAgent() {
       만든 초안은 사람이 보고 등록합니다 (스킬 8단계).</div>
     <div id="fa-env" class="bar fa-env"></div>
     <div id="fa-left"></div>
+    <details class="panel fa-set" id="fa-set"><summary><b>설정</b> <span class="muted" id="fa-set-sum"></span></summary><div id="fa-set-body"></div></details>
     <details class="panel fa-new" id="fa-new-box" open><summary><b>새로 만들기</b></summary>
       <div class="fa-form">
         <label class="fld">서식 그림 <span class="muted">(쪽 순서대로, 최대 3장 · png·jpg)</span>
@@ -40,6 +41,7 @@ async function viewFormAgent() {
     <h2>만든 것</h2>
     <div id="fa-list"></div>`;
   const ov = await drawFaOverview();
+  drawFaSettings();
   $("#fa-kind").innerHTML = Object.entries(ov.kinds).map(([k, n]) => `<option value="${k}">${esc(n.split(" (")[0])}</option>`).join("");
   let idOk = false;
   const ready = () => {
@@ -79,6 +81,49 @@ async function viewFormAgent() {
     const data = await r.json().catch(() => ({}));
     if (!r.ok) { toast(data.detail || `${r.status}`, true); ready(); return; }
     location.hash = faBase(data.id);
+  };
+}
+
+// 설정: 모델 서버 주소·모델 이름·명령 python(가상환경)·회차. 저장하면 다음 시작·이어서부터 쓴다
+async function drawFaSettings() {
+  const box = $("#fa-set-body");
+  if (!box) return;
+  const s = await api("/api/form-agent/settings");
+  const v = k => s.saved[k] ?? "";
+  const ph = k => s.config[k] ?? s.relab_config[k] ?? (k === "python" ? s.default_python : k === "max_fix_rounds" ? "3" : k === "round_minutes" ? "60" : "");
+  const from = k => s.saved[k] != null ? "화면 설정" : s.config[k] != null ? "studio config" : s.relab_config[k] != null ? "ReLab 설정" : "기본";
+  $("#fa-set-sum").textContent = `— ${s.effective.model || s.relab_config.model || "모델 ?"} · ${s.effective.endpoint || s.relab_config.endpoint || "주소 ?"}`;
+  const row = (k, label, hint, input) => `<label>${label} <span class="muted">(${from(k)}${hint ? " · " + hint : ""})</span>${input}</label>`;
+  box.innerHTML = `<div class="fa-set-grid">
+      ${row("provider", "서버 종류", "", `<select id="fs-provider"><option value="">${esc(ph("provider") || "ReLab 설정을 따름")}</option>
+        ${["vllm", "openai", "ollama", "openrouter"].map(p => `<option ${v("provider") === p ? "selected" : ""}>${p}</option>`).join("")}</select>`)}
+      ${row("endpoint", "모델 서버 주소", "http://&lt;host&gt;:&lt;port&gt;/v1", `<input id="fs-endpoint" class="mono" value="${esc(v("endpoint"))}" placeholder="${esc(ph("endpoint"))}">`)}
+      ${row("model", "모델 이름", "서버의 served model 이름", `<input id="fs-model" class="mono" list="fs-models" value="${esc(v("model"))}" placeholder="${esc(ph("model"))}"><datalist id="fs-models"></datalist>`)}
+      ${row("python", "명령 python", "가상환경의 bin/python", `<input id="fs-python" class="mono" value="${esc(v("python"))}" placeholder="${esc(ph("python"))}">`)}
+      ${row("max_fix_rounds", "고치기 회차", "", `<input id="fs-max_fix_rounds" type="number" min="1" max="10" value="${esc(v("max_fix_rounds"))}" placeholder="${esc(ph("max_fix_rounds"))}">`)}
+      ${row("round_minutes", "회차 시간 한도(분)", "", `<input id="fs-round_minutes" type="number" min="1" value="${esc(v("round_minutes"))}" placeholder="${esc(ph("round_minutes"))}">`)}
+    </div>
+    <div class="bar"><button id="fs-check">연결 확인</button><button class="primary" id="fs-save">저장</button>
+      <span class="muted">빈 칸은 회색 글자(studio config → ReLab 설정 ~/.relab/config.json)를 씁니다. 저장하면 다음 시작·이어서부터 적용. API 키는 환경 변수 VLLM_API_KEY.</span></div>
+    <div id="fs-out"></div>`;
+  const vals = () => Object.fromEntries(["provider", "endpoint", "model", "python", "max_fix_rounds", "round_minutes"].map(k => [k, $(`#fs-${k}`).value.trim()]));
+  $("#fs-check").onclick = async () => {
+    $("#fs-out").innerHTML = `<span class="muted">확인 중…</span>`;
+    const r = await api("/api/form-agent/settings/check", vals());
+    const e = r.endpoint, p = r.python;
+    if (e.ok) $("#fs-models").innerHTML = e.models.map(m => `<option value="${esc(m)}">`).join("");
+    const want = $("#fs-model").value.trim() || ph("model");
+    $("#fs-out").innerHTML = `<div>${e.ok ? `<span class="tag ok">모델 서버 연결됨</span> <span class="mono">${esc(e.url)}</span> · 모델: ${e.models.map(m => `<span class="mono">${esc(m)}</span>${e.context[m] ? ` <span class="muted">(${e.context[m]} 토큰)</span>` : ""}`).join(", ") || "없음"}
+        ${want && !e.models.includes(want) ? ` <span class="tag warn">모델 이름 '${esc(want)}' 이 서버에 없음</span>` : ""}`
+      : `<span class="tag warn">모델 서버 연결 안 됨</span> <span class="mono">${esc(e.error || "")}</span>`}</div>
+      <div>${p.ok ? `<span class="tag ok">python 됨</span> <span class="mono">${esc(p.path)}</span> ${esc(p.version || "")}`
+      : `<span class="tag warn">python 확인 필요</span> <span class="mono">${esc(p.path)}</span> ${p.missing ? `없는 패키지: <span class="mono">${esc(p.missing.join(", "))}</span> (검사 도구가 씀)` : esc(p.error || "")}`}</div>`;
+  };
+  $("#fs-save").onclick = async () => {
+    try { await api("/api/form-agent/settings", vals(), "PUT"); toast("설정을 저장했습니다"); }
+    catch (e) { toast(e.message, true); return; }
+    await drawFaSettings();
+    drawFaOverview();
   };
 }
 
