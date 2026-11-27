@@ -314,8 +314,11 @@ def build(draft: Path) -> dict:
             if f"L{ln['pos']}" in skip:
                 continue
             a = (ln["from"], ln["pos"], ln["to"], ln["pos"]) if ln["dir"] == "h" else (ln["pos"], ln["from"], ln["pos"], ln["to"])
-            if any(b[0] - 4 <= a[0] and a[2] <= b[2] + 4 and b[1] - 4 <= a[1] and a[3] <= b[3] + 4 for b in hidden):
-                continue                                   # 그리지 않기로 한 덩어리(로고 등) 안의 획
+            length = max(a[2] - a[0], a[3] - a[1], 1)
+            if any(b[1] - 4 <= a[1] and a[3] <= b[3] + 4 and b[0] - 4 <= a[0] + (a[2] - a[0]) and          # 그리지 않기로 한 덩어리(로고 등)에
+                   (min(a[2], b[2]) - max(a[0], b[0]) if a[2] > a[0] else (min(a[3], b[3]) - max(a[1], b[1]))) >= 0.5 * length
+                   for b in hidden):                       # 반 넘게 걸친 획은 그 덩어리의 일부
+                continue
             if ln["dir"] == "h":
                 parts.append(f'<div class="ln" style="left:{ln["from"]}px;top:{ln["pos"]}px;width:{ln["to"] - ln["from"]}px;height:1px"></div>')
             else:

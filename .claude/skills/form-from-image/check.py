@@ -212,9 +212,14 @@ def edge_ink(im: Image.Image, box) -> bool:
     return bool(left or right)
 
 
+def overlaps(a, b) -> bool:
+    return min(a[2], b[2]) > max(a[0], b[0]) and min(a[3], b[3]) > max(a[1], b[1])
+
+
 def shape_warnings(draft: Path, layout: dict, gs: list[dict], pages: list[str], values: dict | None) -> list[str]:
-    """seed 1 렌더를 grid 로 재서 원본과 맞댄다."""
+    """seed 1 렌더를 grid 로 재서 원본과 맞댄다. 도장·서명이 걸친 칸은 글자 대조에서 뺀다 (도장은 칸 밖으로 번지는 게 정상)."""
     out = []
+    marks = [(f.get("page", 0), f["bbox"]) for f in values or [] if f.get("bbox") and f["key"].startswith(("seal.", "sign.", "signature."))]
     lp = layout.get("pages") or []
     for n, (g, ren_path) in enumerate(zip(gs, pages), 1):
         pg = lp[n - 1] if n - 1 < len(lp) else {}
@@ -245,6 +250,8 @@ def shape_warnings(draft: Path, layout: dict, gs: list[dict], pages: list[str], 
             elif len(rt["cells"]) != len(t["cells"]):
                 cells_bad.append(f"{t['id']} 칸 수 원본 {len(t['cells'])} · 렌더 {len(rt['cells'])}")
             for c in t["cells"]:
+                if any(p == n - 1 and overlaps(b, c["box"]) for p, b in marks):
+                    continue
                 text = item_text(cells.get(c["id"]))
                 fixed = text and not TOKEN.search(text)
                 rk = grid.ink(rbin, [v * grid.S for v in c["box"]])
@@ -270,13 +277,24 @@ def shape_warnings(draft: Path, layout: dict, gs: list[dict], pages: list[str], 
         blocks = pg.get("blocks") or {}
         wide, lost = [], []
         for bl in g["blocks"]:
-            if bl["id"] in skip or not item_text(blocks.get(bl["id"])):
+            text = item_text(blocks.get(bl["id"]))
+            if bl["id"] in skip or not text:
                 continue
-            rb, iou = match_box(bl["box"], rg["blocks"])
-            if not rb or iou < 0.2:
+            x0, y0, x1, y1 = (int(v * grid.S) for v in bl["box"])
+            if rbin.crop((x0, y0, x1 + 1, y1 + 1)).getbbox() is None:
                 lost.append(bl["id"])
                 continue
-            sw, rw = bl["box"][2] - bl["box"][0], rb["box"][2] - rb["box"][0]
+            if TOKEN.search(text) or any(p == n - 1 and overlaps(b, bl["box"]) for p, b in marks):
+                continue                                   # 값·도장이 섞인 덩어리는 너비가 서류마다 다르다
+            b = bl["box"]
+            if b[2] - b[0] < 40:                           # 한두 글자: 너비 차이가 늘 크게 보인다
+                continue
+            grow = [b[0] - 0.3 * (b[2] - b[0]), b[1] - 2, b[2] + 0.3 * (b[2] - b[0]), b[3] + 2]
+            parts = [r["box"] for r in rg["blocks"] if grow[0] <= (r["box"][0] + r["box"][2]) / 2 <= grow[2]
+                     and overlaps(r["box"], [0, b[1], 9999, b[3]])]
+            if not parts:
+                continue
+            sw, rw = b[2] - b[0], max(p[2] for p in parts) - min(p[0] for p in parts)     # 렌더에서 낱말 사이가 벌어져 둘로 잡혀도 합쳐 잰다
             if rw > sw * 1.15 + 6 or rw < sw * 0.85 - 6:
                 wide.append(f"{bl['id']} 원본 {sw}px · 렌더 {rw}px")
         if lost:

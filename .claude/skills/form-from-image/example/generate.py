@@ -15,9 +15,12 @@ def adjust(d, p, rng):
     branch = get(d, "bank.branch")
     if branch:
         put(d, "bank.branch", branch.removesuffix("지점"))
-    # 정기발급 유효기간: 시작 ≤ 끝, 최대 3년 (원본 "※ 최대 3년이하로 설정 가능"). 두 날짜를 같은 표기로
-    like = get(d, "base_date") or "2025.01.01"
-    start = (to_date(like) or date(2025, 1, 1)) + timedelta(days=rng.randint(0, 30))
+    # 날짜 표기를 한 서류 안에서 하나로 (예금주 생년월일 표기에 맞춤)
+    like = get(d, "customer.birth") or "1980.01.01"
+    base = to_date(get(d, "base_date")) or date(2025, 1, 1)
+    put(d, "base_date", date_like(base, like))
+    # 정기발급 유효기간: 시작 ≤ 끝, 최대 3년 (원본 "※ 최대 3년이하로 설정 가능")
+    start = base + timedelta(days=rng.randint(0, 30))
     end = start + timedelta(days=rng.choice([182, 365, 730, 1095]) - 1)
     put(d, "valid.from", date_like(start, like))
     put(d, "valid.to", date_like(end, like))
