@@ -9,7 +9,7 @@
   1. 서식 ID 확인 (형식, 이미 있는 서식·폴더면 거부 — 덮어쓰지 않음)
   2. check.py 검사 통과 확인
   3. 옮기기: template.html.j2 → look/template.html.j2 · form.json 의 fields·lists → fields.json · 나머지 → form.json ·
-     source*.png · generate.py (있으면). fields.md·review.md·report.md·check*·run.json 등 작업 파일은 옮기지 않는다
+     source*.png · generate.py (있으면). layout.json·grid_*·page_*·view_*·render_*·fields.md·report.md·check*·run.json 등 작업 파일은 옮기지 않는다
   4. python -m docgen.formdir card <ID> (서식 카드 FORM.md) · check <ID>
 마지막 줄에 JSON. 성공 0, 거부·실패 1. 등록은 검수가 아니다: studio 서식 › 서식 다시 읽기 → 생성 사례 › 미리보기/검수.
 """

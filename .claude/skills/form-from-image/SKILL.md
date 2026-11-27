@@ -1,133 +1,178 @@
 ---
 name: form-from-image
-description: 서식 이미지(빈 서식·견본·실서류 사진)를 직접 보고 docgen 서식 하나를 추가한다 — 인쇄 글자를 먼저 옮겨 적고(source_text.md), 뽑을 키와 항목 설명(fields.md)을 정하고, template.html.j2 · fields.json · form.json (칸끼리 관계가 있으면 generate.py)을 써서 원본과 비교하며 고친다. "이 이미지로 서식 만들어줘", "forms 에 서식 추가", "이 서류에서 뽑을 키 정해줘" 같은 요청에 쓴다. 이미 있는 서식 고치기는 docgen/forms/README.md.
+description: 서식 이미지(빈 서식·견본·실서류 사진·팩스)를 보고 docgen 서식 하나를 추가한다 — 도구로 표 선·칸·글자 자리를 재고(grid.py), 보기 창으로 잘라 크게 보며 칸마다 글자와 값 자리를 layout.json 에 적고, build.py 가 원본과 거의 같은 template.html.j2 · form.json · fields.md(뽑을 키와 항목 설명)를 만든다. 원본과 렌더를 같은 자리끼리 맞대 보며 고친다. "이 이미지로 서식 만들어줘", "forms 에 서식 추가", "이 서류에서 뽑을 키 정해줘" 같은 요청에 쓴다. 이미 있는 서식 고치기는 docgen/forms/README.md.
 ---
 
 # 서식 이미지 → docgen 서식 추가
 
 ## 목표
 
-서식 이미지(쪽마다 한 장)를 **직접 보고**, `docgen/forms/` 에 넣을 서식 폴더를 만든다. 이 서식은 서류 한 건마다 다른 가짜 고객 값을 채워
-그림과 정답(키·값·위치)을 계속 찍어 내는 **합성 데이터 생성기**다. 원본을 똑같이 베끼는 것이 아니라, 같은 서류로 보이는 틀을 만드는 것이다.
+서식 이미지(쪽마다 한 장)로 **원본과 거의 같은 모양의, 고칠 수 있는 html 서식**을 만든다. 서류 한 건마다 가짜 고객 값을 채워
+그림과 정답(키·값·위치)을 찍어 내는 **합성 데이터 생성기**가 된다 (studio 서식 목록에 등록되는 꼴 그대로).
 
-| 결과물 | 필수 | 정의하는 것 |
+| 결과물 | 누가 | 정의하는 것 |
 |---|---|---|
-| `template.html.j2` | ✓ | 모양(제목·항목명·표 선·안내문)과 **값이 들어갈 자리** `{{ f("키", label="항목명") }}`. 이 자리가 정답 위치(bbox)가 된다 |
-| `fields.json` (초안에서는 `form.json` 의 `fields`·`lists`) | ✓ | **키마다**: 항목명 `label`, 종류 `type`, 값 만드는 법 `source`, 보기 `choices`, 질문 설명 `q` |
-| `form.json` | ✓ | 서식 정보: 이름·그룹·종류·쪽 크기 |
-| `generate.py` | 관계가 있을 때만 | 칸끼리 관계(합계=행 합, 발급일≥조회일 …) `adjust(d, p, rng)` |
-| `source_text.md` (작업 파일) | ✓ | 그림에 **인쇄된 글자 그대로** (항목명·제목·안내문). 템플릿 글자의 기준. 서식 폴더에는 넣지 않는다 |
-| `fields.md` (작업 파일) | ✓ | 사람이 검토하는 **칸 표**: 뽑을 키와 항목 설명. 서식 폴더에는 넣지 않는다 |
+| `layout.json` | **내가 쓴다** | 칸마다 원본 글자, 값 자리 `{키}`, 키마다 항목명·종류·값 만드는 법·설명. 이 서식의 원본 |
+| `template.html.j2` | build.py | 모양: 표 자리·열 너비·행 높이·합친 칸(grid 가 잰 숫자 그대로) + 글자 + 값 자리 `f("키")` |
+| `form.json` | build.py | 서식 정보 + 칸 목록 `fields`·`lists` |
+| `fields.md` | build.py | 사람이 검토하는 **뽑을 키와 항목 설명** 표 |
+| `generate.py` | 내가 (필요할 때만) | 칸끼리 관계 (시작일 ≤ 끝일, 합계 = 행 합 …) |
 
-**다 됐다:** 검사(`checks: []`, `overflow: false`, 쪽 수) 통과 · 여러 seed 로 그려도 값이 칸 안 · 원본과 나란히 봐서 같은 서류 · 칸 표에 판단이 안 선 것까지 적힘.
+**순서가 핵심이다: 재기는 도구가, 읽기는 내가, 쓰기는 도구가.** 표의 선 자리·칸 나눔·글자 크기를 그림을 보고 짐작하지 않는다 — `grid.py` 가 잰다.
+나는 잘라 크게 본 그림에서 **칸 안의 글자를 읽고, 그것이 고정 글자인지 값 자리인지 정하는 일**만 한다. html 은 손으로 쓰지 않는다 — `build.py` 가 쓴다.
+
+**다 됐다:** 검사 통과(문제 없음) · 경고를 다 고쳤거나 왜 두는지 적음 · 원본과 렌더를 덩어리마다 맞대 봐서 같은 서류 · `fields.md` 의 키·설명이 칸의 뜻에 맞음.
 검수 완료는 사람이 studio 에서 누른다. 검사 통과를 "검수 완료"라고 하지 않는다.
 
 **지킬 것**
-- 실서류 그림은 사내 모델(지금 이 작업)에서만 다룬다. 외부 서비스로 보내지 않는다. 원본에 적힌 실제 값(이름·번호·주소)은 어느 파일에도 옮기지 않는다.
-- 고치는 곳은 초안 폴더뿐. 기존 서식 폴더·`docgen/forms/_common/`·엔진 코드(`docgen/*.py`)는 고치지 않는다. 등록은 사용자가 하라고 할 때만 (7단계).
+- 실서류 그림은 사내 모델에서만 다룬다. 외부 서비스로 보내지 않는다. 원본에 적힌 **실제 값(이름·번호·주소·지점명·날짜)은 어느 파일에도 옮기지 않는다** — 값 칸은 `{키}` 로만.
+- 고치는 곳은 초안 폴더뿐. 기존 서식 폴더·`docgen/forms/_common/`·엔진 코드는 고치지 않는다. 등록은 사용자가 하라고 할 때만 (8단계).
 - 같은 단계에서 같은 오류가 두 번 나면 멈추고 오류 끝부분과 함께 보고한다.
-- 패키지·브라우저를 설치하지 않는다 (`pip install`, `playwright install` …). 미리보기가 브라우저를 못 찾는 등 **환경 오류는 고치려 하지 말고** 멈추고 보고한다.
+- 패키지·브라우저를 설치하지 않는다. 미리보기가 브라우저를 못 찾는 등 **환경 오류는 고치려 하지 말고** 멈추고 보고한다.
 
-명령은 저장소 맨 위 폴더(`document_gen/`)에서 실행한다. 파일 꼴의 원문은 `docgen/manual/NEW_FORM_SPEC.md` 이고, 이 문서와 다르면 그쪽을 따른다.
+명령은 저장소 맨 위 폴더(`document_gen/`)에서 실행한다. 아래 `<초안>` = `out/form_drafts/<ID>`, `T=.claude/skills/form-from-image`.
 
-**에이전트 진행기(`python -m formagent`, ReLab)로 돌 때:** 요청에 서식 ID·초안 폴더·원본 종류가 적혀 오고, 원본은 이미 초안 폴더에 있다 (0단계 3~5는 하지 않는다).
-일은 회차로 나뉜다 — **1회차 1-1단계(글자 옮기기, 이 문서를 읽지 않고 그림만 봄) · 2회차 0·1-2·2~4단계(만들기) · 3회차부터 5·6단계(비교하며 고치기)**.
-**요청에 `@`로 붙은 그림은 보인다** — 그것이 원본(1·2회차) 또는 원본|렌더 비교 그림(3회차부터)이다. 다만 붙지 않은 그림 파일을 새로 열어 볼 수는 없다.
-회차마다 새 대화라 앞 회차의 대화는 없다: 초안 폴더의 `fields.md`·`review.md` 를 먼저 읽는다. 초안 폴더의 `__init__.py`·`run.json`·`relab_*.log`·`check_*` 는 진행기 것이니 건드리지 않는다.
-셸 문법(`for`, `|`, heredoc)은 쓸 수 없다 — 아래의 검사 명령 하나로 확인한다.
+## 도구
+
+| 명령 | 하는 일 |
+|---|---|
+| `python $T/grid.py <초안>` | 원본 기울기 바로잡기 → **표·칸·글자 덩어리의 자리를 잰다** (글자는 읽지 않음). 칸 이름 `T2.7`, 글자 덩어리 `B3`. 결과 `page_<n>.png`·`grid_<n>.json`, 화면에 칸 목록 |
+| `python $T/view.py page <초안> --to 1` | 쪽 전체 + 칸 이름 → `view_1.png` |
+| `python $T/view.py table <초안> T2 --rows 1-6 --to 2` | 표(행 범위)를 크게 + 칸 이름 → `view_2.png`. **글자는 이것으로 읽는다** |
+| `python $T/view.py crop <초안> x0 y0 x1 y1 --cells --to 3` | 아무 곳이나 크게 (눈금은 쪽 px) |
+| `python $T/view.py compare <초안> x0 y0 x1 y1 --to 4` | 같은 자리의 원본(위)·렌더(아래) — **고칠 때는 이것으로 본다** |
+| `python $T/view.py overlay <초안> x0 y0 x1 y1 --to 4` | 회색 원본 위에 빨강 렌더 (어긋남을 볼 때) |
+| `python $T/build.py <초안>` | `layout.json` + `grid_<n>.json` → `template.html.j2`·`form.json`·`fields.md` |
+| `python -m pytest $T/test_draft.py --draft <초안> -q` | 검사 (미리보기 5번 · 모양 대조 · 값 경고). 경고는 출력 아래 `warnings summary` 의 `DraftWarning: 경고: …` |
+
+**자리 단위는 쪽 px**: 쪽 가로 = 794 (A4 세로 1123). grid 목록·보기 창 눈금·`layout.json` 의 `box` 가 모두 이 단위다.
+**보기 창**: `--to 1~4` 로 `view_1.png`~`view_4.png` 에 쓴다. 쓴 다음 그 파일을 열어 본다
+(에이전트 진행기(ReLab)에서는 네 장이 요청에 붙어 있어서, **명령으로 다시 쓰면 다음 단계에서 새 그림이 보인다** — 파일을 따로 열 수는 없다).
+한 번에 크게 볼 수 있는 넓이는 정해져 있다: 표 하나는 `--rows` 로 6~10행씩 나눠 본다. 작은 글자·손글씨·도장 겹친 곳은 `crop` 으로 더 좁게.
 
 ## 0. 준비
 
-**그림을 먼저 본다.** 문서를 잔뜩 읽은 뒤 그림을 보면 그림 대신 짐작으로 항목명을 쓰게 된다. 1-1단계(글자 옮기기)는 아래 1·2의 읽기 **전에** 한다.
+1. 서식 ID: 원본 제목의 영어 이름, 소문자·숫자·밑줄 3~51자. `python -m docgen.formdir path <ID>` 가 "없습니다" 여야 한다.
+2. 초안 폴더 `out/form_drafts/<ID>/` 를 만들고 원본을 복사한다: 1쪽 `source.png`, 2쪽부터 `source_2.png` ….
+3. 원본이 빈 서식인지 실서류(값이 적힌 진짜 서류)인지 사용자에게 듣고 적어 둔다.
+(에이전트 진행기로 돌 때는 1~3 과 아래 1단계 grid.py 를 진행기가 해 두었다.)
 
-1. 읽는다 (1-1단계 뒤, 1-2단계 전): `docgen/manual/NEW_FORM_SPEC.md` 2·3·4·11절, `guide/studio/keys.md` 3~5절.
-   `docgen/forms/_common/values.md`(값 만드는 법 목록)는 **1~106줄(특별한 것 · 값 종류 표 · 생성기 · 표기)을 읽는다**. 그 뒤 고객 프로필 목록은 검색으로 찾는다.
-2. **완성 예시**: `.claude/skills/form-from-image/example/` 의 `fields.md`·`template.html.j2` (은행 신청서 한 장을 이 순서대로 만든 것).
-   **파일 꼴만 참고한다.** 항목·칸·배치는 예시가 아니라 지금 원본(그림과 `source_text.md`)에서 가져온다.
-   발급 서류(표·반복 행·발급기관 직인) 견본은 `docgen/forms/bank_statement/look/template.html.j2`.
-3. **서식 ID**: 원본 제목의 영어 이름, 소문자·숫자·밑줄 3~51자. `python -m docgen.formdir path <ID>` 가 "없습니다 (새 서식이면 쓸 수 있는 ID)" 여야 한다.
-4. 초안 폴더 `out/form_drafts/<ID>/` 를 만들고 원본을 복사한다: 1쪽 `source.png`, 2쪽부터 `source_2.png` ….
-5. 원본이 실서류(값이 적힌 진짜 서류)인지 사용자에게 듣고 적어 둔다. 모르면 묻는다.
+## 1. 재기 — `grid.py`
 
-## 1. 그림 읽기
-
-### 1-1. 글자 옮기기 → `source_text.md`
-
-그림에 **인쇄된 글자를 위에서 아래로 빠짐없이 그대로** 옮겨 적는다. 이것이 템플릿 글자의 기준이 되고, 검사가 템플릿과 맞대 본다
-(템플릿에 있는데 여기 없으면 "지어낸 글자", 여기 있는데 템플릿에 없으면 "빠진 글자" 경고).
-
-```markdown
-## 1쪽
-### 결재란
-본인확인 | 담당 | 책임자 | 감사통할 | 부점장
-### 제목
-예금(신탁) 잔액증명 의뢰서
-주식회사 하나은행 | ( ) | 지점(부) 앞
-### 신청 사항
-신청 사항 | 신청구분 | □ 등록 □ 변경 □ 해제
-발급기준일 | ( ) | 대상계좌 | □ 지정계좌 □ 전체계좌
-※ 전체계좌 선택시 계좌번호 작성 불요
-### 고객 확인 사항
-1. 잔액증명서 발급기준일 당일은 예금의 잔액변경 및 대출의 담보로 제공할 수 없으니 각종이체 지정일 여부를 확인하기 바랍니다.
-2. …(그림의 문장 끝까지 전부)
-### 날짜·서명란
-년 월 일 | 예금주 | (동의확인) | 성명 | ( ) | (인)
-### 맨 아래
-5-08-0094(1-1) (2025.01 개정) | (보존년한 : 5년) | (로고: 하나은행)
+```bash
+python $T/grid.py <초안>
 ```
 
-- 한 줄에 그림의 한 줄. 같은 줄에 칸이 여럿이면 ` | ` 로 나눈다. 값이 들어갈 빈 칸은 `( )`.
-- 영어·숫자·기호·괄호는 그림 그대로 (`대상계좌 (발급세부)`, `(통화코드 : )`, `□ E-mail :`, `□ 등록`). 한글 띄어쓰기도 그대로.
-- 안내문·약관은 문장 끝까지 전부 적는다 (위 예시의 "…"는 지면을 줄인 것이고, 실제로는 줄이지 않는다).
-- 손글씨·타자로 채운 값(이름·번호·금액·날짜·체크 표시)은 옮기지 않고 `(값)`. 로고·바코드·도장은 `(로고: 글자)` `(바코드)` `(도장)`.
-- 작거나 흐려 못 읽는 곳은 `(안 보임: 어디)`. **짐작으로 채우지 않고, 그림에 없는 글자를 더하지 않는다** ("이런 서식이면 보통 있는 항목"을 적지 않는다).
+화면에 쪽마다 **표**(열 경계 x · 행 경계 y · 칸 목록), **표 밖 선**, **바코드 자리**, **표 밖 글자 덩어리**가 나온다. 칸 한 줄의 뜻:
 
-### 1-2. 칸 표 → `fields.md`
-
-`source_text.md` 와 그림을 같이 보고 쓴다. **원본 항목명 열은 `source_text.md` 의 글자 그대로**다.
-**`fields.md` 를 끝까지 쓰기 전에는 html·form.json 을 쓰지 않는다.** 이 표가 "이 서류에서 뽑을 키와 항목 설명"이고 사람이 가장 먼저 검토하며, 2·3단계는 이 표를 옮기는 일이다.
-html 을 쓰다가 칸이 바뀌면 `fields.md` 를 먼저 고치고 html 을 맞춘다.
-
-**읽는 순서:** 쪽 전체를 보고 덩어리로 나눈다(제목 · 발급번호/결재란 · 위 정보 표 · 목록 표 · 체크 항목 · 안내문/약관 · 날짜·서명란·발급기관).
-위에서 아래로 덩어리마다, 안에서 왼쪽→오른쪽·위→아래로 칸을 본다. 그림을 잘라 크게 볼 수 있는 도구가 있으면 작은 글자는 그렇게 읽고, 없으면 `(안 보임: 어디)`로 남긴다.
-
-**값 자리 / 고정 글자 구분:** 서류마다 달라질 것(사람·회사·번호·날짜·금액·주소·체크 결과·지점명·도장)은 **값 자리**,
-모든 서류에 똑같이 인쇄된 것(제목·항목명·안내문·약관·"년 월 일" 같은 틀 글자)은 **고정 글자**.
-빈 서식이면 빈 칸·밑줄·괄호·"년 월 일" 앞 공백이 값 자리다. 실서류면 손글씨·다른 글꼴·다른 색 글자가 값이다.
-
-```markdown
-# <서식 이름> (<ID>) — <쪽 수>쪽, group=<…>, category=<external|internal>, 원본=<빈 서식|견본|실서류>
-
-## 칸
-| 쪽 | 원본 항목명 | 키 | type | source | 이 칸이 무엇인지 | 값 예시·형식 | 확신 |
-|---|---|---|---|---|---|---|---|
-| 1 | 성명 | customer.name | text | profile.person.name | 신청인 본인 이름 | 홍길동 | 높음 |
-| 1 | 신청금액 | loan.amount | amount | rule:amount | 대출 신청 금액 (원) | 30,000,000 | 높음 |
-| 1 | 용도 □대출 □기타 | purpose | checkbox | rule:choice [대출, 기타] | 제출 용도, 하나만 체크 | 대출 | 높음 |
-
-## 반복 표 <표 키> — 원본 행 n개 → min n, max m   (빈 행 N개가 인쇄된 서식이면: 칸은 늘 N행, 값은 min 1 · max N)
-| 열 | 원본 머리글 | 열 키 | type | source | 이 열이 무엇인지 |
-
-## 도장·서명
-| 원본 표시 | 키 | 매크로 |
-| 성명 옆 (인) | seal.customer · sign.customer | m.sigspot("customer", val("customer.name"), label="신청인") |
-| 발급기관 직인 | seal.issuer | m.seal("…직인", square=True, over=True) |
-
-## 칸끼리 관계 (→ generate.py)
-- 조회 시작일 ≤ 종료일 ≤ 발급일 …
-
-## 고정 글자 (값 아님)
-- 약관 1~5조, "위와 같이 신청합니다" …
-
-## 판단이 안 선 것
-- <칸> — <왜 애매한지>
 ```
+- T2.6 행2~5 열2 · x 108~190 y 186~330 · 글자 2줄 약 14px center · 회색 바탕
+```
+= 표 T2 의 2~5행(합친 칸)·2열, 자리, 원본에 글자가 2줄(크기·정렬 짐작), 바탕이 회색. "빈 칸" 이면 원본에서 그 칸이 비어 있다.
+이 숫자(자리·합친 칸·크기·정렬·바탕)는 build.py 가 그대로 쓰므로 **내가 다시 잴 필요가 없다.**
+
+## 2. 전체 보기
+
+`view.py page <초안> --to 1` 로 쪽 전체를 보고 정한다:
+- 이 서류가 무엇인지 (제목), 빈 서식인지 값이 적힌 서류인지.
+- grid 가 **잘못 찾은 것**: 글자를 표로 잘못 본 작은 표 → `skip`, 티끌·검은 네모(맞춤 표시)·바코드 글자 → 그 글자 덩어리 `null`.
+- grid 가 **못 찾은 것**: 선이 흐려 빠진 표·칸이 있으면 `crop` 으로 그 자리를 보고 `extra` 로 더한다 (드물다).
+
+## 3. 칸 읽기 → `layout.json` 의 `cells`·`blocks`
+
+표마다 `view.py table <초안> T<n> --rows a-b --to 2` 로 칸 이름이 찍힌 그림을 보고, **칸마다** 적는다. 표 밖 글자 덩어리는 `view.py crop … --cells` 로 보고 `blocks` 에 적는다.
+
+- **인쇄된 글자(항목명·제목·안내문·보기·괄호 글자)는 보이는 그대로** — 띄어쓰기·괄호·기호(□ ※ ▶ :)까지. 줄이 나뉘어 있으면 `\n`. 안내문·약관은 끝까지 다 적는다 (줄이지 않는다).
+- **값(서류마다 달라질 것)은 `{키}`**. 빈 서식이면 빈 칸·밑줄·괄호 안이 값 자리, 실서류면 손글씨·타자·다른 글꼴로 채운 글자가 값이다.
+  실서류의 값 글자는 **절대 옮기지 않는다** (`2020-11592` → `{warrant.no}`). 한 칸에 고정 글자와 값이 섞이면 그대로: `"(통화코드 : {currency}          )"`.
+- **체크 보기** `□ 등록 □ 변경 □ 해제` 처럼 하나를 고르는 묶음 → `{apply.kind:등록|변경|해제}` (보기 글자는 원본 그대로). 실서류에서 ■ 로 체크돼 있어도 보기 전부를 적는다.
+- **도장·서명 자리**: `(서명/인)` 같은 날인 자리 → `{sign:sign.customer|customer.name|(서명/인)}` (표시 글자 원본대로), 기관 직인 → `{seal:seal.court|대전지방법원장}`.
+- **못 읽은 곳은 짐작하지 않는다.** `crop` 으로 더 좁게 보고, 그래도 안 보이면 그 칸은 비워 두고 보고에 "판단이 안 선 것"으로 적는다. 손글씨와 도장이 겹친 곳의 인쇄 글자도 같다.
+- 그림에 없는 항목명을 더하지 않는다 ("이런 서식이면 보통 있는 항목" 금지).
+- 칸 옵션은 필요할 때만: `{"t": "…", "align": "center", "size": 12, "bold": true}` (grid 짐작이 틀렸을 때). 옵션 전체는 `build.py` 맨 위 설명.
+
+`layout.json` 꼴 (완성 예시: `$T/example/layout.json` — **꼴만 참고**, 내용은 지금 원본에서):
+
+```json
+{
+ "form": {"name": "예금(신탁) 잔액증명 의뢰서", "group": "bank_form", "category": "internal"},
+ "pages": [
+  {"cells": {"T2.2": "신청구분", "T2.3": "{apply_type:등록|변경|해제}", "T2.4": "발급기준일", "T2.5": "{base_date}",
+             "T2.16": "(통화코드 : {currency}                    )"},
+   "blocks": {"B1": {"t": "예금(신탁) 잔액증명 의뢰서", "bold": true}, "B2": null},
+   "skip": [],
+   "extra": [{"box": [180, 123, 340, 140], "t": "{bank.branch}"}]}
+ ],
+ "fields": {"apply_type": {"label": "신청구분", "type": "checkbox", "source": "rule:choice", "choices": ["등록", "변경", "해제"],
+                           "description": "잔액증명 신청 종류"}},
+ "lists": {"accounts": {"min": 1, "max": 6, "fields": {"number": {"label": "계좌번호", "type": "text", "source": "rule:account"}}}}
+}
+```
+
+`group`: identity · family · income · tax · finance · real_estate · business · corporate · fx · bank_form. `category`: external(고객이 가져오는 서류) · internal(은행 서식).
+
+## 4. 키와 항목 설명 → `layout.json` 의 `fields`
+
+`{키}` 마다 `fields` 에 적는다: `label`(원본 항목명 그대로), `type`, `source`, `description`(이 칸이 무엇인지 한 줄 — 사람이 가장 먼저 검토한다),
+체크면 `choices`. 아래 "키·값 규칙"을 따른다. 읽을 것: `guide/studio/keys.md` 3~5절, `docgen/forms/_common/values.md` 1~106줄(값 종류 표).
+인쇄된 빈 행이 정해진 수만큼 있는 표(계좌번호 칸 6개 등)는 `lists` 에 `"min": 1, "max": N` 으로 두고 칸에는 `{accounts.0.number}` … `{accounts.5.number}`.
+
+## 5. 만들기·검사
+
+```bash
+python $T/build.py <초안>                                    # 오류면 메시지대로 layout.json 을 고친다
+python -m pytest $T/test_draft.py --draft <초안> -q          # 검사
+```
+
+| 검사 | 통과 못 함 (problems) | 경고 (warnings — 고치거나 왜 두는지 적는다) |
+|---|---|---|
+| 파일 | `layout.json`·`template.html.j2`·`form.json`·`fields.md`·`grid_<n>.json` 없음 | |
+| 미리보기 | 명령 오류, `checks`, `overflow`, 쪽 수 ≠ 원본 | |
+| 빠진 글자 | | 원본에 글자가 있는데 `layout.json` 에 안 적은 칸·글자 덩어리 |
+| 모양 대조 | | 원본과 렌더를 **같은 도구로 재서** 맞댄 것: 표 선 자리, 원본엔 글자 있는데 렌더 칸이 빔 / 그 반대, **칸 가장자리에 닿은 글자(넘쳐 잘림)**, 글자 덩어리 너비 |
+| 값 | | 값이 칸 밖으로 나감, 다른 칸에 같은 사람 값, 날짜·금액 표기 섞임, 빈 값이 많음 |
+
+검사는 seed 1 렌더를 `render_<n>.png` 로 두어 `view.py compare` 가 쓴다.
+
+## 6. 원본과 맞대 보며 고치기
+
+**덩어리마다** `view.py compare <초안> x0 y0 x1 y1 --to 4` 로 같은 자리의 원본·렌더를 보고 고친다. 쪽 전체 한 장으로 보지 않는다 (작아서 차이가 안 보인다).
+경고에 나온 칸·덩어리부터, 그다음 표마다 한 번씩. 고칠 곳은 **늘 `layout.json`** 이고 `build.py` → 검사를 다시 돌린다 (template 을 직접 고치면 다음 build 에서 사라진다).
+
+| 보이는 것 | 고치는 법 (`layout.json`) |
+|---|---|
+| 글자가 칸을 넘치거나 잘림 | 그 칸 `size` 를 줄이거나 `\n` 으로 원본처럼 줄을 나눈다 |
+| 글자가 원본보다 크거나 작음, 굵기 다름 | `size` · `bold` |
+| 정렬이 다름 | `align` (left·center·right), 세로는 `valign` |
+| 칸 안 글자 사이 간격(보기 사이 띄움)이 다름 | 띄어쓰기 수 |
+| 글자가 다름·빠짐 | 그 칸 글자를 원본대로 (crop 으로 다시 읽고) |
+| 값이 들어갈 곳에 고정 글자가 있음 / 그 반대 | `{키}` 로 바꾸거나 글자로 |
+| 표 선이 원본과 다름 (경고) | grid 가 잘못 잰 것: 그 자리를 crop 으로 보고 보고서에 적는다 (layout 으로 선을 옮기지는 않는다) |
+| 값이 칸의 뜻에 안 맞음 (기간 칸에 메모 글 …) | `fields` 의 `source` (아래 "키·값 규칙") |
+| 칸끼리 관계가 틀림 (끝일 < 시작일, 대리인 = 고객) | `generate.py` (아래) |
+
+글꼴·선 굵기·바탕색은 생성할 때 무작위로 바뀌므로 맞추지 않는다. 원본이 좁은 글꼴이면 build.py 가 글자를 가로로 줄여 맞춘다 (`squeeze`).
+
+## 7. 보고
+
+| 항목 | 내용 |
+|---|---|
+| 서식 | ID · 이름 · 쪽 수 · 원본 종류 · group · category |
+| 칸 | 값 자리 수, 반복 표(행 min~max), 도장·서명, `generate.py` 유무와 맞춘 관계 |
+| 검사 | 마지막 검사의 문제·경고 수, 남긴 경고와 까닭 |
+| 비교 | 덩어리마다 원본과 같은지, 남은 차이 |
+| 판단이 안 선 것 | 못 읽은 칸, 값인지 고정 글자인지 애매한 칸, 키가 애매한 칸 |
+| 사람이 볼 것 | `fields.md` 의 키·설명 (데이터셋을 만든 뒤에는 키를 못 바꿈), 비교 그림 |
+
+에이전트 진행기로 돌면 이 보고를 초안 폴더의 `report.md` 로 쓴다.
+
+## 키·값 규칙
 
 **키** (keys.md): 영어 소문자 `누구의.무엇` — `customer.name`, `agent.phone`, `employer.name`, `loan.amount`, `period.start`, `issue_date`, `account`.
 같은 뜻은 서식 안에서 같은 이름. 한글·대문자·번호 붙은 키(`name2`) 금지. 한 키가 다른 키의 앞부분이면 안 됨(`account` 와 `account.number` 동시 금지).
 같은 사람 이름이 두 자리에 있으면 뒤 자리는 역할로(`applicant.name`) 짓고 source 를 같게 한다.
 
-**type**: `text` `amount` `number` `date` `checkbox`. 도장·서명은 칸 목록에 넣지 않고 매크로가 기록한다.
+**type**: `text` `amount` `number` `date` `checkbox`. 도장·서명(`{sign:…}`·`{seal:…}`)은 `fields` 에 넣지 않는다.
 
 **source** (값 만드는 법). 전체 목록과 예시 값은 `docgen/forms/_common/values.md` 에서 찾는다 (추측하지 않는다).
 - 고객 본인·본인 회사 값 → `profile.…` (`profile.person.name`·`.birth`·`.rrn`·`.mobile`·`.email`·`.name_en`·`.address.road_short`, `profile.business.biz_no`, `profile.issue_date` …).
@@ -142,7 +187,7 @@ html 을 쓰다가 칸이 바뀌면 `fields.md` 를 먼저 고치고 html 을 �
 
 **값이 이상하게 나오는 함정** (실제로 겪은 것):
 - `rule:phone`·`rule:address`·`rule:email` 은 **고객 본인 값**을 낸다. `rule:person` 도 자주 고객 이름이다.
-  대리인·보증인·수령인 같은 **다른 사람** 칸은 이름 `rule:other_person`, 전화 `rule:pattern` `"010-####-####"`, 생년월일은 3단계 `generate.py` 로.
+  대리인·보증인·수령인 같은 **다른 사람** 칸은 이름 `rule:other_person`, 전화 `rule:pattern` `"010-####-####"`, 생년월일은 `generate.py` 로.
 - `rule:date` 는 요즘 날짜를 낸다 → 생년월일에 쓰면 2025년생이 나온다. 고객이면 `profile.person.birth`, 다른 사람이면 `generate.py`.
 - "____년 __월 __일"처럼 한 날짜가 칸 여러 개로 나뉘면 키를 나눈다(`apply_y`·`apply_m`·`apply_d`; `apply_date` 와 같이 쓰지 않음).
   `profile.issue_date` 처럼 **하나로 정해진 값**이면 같은 source 에 `"part": 0|1|2, "format": "number"` 로 충분하다.
@@ -154,9 +199,9 @@ html 을 쓰다가 칸이 바뀌면 `fields.md` 를 먼저 고치고 html 을 �
 - 표기(`"fmt"`)는 html 서식에 적용되지 않는다. 날짜·금액 표기를 바꾸려면 `generate.py` 의 `date_like`·`amount_like`.
 
 **체크 칸 나누기**
-- 보기 중 **하나만** 고르는 묶음(□등록 □변경 □해제) → 키 하나, `type: checkbox`, `rule:choice` + `choices`, 템플릿 `m.choice`.
+- 보기 중 **하나만** 고르는 묶음(□등록 □변경 □해제) → 키 하나, `type: checkbox`, `rule:choice` + `choices`, 칸 글자 `{키:보기1|보기2|보기3}`.
 - **여러 개를 같이** 고를 수 있는 묶음(□입금내역 □출금내역 □대출이자 …) → 보기마다 키 하나(`detail.deposit`, `detail.withdraw` …),
-  각각 `choices: ["<보기 글자>"]` 하나짜리 + `generate.py` 에서 가끔 `None` (보기 하나짜리는 늘 체크되므로). 템플릿은 보기마다 `m.choice("<키>", ["<보기 글자>"])`.
+  각각 `choices: ["<보기 글자>"]` 하나짜리 + `generate.py` 에서 가끔 `None` (보기 하나짜리는 늘 체크되므로). 칸 글자는 보기마다 `{detail.deposit:입금내역} {detail.withdraw:출금내역}`.
 - 원본이 어느 쪽인지 모르겠으면 "판단이 안 선 것"에 적고 하나만 고르는 쪽으로.
 
 **나뉜 날짜 칸의 꼴 (`part`·`format`)**: 한 값을 숫자 묶음으로 나눠 칸마다 넣는다. `"part": 0` 첫 숫자 묶음(년), `1` 둘째(월), `2` 셋째(일),
@@ -166,145 +211,11 @@ html 을 쓰다가 칸이 바뀌면 `fields.md` 를 먼저 고치고 html 을 �
 같은 항목명이 두 군데(신청인 성명·대리인 성명 → `"q": {"label": "대리인 성명"}`), 항목명이 없거나 "금액"처럼 막연함(`"q": {"note": "이체 금액"}`).
 반복 표 열에는 `q.note` 를 넣지 않는다 (자동 "몇 번째 행" 설명이 사라짐).
 
-**확신 낮음은 숨기지 않는다.** 글자가 흐려 못 읽음, 값인지 고정 글자인지 모름, 키가 애매함 → 표에 표시하고 "판단이 안 선 것"에 적는다.
+**칸끼리 관계 → `generate.py`** (관계가 있을 때만): `adjust(d, p, rng)` 로 값을 맞춘다 (NEW_FORM_SPEC 8절: `docgen.formkit` 도우미와 표준 라이브러리만,
+칸 목록에 있는 키만 고침, 난수는 `rng` 만). 예시: `$T/example/generate.py` (년·월·일 칸을 한 날짜에서, 다른 사람 생년월일, 조건에 따라 표 값 비우기).
+반복 표를 조건에 따라 비울 때는 목록을 지우지 말고 행의 값만 `None`.
 
-## 2. 템플릿 `template.html.j2` 쓰기
-
-그림을 보고 html 로 옮긴다. **글자(제목·항목명·안내문·괄호 글자)는 `source_text.md` 에서 그대로 가져오고**, 표 모양·칸 나눔·자리는 그림에서 본다.
-`source_text.md` 에 없는 항목명·문구는 쓰지 않는다 — 그림에 있는데 빠졌으면 `source_text.md` 에 먼저 더한다. **같은 서류로 보이게**가 목표이고 px 까지 맞출 필요는 없다 (글꼴·크기·선 굵기는 생성할 때 무작위로 바뀐다).
-
-**틀**: 첫 두 줄 `{% extends "_base.html.j2" %}` · `{% import "_macros.html.j2" as m with context %}` 는 그대로. 쪽은 A4 794×1123px, 넘치면 자동으로 다음 쪽.
-
-**그림 → 크기 옮기기**: 원본 가로 = 794px 로 놓고 비율로 잰다. 표 너비·열 너비는 원본 가로에 대한 %, 행 높이는 `원본 행 높이 / 원본 세로 × 1123` px.
-덩어리 사이 간격도 같은 비율로 margin px.
-
-**덩어리별로 쓰는 법**
-- 제목: `{{ m.title("…") }}` (글자 사이 띄움도 원본대로).
-- 선이 있는 영역은 모두 `<table>`: `table-layout: fixed`, `<colgroup>` 열 너비 %, `tr { height: Npx }` (padding 으로 높이 맞추지 않음), 합친 칸은 `colspan`/`rowspan`. 항목명 칸은 `<th>`(배경 `var(--label-bg)`), 값 칸은 `<td>` 안에 `f()`.
-- 값 자리: `{{ f("키", label="원본 항목명") }}`. 한 칸 안에 고정 글자와 값이 섞이면 그대로: `{{ f("issue_y", label="발급일 년") }}년 {{ f("issue_m", …) }}월`.
-- 체크 보기: `{{ m.choice("purpose", ["대출", "기타"], label="용도") }}` (보기 글자 = 칸 목록 `choices`). 예/아니오 동의: `m.agree`.
-- 반복 표(행 수가 서류마다 다른 목록): `{% for r in d.<표 키> %}` 행마다 `f("<표 키>." ~ loop.index0 ~ ".<열 키>", label="머리글")` (NEW_FORM_SPEC 2절). 원본의 빈 줄까지 반복 표로 만든다.
-- **빈 칸·빈 행이 정해진 개수만큼 인쇄된 곳**(계좌번호 칸 6개, 순번 1~10 행 등)은 칸·행은 늘 N개 그리고 값만 일부 채운다:
-  `lists` 에 `"min": 1, "max": N` (빈 서식은 몇 행이 채워질지 모르므로 min 은 1),
-  `{% set acc = d.accounts or [] %}{% for i in range(6) %}<td>{% if i < acc|length %}{{ f("accounts." ~ i ~ ".number", label="계좌번호") }}{% endif %}</td>{% endfor %}`.
-  값이 없는 행에도 인쇄된 글자(순번, "□현금 □대체" 같은 보기)는 그대로 그린다.
-- 체크 보기가 좁은 칸에 있으면, **체크된 보기는 값 글자로 크게 찍혀** 안 찍힌 보기보다 길어진다. 칸을 넘지 않게 그 칸의 글자를 줄이거나(`font-size`) 보기마다 줄을 나눈다.
-  원본에서 작게 인쇄된 괄호 글자("(수수료차감 후 입금)")가 있는 보기도 보기 글자 전체가 `choices` 값이므로 같은 크기로 찍힌다는 것을 감안한다.
-- 보기 사이에 설명이 낀 줄("□ 대체(계좌출금) : 지급건별로 처리됩니다. □ 대체 □ 현금")은 `m.choice` 로 보기를 한데 묶고 설명은 묶음 뒤에 둔다. 순서가 달라진 것은 "판단이 안 선 것"에 적는다.
-- 체크와 날짜 칸이 섞인 줄("□ ____년 __월 __일 ~ ____년 __월 __일 / □ 최근 3개월 □ 최근 6개월")은 고르는 쪽을 키 하나(`period.kind`, 보기: `기간 지정`·`최근 3개월`…)로 두고,
-  날짜 칸은 `f()` 로 그린 뒤 `generate.py` 에서 `period.kind` 가 `기간 지정` 이 아닐 때 날짜를 `None` 으로. "기간 지정"의 □ 는 `{% if val("period.kind") == "기간 지정" %}■{% else %}□{% endif %}` 처럼 그린다.
-- `rowspan`·`colspan` 은 세기 쉽게 틀린다. 왼쪽 세로 머리(예: "신청 사항")의 `rowspan` = 그 덩어리의 `<tr>` 수. 틀리면 아래 덩어리가 통째로 밀린다 (5단계에서 보임).
-- 긴 항목명이 좁은 칸에서 두 줄로 넘치면 그 `<th>` 에 `white-space: nowrap` 과 작은 글자.
-- 서명·날인 자리 "(서명 또는 인)": `{{ m.sigspot("customer", val("customer.name"), label="신청인") }}` → 정답 키 `seal.customer`·`sign.customer`.
-- 발급기관 직인: `{{ m.seal("…", square=True, over=True) }}`, 은행 결재란은 칸만 그린 표 (값 자리 없음).
-- 안내문·약관: 원본 글자 그대로 옮긴다 (`<p class="note">`, `<ol class="clauses">`, 작은 글자는 `small`·`tiny`). 길어도 줄이지 않는다.
-- 색·글꼴은 CSS 변수(`var(--border)`, `var(--label-bg)`, `var(--accent)`). 외부 URL·`<script>`·로고·바코드·QR·관인 그림은 넣지 않는다 (로고 자리는 비우거나 기관명 글자).
-- 값을 `{{ d.x }}` 로 직접 찍지 않는다 (그림엔 나오지만 정답에서 빠짐). 조건에만 `{% if val("x") == … %}`.
-
-## 3. `form.json` (초안 꼴) · `generate.py`
-
-```json
-{"name": "<원본 제목>", "group": "<identity|family|income|tax|finance|real_estate|business|corporate|fx|bank_form>",
- "category": "<external(고객이 가져오는 서류)|internal(은행 서식)>", "page": "a4", "origin": "analyzer", "parent": null,
- "source_image": "source.png",
- "fields": {"customer.name": {"label": "성명", "type": "text", "source": "profile.person.name"}, "…": {}},
- "lists":  {"rows": {"min": 5, "max": 20, "fields": {"date": {"label": "거래일", "type": "date", "source": "rule:date_seq"}}}}}
-```
-
-- `fields`·`lists` 는 `fields.md` 와 같아야 한다 (템플릿의 모든 `f()` 키, `m.choice` 키). 도장·서명 키는 넣지 않는다.
-- 칸끼리 관계나 1단계 "함정"이 있으면 `generate.py` 의 `adjust(d, p, rng)` 로 맞춘다 (NEW_FORM_SPEC 8절: `docgen.formkit` 도우미와 표준 라이브러리 `datetime`·`re`·`math` 만,
-  칸 목록에 있는 키만 고침, 난수는 `rng` 만). 관계가 없으면 만들지 않는다.
-- 반복 표를 조건에 따라 비울 때는 목록을 지우지 말고 행의 값만 `None` 으로 (`for r in rows(d, "accounts"): r["number"] = None`). 목록을 지우면 `checks` 경고.
-
-```python
-from datetime import date, timedelta
-from docgen.formkit import to_date, date_like, get, put, rows
-
-
-def adjust(d, p, rng):
-    start = (to_date(get(d, "base_date")) or date(2025, 1, 1)) + timedelta(days=rng.randint(0, 30))
-    end = start + timedelta(days=rng.choice([182, 365, 1095]) - 1)          # 시작 ≤ 끝 ≤ 3년
-    for name, day in (("start", start), ("end", end)):                       # 년·월·일 칸을 한 날짜에서
-        put(d, f"period.{name}_y", str(day.year)); put(d, f"period.{name}_m", f"{day.month:02d}"); put(d, f"period.{name}_d", f"{day.day:02d}")
-    if get(d, "agent.birth"):                                                # 다른 사람 생년월일: 20~70세
-        put(d, "agent.birth", date_like(date(rng.randint(1955, 2004), rng.randint(1, 12), rng.randint(1, 28)), get(d, "agent.birth")))
-    if get(d, "target_scope") == "전체계좌":                                  # 조건에 따라 표 값 비우기
-        for r in rows(d, "accounts"):
-            r["number"] = None
-    return d
-```
-
-## 4. 그려 보기·검사 (명령 하나)
-
-```bash
-python -m pytest .claude/skills/form-from-image/test_draft.py --draft out/form_drafts/<ID> -q     # 에이전트·사람 모두 (통과해야 끝)
-python .claude/skills/form-from-image/check.py out/form_drafts/<ID>                              # 같은 검사, 결과를 글로 보기
-```
-
-**경고는 통과해도 나온다** — pytest 출력 맨 아래 `warnings summary` 의 `DraftWarning: 경고: …` 줄. 통과했어도 경고를 하나씩 읽고 고치거나, 그대로 두는 까닭을 `fields.md` "판단이 안 선 것"에 적는다.
-
-미리보기 5번(`--rows min` · `--rows max` · seed 1~3)을 그리고 `<초안>/check/` 에 결과를 쓴다:
-`check.json`(문제·경고·렌더별 pages/fields/empty·seed 별 키→값), `side_<쪽>.jpg`(왼쪽 원본 · 오른쪽 min 렌더), `renders.jpg`(min·max·seed1·seed2 모음).
-
-| 검사가 보는 것 | 통과 못 함 (problems) | 경고 (warnings — 읽고 판단해 고친다) |
-|---|---|---|
-| 파일 | `source_text.md`·`fields.md`·`template.html.j2`·`form.json` 이 없음 | |
-| 미리보기 | 명령 오류 (템플릿 문법·키 오류), `checks` 가 비지 않음, `overflow` | |
-| 쪽 수 | `--rows min` 렌더 쪽 수 ≠ 원본 그림 수 | |
-| 템플릿 | 값을 `{{ d.… }}` 로 직접 찍음 (정답에서 빠짐) | |
-| 정답 값 | | 다른 칸에 같은 사람 값(대리인 전화 = 고객 전화 …), 한 서류 안 날짜·금액 표기 섞임, 빈 값이 절반 넘음 |
-| 원본 글자 | | 템플릿 글자 중 `source_text.md` 에 없는 것 (**지어낸 글자**), `source_text.md` 글자 중 템플릿에 없는 것 (**빠진 글자**) |
-
-경고의 "다른 칸에 같은 값"은 정말 같은 사람(위임인 = 예금주)이면 그대로 둔다. 그림은 사람(또는 다음 회차의 나)이 보고, 넘치는 값·겹치는 글자·이상한 줄바꿈을 찾는다
-(**체크된 보기 글자**, 긴 금액·주소, 도장·서명이 옆 칸·글자를 덮지 않는지). `fields` 수가 칸 표의 값 자리 수와 맞는지도 본다.
-
-## 5. 원본과 비교하며 고치기 (최대 3회)
-
-4단계 검사가 만든 `check/side_<쪽>.jpg`(왼쪽 원본 · 오른쪽 렌더)와 `check/renders.jpg` 를 본다 (에이전트 진행기면 요청에 붙어 온다).
-값 박스 자리까지 보려면 `python .claude/skills/form-from-image/compare.py --source <초안>/source.png --render <초안>/check/render_min --out <초안>/compare`
-의 `overlay_<쪽>.png`(회색 원본 위에 빨강 렌더, 파랑 값 박스와 키).
-아래 9문항을 쪽마다 예/아니오로 `review.md` 에 회차별로 적고, "아니오"마다 어디가 어떻게 다른지 한 줄. 꼴:
-
-```markdown
-## 2회차
-| # | 1쪽 | 다른 곳 |
-|---|---|---|
-| 1 | 예 | |
-| 3 | 아니오 | 계좌번호 칸이 원본은 3칸(□전체 · 계좌1 · 계좌2), 렌더는 1칸 |
-…
-고친 것: 계좌번호 칸을 3칸으로 · 고칠 것 없음이면 그렇게
-```
-
-1. 원본의 제목·항목명·안내문이 렌더에 모두 있다 (빠진 것 없음 — 검사의 "빠진 글자" 경고가 없다)
-2. 원본에 없는 항목명·문구를 지어내지 않았다 (검사의 "지어낸 글자" 경고가 없다)
-3. 표마다 열 수·칸 나눔(합친 칸, 항목명/값 칸 배치)이 같다. 행 수는 고정 표면 같고, 반복 표면 min 이 원본과 같다
-4. 덩어리의 순서와 대략의 자리·크기가 같다 (위·가운데·아래, 왼쪽·오른쪽). **글 정렬**(안내문은 왼쪽 정렬인지, 머리글은 가운데인지)과 글자 크기가 비슷하고,
-   머리글·항목명이 칸 밖으로 넘치거나 옆 글자와 겹치지 않는다 (넘치면 그 칸만 `font-size` 를 줄이거나 `<br>` 로 원본처럼 두 줄)
-5. 원본의 값 자리마다 렌더에 값(파랑 박스)이 있고, 값이 아닌 곳에 값이 없다
-6. 체크 보기·도장·서명 자리가 원본과 같다
-7. 원본에 적혀 있던 실제 값(실서류)이 렌더에 고정 글자로 남지 않았다
-8. 쪽 수가 같다
-9. **값이 칸의 뜻에 맞다** — 렌더와 요청의 "렌더 값 예시"를 칸마다 본다. 기간 칸에 기간(`AT SIGHT`, `90 DAYS`), 장소 칸에 장소, 코드 칸에 코드 꼴,
-   개수 칸에 작은 수. "주소 변경"·"확인 완료" 같은 엉뚱한 글이면 그 칸의 source 를 바꾼다
-   (`rule:choice` + 그 칸에 올 만한 보기, `rule:pattern`, `rule:fixed` …; `rule:note`·`rule:free_text` 는 메모 칸에만)
-
-"아니오"를 고치고 4단계부터 다시. 3회 뒤에도 남은 것은 보고에 적는다. 글꼴·글자 크기·선 굵기의 작은 차이는 고치지 않는다.
-
-## 6. 보고
-
-| 항목 | 내용 |
-|---|---|
-| 서식 | ID · 이름 · 쪽 수 · 원본 종류(빈 서식/견본/실서류) · group · category |
-| 순서 | `source_text.md` → `fields.md` → html 순서로 썼는지 (아니면 왜) |
-| 칸 | 값 자리 수, 반복 표(행 min~max), 도장·서명, `generate.py` 유무와 맞춘 관계 |
-| 검사 | `--rows min`·`max` 마지막 줄 JSON |
-| 비교 | 마지막 회차 9문항, `compare_<회차>/side_*.png` 경로 |
-| 판단이 안 선 것 | `fields.md` 의 확신 낮음·애매한 칸, 남은 "아니오" |
-| 사람이 볼 것 | `fields.md` 의 키·설명 (데이터셋을 만든 뒤에는 키를 못 바꿈), 비교 그림 |
-
-에이전트 진행기로 돌면 이 보고를 초안 폴더의 `report.md` 로 쓴다.
-
-## 7. 등록 (사용자가 하라고 할 때만 — 에이전트 회차에서는 하지 않는다)
+## 8. 등록 (사용자가 하라고 할 때만 — 에이전트 회차에서는 하지 않는다)
 
 - 어디에: 빈 서식·공개 견본 → `docgen/forms/<ID>/`, **실서류에서 만든 것 → `$DOCGEN_PRIVATE_FORMS/<ID>/`**. 폴더가 이미 있으면 멈추고 보고 (덮어쓰지 않음).
 - 옮기기 (NEW_FORM_SPEC 6절) — 명령 하나. 검사 통과·ID·폴더가 비었는지 확인하고, 하나라도 안 되면 아무것도 옮기지 않는다:
@@ -314,7 +225,7 @@ python .claude/skills/form-from-image/register.py out/form_drafts/<ID> --to publ
 python .claude/skills/form-from-image/register.py out/form_drafts/<ID> --to private --real  # $DOCGEN_PRIVATE_FORMS/<ID>/ (실서류)
 ```
   `template.html.j2` → `look/template.html.j2`, `form.json` 의 `fields`·`lists` → `fields.json`, 나머지 → `form.json`, `source*.png`, `generate.py` 를 옮기고
-  카드(`formdir card`)와 `formdir check` 를 돌린다. 작업 파일(`source_text.md`·`fields.md`·`review.md`·`report.md`·`check*`·`run.json`·`relab_*.log` …)은 옮기지 않는다.
+  카드(`formdir card`)와 `formdir check` 를 돌린다. 작업 파일(`layout.json`·`grid_*`·`page_*`·`view_*`·`render_*`·`fields.md`·`review.md`·`report.md`·`check*`·`run.json`·`relab_*.log` …)은 옮기지 않는다.
   studio 는 **이미지로 서식 만들기 › 결과 › [등록]**, 명령줄은 `python -m formagent register --id <ID> --to public|private` 가 같은 것을 부른다.
 - 더 확인: `python -m docgen.formdir card <ID>` 의 질문→답 예시가 말이 되는지 · `python -m docgen.preview <ID> --rows max --out out/<ID>`.
 - 사용자에게: studio 서식 › **서식 다시 읽기** → 목록에 나옴 → **생성 사례 › 미리보기/검수** 에서 원본과 비교해 검수 완료.

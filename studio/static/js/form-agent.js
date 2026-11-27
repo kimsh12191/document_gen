@@ -190,7 +190,7 @@ async function viewFormAgentOne(id, tab, given) {
   };
   if ($("#fa-del")) $("#fa-del").onclick = async () => {
     const reg = d.registered ? `\n\n등록한 서식(${d.registered.to === "private" ? "비공개" : "공개"} ${d.registered.path || ""})은 지우지 않습니다.` : "";
-    if (!confirm(`${id} 초안을 지울까요?\n\n초안 폴더 out/form_drafts/${id}/ 를 통째로 지웁니다 — 원본 그림, source_text.md·fields.md·템플릿, 회차 기록, 검사 그림. 되돌릴 수 없습니다.${reg}`)) return;
+    if (!confirm(`${id} 초안을 지울까요?\n\n초안 폴더 out/form_drafts/${id}/ 를 통째로 지웁니다 — 원본 그림, layout.json·fields.md·템플릿, 회차 기록, 검사 그림. 되돌릴 수 없습니다.${reg}`)) return;
     try { await api(`/api/form-agent/${encodeURIComponent(id)}`, undefined, "DELETE"); }
     catch (e) { toast(e.message, true); return; }
     toast(`${id} 초안을 지웠습니다`);
@@ -221,7 +221,7 @@ async function faProgress(d) {
         <div class="bar"><b>${r.n}회차</b>${r.kind ? ` <span class="muted">${esc(FA_KIND[r.kind] || r.kind)}</span>` : ""}
           ${r.ended == null ? `<span class="tag">도는 중</span>`
             : `<span class="tag ${r.exit === 0 ? "ok" : "warn"}">ReLab: ${esc(r.exit === null ? "멈춤·시간 넘음" : FA_EXIT[r.exit] || `종료 코드 ${r.exit}`)}</span>`}
-          ${r.read ? (r.read.source_text ? `<span class="tag ok">source_text.md 씀</span> <a href="${faBase(d.id)}/files">파일 탭에서 원본과 대 보기</a>` : `<span class="tag warn">source_text.md 없음</span>`) : ""}
+          ${r.read ? (r.read.source_text ? `<span class="tag ok">source_text.md 씀</span>` : r.read.layout === false ? `<span class="tag warn">layout.json 없음</span>` : `<span class="tag warn">source_text.md 없음</span>`) : ""}
           ${r.check ? (r.check.passed ? `<span class="tag ok">검사 통과</span>` : `<span class="tag warn">검사 문제 ${r.check.problems.length}</span>`) : ""}
           ${r.check && r.check.warnings.length ? `<span class="tag warn">경고 ${r.check.warnings.length}</span>` : ""}
           <span class="muted">${esc(r.started || "")}${r.seconds !== undefined && r.seconds !== null ? ` · ${r.seconds}초` : ""}</span></div>
@@ -242,14 +242,14 @@ async function faProgress(d) {
   }
 }
 
-const FA_KIND = { read: "글자 옮기기 (source_text.md)", build: "만들기 (칸 표 → 템플릿 → 검사)", fix: "비교 그림 보고 고치기" };
+const FA_KIND = { read: "글자 옮기기 (예전 방식)", build: "만들기 (재기 → 칸 읽기 → layout.json → build → 검사)", fix: "원본과 맞대 보며 고치기" };
 
 function faSteps(d) {
-  // 화면 위 줄: ReLab 준비 → 글자 옮기기 → 만들기 → 비교·고치기 회차 → 끝 (지금 자리 강조)
-  const s = d.status, kinds = d.rounds.map(r => r.kind || (r.n === 1 ? "build" : "fix")), last = kinds[kinds.length - 1];   // kind 없는 예전 기록: 1회차 만들기, 뒤는 고치기
+  // 화면 위 줄: ReLab 준비 → 만들기 → 맞대 보며 고치기 회차 → 끝 (지금 자리 강조). 예전 기록(read 회차)도 만들기로 센다
+  const s = d.status, kinds = d.rounds.map(r => r.kind === "read" ? "build" : (r.kind || (r.n === 1 ? "build" : "fix"))), last = kinds[kinds.length - 1];   // kind 없는 예전 기록: 1회차 만들기, 뒤는 고치기
   const at = k => kinds.includes(k) ? (last === k && FA_LIVE.has(s) ? "now" : "done") : "";
   const steps = [["ReLab 준비", s === "installing" ? "now" : (kinds.length || d.relab) ? "done" : ""],
-    ["글자 옮기기", at("read")], ["칸 표 → 템플릿 → 검사", at("build")], ["비교 그림 보고 고치기", at("fix")],
+    ["재기 → 칸 읽기 → 서식 만들기", at("build")], ["원본과 맞대 보며 고치기", at("fix")],
     [s === "waiting" ? "질문 대기" : s === "stopped" ? "멈춤" : s === "failed" ? "실패" : "끝 · 사람이 확인", ["done", "waiting", "stopped", "failed", "interrupted"].includes(s) ? "now" : ""]];
   return steps.map(([t, c], i) => `<span class="fa-step ${c}">${i + 1}. ${esc(t)}</span>`).join(`<span class="muted">→</span>`);
 }
@@ -357,7 +357,8 @@ function faFiles(d) {
     $$(".subtabs a", box).forEach(a => a.classList.toggle("on", a.dataset.f === n));
     const text = d.files[n] || "";
     const head = n === "generate.py" ? `<div class="panel fa-warn"><b>실행되는 코드입니다.</b> 미리보기·생성 때 돌아갑니다. 등록 전에 읽어 주세요 (docgen.formkit 과 표준 라이브러리만, 칸 목록의 키만 고쳐야 함).</div>`
-      : n === "source_text.md" ? `<div class="muted">1회차에 모델이 그림에서 옮겨 적은 인쇄 글자 — 원본과 대 보면 모델이 그림을 제대로 읽었는지 바로 보입니다. 템플릿 글자는 이것을 기준으로 검사합니다.</div>`
+      : n === "layout.json" ? `<div class="muted">모델이 쓴 이 서식의 원본: 칸 이름(T2.7 — grid.txt 참고)마다 원본 글자와 값 자리 {키}, 키마다 항목명·종류·값 만드는 법·설명. 템플릿·form.json·fields.md 는 build.py 가 이것에서 만듭니다.</div>`
+      : n === "grid.txt" ? `<div class="muted">진행기가 원본 그림에서 기계로 잰 표·칸·글자 덩어리 자리 (글자는 읽지 않음). 칸 이름이 layout.json 과 이어집니다.</div>`
       : n === "fields.md" ? `<div class="muted">뽑을 키와 항목 설명 — 사람이 가장 먼저 검토할 곳입니다 (데이터셋을 만든 뒤에는 키를 바꾸지 않음). 확신 "낮음"·"판단이 안 선 것"을 보세요.</div>` : "";
     $("#fa-file").innerHTML = head + (n.endsWith(".md") ? faMarkdown(text) : `<pre class="ans mono">${esc(text)}</pre>`);
   };

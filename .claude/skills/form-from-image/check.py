@@ -1,20 +1,20 @@
-"""초안 서식 검사 한 번에 (form-from-image 스킬 4·5단계).
+"""초안 서식 검사 한 번에 (form-from-image 스킬 5단계).
 
     python .claude/skills/form-from-image/check.py <초안 폴더> [--out <폴더>] [--seeds 1 2 3]
     python -m pytest .claude/skills/form-from-image/test_draft.py --draft <초안 폴더> -q     (같은 검사, pytest 로)
 
 하는 일:
-  1. 미리보기 5번: --rows min · --rows max · seed 1~3  (python -m docgen.preview --dir …)
+  1. 미리보기 5번: --rows min · --rows max · seed 1~3  (python -m docgen.preview --dir …). seed 1 쪽 그림을 render_<n>.png 로 둔다 (view.py compare)
   2. 통과 판정 (problems — 하나라도 있으면 통과 못 함):
-     필요한 파일(source_text.md · fields.md · template.html.j2 · form.json), 명령 오류, checks, overflow,
+     필요한 파일(layout.json · template.html.j2 · form.json · fields.md · grid_<n>.json), 명령 오류, checks, overflow,
      쪽 수(min 렌더 = 원본 그림 수), 템플릿에서 값을 {{ d.… }} 로 직접 찍은 곳
-  3. 정답 값 경고 (warnings — 통과는 막지 않음, 사람·모델이 판단):
-     다른 칸에 같은 사람 값(대리인 전화 = 고객 전화 …), 한 서류 안 날짜·금액 표기 섞임, 빈 값이 절반 넘음,
-     원본 글자 대조: 템플릿 글자 중 source_text.md 에 없는 것(지어냈을 수 있음) · source_text.md 글자 중 템플릿에 없는 것(빠짐)
+  3. 경고 (warnings — 통과는 막지 않음, 고치거나 왜 아닌지 적는다):
+     layout.json 에 글자를 안 적은 칸·글자 덩어리, 모양 대조(원본 grid ↔ 렌더를 같은 방법으로 잰 것: 표 선 자리, 칸 글자 있음/없음,
+     칸 가장자리에 닿은 글자 = 넘침, 글자 덩어리 너비), 값이 칸 밖으로 나감, 값 경고(같은 사람 값·날짜/금액 표기 섞임·빈 값)
   4. 그림: side_<쪽>.jpg (왼쪽 원본 · 오른쪽 min 렌더), renders.jpg (min·max·seed 1·2 첫 쪽 모음). 한 장 2MB 이하
   5. <out>/check.json, 마지막 줄에 요약 JSON. 통과면 종료 코드 0, 아니면 1
 
-원본 그림은 초안 폴더의 source.png, source_2.png … (쪽 순서).
+원본 그림은 초안 폴더의 source.png, source_2.png … (쪽 순서). grid.py 가 만든 page_<n>.png · grid_<n>.json 과 맞댄다.
 """
 from __future__ import annotations
 
@@ -35,8 +35,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]                      # 저장소 맨 위 (document_gen/)
 sys.path.insert(0, str(HERE))
 import compare  # noqa: E402  (같은 폴더의 비교 그림 도구)
+import grid  # noqa: E402
 
-REQUIRED = ("source_text.md", "fields.md", "template.html.j2", "form.json")
+REQUIRED = ("layout.json", "template.html.j2", "form.json", "fields.md")
 DIRECT = re.compile(r"\{\{-?\s*d\.[\w.\[\]'\"]+")          # {{ d.x }} — 그림엔 나오지만 정답에서 빠짐
 PERSON_PARTS = {"name", "phone", "mobile", "address", "email", "birth", "rrn"}
 DATE_STYLES = (("dot", re.compile(r"^\d{4}\.\d{1,2}\.\d{1,2}$")), ("dash", re.compile(r"^\d{4}-\d{1,2}-\d{1,2}$")),
@@ -96,6 +97,9 @@ def preview(draft: Path, out: Path, args: list[str]) -> dict:
         info["values"] = {f["key"]: f.get("value") for f in label.get("fields", [])}
         info["types"] = {f["key"]: f.get("type") for f in label.get("fields", [])}
         info["image_paths"] = [str(p) for p in compare.page_images(labels[-1], label, out)]
+        sc = label.get("scale") or 1
+        info["label_fields"] = [{"key": f["key"], "page": f.get("page", 0), "bbox": [v / sc for v in f["bbox"]]}
+                                for f in label.get("fields", []) if f.get("bbox")]
     return info
 
 
@@ -130,90 +134,184 @@ def value_warnings(info: dict) -> dict[str, str]:
     return out
 
 
-# ---------------------------------------------------------------- 원본 글자 대조 (source_text.md ↔ 템플릿)
+# ---------------------------------------------------------------- 모양 대조 (원본 grid ↔ 렌더를 같은 방법으로 잰 것)
 
-JINJA = re.compile(r"\{\{.*?\}\}|\{%.*?%\}|\{#.*?#\}", re.S)
-STRINGS = re.compile(r"\"([^\"]*)\"|'([^']*)'")
-MARK = re.compile(r"^\((값|안 ?보임|로고|바코드|도장|서명|그림|빈 ?칸)[^)]*\)$")
-SPLIT = re.compile(r"\s*\|\s*|\s{3,}|\s+/\s+")
-
-
-def norm(s: str) -> str:
-    """대조용: 글자·숫자만, 대문자로 (띄어쓰기·기호·괄호 차이는 무시)."""
-    s = unicodedata.normalize("NFKC", s).upper()
-    return "".join(ch for ch in s if ch.isalnum())
+TOKEN = re.compile(r"\{[^{}]+\}")
+SHOW = 12                                    # 경고 한 줄에 보여 줄 칸 수
+NEAR = 3                                     # 같은 선으로 볼 거리 (쪽 px)
 
 
-def printed_text(template: str) -> list[str]:
-    """템플릿에서 그림에 인쇄되는 글자 덩어리: 태그·jinja 밖 글자 + m.title 글자 + 체크 보기 글자."""
-    chunks = []
-    body = re.sub(r"<style.*?</style>|<script.*?</script>|<!--.*?-->|\{%-?\s*block\s+(style|head)\s*-?%\}.*?\{%-?\s*endblock",
-                  " ", template, flags=re.S | re.I)
-    for block in re.findall(r"\{\{(.*?)\}\}", body, re.S):
-        if re.match(r"\s*m\.title\(", block):
-            chunks += [a or b for a, b in STRINGS.findall(block)]
-        elif re.match(r"\s*m\.(choice|agree)\(", block):
-            for lst in re.findall(r"\[(.*?)\]", block, re.S):
-                chunks += [a or b for a, b in STRINGS.findall(lst)]
-    text = JINJA.sub("\n", body)
-    text = re.sub(r"<[^>]+>", "\n", text)
-    text = re.sub(r"&nbsp;|&#160;", " ", text)
-    text = re.sub(r"&[a-z]+;|&#\d+;", "", text)
-    chunks += [c.strip() for c in text.splitlines()]
-    return [c for c in chunks if len(norm(c)) >= 2]
+def load_layout(draft: Path) -> dict:
+    try:
+        return json.loads((draft / "layout.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
 
 
-def source_items(md: str) -> list[str]:
-    """source_text.md 의 칸 글자: 제목줄(#) 빼고, 줄을 | 로 나눈 것. (값)·(안 보임 …)·(로고 …) 표시는 뺀다."""
-    items = []
-    for line in md.splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        line = re.sub(r"^[-*>]\s+", "", line)
-        for part in SPLIT.split(line):
-            part = re.sub(r"\((값|안 ?보임|로고|바코드|도장|서명|그림)[^)]*\)", " ", part).strip()
-            if len(norm(part)) >= 2 and not MARK.match(part):
-                items.append(part)
-    return items
+def item_text(v) -> str:
+    if isinstance(v, dict):
+        return v.get("t") or ""
+    return v or ""
 
 
-def covered(piece: str, whole: str, whole_bigrams: set) -> bool:
-    """piece 가 whole 에 있나. 짧으면 그대로 들어 있어야, 길면(문장) 두 글자 묶음 80% 이상."""
-    p = norm(piece)
-    if p in whole:
-        return True
-    if len(p) < 8:                     # 짧은 것: 띄어 쓴 낱말(두 글자 이상)이 모두 있으면 (사이에 값이 끼는 "년 월 일" 같은 줄)
-        words = [w for w in (norm(x) for x in piece.split()) if len(w) >= 2]
-        return all(w in whole for w in words) and (len(words) > 1 or not words)
-    grams = [p[i:i + 2] for i in range(len(p) - 1)]
-    return sum(g in whole_bigrams for g in grams) / len(grams) >= 0.8
-
-
-def text_warnings(draft: Path) -> list[str]:
-    """원본 글자(source_text.md)와 템플릿 글자를 맞대 본다. 경고 글 목록."""
-    src_file, tpl_file = draft / "source_text.md", draft / "template.html.j2"
-    if not (src_file.exists() and tpl_file.exists()):
-        return []
-    md = src_file.read_text(encoding="utf-8")
-    src_items = source_items(md)
-    tpl_items = printed_text(tpl_file.read_text(encoding="utf-8"))
-    heads = [line.lstrip("#").strip() for line in md.splitlines() if line.startswith("###")]   # 덩어리 이름도 원본 글자일 수 있다
-    heads += re.findall(r"\(로고:\s*([^)]*)\)", md)                                            # 로고 자리에 쓴 기관명 글자
-    src_all, tpl_all = norm(" ".join(src_items + heads)), norm(" ".join(tpl_items))
-    bigrams = lambda s: {s[i:i + 2] for i in range(len(s) - 1)}  # noqa: E731
-    src_bi, tpl_bi = bigrams(src_all), bigrams(tpl_all)
-    extra = list(dict.fromkeys(c for c in tpl_items if not covered(c, src_all, src_bi)))
-    missing = list(dict.fromkeys(c for c in src_items if not covered(c, tpl_all, tpl_bi)))
+def grids(draft: Path) -> list[dict]:
     out = []
-    if extra:
-        out.append(f"원본 글자(source_text.md)에 없는 글자가 템플릿에 {len(extra)}곳: "
-                   + ", ".join(repr(c[:30]) for c in extra[:10])
-                   + " — 그림에 정말 있으면 source_text.md 에 더하고, 없으면 템플릿에서 뺀다 (지어낸 항목명)")
-    if missing:
-        out.append(f"원본 글자 중 템플릿에 없는 것 {len(missing)}곳: "
-                   + ", ".join(repr(c[:30]) for c in missing[:10])
-                   + " — 템플릿에 옮긴다 (항목명·안내문 빠짐)")
+    for p in sorted(draft.glob("grid_*.json"), key=lambda p: int(re.sub(r"\D", "", p.stem))):
+        out.append(json.loads(p.read_text(encoding="utf-8")))
+    return out
+
+
+def few(items: list[str]) -> str:
+    return ", ".join(items[:SHOW]) + (f" 외 {len(items) - SHOW}" if len(items) > SHOW else "")
+
+
+def coverage_warnings(draft: Path, layout: dict, gs: list[dict]) -> list[str]:
+    """원본에 글자가 있는데 layout.json 에 안 적은 칸·글자 덩어리."""
+    out = []
+    pages = layout.get("pages") or []
+    for n, g in enumerate(gs, 1):
+        pg = pages[n - 1] if n - 1 < len(pages) else {}
+        cells, blocks, skip = pg.get("cells") or {}, pg.get("blocks") or {}, set(pg.get("skip") or [])
+        cells = {k.split(":")[-1]: v for k, v in cells.items()}
+        empty = [c["id"] for t in g["tables"] if t["id"] not in skip for c in t["cells"] if c.get("ink") and c["id"] not in cells]
+        if empty:
+            out.append(f"{n}쪽: 원본에 글자가 있는데 layout.json cells 에 없는 칸 {len(empty)}개: {few(empty)} "
+                       f"— view.py table 로 보고 글자(값이면 {{키}})를 적는다")
+        loose = [b["id"] for b in g["blocks"] if b["id"] not in blocks and b["id"] not in skip]
+        if loose:
+            out.append(f"{n}쪽: layout.json blocks 에 없는 글자 덩어리 {len(loose)}개: {few(loose)} "
+                       f"— view.py crop --cells 로 보고 글자를 적거나, 그리지 않을 것(티끌·바코드)은 null")
+    return out
+
+
+def match_box(box, cands, key="box"):
+    best, score = None, 0.0
+    for c in cands:
+        b = c[key]
+        ix = max(0, min(box[2], b[2]) - max(box[0], b[0]))
+        iy = max(0, min(box[3], b[3]) - max(box[1], b[1]))
+        inter = ix * iy
+        union = (box[2] - box[0]) * (box[3] - box[1]) + (b[2] - b[0]) * (b[3] - b[1]) - inter
+        if union > 0 and inter / union > score:
+            best, score = c, inter / union
+    return best, score
+
+
+def edge_ink(im: Image.Image, box) -> bool:
+    """렌더 칸 안쪽 가장자리(왼·오른 1.5쪽px)에 글자가 닿았나 — overflow:hidden 으로 잘린 글자."""
+    S = grid.S
+    x0, y0, x1, y1 = (int(round(v * S)) for v in box)
+    inset = 3                      # 선 가운데에서 1.5쪽px: 선은 grid.erase_lines 로 지워졌고, 잘린 글자만 여기까지 닿는다
+    crop = im.crop((x0 + inset, y0 + inset, x1 - inset, y1 - inset))
+    if crop.size[0] < 8 or crop.size[1] < 4:
+        return False
+    w = crop.size[0]
+    edge = 4                       # 바른 글자는 칸 안쪽 여백(4px = 8) 밖에서 시작
+    left = crop.crop((0, 0, edge, crop.size[1])).getbbox()
+    right = crop.crop((w - edge, 0, w, crop.size[1])).getbbox()
+    return bool(left or right)
+
+
+def shape_warnings(draft: Path, layout: dict, gs: list[dict], pages: list[str], values: dict | None) -> list[str]:
+    """seed 1 렌더를 grid 로 재서 원본과 맞댄다."""
+    out = []
+    lp = layout.get("pages") or []
+    for n, (g, ren_path) in enumerate(zip(gs, pages), 1):
+        pg = lp[n - 1] if n - 1 < len(lp) else {}
+        cells = {k.split(":")[-1]: v for k, v in (pg.get("cells") or {}).items()}
+        skip = set(pg.get("skip") or [])
+        ren = Image.open(ren_path).convert("L")
+        if ren.size[0] != grid.WORK_W:
+            ren = ren.resize((grid.WORK_W, round(ren.size[1] * grid.WORK_W / ren.size[0])))
+        rg = grid.measure(ren)
+        rbin = grid.erase_lines(grid.binary(ren), *[[{"pos": l[0] * grid.S, "a": l[1] * grid.S, "b": l[2] * grid.S, "thick": 3}
+                                                     for l in rg["raw"][k]] for k in ("h", "v")])
+        lines_off, missing_tables, cells_bad, gone, extra, clipped = [], [], [], [], [], []
+        for t in g["tables"]:
+            if t["id"] in skip:
+                continue
+            rt, iou = match_box(t["box"], rg["tables"])
+            if not rt or iou < 0.5:
+                missing_tables.append(f"{t['id']} (x {t['box'][0]}~{t['box'][2]} y {t['box'][1]}~{t['box'][3]})")
+                continue
+            dx = [x for x in t["xs"] if min(abs(x - r) for r in rt["xs"]) > NEAR]
+            dy = [y for y in t["ys"] if min(abs(y - r) for r in rt["ys"]) > NEAR]
+            ex = [x for x in rt["xs"] if min(abs(x - s) for s in t["xs"]) > NEAR]
+            ey = [y for y in rt["ys"] if min(abs(y - s) for s in t["ys"]) > NEAR]
+            if dx or dy or ex or ey:
+                lines_off.append(f"{t['id']}: " + "; ".join(x for x in (
+                    f"원본 세로선 x {dx} 이 렌더에 없음" if dx else "", f"원본 가로선 y {dy} 이 렌더에 없음" if dy else "",
+                    f"렌더에만 세로선 x {ex}" if ex else "", f"렌더에만 가로선 y {ey}" if ey else "") if x))
+            elif len(rt["cells"]) != len(t["cells"]):
+                cells_bad.append(f"{t['id']} 칸 수 원본 {len(t['cells'])} · 렌더 {len(rt['cells'])}")
+            for c in t["cells"]:
+                text = item_text(cells.get(c["id"]))
+                fixed = text and not TOKEN.search(text)
+                rk = grid.ink(rbin, [v * grid.S for v in c["box"]])
+                if c.get("ink") and fixed and not rk:
+                    gone.append(c["id"])
+                if not c.get("ink") and rk and not text:
+                    extra.append(c["id"])
+                if rk and edge_ink(rbin, c["box"]):
+                    clipped.append(c["id"])
+        if missing_tables:
+            out.append(f"{n}쪽: 렌더에서 원본 표를 못 찾음: {few(missing_tables)} — view.py compare 로 그 자리를 본다")
+        if lines_off:
+            out.append(f"{n}쪽 표 선이 원본과 다름: " + " | ".join(lines_off[:6]))
+        if cells_bad:
+            out.append(f"{n}쪽: " + ", ".join(cells_bad))
+        if gone:
+            out.append(f"{n}쪽: 원본엔 글자가 있는데 렌더 칸이 비었음: {few(gone)}")
+        if extra:
+            out.append(f"{n}쪽: 원본엔 빈 칸인데 렌더에 글자가 있음: {few(extra)}")
+        if clipped:
+            out.append(f"{n}쪽: 글자가 칸 가장자리에 닿음(넘쳐 잘림): {few(clipped)} — 그 칸 size 를 줄이거나 \\n 으로 줄을 나눈다")
+        # 글자 덩어리: 원본 자리 근처의 렌더 덩어리 너비
+        blocks = pg.get("blocks") or {}
+        wide, lost = [], []
+        for bl in g["blocks"]:
+            if bl["id"] in skip or not item_text(blocks.get(bl["id"])):
+                continue
+            rb, iou = match_box(bl["box"], rg["blocks"])
+            if not rb or iou < 0.2:
+                lost.append(bl["id"])
+                continue
+            sw, rw = bl["box"][2] - bl["box"][0], rb["box"][2] - rb["box"][0]
+            if rw > sw * 1.15 + 6 or rw < sw * 0.85 - 6:
+                wide.append(f"{bl['id']} 원본 {sw}px · 렌더 {rw}px")
+        if lost:
+            out.append(f"{n}쪽: 원본 글자 덩어리 자리에 렌더 글자가 없음: {few(lost)}")
+        if wide:
+            out.append(f"{n}쪽: 글자 덩어리 너비가 다름 (size·띄어쓰기·bold 확인): {few(wide)}")
+    # 값이 칸 밖으로
+    if values:
+        boxes = [(n, c) for n, g in enumerate(gs) for t in g["tables"] for c in t["cells"]]
+        over = []
+        for f in values:
+            b, page = f.get("bbox"), f.get("page", 0)
+            if not b or f["key"].startswith(("seal.", "sign.", "signature.")):
+                continue
+            cx, cy = (b[0] + b[2]) / 2, (b[1] + b[3]) / 2
+            for n, c in boxes:
+                cb = c["box"]
+                if n == page and cb[0] <= cx <= cb[2] and cb[1] <= cy <= cb[3]:
+                    if b[0] < cb[0] - 2 or b[2] > cb[2] + 2 or b[1] < cb[1] - 2 or b[3] > cb[3] + 2:
+                        over.append(f"{f['key']}({c['id']})")
+                    break
+        if over:
+            out.append(f"값이 칸 밖으로 나감 (seed 1): {few(over)} — 그 칸 size 를 줄이거나 값 source 를 짧은 것으로")
+    return out
+
+
+def save_renders(draft: Path, info: dict | None = None) -> list[Path]:
+    """seed 1 렌더 쪽 그림을 초안 폴더 render_<n>.png 로 (view.py compare·overlay 가 쓴다)."""
+    if info is None:
+        info = preview(draft, draft / "check" / "render_s1", ["--seed", "1"])
+    out = []
+    for i, p in enumerate(info.get("image_paths") or [], 1):
+        dest = draft / f"render_{i}.png"
+        Image.open(p).save(dest)
+        out.append(dest)
     return out
 
 
@@ -255,10 +353,16 @@ def run(draft: Path | str, out: Path | str | None = None, seeds: tuple[int, ...]
     problems, warnings = [], []
     for name in REQUIRED:
         if not (draft / name).exists():
-            problems.append(f"{name} 이 없습니다")
+            problems.append(f"{name} 이 없습니다" + (" (build.py 로 만든다)" if name != "layout.json" else ""))
     srcs = sources(draft)
     if not srcs:
         problems.append("원본 그림 source.png 가 없습니다")
+    gs = grids(draft)
+    if srcs and len(gs) != len(srcs):
+        problems.append(f"grid_<n>.json 이 {len(gs)}개, 원본은 {len(srcs)}쪽 — grid.py 를 먼저 돌린다")
+    layout = load_layout(draft)
+    if layout and gs:
+        warnings += coverage_warnings(draft, layout, gs)
     tpl = draft / "template.html.j2"
     if tpl.exists():
         for no, line in enumerate(tpl.read_text(encoding="utf-8").splitlines(), 1):
@@ -285,7 +389,11 @@ def run(draft: Path | str, out: Path | str | None = None, seeds: tuple[int, ...]
         mn = renders.get("min", {})
         if "pages" in mn and srcs and mn["pages"] != len(srcs):
             problems.append(f"쪽 수: 원본 {len(srcs)}쪽인데 --rows min 렌더 {mn['pages']}쪽")
-    warnings += text_warnings(draft)
+    s1 = renders.get("s1") or {}
+    if s1.get("image_paths"):
+        save_renders(draft, s1)
+        if layout and gs and len(gs) == len(s1["image_paths"]):
+            warnings += shape_warnings(draft, layout, gs, s1["image_paths"], s1.get("label_fields"))
     images = pictures(srcs, renders, out) if renders.get("min", {}).get("image_paths") and srcs else {"side": [], "renders": None}
     problems = list(dict.fromkeys(problems))
     result = {

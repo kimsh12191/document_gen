@@ -52,7 +52,7 @@ def ws(tmp_path, monkeypatch):
 
 def draft_files(form_id):
     d = f"out/form_drafts/{form_id}"
-    return {f"{d}/source_text.md": "## 1쪽", f"{d}/fields.md": "# 칸", f"{d}/template.html.j2": "{% extends '_base.html.j2' %}",
+    return {f"{d}/layout.json": '{"pages": [{}]}', f"{d}/fields.md": "# 칸", f"{d}/template.html.j2": "{% extends '_base.html.j2' %}",
             f"{d}/form.json": "{}"}
 
 
@@ -82,36 +82,36 @@ def test_rounds_until_report(ws):
     st = runner.go("f1", log=lambda *a: None)
     assert st["status"] == "done" and [r["exit"] for r in st["rounds"]] == [1, 0]
     reqs = ws["requests"]()
-    assert reqs[0]["request"].startswith("@out/form_drafts/f1/source.png") and "1회차" in reqs[0]["request"]
+    assert reqs[0]["request"].startswith("@out/form_drafts/f1/view_1.png") and "1회차" in reqs[0]["request"]
     assert "현금 행은 계좌 비워" in reqs[0]["request"] and "--auto" in reqs[0]["argv"]
-    assert "@out/form_drafts/f1/check_1/side_0.jpg" in reqs[1]["request"] and "2회차" in reqs[1]["request"]
-    assert "경고 하나" in reqs[1]["request"] and "fields.md" in reqs[1]["request"]
+    assert "@out/form_drafts/f1/view_4.png" in reqs[1]["request"] and "2회차" in reqs[1]["request"]
+    assert "경고 하나" in reqs[1]["request"] and "layout.json" in reqs[1]["request"]
     report = json.loads((ws["root"] / "out/form_drafts/f1/report.json").read_text())
     assert report["status"] == "done" and report["report_md"] and report["outside_changes"] == []
 
 
-def test_three_kinds_of_rounds(ws):
-    """1 글자 옮기기(그림만, 스킬 안 읽음) → 2 만들기(원본 그림 다시, source_text.md 기준) → 3 고치기(비교 그림) → 끝."""
+def test_build_then_fix_rounds(ws):
+    """1 만들기(진행기가 잰 grid.txt + 보기 창, layout.json) → 2 고치기(보기 창에 원본|렌더) → 끝."""
     d = "out/form_drafts/k1"
-    files = draft_files("k1")
-    ws["plan"].write_text(json.dumps([{"write": {f"{d}/source_text.md": "## 1쪽\n고객번호 | ( )"}, "exit": 0},
-                                      {"write": {k: v for k, v in files.items() if "source_text" not in k}, "exit": 0},
+    ws["plan"].write_text(json.dumps([{"write": draft_files("k1"), "exit": 0},
                                       {"write": {f"{d}/report.md": "## 보고"}, "exit": 0}]))
     runner.start([ws["img"]], "k1", "real", "결재란은 빼", {"relab": ws["relab"], "max_fix_rounds": 3})
     st = runner.go("k1", log=lambda *a: None)
-    assert st["status"] == "done" and [r["kind"] for r in st["rounds"]] == ["read", "build", "fix"]
-    r1, r2, r3 = (r["request"] for r in ws["requests"]())
-    assert r1.startswith(f"@{d}/source.png") and "source_text.md" in r1 and f"{d}/source_text" not in r1 and "SKILL.md" not in r1
-    assert "(값)" in r1 and "짐작" in r1
-    assert r2.startswith(f"@{d}/source.png") and "source_text.md" in r2 and "SKILL.md" in r2 and "결재란은 빼" in r2
-    assert f"@{d}/check_2/side_0.jpg" in r3 and "3회차" in r3
+    assert st["status"] == "done" and [r["kind"] for r in st["rounds"]] == ["build", "fix"]
+    r1, r2 = (r["request"] for r in ws["requests"]())
+    root = ws["root"] / d
+    assert all((root / f"view_{n}.png").exists() for n in range(1, 5)) and (root / "grid_1.json").exists() and (root / "grid.txt").exists()
+    assert r1.startswith(f"@{d}/view_1.png") and f"@{d}/view_4.png" in r1 and f"{d}/grid.txt" in r1 and "SKILL.md" in r1
+    assert "view.py table" in r1 and "{키}" in r1 and "절대 옮기지 않고" in r1 and "결재란은 빼" in r1
+    assert f"{d}/layout.json" not in r1                  # 쓸 파일은 경로로 적지 않는다 (ReLab 끝내기 규칙)
+    assert "2회차" in r2 and "view.py compare" in r2 and f"{d}/layout.json" in r2
 
 
 def test_round_limit(ws):
     ws["plan"].write_text(json.dumps([{"write": draft_files("f2"), "exit": 0}, {"exit": 0}, {"exit": 0}]))
     runner.start([ws["img"]], "f2", "sample", None, {"relab": ws["relab"], "max_fix_rounds": 2})
     st = runner.go("f2", log=lambda *a: None)
-    assert st["status"] == "done" and len(st["rounds"]) == 4 and st.get("note_end")      # 글자 옮기기·만들기 + 고치기 2
+    assert st["status"] == "done" and len(st["rounds"]) == 3 and st.get("note_end")      # 만들기 + 고치기 2
 
 
 def test_question_then_continue(ws):
@@ -173,13 +173,19 @@ def _register_module():
 
 
 def test_register_example_into_private_dir(tmp_path, monkeypatch):
-    """완성 예시 초안을 임시 비공개 폴더로 등록: 파일 꼴 · 카드 · formdir check (렌더링 검사는 통과로 둔다)."""
+    """완성 예시(layout.json)를 원본 hf011 에서 grid → build 해 임시 비공개 폴더로 등록: 파일 꼴 · 카드 · formdir check (렌더링 검사는 통과로 둔다)."""
     import shutil
+
+    import pymupdf
     reg = _register_module()
-    example = Path(__file__).resolve().parents[2] / ".claude/skills/form-from-image/example"
+    repo = Path(__file__).resolve().parents[2]
+    example = repo / ".claude/skills/form-from-image/example"
     draft = tmp_path / "drafts" / "zz_reg_example"
     shutil.copytree(example, draft)
-    Image.new("RGB", (595, 842), "white").save(draft / "source.png")
+    pymupdf.open(repo / "docgen/forms/hf011/look/original.pdf")[0].get_pixmap(dpi=200).save(draft / "source.png")
+    runner._skill("grid").run(draft, quiet=True)
+    built = runner._skill("build").build(draft)
+    assert built["pages"] == 1 and built["fields"] > 20 and not built["warnings"]
     private = tmp_path / "private"
     monkeypatch.setenv("DOCGEN_PRIVATE_FORMS", str(private))
     monkeypatch.setattr(reg.check, "run", lambda d, out: {"passed": True, "problems": [], "warnings": []})
@@ -249,4 +255,4 @@ def test_fix_request_shows_sample_values(ws):
     check = {"passed": True, "problems": [], "warnings": [], "images": {"side": [], "renders": None},
              "values": {"s1": {"bill.tenor": "주소 변경", "docs.0.bl": "3", "docs.1.bl": "2"}, "s2": {"bill.tenor": "본인 요청"}}}
     req = runner.round_request(runner.load("sv1"), 3, check)
-    assert "bill.tenor: 주소 변경 / 본인 요청" in req and "docs.0.bl: 3" in req and "docs.1.bl" not in req and "9문항" in req
+    assert "bill.tenor: 주소 변경 / 본인 요청" in req and "docs.0.bl: 3" in req and "docs.1.bl" not in req and "칸의 뜻" in req

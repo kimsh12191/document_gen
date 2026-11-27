@@ -1,19 +1,21 @@
-"""회차 진행기: ReLab 을 스킬 form-from-image 로 회차마다 돌리고, 회차 사이에 검사하고 그림을 붙여 다음 요청을 넣는다.
+"""회차 진행기: ReLab 을 스킬 form-from-image 로 회차마다 돌리고, 회차 사이에 검사하고 보기 창 그림을 갈아 다음 요청을 넣는다.
 
   out/form_drafts/<ID>/
     source.png, source_2.png …     원본 (시작할 때)
+    page_<n>.png · grid_<n>.json   진행기가 첫 회차 전에 grid.py 로 잰 것 (표·칸·글자 덩어리 자리), grid.txt = 그 목록
+    view_1.png … view_4.png        보기 창: 요청에 늘 붙는 그림 네 장. 모델이 view.py 로 다시 쓰면 다음 단계에서 새 그림이 보인다
     run.json                       상태: status(running/waiting/done/stopped/failed) · 회차마다 요청·종료 코드·검사 요약
     relab_<n>.log                  n회차 ReLab 출력 그대로
     check_<n>/                     n회차 뒤 진행기의 검사 (check.py: check.json · side_*.jpg · renders.jpg · render_*/)
-    source_text.md                 1회차(글자 옮기기)에 모델이 그림에서 옮겨 적은 인쇄 글자
-    fields.md · template.html.j2 · form.json · generate.py · review.md · report.md   ← 2회차(만들기)·3회차부터(고치기)에 모델이 쓴 것
-
-회차: 1 글자 옮기기(source_text.md 가 없을 때) → 2 만들기(template 이 없을 때) → 3~ 원본과 비교하며 고치기.
-글자 옮기기를 따로 하는 까닭: 문서를 잔뜩 읽은 뒤 그림을 보면 약한 모델은 그림 대신 짐작으로 항목명을 쓴다 (PLAN.md 14절).
+    layout.json · generate.py · report.md     ← 모델이 쓴 것 (template.html.j2 · form.json · fields.md 는 build.py 가 layout.json 에서)
     report.json                    끝날 때 진행기의 마지막 검사·초안 밖 변경·회차 요약
+
+회차: 1 만들기(layout.json 이 없을 때: 보기 창으로 칸을 읽어 layout.json → build → 검사) → 2~ 원본과 맞대 보며 고치기.
+재기(grid)·html 쓰기(build)는 도구가 하고, 모델은 잘라 크게 본 그림에서 칸 글자를 읽고 값 자리·키를 정한다 (PLAN.md 16절).
 
 ReLab 의 `-p` 는 `-c` 를 보지 않아 회차마다 새 대화다. 앞 회차는 초안 폴더의 파일과 요청 문장으로 넘긴다 (PLAN.md 2·13절).
 요청에 경로("폴더/파일")로 적은 파일은 그 회차에 읽어야 ReLab 이 끝내기를 받는다. 그래서 읽을 필요 없는 파일은 경로 없이 이름만 적는다.
+ReLab 은 `@` 로 붙인 그림을 단계마다 디스크에서 다시 읽는다 — 그래서 보기 창을 명령으로 다시 쓰면 실행 중에도 새 그림을 볼 수 있다 (PLAN.md 16절).
 """
 from __future__ import annotations
 
@@ -36,6 +38,7 @@ from . import relab as R
 ROOT = Path(__file__).resolve().parents[1]
 DRAFTS = ROOT / "out" / "form_drafts"
 SKILL = ".claude/skills/form-from-image"
+SKILL_DIR = Path(__file__).resolve().parents[1] / SKILL        # 도구는 늘 이 저장소의 스킬 폴더에서 (ROOT 를 바꿔 시험할 때도)
 ID_RX = re.compile(r"[a-z][a-z0-9_]{2,50}")
 BAD_WORDS = ("private", "secrets")          # ReLab 이 경로 조각으로 막는 이름
 KINDS = {"blank": "빈 서식", "sample": "견본", "real": "실서류 (값이 적힌 진짜 서류 — 실제 값을 어느 파일에도 옮기지 않는다)"}
@@ -154,7 +157,7 @@ def outside_changes(before: dict, after: dict) -> list[str]:
 
 def _skill(name: str):
     """스킬 폴더의 스크립트를 모듈로 (check.py · register.py)."""
-    spec = importlib.util.spec_from_file_location(f"form_{name}", ROOT / SKILL / f"{name}.py")
+    spec = importlib.util.spec_from_file_location(f"form_{name}", SKILL_DIR / f"{name}.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
@@ -189,57 +192,112 @@ def _head(state: dict, n: int) -> list[str]:
     d = state["draft"]
     return [f"- 서식 ID: {state['id']} · 초안 폴더: {d}/ · 원본 종류: {KINDS[state['kind']]}",
             f"- 검사 명령: python -m pytest {SKILL}/test_draft.py --draft {d} -q  (통과해야 끝난다. 문제·경고는 명령 출력에 나온다)",
-            "- 초안 폴더 밖의 파일은 만들거나 고치지 않는다. 등록(스킬 7단계)은 하지 않는다."]
+            "- 초안 폴더 밖의 파일은 만들거나 고치지 않는다. 등록(스킬 8단계)은 하지 않는다."]
+
+
+VIEWS = 4
 
 
 def round_kind(state: dict) -> str:
-    """이번 회차에 할 일: read(글자 옮기기) · build(만들기) · fix(비교하며 고치기)."""
+    """이번 회차에 할 일: build(만들기) · fix(맞대 보며 고치기)."""
     d = draft_dir(state["id"])
-    if not (d / "source_text.md").exists():
-        return "read"
-    if not (d / "template.html.j2").exists() or not (d / "form.json").exists():
+    if not (d / "layout.json").exists() or not (d / "template.html.j2").exists():
         return "build"
     return "fix"
 
 
-def read_request(state: dict, n: int) -> str:
-    """1회차: 그림만 보고 인쇄 글자를 옮겨 적는다. 문서는 읽지 않는다 (그림에 집중).
-    쓸 파일은 경로로 적지 않는다 — ReLab 은 요청에 경로로 적힌 파일을 그 회차에 읽어야 끝내기를 받는다."""
-    d = state["draft"]
-    pics = " ".join(f"@{d}/{s}" for s in state["sources"])
+def _blank(path: Path, text: str) -> None:
+    from PIL import ImageDraw
+    im = Image.new("RGB", (640, 80), "white")
+    ImageDraw.Draw(im).text((10, 30), text, fill=(120, 120, 120))
+    im.save(path)
+
+
+def measure(state: dict) -> str:
+    """grid.py 로 쪽마다 잰다 (없을 때만). grid.txt 에 모델이 읽을 목록을 쓴다."""
+    d = draft_dir(state["id"])
+    g = _skill("grid")
+    if not (d / "grid_1.json").exists():
+        g.run(d, quiet=True)
+    pages = sorted(d.glob("grid_*.json"), key=lambda p: int(re.sub(r"\D", "", p.stem)))
+    text = "\n\n".join(g.describe(json.loads(p.read_text(encoding="utf-8")), i, len(pages) > 1) for i, p in enumerate(pages, 1))
+    (d / "grid.txt").write_text(text + "\n", encoding="utf-8")
+    return text
+
+
+def prepare_views(state: dict, kind: str, check: dict | None) -> list[str]:
+    """보기 창 네 장을 이번 회차에 맞게 새로 쓴다. 무엇을 띄웠는지 글 목록."""
+    d = draft_dir(state["id"])
+    v = _skill("view")
+    shown = []
+
+    def put(n, args, what):
+        try:
+            v.main([args[0], str(d), *args[1:], "--to", str(n)])
+            shown.append(f"view_{n}.png: {what}")
+        except SystemExit as e:
+            _blank(d / f"view_{n}.png", f"view_{n}: (empty) {e}")
+            shown.append(f"view_{n}.png: 빈 창")
+
     pages = len(state["sources"])
-    lines = [pics,
-             f"붙인 그림 {pages}장은 서식 원본이다 ({'쪽 순서대로 ' if pages > 1 else ''}쪽마다 한 장). 그림은 이 요청에 붙어 있어 지금 보인다. "
-             f"서식 만들기의 {n}회차 — 글자 옮기기다. 다른 파일은 읽지 말고 그림만 보고 한다.",
-             f"- 서식 ID: {state['id']} · 원본 종류: {KINDS[state['kind']]}",
-             "- 할 일: 그림에 인쇄된 글자를 위에서 아래로 빠짐없이 그대로, 붙인 그림과 같은 폴더(초안 폴더)에 source_text.md 라는 이름으로 적는다 "
-             "(스킬 1-1단계). 꼴:",
-             "  · 쪽마다 `## 1쪽`, 그 안에서 덩어리마다 `### <덩어리 이름>` (결재란 · 제목 · 위 정보 표 · 목록 표 · 체크 항목 · 안내문/약관 · 날짜·서명란 · 맨 아래).",
-             "  · 한 줄에 그림의 한 줄. 같은 줄에 칸이 여럿이면 ` | ` 로 나눈다. 값이 들어갈 빈 칸은 `( )`.",
-             "  · 영어·숫자·기호·괄호는 그림 그대로 (`대상계좌 (발급세부)`, `(통화코드 : )`, `□ E-mail :`, `□ 등록`). 한글 띄어쓰기도 그대로.",
-             "  · 안내문·약관은 문장 끝까지 전부. 줄이거나 \"…\"로 자르지 않는다.",
-             "  · 손글씨·타자로 채운 값(이름·번호·금액·날짜·체크 표시)은 옮기지 않고 `(값)` 으로. 로고·바코드·도장은 `(로고: 글자)` `(바코드)` `(도장)`.",
-             "  · 작거나 흐려 못 읽는 곳은 `(안 보임: 어디)`. 짐작으로 채우지 않고, 그림에 없는 글자를 더하지 않는다.",
-             "- 이번 회차는 source_text.md 하나만 쓴다. fields.md·template·form.json 은 다음 회차에 쓴다. 검사 명령은 돌리지 않는다. 다 쓰면 끝낸다."]
-    if state.get("note"):
-        lines.append(f"- 사람의 추가 요청 (다음 회차에 반영할 것 — 이번에는 참고만): {state['note']}")
-    return "\n".join(lines)
+    if kind == "build":
+        put(1, ["page"], "원본 1쪽 전체 + 칸 이름")
+        for n in range(2, VIEWS + 1):
+            if n <= pages:
+                put(n, ["page", "--page", str(n)], f"원본 {n}쪽 전체 + 칸 이름")
+            else:
+                _blank(d / f"view_{n}.png", f"view_{n}: empty - write with view.py ... --to {n}")
+                shown.append(f"view_{n}.png: 빈 창")
+        return shown
+    imgs = (check or {}).get("images") or {}
+    for n, path, what in ((1, (imgs.get("side") or [None])[0], "1쪽 왼쪽 원본 · 오른쪽 렌더(--rows min) 전체"),
+                          (2, imgs.get("renders"), "렌더 모음 (min·max·seed1·seed2 첫 쪽) — 값이 바뀌어도 넘치지 않는지")):
+        try:
+            v.save(Image.open(path).convert("RGB"), d / f"view_{n}.png")
+            shown.append(f"view_{n}.png: {what}")
+        except (OSError, TypeError, AttributeError, ValueError):
+            _blank(d / f"view_{n}.png", f"view_{n}: empty")
+            shown.append(f"view_{n}.png: 빈 창")
+    h = json.loads((d / "grid_1.json").read_text(encoding="utf-8"))["size"][1] if (d / "grid_1.json").exists() else 1123
+    put(3, ["compare", "0", "0", "794", str(h // 2)], "1쪽 위 절반: 원본(위) · 렌더(아래)")
+    put(4, ["compare", "0", str(h // 2), "794", str(h)], "1쪽 아래 절반: 원본(위) · 렌더(아래)")
+    return shown
 
 
-def build_request(state: dict, n: int, message: str | None = None) -> str:
-    """2회차: 원본 그림을 다시 붙이고, source_text.md 를 글자의 기준으로 서식을 만든다."""
+def _views(state: dict) -> str:
     d = state["draft"]
-    pics = " ".join(f"@{d}/{s}" for s in state["sources"])
-    lines = [pics,
-             f"{SKILL}/SKILL.md 를 끝까지 읽고 그 순서를 따라, 붙인 그림으로 docgen 서식을 만들어라. {n}회차 — 만들기다.",
+    return " ".join(f"@{d}/view_{n}.png" for n in range(1, VIEWS + 1))
+
+
+TOOLS = [
+    "- 도구 (T = {skill}, 자리 단위는 쪽 px: 가로 794):",
+    "  · python T/view.py table {d} T2 --rows 1-8 --to 2   표를 크게 + 칸 이름 (글자는 이것으로 읽는다)",
+    "  · python T/view.py crop {d} x0 y0 x1 y1 --cells --to 3   아무 곳이나 크게",
+    "  · python T/view.py compare {d} x0 y0 x1 y1 --to 4   같은 자리의 원본(위)·렌더(아래)",
+    "  · python T/build.py {d}   layout.json → template.html.j2 · form.json · fields.md",
+]
+
+
+def _tools(state: dict) -> list[str]:
+    return [t.format(skill=SKILL, d=state["draft"]).replace("T/", f"{SKILL}/") for t in TOOLS]
+
+
+def build_request(state: dict, n: int, message: str | None = None, shown: list[str] | None = None) -> str:
+    """만들기 회차: 보기 창으로 칸을 읽어 layout.json 을 쓰고 build·검사."""
+    d = state["draft"]
+    lines = [_views(state),
+             f"{SKILL}/SKILL.md 를 끝까지 읽고 그 순서(2~5단계)를 따라 docgen 서식을 만들어라. {n}회차 — 만들기다.",
              *_head(state, n),
-             f"- 붙인 그림은 원본이다 (쪽마다 한 장, 지금 보인다). 앞 회차에 그림의 인쇄 글자를 {d}/source_text.md 에 옮겨 두었다 — 먼저 읽는다.",
-             "- 항목명·제목·안내문 글자는 source_text.md 에서 그대로 옮긴다. source_text.md 에 없는 항목명은 만들지 않는다 "
-             "(그림에 있는데 빠졌으면 source_text.md 에 먼저 더한다). 표 모양·칸 나눔·자리는 붙인 그림을 보고 정한다.",
-             "- 이번 회차: 스킬 0단계 1~2(읽기), 1-2단계(fields.md), 2~4단계. fields.md 를 먼저 끝까지 쓰고, template.html.j2 · form.json "
-             "(칸끼리 관계가 있으면 generate.py) 을 쓴 뒤 검사 명령을 통과시킨다.",
-             "- 원본과 렌더를 나란히 놓은 그림은 다음 회차 요청에 붙여 준다 (붙인 그림 말고 다른 그림 파일은 열어 볼 수 없다).",
-             "- 원본 비교(5단계)는 진행기가 다음 회차로 넘긴다. 검사 명령이 통과하면 끝내고, 그것을 \"Not done\"에 적지 않는다."]
+             f"- 원본은 진행기가 이미 쟀다 (SKILL.md 1단계): {d}/grid.txt 에 쪽마다 표·칸 이름(T2.7)·자리·글자 덩어리(B3) 목록이 있다 — 먼저 읽는다.",
+             "- 붙인 그림 네 장은 **보기 창**이다 (지금 보인다): " + "; ".join(shown or []),
+             "  보기 창은 view.py 로 다시 쓰면 다음 단계에서 새 그림으로 보인다 (--to 1~4). 붙지 않은 그림 파일은 열어 볼 수 없다.",
+             *_tools(state),
+             "- 할 일: 표마다 view.py table 로 칸 이름이 찍힌 그림을 크게 보고(6~10행씩), 칸마다 원본 글자를 그대로 · 값 자리는 {키} 로 "
+             "초안 폴더의 layout.json 에 적는다 (cells · blocks · fields · lists — 꼴은 SKILL.md 3·4단계). "
+             "그다음 build.py, 검사 명령. 검사가 통과하면 끝낸다 (원본과 맞대 보며 고치기는 다음 회차).",
+             "- 못 읽은 칸은 짐작하지 않고 crop 으로 더 좁게 본다. 그래도 안 보이면 비워 두고 끝낼 때 적는다."]
+    if state["kind"] == "real":
+        lines.append("- 실서류다: 손글씨·타자로 채운 값(이름·번호·주소·지점명·날짜)은 절대 옮기지 않고 {키} 로만 적는다.")
     if state.get("note"):
         lines.append(f"- 사람의 추가 요청: {state['note']}")
     if message:
@@ -247,38 +305,30 @@ def build_request(state: dict, n: int, message: str | None = None) -> str:
     return "\n".join(lines)
 
 
-def first_request(state: dict) -> str:
-    """처음 회차의 요청 (지금은 글자 옮기기)."""
-    return round_request(state, 1, None)
-
-
-def next_request(state: dict, n: int, check: dict, message: str | None = None) -> str:
-    """고치기 회차: 원본|렌더 그림을 붙이고 비교·고치기·보고."""
+def next_request(state: dict, n: int, check: dict, message: str | None = None, shown: list[str] | None = None) -> str:
+    """고치기 회차: 보기 창에 원본|렌더를 띄우고 덩어리마다 맞대 보며 layout.json 을 고친다."""
     d = state["draft"]
-    imgs = check.get("images") or {}
-    pics = [p for p in (imgs.get("side") or [])[:3]] + ([imgs["renders"]] if imgs.get("renders") else [])
-    pics = [f"@{rel(Path(p))}" for p in pics[:4]]
-    have = [f for f in ("source_text.md", "fields.md", "template.html.j2", "form.json", "generate.py", "review.md", "report.md")
-            if (draft_dir(state["id"]) / f).exists()]
     probs = check.get("problems") or []
     warns = check.get("warnings") or []
-    lines = [" ".join(pics),
-             f"{SKILL}/SKILL.md 를 따르는 서식 만들기의 {n}회차 — 원본과 비교하며 고치기다. 새 대화라 앞 회차의 대화는 없다 — SKILL.md 와 초안 폴더의 파일을 먼저 읽어라.",
+    lines = [_views(state),
+             f"{SKILL}/SKILL.md 를 따르는 서식 만들기의 {n}회차 — 원본과 맞대 보며 고치기다 (SKILL.md 6단계). 새 대화라 앞 회차의 대화는 없다 — "
+             f"SKILL.md 와 {d}/layout.json, {d}/grid.txt 를 먼저 읽어라.",
              *_head(state, n),
-             f"- 앞 회차까지 초안 폴더에 쓴 것: {', '.join(have) or '없음'}. source_text.md(원본 글자)·fields.md 와 (있으면) review.md 를 먼저 읽는다.",
-             "- 붙인 그림(지금 보인다): side_*.jpg = 왼쪽 원본 · 오른쪽 렌더(--rows min, 쪽마다), renders.jpg = 렌더 모음(min·max·seed1·seed2 첫 쪽).",
+             "- 붙인 그림 네 장은 **보기 창**이다 (지금 보인다): " + "; ".join(shown or []),
+             "  보기 창은 view.py 로 다시 쓰면 다음 단계에서 새 그림으로 보인다 (--to 1~4). 붙지 않은 그림 파일은 열어 볼 수 없다.",
+             *_tools(state),
              f"- 직전 검사: {'통과' if check.get('passed') else '통과 못 함'}"]
     lines += [f"  · 문제: {p}" for p in probs[:12]]
-    lines += [f"  · 경고: {w}" for w in warns[:12]]
+    lines += [f"  · 경고: {w}" for w in warns[:14]]
     sample = sample_values(check)
     if sample:
-        lines.append("- 렌더 값 예시 (키: seed 1 값 / seed 2 값) — 값이 칸의 뜻에 맞는지 본다 (스킬 5단계 9번):")
+        lines.append("- 렌더 값 예시 (키: seed 1 값 / seed 2 값) — 값이 칸의 뜻에 맞는지 본다:")
         lines += [f"  · {line}" for line in sample]
     if message:
         lines.append(f"- 사람의 지시 (가장 먼저 반영): {message}")
-    lines.append(f"- 할 일: 스킬 5단계대로 원본과 렌더를 비교해 review.md 에 '{n}회차' 9문항을 더하고, 문제·경고·\"아니오\"를 고친 뒤 검사 명령을 통과시킨다. "
-                 "원본 글자 대조 경고(지어낸 글자·빠진 글자)는 그림을 보고 판단해 고친다. "
-                 "고칠 것이 없으면 review.md 에 그렇게 적는다. 끝나면 스킬 6단계 보고를 초안 폴더의 report.md 로 쓴다 (있으면 고쳐 쓴다).")
+    lines.append("- 할 일: 문제·경고에 나온 칸부터, 그다음 표·덩어리마다 view.py compare 로 원본과 렌더를 같은 자리끼리 크게 보고 "
+                 "다른 곳을 layout.json 에서 고친다 (글자·size·align·\\n·{키}·fields 의 source). template.html.j2 는 직접 고치지 않는다. "
+                 "고친 뒤 build.py → 검사 명령. 끝나면 SKILL.md 7단계 보고를 초안 폴더의 report.md 로 쓴다 (있으면 고쳐 쓴다).")
     return "\n".join(lines)
 
 
@@ -300,14 +350,18 @@ def sample_values(check: dict, limit: int = 70) -> list[str]:
 
 
 def round_request(state: dict, n: int, check: dict | None, message: str | None = None) -> str:
-    """이번 회차의 요청: 초안 폴더에 무엇이 있는지로 고른다."""
+    """이번 회차의 요청: 초안 폴더에 무엇이 있는지로 고르고, 보기 창을 그에 맞게 새로 쓴다."""
     kind = round_kind(state)
-    if kind == "read":
-        req = read_request(state, n)
-        return req + (f"\n- 사람의 지시: {message}" if message else "")
+    measure(state)
+    shown = prepare_views(state, kind, check)
     if kind == "build":
-        return build_request(state, n, message)
-    return next_request(state, n, check or {}, message)
+        return build_request(state, n, message, shown)
+    return next_request(state, n, check or {}, message, shown)
+
+
+def first_request(state: dict) -> str:
+    """처음 회차의 요청 (만들기)."""
+    return round_request(state, 1, None)
 
 
 # ---------------------------------------------------------------- 진행
@@ -393,7 +447,7 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
     save(state)
     stopped = lambda: (d / "STOP").exists()  # noqa: E731
     first = not state["rounds"]
-    planned = (2 + fix_rounds) if first else (1 + max(0, fix_rounds - 1))     # 처음: 글자 옮기기 + 만들기 + 고치기 회차
+    planned = (1 + fix_rounds) if first else max(1, fix_rounds)     # 처음: 만들기 + 고치기 회차
     before = snapshot()
     last_check = state["rounds"][-1].get("check_full") if state["rounds"] else None
     for k in range(planned):
@@ -426,11 +480,15 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
         if code == 2:
             state.update(status="failed", error="ReLab 이 시작하지 못함 (종료 코드 2) — " + tail(d / rnd["log"]))
             break
-        if kind == "read":                  # 글자 옮기기 뒤에는 서식 검사가 할 게 없다 (템플릿이 아직 없는 게 정상)
+        if not (d / "template.html.j2").exists() and (d / "layout.json").exists():   # 모델이 build 를 안 돌렸으면 진행기가
+            try:
+                _skill("build").build(d)
+            except Exception as e:                                                  # noqa: BLE001 — 오류는 다음 요청의 검사 문제로 간다
+                log(f"[{form_id}] build.py 오류: {e}")
+        if not (d / "layout.json").exists():
             last_check = None
-            got = (d / "source_text.md").exists()
-            rnd["read"] = {"source_text": got}
-            log(f"[{form_id}] {n}회차 끝: 종료 코드 {code}, source_text.md {'있음' if got else '없음 — 다음 회차에 다시 옮긴다'}")
+            rnd["read"] = {"layout": False}
+            log(f"[{form_id}] {n}회차 끝: 종료 코드 {code}, layout.json 없음 — 다음 회차에 다시 만든다")
         else:
             last_check = run_check(d, d / f"check_{n}")
             rnd["check"] = {k2: last_check[k2] for k2 in ("passed", "problems", "warnings")}

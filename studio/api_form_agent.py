@@ -37,7 +37,7 @@ from formagent import runner
 from .jobs import Conflict, python
 
 KIND = "form_agent"
-TEXT_FILES = ("source_text.md", "fields.md", "template.html.j2", "form.json", "generate.py", "review.md", "report.md")
+TEXT_FILES = ("fields.md", "layout.json", "grid.txt", "template.html.j2", "form.json", "generate.py", "report.md", "source_text.md", "review.md")
 MAX_TEXT = 300_000
 
 

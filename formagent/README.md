@@ -17,7 +17,7 @@
 ## studio 화면
 
 studio 왼쪽 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `studio/static/js/form-agent.js`): 그림·ID·원본 종류·추가 요청 → **[시작]**
-(ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 등) → **이어서 지시** · **[멈추기]** · **[삭제]**(초안 폴더만, 등록한 서식은 남음)
+(ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 · layout.json · grid.txt 등) → **이어서 지시** · **[멈추기]** · **[삭제]**(초안 폴더만, 등록한 서식은 남음)
 → 결과 탭 **[등록]** (공개/비공개 고르고 확인 세 가지에 체크 → 검사·옮기기·카드·formdir check → 서식 다시 읽기 → 서식 › 미리보기/검수).
 화면이 띄우는 것도 아래 명령이다 (`go` · `continue`). 모델 설정은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab"}`.
 화면 설명은 [guide/studio/studio.md](../guide/studio/studio.md#이미지로-서식-만들기). 그림: [화면 흐름](docs/screens.png) · [동작 시나리오](docs/scenario.png) (가짜 모델로 돌린 실제 화면).
@@ -44,9 +44,12 @@ python -m formagent register --id loan_application --to public                # 
 | 파일 | 누가 | 내용 |
 |---|---|---|
 | `source.png`, `source_2.png` … | 진행기 | 원본 (2MB 이하로 줄임) |
-| `fields.md` · `template.html.j2` · `form.json` · `generate.py` | 모델 | 서식 초안 (스킬 1~3단계) |
-| `source_text.md` | 모델 | 글자 옮기기 회차: 그림에 인쇄된 글자 그대로 (원본과 대 보면 모델이 그림을 읽었는지 보임) |
-| `review.md` · `report.md` | 모델 | 회차별 비교 8문항, 마지막 보고 (스킬 5·6단계) |
+| `page_<n>.png` · `grid_<n>.json` · `grid.txt` | 진행기 (`grid.py`) | 원본을 기울기 바로잡고 잰 것: 표·칸 이름(`T2.7`)·자리·합친 칸·글자 덩어리(`B3`). 글자는 읽지 않음 |
+| `view_1.png` … `view_4.png` | 진행기·모델 (`view.py`) | **보기 창**: 요청에 늘 붙는 그림 네 장. 모델이 명령으로 다시 쓰면 다음 단계에서 새 그림이 보인다 |
+| `layout.json` · `generate.py` | 모델 | 칸마다 원본 글자·값 자리 `{키}`, 키마다 항목명·종류·값 만드는 법·설명 (스킬 3·4단계) |
+| `template.html.j2` · `form.json` · `fields.md` | `build.py` | `layout.json` + `grid_<n>.json` 에서 만든 서식 초안 (원본과 같은 자리·열 너비·행 높이) |
+| `render_<n>.png` | 검사 | seed 1 렌더 쪽 그림 (`view.py compare` 가 원본과 같은 자리를 잘라 맞댄다) |
+| `report.md` | 모델 | 마지막 보고 (스킬 7단계) |
 | `run.json` | 진행기 | 상태 `running`·`waiting`·`done`·`stopped`·`failed`, 회차마다 요청 문장·종료 코드·검사 요약 |
 | `relab_<n>.log` | 진행기 | n회차 ReLab 출력 그대로 (모델의 말 `●`, 한 일 `⎿`) |
 | `check_<n>/` · `check_final/` | 진행기 | 회차 뒤 검사 (`check.py`): `check.json`, `side_<쪽>.jpg`(원본·렌더 나란히), `renders.jpg`(렌더 모음) |
@@ -55,14 +58,17 @@ python -m formagent register --id loan_application --to public                # 
 
 ## 회차
 
-진행기는 초안 폴더에 무엇이 있는지로 회차의 일을 고른다.
+진행기는 초안 폴더에 무엇이 있는지로 회차의 일을 고른다. 회차 전에 진행기가 `grid.py` 로 원본을 재고(처음 한 번) 보기 창 네 장을 새로 쓴다.
 
-1. **글자 옮기기** (`source_text.md` 가 없을 때, 보통 1회차): 요청 = 원본 그림(`@source.png`) + "그림의 인쇄 글자를 위에서 아래로 그대로 `source_text.md` 에".
-   스킬 문서는 읽히지 않는다 — 문서를 잔뜩 읽은 뒤 그림을 보면 약한 모델은 그림 대신 짐작으로 항목명을 쓰기 때문 (PLAN.md 15절).
-2. **만들기** (템플릿이 없을 때, 보통 2회차): 요청 = 원본 그림 다시 + "SKILL.md 를 따라, 글자는 `source_text.md` 에서". 칸 표 → 템플릿·form.json(·generate.py) → 검사 명령 통과.
-3. 진행기가 `check.py` 로 검사해 `check_<n>/` 에 비교 그림을 만든다. 검사는 템플릿 글자를 `source_text.md` 와 맞대 **지어낸 글자·빠진 글자**를 경고한다.
-4. **고치기** (3회차부터): 요청 = 비교 그림(`@side_0.jpg`, `@renders.jpg`) + 앞 회차 파일 안내 + 검사의 문제·경고 (+ 사람의 지시). 모델이 `review.md` 8문항 → 고침 → 검사 통과 → `report.md`.
-5. 고치기 회차에서 `report.md` 를 쓰고 검사를 통과하면 끝. 아니면 `--rounds` 만큼 (기본 3) 고치기 회차.
+1. **만들기** (`layout.json` 이 없을 때, 1회차): 보기 창 = 원본 쪽 전체 + 칸 이름. 요청 = `grid.txt` 를 읽고 표마다 `view.py table` 로 크게 보며
+   칸 글자·값 자리를 `layout.json` 에 → `build.py` → 검사 명령 통과.
+2. 진행기가 `check.py` 로 검사해 `check_<n>/` 에 비교 그림을 만든다. 검사는 원본과 렌더를 **같은 도구(grid)로 재서** 표 선·칸 글자 있음/없음·잘린 글자·글자 덩어리 너비를 맞대고,
+   `layout.json` 에 안 적은 칸을 경고한다.
+3. **고치기** (2회차부터): 보기 창 = 1쪽 원본|렌더 전체 · 렌더 모음 · 1쪽 위/아래 절반 원본·렌더. 요청 = 검사의 문제·경고 + 렌더 값 예시 (+ 사람의 지시).
+   모델이 `view.py compare` 로 덩어리마다 맞대 보며 `layout.json` 을 고침 → `build.py` → 검사 통과 → `report.md`.
+4. 고치기 회차에서 `report.md` 를 쓰고 검사를 통과하면 끝. 아니면 `--rounds` 만큼 (기본 3) 고치기 회차.
+
+재기(표 선·칸 자리)와 html 쓰기는 도구가 하고, 모델은 잘라 크게 본 그림에서 **칸 글자를 읽고 값 자리·키를 정하는 일**만 한다 — 약한 모델이 그림에서 자리를 짐작하다 표 구조가 틀어지던 문제 때문 (PLAN.md 16절).
 
 ReLab 은 `-p`(비대화 실행)에서 `-c`(이어 하기)를 보지 않아 **회차마다 새 대화**다. 앞 회차는 초안 폴더의 파일과 요청 문장으로 넘긴다.
 
