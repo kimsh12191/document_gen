@@ -256,3 +256,39 @@ def test_fix_request_shows_sample_values(ws):
              "values": {"s1": {"bill.tenor": "주소 변경", "docs.0.bl": "3", "docs.1.bl": "2"}, "s2": {"bill.tenor": "본인 요청"}}}
     req = runner.round_request(runner.load("sv1"), 3, check)
     assert "bill.tenor: 주소 변경 / 본인 요청" in req and "docs.0.bl: 3" in req and "docs.1.bl" not in req and "칸의 뜻" in req
+
+
+def test_leftover_relab_is_found_shown_and_stopped(ws):
+    """진행기가 끊긴 뒤 남은 relab(다른 서식 요청)은 목록에 나오고, 새로 시작하면 먼저 끈다. 서식마다 기록 폴더·명령 python."""
+    import subprocess
+    import sys
+    ws["plan"].write_text(json.dumps([{"exit": 0, "sleep": 60}]))
+    old = subprocess.Popen([sys.executable, ws["relab"], "chat", "-p", "@out/form_drafts/gone_form/view_1.png 옛 요청", "--auto",
+                            "--workspace", str(ws["root"])], env={**os.environ}, start_new_session=True)
+    try:
+        for _ in range(100):                                              # 옛 실행이 계획을 읽고 잠들 때까지
+            if (ws["plan"].with_name("requests.jsonl")).exists() and json.loads(ws["plan"].read_text()) == []:
+                break
+            time.sleep(0.1)
+        left = runner.leftovers()
+        assert [(p["pid"], p["form_id"], p["runner_alive"], p["draft_exists"]) for p in left] == [(old.pid, "gone_form", False, False)]
+        ws["plan"].write_text(json.dumps([{"write": draft_files("new1"), "exit": 0},
+                                          {"write": {"out/form_drafts/new1/report.md": "#"}, "exit": 0}]))
+        runner.start([ws["img"]], "new1", "blank", None, {"relab": ws["relab"], "python": sys.executable})
+        st = runner.go("new1", log=lambda *a: None)
+        assert old.wait(10) is not None                                   # 시작할 때 꺼짐
+        assert [c["pid"] for c in st["cleaned"]] == [old.pid] and runner.leftovers() == []
+        req = ws["requests"]()[-1]
+        assert req["env"]["RELAB_PRIVATE_HOME"] == str(ws["root"] / "out/form_drafts/new1/.relab_home")
+        assert req["env"]["RELAB_EXECUTION_PYTHON"] == sys.executable and st["python"] == sys.executable
+        assert "new1 하나다" in req["request"] and "다른 초안 폴더는 읽지도 고치지도 않는다" in req["request"]
+    finally:
+        if old.poll() is None:
+            old.kill()
+
+
+def test_missing_python_fails_early(ws):
+    runner.start([ws["img"]], "py1", "blank", None, {"relab": ws["relab"], "python": "/없는/venv/bin/python"})
+    with pytest.raises(runner.AgentError, match="명령 실행 python"):
+        runner.go("py1", log=lambda *a: None)
+    assert runner.load("py1")["status"] == "failed"

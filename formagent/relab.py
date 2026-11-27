@@ -88,11 +88,13 @@ def command(relab: str, request: str, workspace: Path, provider: str | None = No
     return cmd
 
 
-def run(cmd: list[str], log_file: Path, cwd: Path, timeout_minutes: float = 60, on_start=None, stopped=lambda: False) -> int | None:
+def run(cmd: list[str], log_file: Path, cwd: Path, timeout_minutes: float = 60, on_start=None, stopped=lambda: False,
+        env_extra: dict | None = None) -> int | None:
     """실행하고 출력을 log_file 에 그대로 쓴다. 종료 코드 (시간 초과·멈춤이면 None).
+    env_extra: 더할 환경 변수 (진행기는 RELAB_PRIVATE_HOME 으로 서식마다 ReLab 기록 폴더를 따로 준다).
 
     종료 코드: 0 완료, 1 미완료, 2 시작 못 함, 3 모델이 묻고 기다림 (ReLab MANUAL 5장)."""
-    env = {**os.environ, "NO_COLOR": "1"}
+    env = {**os.environ, "NO_COLOR": "1", **(env_extra or {})}
     with open(log_file, "w", encoding="utf-8") as out:
         proc = subprocess.Popen(cmd, cwd=cwd, stdout=out, stderr=subprocess.STDOUT, env=env, start_new_session=True)
         if on_start:

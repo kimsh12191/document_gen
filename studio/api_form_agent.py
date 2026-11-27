@@ -16,6 +16,7 @@ API
   GET  /api/form-agent/{id}/file/{path}    초안 폴더의 파일 (그림 등)
   POST /api/form-agent/{id}/continue       {message} 이어서 지시 (질문에 대한 답도)
   POST /api/form-agent/{id}/stop           멈추기
+  POST /api/form-agent-relab/{pid}/stop    끝나지 않고 남은 relab 실행 하나 끄기 (진행기가 끊긴 것만)
   POST /api/form-agent/{id}/register       {to: public|private} 등록 (스킬 register.py: 검사 통과·ID 비어 있음 확인 → 옮기기 → 카드·formdir check)
                                            → 서식 다시 읽기. 실서류는 비공개 폴더만
 """
@@ -106,7 +107,7 @@ def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
     agent_cfg = dict(cfg.get("form_agent") or {})
 
     def settings() -> dict:
-        s = {k: agent_cfg.get(k) for k in ("relab", "provider", "endpoint", "model", "max_fix_rounds", "round_minutes")}
+        s = {k: agent_cfg.get(k) for k in ("relab", "provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "python")}
         return {k: v for k, v in s.items() if v not in (None, "")}
 
     def running_job() -> dict | None:
@@ -125,8 +126,20 @@ def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
                 st = _read_json(f)
                 if st and st.get("id"):
                     items.append(summary(st))
+        py = runner.execution_python(settings())
         return {"relab": R.status(agent_cfg.get("relab")), "settings": settings(), "busy": running_job(),
-                "kinds": runner.KINDS, "max_pages": runner.MAX_PAGES, "items": items}
+                "python": {"path": py, "exists": Path(py).is_file(), "configured": bool(settings().get("python"))},
+                "leftovers": runner.leftovers(), "kinds": runner.KINDS, "max_pages": runner.MAX_PAGES, "items": items}
+
+    @r.post("/api/form-agent-relab/{pid}/stop")
+    def stop_leftover(pid: int):
+        """진행기가 끊긴 뒤 남은 relab 실행 하나를 끈다. 지금 도는 작업의 relab 은 그 서식 화면의 [멈추기] 로."""
+        proc = next((p for p in runner.relab_procs() if p["pid"] == pid), None)
+        if proc is None:
+            raise HTTPException(404, f"이 저장소의 relab 실행이 아닙니다: {pid}")
+        if proc["runner_alive"]:
+            raise HTTPException(409, f"{proc['form_id']} 를 만드는 중인 실행입니다 — 그 서식 화면에서 [멈추기]")
+        return {"pid": pid, "stopped": runner.kill_relab_quiet(pid), "form_id": proc["form_id"]}
 
     @r.get("/api/form-agent/check-id")
     def check_id(id: str):  # noqa: A002
@@ -188,6 +201,8 @@ def make_router(jobs, guard, cfg: dict, refresh=None) -> APIRouter:
                 "outside_changes": st.get("outside_changes") or [], "files": files,
                 "relab": st.get("relab"), "relab_version": st.get("relab_version"), "settings": st.get("settings"),
                 "registered": st.get("registered"), "private_dir": os.environ.get("DOCGEN_PRIVATE_FORMS"),
+                "procs": [p for p in runner.relab_procs() if p["form_id"] == form_id], "cleaned": st.get("cleaned") or [],
+                "python": st.get("python"),
                 "job": job and {k: job.get(k) for k in ("id", "status", "started", "ended", "cmd")}}
 
     @r.get("/api/form-agent/{form_id}/log/{n}")

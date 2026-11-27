@@ -18,10 +18,12 @@ async function viewFormAgent() {
   main().innerHTML = `
     <h1>이미지로 서식 만들기</h1>
     <div class="sub">서식 그림을 올리면 사내 모델이 스킬 <span class="mono">.claude/skills/form-from-image/SKILL.md</span> 를 따라
-      <b>뽑을 키·항목 설명(fields.md)</b> → <span class="mono">template.html.j2 · form.json</span> (칸끼리 관계가 있으면 <span class="mono">generate.py</span>) 를 만들고,
-      원본과 렌더를 나란히 놓고 고칩니다. 실제로 도는 것은 명령줄과 같은 <span class="mono">python -m formagent</span> 이고, 결과는 <span class="mono">out/form_drafts/&lt;ID&gt;/</span> 에 남습니다.
-      만든 초안은 사람이 보고 등록합니다 (스킬 7단계).</div>
+      서식을 만듭니다: 도구가 원본의 표·칸 자리를 재고, 모델이 칸마다 잘라 크게 본 글자와 값 자리·<b>뽑을 키·항목 설명</b>을 <span class="mono">layout.json</span> 에 적으면,
+      도구가 원본과 같은 모양의 <span class="mono">template.html.j2 · form.json · fields.md</span> 를 만들고, 원본과 렌더를 같은 자리끼리 맞대 보며 고칩니다.
+      실제로 도는 것은 명령줄과 같은 <span class="mono">python -m formagent</span> 이고, 결과는 <span class="mono">out/form_drafts/&lt;ID&gt;/</span> 에 남습니다 (ReLab 기록도 서식마다 그 안에).
+      만든 초안은 사람이 보고 등록합니다 (스킬 8단계).</div>
     <div id="fa-env" class="bar fa-env"></div>
+    <div id="fa-left"></div>
     <details class="panel fa-new" id="fa-new-box" open><summary><b>새로 만들기</b></summary>
       <div class="fa-form">
         <label class="fld">서식 그림 <span class="muted">(쪽 순서대로, 최대 3장 · png·jpg)</span>
@@ -90,7 +92,22 @@ async function drawFaOverview() {
       : `<span class="tag warn">없음</span> <span class="muted">시작하면 저장소의 묶음으로 <span class="mono">${esc(rl.install_to)}</span> 에 설치</span>`}</span>
     <span>모델 ${s.model ? `<span class="mono">${esc(s.provider || "")} · ${esc(s.model)}</span> <span class="mono muted">${esc(s.endpoint || "")}</span>`
       : `<span class="muted">ReLab 설정(~/.relab/config.json)을 따름 — studio 설정 <span class="mono">form_agent</span> 로 정할 수 있음</span>`}</span>
+    <span>명령 python ${ov.python.exists ? `<span class="mono">${esc(ov.python.path)}</span>` : `<span class="tag warn">없음</span> <span class="mono">${esc(ov.python.path)}</span>`}
+      <span class="muted">${ov.python.configured ? "(studio 설정 form_agent.python)" : "(studio 를 돌리는 python — 다른 가상환경을 쓰려면 studio 설정 form_agent.python)"}</span></span>
     ${ov.busy ? `<span class="tag">도는 작업: ${esc(ov.busy.title)}</span>` : ""}`;
+  const left = $("#fa-left");
+  if (left) {
+    left.innerHTML = ov.leftovers.length ? `<div class="panel fa-warn"><b>끝나지 않고 남은 ReLab 실행 ${ov.leftovers.length}개</b>
+      <span class="muted">— 진행기가 끊긴 뒤에도 돌고 있는 실행입니다. 다른 서식의 초안을 건드릴 수 있어 끄는 것이 좋습니다 (새로 시작하면 저절로 끕니다).</span>
+      <table class="fa-md-table"><tr><th>pid</th><th>서식</th><th>시작</th><th></th></tr>${ov.leftovers.map(p => `<tr><td class="mono">${p.pid}</td>
+        <td class="mono">${esc(p.form_id || "모름")}${p.form_id && !p.draft_exists ? ` <span class="tag warn">초안 없음</span>` : ""}</td>
+        <td>${esc(p.started)}</td><td><button class="danger" data-kill="${p.pid}">끄기</button></td></tr>`).join("")}</table></div>` : "";
+    $$("[data-kill]", left).forEach(b => b.onclick = async () => {
+      try { await api(`/api/form-agent-relab/${b.dataset.kill}/stop`, {}); toast(`pid ${b.dataset.kill} 을 껐습니다`); }
+      catch (e) { toast(e.message, true); }
+      drawFaOverview();
+    });
+  }
   const box = $("#fa-list");
   if (box) box.innerHTML = ov.items.length ? `<div class="fa-cards">${ov.items.map(it => `
       <a class="card fa-card" href="${faBase(it.id)}">
@@ -105,7 +122,7 @@ async function drawFaOverview() {
           <br><span class="muted">${esc(it.created || "")}</span></div></a>`).join("")}</div>`
     : `<p class="muted">아직 없습니다.</p>`;
   clearTimeout(state.faListTimer);
-  if (ov.items.some(it => FA_LIVE.has(it.status)) || ov.busy)
+  if (ov.items.some(it => FA_LIVE.has(it.status)) || ov.busy || ov.leftovers.length)
     state.faListTimer = setTimeout(() => { if (location.hash === "#/form-agent") drawFaOverview(); }, 3000);
   return ov;
 }
@@ -164,12 +181,17 @@ async function viewFormAgentOne(id, tab, given) {
     <div class="bar">
       <span class="muted">${esc((d.kind && { blank: "빈 서식", sample: "견본", real: "실서류" }[d.kind]) || "")} · ${d.rounds.length}회차 · ${esc(d.created || "")}${d.ended ? ` → ${esc(d.ended)}` : ""}</span>
       ${d.relab ? `<span class="muted mono">ReLab ${esc(d.relab_version || "")}</span>` : ""}
+      ${d.python ? `<span class="muted mono" title="모델이 돌린 python 명령의 인터프리터">python ${esc(d.python)}</span>` : ""}
       ${d.registered ? `<span class="tag ok">등록됨 · ${d.registered.to === "private" ? "비공개" : "공개"}</span>
         <a href="#/forms/${encodeURIComponent(d.id)}">서식 화면 열기 (미리보기·검수)</a>` : ""}
       ${live ? `<button id="fa-stop">멈추기</button>` : `<button id="fa-del" class="danger">삭제</button>`}
     </div>
     ${d.note ? `<div class="sub">추가 요청: ${esc(d.note)}</div>` : ""}
     ${d.error && d.status !== "done" ? `<p class="err">${esc(d.error)}</p>` : ""}
+    ${!live && d.procs.length ? `<div class="panel fa-warn"><b>이 서식의 ReLab 실행이 아직 돌고 있습니다</b> (pid ${d.procs.map(p => p.pid).join(", ")})
+      <span class="muted">— 진행기가 끊겨 결과를 정리하지 못합니다. 끄고 <b>이어서</b>로 다시 돌리세요.</span>
+      <button class="danger" id="fa-kill">끄기</button></div>` : ""}
+    ${d.cleaned.length ? `<div class="sub">시작할 때 남은 ReLab 실행을 껐습니다: ${d.cleaned.map(p => `pid ${p.pid} (${esc(p.form_id || "서식 모름")})`).join(", ")}</div>` : ""}
     ${d.status === "waiting" ? `<div class="panel fa-q"><b>모델이 묻습니다</b><pre class="ans mono">${esc(d.question || "")}</pre>
       <div class="muted">아래 <b>이어서 지시</b>에 답을 적어 보내면 다음 회차가 이어집니다.</div></div>` : ""}
     ${d.outside_changes.length ? `<div class="panel fa-warn"><b>초안 폴더 밖에서 바뀐 파일 ${d.outside_changes.length}개</b> — 모델이 손댄 것인지 확인하세요
@@ -187,6 +209,13 @@ async function viewFormAgentOne(id, tab, given) {
     await api(`/api/form-agent/${encodeURIComponent(id)}/stop`, {});
     toast("멈춤 표시를 남겼습니다");
     setTimeout(() => { if (location.hash.startsWith(faBase(id))) viewFormAgentOne(id, faTab()); }, 1500);
+  };
+  if ($("#fa-kill")) $("#fa-kill").onclick = async () => {
+    for (const p of d.procs) {
+      try { await api(`/api/form-agent-relab/${p.pid}/stop`, {}); } catch (e) { toast(e.message, true); return; }
+    }
+    toast("껐습니다");
+    viewFormAgentOne(id, faTab());
   };
   if ($("#fa-del")) $("#fa-del").onclick = async () => {
     const reg = d.registered ? `\n\n등록한 서식(${d.registered.to === "private" ? "비공개" : "공개"} ${d.registered.path || ""})은 지우지 않습니다.` : "";

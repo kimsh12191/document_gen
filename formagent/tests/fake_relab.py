@@ -19,7 +19,8 @@ plan_file = Path(os.environ["FAKE_RELAB_PLAN"])
 request = args[args.index("-p") + 1]
 workspace = Path(args[args.index("--workspace") + 1])
 with open(plan_file.with_name("requests.jsonl"), "a", encoding="utf-8") as f:
-    f.write(json.dumps({"request": request, "argv": args}, ensure_ascii=False) + "\n")
+    f.write(json.dumps({"request": request, "argv": args,
+                        "env": {k: os.environ.get(k) for k in ("RELAB_PRIVATE_HOME", "RELAB_EXECUTION_PYTHON")}}, ensure_ascii=False) + "\n")
 plan = json.loads(plan_file.read_text(encoding="utf-8"))
 step = plan.pop(0) if plan else {"exit": 0}
 plan_file.write_text(json.dumps(plan, ensure_ascii=False), encoding="utf-8")

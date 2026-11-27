@@ -19,7 +19,17 @@
 studio 왼쪽 메뉴 **이미지로 서식 만들기** (`studio/api_form_agent.py`, `studio/static/js/form-agent.js`): 그림·ID·원본 종류·추가 요청 → **[시작]**
 (ReLab 이 없으면 자동 설치) → **진행**(회차마다 모델의 말·한 일·검사) · **결과**(원본|렌더 나란히, 마지막 검사, 보고) · **파일**(fields.md 표 · layout.json · grid.txt 등) → **이어서 지시** · **[멈추기]** · **[삭제]**(초안 폴더만, 등록한 서식은 남음)
 → 결과 탭 **[등록]** (공개/비공개 고르고 확인 세 가지에 체크 → 검사·옮기기·카드·formdir check → 서식 다시 읽기 → 서식 › 미리보기/검수).
-화면이 띄우는 것도 아래 명령이다 (`go` · `continue`). 모델 설정은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab"}`.
+화면이 띄우는 것도 아래 명령이다 (`go` · `continue`). 모델 설정은 studio `config.json` 의 `"form_agent": {"provider", "endpoint", "model", "max_fix_rounds", "round_minutes", "relab", "python"}`.
+
+**모델이 돌리는 python**: 모델의 명령(검사·`view.py`·`build.py` …)은 `"python"` 에 적은 인터프리터로 돈다 — 가상환경이면 그 `bin/python` 을 적는다
+(ReLab `RELAB_EXECUTION_PYTHON`: 그 가상환경을 켠 것처럼 `PATH`·`VIRTUAL_ENV` 도 맞춘다). 비우면 진행기(studio)를 돌리는 python.
+그 환경에 studio 와 같은 패키지(`docker/requirements.lock`: jinja2 · playwright · Pillow · pymupdf)가 있어야 검사가 돈다. 화면 위 줄에 지금 쓰는 python 이 나온다.
+
+**서식마다 따로**: ReLab 은 작업 공간마다 대화·메모·실패에서 배운 것을 남겨 다음 실행 요청에 붙인다. 진행기는 서식마다 `RELAB_PRIVATE_HOME=<초안>/.relab_home` 으로
+기록 폴더를 따로 줘서 앞 서식의 기록이 다음 서식에 섞이지 않게 한다 (모델 설정 `~/.relab/config.json` 은 그대로 읽힘). 요청에도 "이 서식 하나만, 다른 초안 폴더는 보지 않는다".
+
+**남은 실행**: 진행기가 끊기면(studio 를 다시 켬 등) 새 세션으로 띄운 relab 이 혼자 남아 다른 서식 초안을 건드릴 수 있다.
+화면 위에 **끝나지 않고 남은 ReLab 실행**과 **[끄기]** 가 나오고, 새로 시작할 때·초안을 지울 때 진행기가 먼저 끈다 (`/proc` 에서 이 저장소의 `relab chat` 을 찾는다).
 화면 설명은 [guide/studio/studio.md](../guide/studio/studio.md#이미지로-서식-만들기). 그림: [화면 흐름](docs/screens.png) · [동작 시나리오](docs/scenario.png) (가짜 모델로 돌린 실제 화면).
 
 ## 명령 (저장소 맨 위에서)

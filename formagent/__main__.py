@@ -13,7 +13,7 @@ from . import runner
 def settings(a) -> dict:
     """명령 옵션 → 설정. 비우면 ReLab 설정 파일(~/.relab/config.json)의 값."""
     s = {"relab": a.relab or os.environ.get("RELAB_BIN"), "provider": a.provider, "endpoint": a.endpoint, "model": a.model,
-         "max_fix_rounds": a.rounds, "round_minutes": a.round_minutes}
+         "max_fix_rounds": a.rounds, "round_minutes": a.round_minutes, "python": a.python}
     return {k: v for k, v in s.items() if v is not None}
 
 
@@ -24,6 +24,7 @@ def model_options(ap):
     ap.add_argument("--model", help="served model 이름 (기본: ReLab 설정의 codingModel)")
     ap.add_argument("--rounds", type=int, help="고치기 회차 최대 (기본 3)")
     ap.add_argument("--round-minutes", type=float, help="회차 하나의 시간 한도 (기본 60분)")
+    ap.add_argument("--python", help="모델이 돌리는 python 명령의 인터프리터 (가상환경의 bin/python). 기본: 이 명령을 돌리는 python")
 
 
 def main(argv=None):

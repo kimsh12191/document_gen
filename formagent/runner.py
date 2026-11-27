@@ -191,11 +191,101 @@ def run_check(draft: Path, out: Path) -> dict:
 def _head(state: dict, n: int) -> list[str]:
     d = state["draft"]
     return [f"- 서식 ID: {state['id']} · 초안 폴더: {d}/ · 원본 종류: {KINDS[state['kind']]}",
+            f"- 이번에 만드는 서식은 {state['id']} 하나다. out/form_drafts/ 의 다른 초안 폴더는 읽지도 고치지도 않는다 (다른 서식이다).",
             f"- 검사 명령: python -m pytest {SKILL}/test_draft.py --draft {d} -q  (통과해야 끝난다. 문제·경고는 명령 출력에 나온다)",
             "- 초안 폴더 밖의 파일은 만들거나 고치지 않는다. 등록(스킬 8단계)은 하지 않는다."]
 
 
 VIEWS = 4
+def execution_python(settings: dict) -> str:
+    """모델이 돌리는 python 명령이 쓸 인터프리터 (ReLab RELAB_EXECUTION_PYTHON — 그 가상환경을 켠 것처럼 PATH·VIRTUAL_ENV 도).
+    설정 form_agent.python 이 있으면 그것, 없으면 진행기(studio)를 돌리는 python — 검사 도구가 쓰는 패키지(playwright·jinja2·Pillow)가 있는 곳."""
+    given = (settings or {}).get("python")
+    path = Path(given).expanduser() if given else Path(sys.executable)
+    if not path.is_absolute():
+        path = ROOT / path
+    return str(path.absolute())
+
+
+RECORDS = ".relab_home"      # 서식마다 ReLab 기록(대화·loop·메모·교훈) 폴더 — RELAB_PRIVATE_HOME. 모델 설정은 늘 ~/.relab/config.json
+FORM_IN_REQUEST = re.compile(r"out/form_drafts/([a-z][a-z0-9_]{2,50})/")
+
+
+def relab_procs() -> list[dict]:
+    """이 저장소를 작업 공간으로 도는 `relab chat` 실행들 (/proc 에서). 요청 글에서 어느 서식인지 찾는다.
+    [{pid, form_id, started(시각), runner_alive(그 서식의 진행기가 살아 있나)}]"""
+    out = []
+    proc = Path("/proc")
+    if not proc.is_dir():
+        return out
+    root = str(ROOT.resolve())
+    for p in proc.iterdir():
+        if not p.name.isdigit():
+            continue
+        try:
+            args = [a.decode("utf-8", "replace") for a in (p / "cmdline").read_bytes().split(b"\0") if a]
+            started = p.stat().st_mtime
+        except OSError:
+            continue
+        if "chat" not in args or "-p" not in args or not any(Path(a).name in ("relab", "relab.exe") for a in args[:3]):
+            continue
+        ws = args[args.index("--workspace") + 1] if "--workspace" in args[:-1] else None
+        if not ws or str(Path(ws).resolve()) != root:
+            continue
+        request = args[args.index("-p") + 1] if args.index("-p") + 1 < len(args) else ""
+        m = FORM_IN_REQUEST.search(request)
+        form_id = m.group(1) if m else None
+        alive = False
+        if form_id and (DRAFTS / form_id / "run.json").exists():
+            try:
+                st = json.loads((DRAFTS / form_id / "run.json").read_text(encoding="utf-8"))
+                alive = st.get("status") in ("running", "installing") and _alive(st.get("runner_pid"))
+            except (OSError, ValueError):
+                pass
+        out.append({"pid": int(p.name), "form_id": form_id, "started": datetime.fromtimestamp(started).strftime("%Y-%m-%d %H:%M:%S"),
+                    "runner_alive": alive, "draft_exists": bool(form_id and (DRAFTS / form_id).is_dir())})
+    return sorted(out, key=lambda x: x["pid"])
+
+
+def _gone(pid: int) -> bool:
+    """끝났나 (거두지 않은 좀비도 끝난 것으로)."""
+    if not _alive(pid):
+        return True
+    try:
+        return (Path("/proc") / str(pid) / "stat").read_text().rsplit(")", 1)[1].split()[0] == "Z"
+    except (OSError, IndexError):
+        return False
+
+
+def kill_relab(pid: int) -> bool:
+    """이 저장소의 relab chat 실행 하나를 끝낸다 (다른 프로그램이면 거절). 끝냈으면 True."""
+    if not any(p["pid"] == pid for p in relab_procs()):
+        raise AgentError(f"이 저장소의 relab 실행이 아닙니다: {pid}")
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        try:
+            os.killpg(pid, sig)                 # 진행기는 relab 을 새 세션으로 띄운다 (명령 자식까지)
+        except (ProcessLookupError, PermissionError):
+            try:
+                os.kill(pid, sig)
+            except ProcessLookupError:
+                return True
+        for _ in range(20):
+            if _gone(pid):
+                return True
+            time.sleep(0.25)
+    return _gone(pid)
+
+
+def kill_relab_quiet(pid: int) -> bool:
+    try:
+        return kill_relab(pid)
+    except AgentError:
+        return False
+
+
+def leftovers() -> list[dict]:
+    """끝나지 않고 남은 relab 실행: 그 서식의 진행기가 죽었거나(끊김) 서식 폴더가 없어진 것."""
+    return [p for p in relab_procs() if not p["runner_alive"]]
 
 
 def round_kind(state: dict) -> str:
@@ -398,6 +488,9 @@ def stop(form_id: str) -> dict:
                 os.killpg(pid, signal.SIGTERM)
             except (ProcessLookupError, PermissionError):
                 pass
+    for p in relab_procs():                    # 진행기가 끊겨 relab_pid 가 옛것이어도, 이 서식의 relab 은 모두
+        if p["form_id"] == form_id:
+            kill_relab_quiet(p["pid"])
     return state
 
 
@@ -417,10 +510,13 @@ def delete(form_id: str) -> dict:
         raise AgentError(f"서식 ID 꼴이 아닙니다: {form_id!r}")
     d = draft_dir(form_id)
     state = load(form_id)
-    if state.get("status") in ("running", "installing") and (_alive(state.get("runner_pid")) or _alive(state.get("relab_pid"))):
+    if state.get("status") in ("running", "installing") and _alive(state.get("runner_pid")):
         raise AgentError("도는 중입니다. 멈춘 뒤에 지우세요")
     if d.resolve().parent != DRAFTS.resolve():
         raise AgentError(f"초안 폴더가 아닙니다: {d}")
+    for p in relab_procs():                    # 진행기는 끊겼는데 relab 만 남았으면 같이 끈다 (지운 뒤 다른 서식을 건드리지 않게)
+        if p["form_id"] == form_id:
+            kill_relab_quiet(p["pid"])
     shutil.rmtree(d)
     return {"id": form_id, "deleted": rel(d), "registered": state.get("registered")}
 
@@ -443,7 +539,21 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
         state.update(status="failed", error=str(e))
         save(state)
         raise
-    state.update(status="running", runner_pid=os.getpid(), relab=relab, relab_version=R.VERSION)
+    cleaned = []
+    for p in relab_procs():                    # 한 번에 한 건: 진행기가 죽고 남은 relab 은 다른 서식을 건드릴 수 있어 끈다
+        if p["runner_alive"] and p["form_id"] != form_id:
+            continue                           # 다른 서식이 정말 도는 중 (명령줄로 따로 띄운 것) — 건드리지 않는다
+        if kill_relab_quiet(p["pid"]):
+            cleaned.append(p)
+            log(f"[{form_id}] 남아 있던 relab 실행을 끔: pid {p['pid']} ({p['form_id'] or '서식 모름'}, {p['started']} 시작)")
+    py = execution_python(st)
+    if not Path(py).is_file():
+        state.update(status="failed", error=f"명령 실행 python 이 없습니다: {py} (studio 설정 form_agent.python)")
+        save(state)
+        raise AgentError(state["error"])
+    state.update(status="running", runner_pid=os.getpid(), relab=relab, relab_version=R.VERSION, python=py)
+    if cleaned:
+        state.setdefault("cleaned", []).extend({**p, "at": now()} for p in cleaned)
     save(state)
     stopped = lambda: (d / "STOP").exists()  # noqa: E731
     first = not state["rounds"]
@@ -470,7 +580,8 @@ def go(form_id: str, message: str | None = None, max_rounds: int | None = None, 
             save(state)
 
         cmd = R.command(relab, request, ROOT, st.get("provider"), st.get("endpoint"), st.get("model"))
-        code = R.run(cmd, d / rnd["log"], ROOT, float(st.get("round_minutes", 60)), on_start=remember, stopped=stopped)
+        code = R.run(cmd, d / rnd["log"], ROOT, float(st.get("round_minutes", 60)), on_start=remember, stopped=stopped,
+                     env_extra={"RELAB_PRIVATE_HOME": str(d / RECORDS), "RELAB_EXECUTION_PYTHON": py})
         rnd.update(exit=code, ended=now(), seconds=round(time.time() - t0))
         state["relab_pid"] = None
         if code is None:
